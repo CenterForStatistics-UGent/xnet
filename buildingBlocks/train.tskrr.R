@@ -54,4 +54,4 @@ predict.tskrr <- function(model, k, g){
 
 # to do:
 #   - change lambda's
-#   - ...
+#   - homogeneous networks

@@ -25,7 +25,6 @@ loo.R <- function(Y, Hk, Hg){
   return(t(YlooRT))
 }
 
-
 loo.C <- function(Y, Hk, Hg){
   HkY <- Hk %*% Y
   return((HkY %*% Hg - HkY * diag(Hg)) / (1 - diag(Hg)))
@@ -40,6 +39,10 @@ loo.B <- function(Y, Hk, Hg){
 
 
 # SHORTCUTS FOR HOMOGENEOUS NEWORKS
+
+# cross validation shortcuts take as inputs:
+#   - Y : label (adjacency) matrix
+#   - Hk : hat matrix for rows AND columns
 
 loo.E.sym <- function(Y, Hk){
   F <- Hk %*% Y %*% Hk

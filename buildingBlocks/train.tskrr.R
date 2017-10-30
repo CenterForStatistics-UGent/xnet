@@ -6,14 +6,12 @@ ReconstructFromEigen <- function(vectors, values){
   # as it is wasteful, can you circumvent this?
 }
 
-GetParametersTSKRR <- function(Y, U, Sigma, V, S, lambda.u=1, lambda.v){
+GetParametersTSKRR <- function(Y, U, Sigma, V, S, lambda.u, lambda.v){
   # return the weight matrix for two-step kernel ridge regression
   # given the eigenvalue decomposition of the Gram matrices
-  W <- ReconstructFromEigen(U, (Sigma + lambda.u)**-1)
-        %*% Y %*% ReconstructFromEigen(V, (S + lambda.v)**-1)
+  W <- ReconstructFromEigen(U, 1 / (Sigma + lambda.u)) %*% Y %*% ReconstructFromEigen(V, 1 / (S + lambda.v))
   return(W)
 }
-
 
 # generic model to train two-step kernel ridge regression
 # input: labels, K, G, lambda.u, lambda.v
@@ -23,6 +21,9 @@ TrainTSKRR <- function(Y, K, G, lambda.u=1, lambda.v=1){
   # eigenvalue decomposition of the two gram matrices
   eigen.decomp.K <- eigen(K, symmetric = TRUE)
   eigen.decomp.G <- eigen(G, symmetric = TRUE)
+  W <- GetParametersTSKRR(Y=Y, U=eigen.decomp.K$vectors, Sigma=eigen.decomp.K$values,
+                       V=eigen.decomp.G$vectors, S=eigen.decomp.G$values,
+                       lambda.u=lambda.u, lambda.v=lambda.v)
   model <- list(
     Y = Y,
     lambda.u = lambda.u,
@@ -34,9 +35,7 @@ TrainTSKRR <- function(Y, K, G, lambda.u=1, lambda.v=1){
     Sigma = eigen.decomp.K$values,
     S = eigen.decomp.G$values,
     # make weights
-    W = GetParametersTSKRR(Y, eigen.decomp.K$vectors, eigen.decomp.K$values,
-                           eigen.decomp.G$vectors, eigen.decomp.G$values,
-                           lambda.u, lambda.v),
+    W = W,
     # make corresponding prediction matrix
     F = K %*% W %*% G
   )

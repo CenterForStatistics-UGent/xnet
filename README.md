@@ -12,6 +12,4 @@ devtools::install_github("CenterForStatistics-UGent/xnet/pkg/xnet")
 
 To install the dev version, use:
 
-devtools::install_github("CenterForStatistics-UGent/xnet/pkg/xnet")
-
 devtools::install_github("CenterForStatistics-UGent/xnet/pkg/xnet", ref = "devel")

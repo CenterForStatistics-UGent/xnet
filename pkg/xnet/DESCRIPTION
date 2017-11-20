@@ -7,9 +7,8 @@ Authors@R: c(person("Joris","Meys", email = "Joris.Meys@UGent.be",
              person("Michiel", "Stock", email = "Michiel.Stock@UGent.be",
                      role = "aut"))
 Description: This package implements two-step kernel ridge regression
-    for cross-analysis of all kinds of networks, and mathematical
-    shortcuts that allow you to efficiently carry out a leave-one-out 
-    crossvalidation for model evaluation.
+    for predicting edges in networks, together with many cross-validation
+    shortcuts for swift and accurate performance assessment.
 Date: 2017-11-05
 BugReports: https://github.com/CenterForStatistics-UGent/xnet/issues
 URL: https://github.com/CenterForStatistics-UGent/xnet

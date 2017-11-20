@@ -141,4 +141,26 @@ test_that("shortcuts homogeneous networks work", {
 })
 
 
-# test the loo shortcut for linear filter
+# test the loo shortcuts for linear filter
+
+model.lf <- train.linear.filter(Y)
+
+test_that("shortcuts for the simple linear filter", {
+  # Setting I
+  FlooI <- loo.I.lf(model.lf)
+
+  Ytilde <- Y
+  Y[i,j] <- FlooI[i,j]
+  F.lf.min.ij <- train.linear.filter(Ytilde)$F
+
+  expect_that(F.lf.min.ij[i,j], equals(FlooI[i,j]))
+
+  # Setting I0
+  FlooI0 <- loo.I0.lf(model.lf)
+
+  Ytilde <- Y
+  Y[i,j] <- 0
+  F.lf.zero.ij <- train.linear.filter(Ytilde)$F
+
+  expect_that(F.lf.zero.ij[i,j], equals(FlooI0[i,j]))
+})

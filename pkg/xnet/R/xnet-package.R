@@ -4,4 +4,6 @@
 #' that can be used for all kinds of cross-network analysis. Examples are
 #' protein-protein interaction, foodwebs, ...
 #'
+#' TO BE COMPLETED
+#'
 "_PACKAGE"

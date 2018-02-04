@@ -67,7 +67,7 @@ isSymmetric(G)
 # Find values that don't fit
 G[which(G != t(G), arr.ind = TRUE)]
 # show one case
-G[c(1,17), c(17,1)]
+G[c(1,17), c(1,17)]
 
 library(microbenchmark)
 

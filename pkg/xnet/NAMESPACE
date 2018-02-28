@@ -2,3 +2,5 @@
 
 export(GetParametersTSKRR)
 export(TrainTSKRR)
+export(eigen2hat)
+export(tskrr.fit)

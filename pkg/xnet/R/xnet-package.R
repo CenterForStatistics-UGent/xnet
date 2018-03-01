@@ -6,4 +6,5 @@
 #'
 #' TO BE COMPLETED
 #'
+#' @import methods
 "_PACKAGE"

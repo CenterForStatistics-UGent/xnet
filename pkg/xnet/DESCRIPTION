@@ -13,8 +13,22 @@ Date: 2017-11-05
 BugReports: https://github.com/CenterForStatistics-UGent/xnet/issues
 URL: https://github.com/CenterForStatistics-UGent/xnet
 Depends: R(>= 3.4.0)
+Imports: methods
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
 Suggests: testthat
+Collate: 
+    'Class_tskrr.R'
+    'Class_tskrrHeterogenous.R'
+    'Class_tskrrHomogenous.R'
+    'GetParametersTSKRR.R'
+    'ReconstrucFromEigen.R'
+    'TrainTSKRR.R'
+    'check_dimensions.R'
+    'eigen2hat.R'
+    'looInternal.R'
+    'tskrr.R'
+    'tskrr.fit.R'
+    'xnet-package.R'

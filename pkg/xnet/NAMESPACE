@@ -2,5 +2,12 @@
 
 export(GetParametersTSKRR)
 export(TrainTSKRR)
+export(check_dimensions)
 export(eigen2hat)
+export(eigen2map)
+export(tskrr)
 export(tskrr.fit)
+exportClasses(tskrr)
+exportClasses(tskrrHeterogenous)
+exportClasses(tskrrHomogenous)
+import(methods)

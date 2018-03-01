@@ -2,9 +2,12 @@
 % Please edit documentation in R/eigen2hat.R
 \name{eigen2hat}
 \alias{eigen2hat}
+\alias{eigen2map}
 \title{Calculate the hat matrix from an eigen decomposition}
 \usage{
 eigen2hat(eigen, vec, lambda)
+
+eigen2map(eigen, vec, lambda)
 }
 \arguments{
 \item{eigen}{a matrix with the eigenvectors.}
@@ -14,9 +17,27 @@ eigen2hat(eigen, vec, lambda)
 \item{lambda}{a single numeric value for the hyperparameter lambda}
 }
 \value{
-a numeric matrix representing the hat matrix
+a numeric matrix representing either the hat matrix
+(\code{eigen2hat}) or the map matrix (\code{eigen2map})
 }
 \description{
-This function calculates the hat matrix for a two-step kernel ridge
-regression based on the eigen decomposition of the kernel matrix.
+This functions calculate either the hat matrix or the mapping matrix
+for a two-step kernel ridge regression based on the eigen decomposition
+of the kernel matrix.
+}
+\details{
+For the hat matrix, this boils down to:
+
+\deqn{U\Sigma(\Sigma + \lambda I)^{-1} U^{T}}
+
+For the map matrix, this is :
+
+\deqn{U(\Sigma + \lambda I)^{-1} U^{T}}
+
+with \eqn{U} the matrix with eigenvectors, \eqn{\Sigma} a diagonal matrix
+with the eigen values on the diagonal, \eqn{I} the identity matrix and
+\eqn{\lambda} the hyperparameter linked to this kernel.
+The internal calculation is optimized to avoid having to invert
+a matrix. This is done using the fact that \eqn{\Sigma} is a
+diagonal matrix.
 }

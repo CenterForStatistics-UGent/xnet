@@ -4,18 +4,27 @@
 \alias{tskrr}
 \title{Fitting a two step kernel ridge regression}
 \usage{
-tskrr(y, k, g, homogenous = NULL)
+tskrr(y, k, g = NULL, lambda = 1e-04, homogenous = is.null(g),
+  test.symmetry = TRUE)
 }
 \arguments{
-\item{y}{a matrix}
+\item{y}{a response matrix}
 
-\item{k}{a matrix}
+\item{k}{a kernel matrix for the rows}
 
-\item{g}{a matrix}
+\item{g}{an optional kernel matrix for the columns}
+
+\item{lambda}{a numeric vector with one or two values for the
+hyperparameter lambda. If two values are given, the first one is
+used for the k matrix and the second for the g matrix.}
 
 \item{homogenous}{a logical value indicating whether the fitting should
-be done for a homogenous network. If \code{NULL} the function will
-derive the type of network form the other inputs. Defaults to \code{NULL}.}
+be done for a homogenous network. Normally this is obvious from the
+input (i.e. a lacking \code{g} matrix indicates the network is homogenous)}
+
+\item{test.symmetry}{a logical value indicating whether symmetry of the
+kernel(s) should be tested. Defaults to \code{TRUE}, but for large matrices
+putting this to \code{FALSE} will speed up the function.}
 }
 \value{
 a \code{\link[xnet:tskrr-class]{tskrr}} object

@@ -28,6 +28,7 @@ Collate:
     'TrainTSKRR.R'
     'check_dimensions.R'
     'eigen2hat.R'
+    'fitted.R'
     'looInternal.R'
     'tskrr.R'
     'tskrr.fit.R'

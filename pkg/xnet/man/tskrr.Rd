@@ -35,5 +35,7 @@ ridge regression. It can be used for both homogenous and heterogenous
 networks.
 }
 \details{
-THIS FUNCTION IS NOT WORKING YET.
+TO DO:
+
+- add symmetry checks (for skewed or symmetric or none)
 }

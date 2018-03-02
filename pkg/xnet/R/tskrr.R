@@ -4,7 +4,9 @@
 #' ridge regression. It can be used for both homogenous and heterogenous
 #' networks.
 #'
-#' THIS FUNCTION IS NOT WORKING YET.
+#' TO DO:
+#'
+#' - add symmetry checks (for skewed or symmetric or none)
 #'
 #' @param y a response matrix
 #' @param k a kernel matrix for the rows
@@ -57,14 +59,41 @@ tskrr <- function(y,k,g = NULL,
       stop("k should be a symmetric matrix.")
 
     if(!homogenous && !isSymmetric(g))
-      stop("g should be a symmetric matrix/")
+      stop("g should be a symmetric matrix.")
   }
+
+  # SET LAMBDAS
+  lambda.k <- lambda[1]
+  lambda.g <- if(!homogenous){
+    if(nl == 1) lambda else lambda[2]
+  } else NULL
 
   # CALCULATE EIGEN DECOMPOSITION
   k.eigen <- eigen(k, symmetric = TRUE)
+  g.eigen <- if(!homogenous) eigen(g, symmetric = TRUE) else NULL
 
+  res <- tskrr.fit(y,
+                   k.eigen,
+                   g.eigen,
+                   lambda.k,
+                   lambda.g)
 
-
-  #PLACEHOLDER
-  NULL
+  # CREATE OUTPUT
+  if(homogenous){
+    out <- new("tskrrHomogenous",
+               y = y,
+               k = k.eigen,
+               lambda.k = lambda.k,
+               pred = res$pred,
+               symmetric = "symmetric")
+  } else {
+    out <- new("tskrrHeterogenous",
+               y = y,
+               k = k.eigen,
+               g = g.eigen,
+               lambda.k = lambda.k,
+               lambda.g = lambda.g,
+               pred = res$pred)
+  }
+  return(res)
 }

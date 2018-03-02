@@ -1,3 +1,0 @@
-## SETUP GITHUB PAGE
-
-uppaa

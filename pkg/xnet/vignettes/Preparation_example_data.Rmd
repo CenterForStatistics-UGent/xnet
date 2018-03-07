@@ -1,0 +1,54 @@
+---
+title: "Preparation of the example data"
+author: "Joris Meys"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Preparation of the example data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+The example data used in this package was originally published by
+[Yamanishi et al, 2008](https://doi.org/10.1093/bioinformatics/btn162). They 
+used [the KEGG data base](www.kegg.jp/) to get information drug-target
+interaction for different groups of enzymes. We used their supplementary
+material as a basis for the example data provided tothe package. Their
+supplementary datasets can be downloaded from [here](web.kuicr.kyoto-u.ac.jp/supp/yoshi/drugtarget/)
+
+## Obtaining the original data
+
+The original adjacency matrix and similarity of the targets
+were downloaded from that website using the following code:
+
+```{r getFiles, eval = FALSE}
+adjAddress <- "http://web.kuicr.kyoto-u.ac.jp/supp/yoshi/drugtarget/nr_admat_dgc.txt"
+
+targetAddress <- "http://web.kuicr.kyoto-u.ac.jp/supp/yoshi/drugtarget/nr_simmat_dg.txt"
+
+drugTargetInteraction <- as.matrix(
+  read.table(adjAddress, header = TRUE, row.names = 1, sep = "\t")
+)
+targetSim <- as.matrix(
+  read.table(targetAddress, header =TRUE, row.names = 1, sep = "\t")
+)
+```
+
+This data was used as is from the website.
+
+## Processing the drug similarities
+
+In the original paper the authors relied on the SIMCOMP algorithm, but this
+method returns non-symmetric matrices and hence the original data cannot
+be used in a meaningful way for a two-step kernel ridge regression. Hence we decided to recreate the similarities between the different drugs,
+this time using the algorithms provided in the [fmcsR package]
+(https://bioconductor.org/packages/release/bioc/html/fmcsR.html).
+
+TO BE COMPLETED

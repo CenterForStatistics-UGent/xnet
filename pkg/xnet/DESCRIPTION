@@ -21,7 +21,7 @@ RoxygenNote: 6.0.1
 Suggests: testthat,
     knitr,
     rmarkdown
-Collate:
+Collate: 
     'Class_tskrr.R'
     'Class_tskrrHeterogenous.R'
     'Class_tskrrHomogenous.R'
@@ -29,6 +29,7 @@ Collate:
     'ReconstrucFromEigen.R'
     'TrainTSKRR.R'
     'check_dimensions.R'
+    'data_drugtarget.R'
     'eigen2hat.R'
     'fitted.R'
     'looInternal.R'

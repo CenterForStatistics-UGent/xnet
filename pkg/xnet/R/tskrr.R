@@ -95,5 +95,5 @@ tskrr <- function(y,k,g = NULL,
                lambda.g = lambda.g,
                pred = res$pred)
   }
-  return(res)
+  return(out)
 }

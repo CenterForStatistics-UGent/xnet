@@ -12,8 +12,10 @@
 #'
 setGeneric("fitted")
 
+#' @rdname fitted
+#' @export
 setMethod("fitted",
           "tskrr",
           function(object, ...){
-            object@preds
+            object@pred
           })

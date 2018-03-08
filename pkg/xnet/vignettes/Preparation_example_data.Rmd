@@ -88,7 +88,8 @@ The `fmcs` function in the `fmcsR` package allows to compute a similarity
 score between two compounds. It returns a few different similarity measures,
 including the Tanimoto coefficient. This coefficient turns out to be a 
 valid kernel for chemical similarities 
-([Ralaivola et al, 2005](https://doi.org/10.1016/j.neunet.2005.07.009)). So
+([Ralaivola et al, 2005](https://doi.org/10.1016/j.neunet.2005.07.009) ,
+[Bajusz et al, 2015](https://doi.org/10.1186/s13321-015-0069-3)). So
 in this example we continue with the Tanimoto coefficients.
 
 ```{r tanimoto, eval = FALSE}
@@ -98,4 +99,10 @@ drugSim <- sapply(cid(keggsdf),
                     fmcsBatch(keggsdf[x], keggsdf,
                               au = 0, bu = 0)[,"Tanimoto_Coefficient"]
                   })
+```
+
+All data is stored in the package and can be accessed using
+
+```{r}
+data(drugtarget)
 ```

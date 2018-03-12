@@ -2,7 +2,7 @@
 #'
 #' This functions allow you to check whether the dimensions of the
 #' response matrix and the kernel matrix (matrices) are compatible.
-#' \code{check_dimensions} checks whether both k and g are square matrices,
+#' \code{valid_dimensions} checks whether both k and g are square matrices,
 #' whether y has as many rows as k and whether y has as many columns as g.
 #' \code{is_square} just checks whether both dimensions are the same.
 #'
@@ -15,26 +15,25 @@
 #'
 #' @note The function \code{is_square} is not exported
 #'
-#' @rdname check_dimensions
+#' @rdname valid_dimensions
 #' @export
-check_dimensions <- function(y, k, g = NULL){
+valid_dimensions <- function(y, k, g = NULL){
 
   ydim <- dim(y)
-  out <- is_square(k) && ydim[1] == dim(k)[2]
+  out <- is_square(k) && ydim[1L] == dim(k)[2L]
 
   if(!is.null(g)){
-    out <- out && is_square(g) && ydim[2] == dim(g)[1]
+    out <- out && is_square(g) && ydim[2L] == dim(g)[1L]
   }
 
   return(out)
 }
 
 #' @param x any matrix
-#' @rdname check_dimensions
+#' @rdname valid_dimensions
 #' @aliases is_square
 is_square <- function(x){
-  if(!is.matrix) stop("x should be a matrix.")
   dims <- dim(x)
-  dims[2] == dims[1]
+  dims[2L] == dims[1L]
 }
 

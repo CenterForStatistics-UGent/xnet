@@ -5,7 +5,7 @@
 \title{Fitting a two step kernel ridge regression}
 \usage{
 tskrr(y, k, g = NULL, lambda = 1e-04, homogenous = is.null(g),
-  test.symmetry = TRUE)
+  test.dimensions = TRUE)
 }
 \arguments{
 \item{y}{a response matrix}
@@ -22,8 +22,9 @@ used for the k matrix and the second for the g matrix.}
 be done for a homogenous network. Normally this is obvious from the
 input (i.e. a lacking \code{g} matrix indicates the network is homogenous)}
 
-\item{test.symmetry}{a logical value indicating whether symmetry of the
-kernel(s) should be tested. Defaults to \code{TRUE}, but for large matrices
+\item{test.dimensions}{a logical value indicating whether symmetry
+and the dimensions of the kernel(s) should be tested.
+Defaults to \code{TRUE}, but for large matrices
 putting this to \code{FALSE} will speed up the function.}
 }
 \value{
@@ -38,4 +39,10 @@ networks.
 TO DO:
 
 - add symmetry checks (for skewed or symmetric or none)
+}
+\examples{
+data(drugtarget)
+
+mod <- tskrr(drugTargetInteraction, targetSim, drugSim)
+
 }

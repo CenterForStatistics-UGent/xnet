@@ -28,12 +28,12 @@ Collate:
     'GetParametersTSKRR.R'
     'ReconstrucFromEigen.R'
     'TrainTSKRR.R'
-    'check_dimensions.R'
     'data_drugtarget.R'
     'eigen2hat.R'
     'fitted.R'
     'looInternal.R'
     'tskrr.R'
     'tskrr.fit.R'
+    'valid_dimensions.R'
     'xnet-package.R'
 VignetteBuilder: knitr

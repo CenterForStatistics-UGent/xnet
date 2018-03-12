@@ -17,17 +17,24 @@
 #' @param homogenous a logical value indicating whether the fitting should
 #' be done for a homogenous network. Normally this is obvious from the
 #' input (i.e. a lacking \code{g} matrix indicates the network is homogenous)
-#' @param test.symmetry a logical value indicating whether symmetry of the
-#' kernel(s) should be tested. Defaults to \code{TRUE}, but for large matrices
+#' @param test.dimensions a logical value indicating whether symmetry
+#' and the dimensions of the kernel(s) should be tested.
+#' Defaults to \code{TRUE}, but for large matrices
 #' putting this to \code{FALSE} will speed up the function.
 #'
 #' @return a \code{\link[xnet:tskrr-class]{tskrr}} object
+#'
+#' @examples
+#' data(drugtarget)
+#'
+#' mod <- tskrr(drugTargetInteraction, targetSim, drugSim)
+#' heatmap(fitted(mod))
 #'
 #' @export
 tskrr <- function(y,k,g = NULL,
                   lambda = 1e-4,
                   homogenous = is.null(g),
-                  test.symmetry = TRUE
+                  test.dimensions = TRUE
                   ){
 
   # TESTS INPUT
@@ -54,12 +61,17 @@ tskrr <- function(y,k,g = NULL,
   }
 
   # TEST KERNELS
-  if(test.symmetry){
+  if(test.dimensions){
     if(!isSymmetric(k))
       stop("k should be a symmetric matrix.")
 
     if(!homogenous && !isSymmetric(g))
       stop("g should be a symmetric matrix.")
+
+    if(!valid_dimensions(y,k,g))
+      stop(paste("The dimensions of the matrices don't match.",
+                 "Did you switch the k and g matrices?",
+                 sep = "\n"))
   }
 
   # SET LAMBDAS

@@ -44,5 +44,6 @@ TO DO:
 data(drugtarget)
 
 mod <- tskrr(drugTargetInteraction, targetSim, drugSim)
+heatmap(fitted(mod))
 
 }

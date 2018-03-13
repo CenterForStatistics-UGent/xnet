@@ -9,9 +9,7 @@
 #' @param object an object for which the extraction of model fitted values
 #' is meaningful.
 #' @param ... other arguments.
-#'
-setGeneric("fitted")
-
+#' @include all_generics.R
 #' @rdname fitted
 #' @export
 setMethod("fitted",

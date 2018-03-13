@@ -25,17 +25,37 @@ if (!is.na(tmpEnv)){
 # check that there are files that will be committed, don't want to increment version if there won't be a commit
 fileDiff <- system("git diff HEAD --name-only", intern=TRUE)
 
+DESC <- grep("DESCRIPTION",list.files(".", recursive = TRUE),value = TRUE)
+
+
+if (DESC %in% fileDiff) {
+  # Don't want to overwrite manual version bump
+  desc_diff <- system(paste("git diff HEAD", DESC), intern = TRUE)
+  doIncrement <- !any(grepl("\\+Version", desc_diff))
+  staged_files <- system("git diff HEAD --name-only --staged", intern = TRUE)
+  desc_staged <- DESC %in% staged_files
+  if (!desc_staged) {
+    if (doIncrement) cat("DESCRIPTION had additional changes that were committed.\n")
+    else cat("DESCRIPTION contains manual version bump but was not staged, so it was not committed.\n")
+  } else if(!doIncrement){
+      cat("Manual version set, so no bumping is done.\n")
+  }
+}
+
 if ((length(fileDiff) > 0) && doIncrement){
 
-  DESC <- grep("DESCRIPTION",list.files(".", recursive = TRUE),value = TRUE)
   currDCF <- read.dcf(DESC)
   currVersion <- currDCF[1,"Version"]
   splitVersion <- strsplit(currVersion, "-", fixed=TRUE)[[1]]
   nVer <- length(splitVersion)
-  currEndVersion <- as.integer(splitVersion[nVer])
+  if(nVer < 2){
+      cat("No devel version (needs -). Version not updated.\n")
+      break
+  }
+  currEndVersion <- as.integer(trimws(splitVersion[nVer]))
   newEndVersion <- as.character(currEndVersion + 1)
-  splitVersion[nVer] <- newEndVersion
-  newVersion <- paste(splitVersion, collapse=".")
+  if(!is.na(currEndVersion)) splitVersion[nVer] <- newEndVersion
+  newVersion <- paste(splitVersion, collapse="-")
   currDCF[1,"Version"] <- newVersion
   currDCF[1, "Date"] <- strftime(as.POSIXlt(Sys.Date()), "%Y-%m-%d")
   write.dcf(currDCF, DESC)

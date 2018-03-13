@@ -1,15 +1,15 @@
 Package: xnet
 Type: Package
 Title: twostep kernel ridge regression for network predictions
-Version: 0.1.1
-Authors@R: c(person("Joris","Meys", email = "Joris.Meys@UGent.be",
-                    role = c("cre","aut")),
-             person("Michiel", "Stock", email = "Michiel.Stock@UGent.be",
-                     role = "aut"))
+Version: 0.1.1.9001
+Authors@R: c(person("Joris","Meys", email = "Joris.Meys@UGent.be", role
+        = c("cre","aut")), person("Michiel", "Stock", email =
+        "Michiel.Stock@UGent.be", role = "aut"))
 Description: This package implements two-step kernel ridge regression
-    for predicting edges in networks, together with many cross-validation
-    shortcuts for swift and accurate performance assessment.
-Date: 2017-11-05
+        for predicting edges in networks, together with many
+        cross-validation shortcuts for swift and accurate performance
+        assessment.
+Date: 2018-03-13
 BugReports: https://github.com/CenterForStatistics-UGent/xnet/issues
 URL: https://github.com/CenterForStatistics-UGent/xnet
 Depends: R(>= 3.4.0)
@@ -18,22 +18,10 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
-Suggests: testthat,
-    knitr,
-    rmarkdown
-Collate: 
-    'Class_tskrr.R'
-    'Class_tskrrHeterogenous.R'
-    'Class_tskrrHomogenous.R'
-    'GetParametersTSKRR.R'
-    'ReconstrucFromEigen.R'
-    'TrainTSKRR.R'
-    'data_drugtarget.R'
-    'eigen2hat.R'
-    'fitted.R'
-    'looInternal.R'
-    'tskrr.R'
-    'tskrr.fit.R'
-    'valid_dimensions.R'
-    'xnet-package.R'
+Suggests: testthat, knitr, rmarkdown
+Collate: 'Class_tskrr.R' 'Class_tskrrHeterogenous.R'
+        'Class_tskrrHomogenous.R' 'GetParametersTSKRR.R'
+        'ReconstrucFromEigen.R' 'TrainTSKRR.R' 'data_drugtarget.R'
+        'eigen2hat.R' 'fitted.R' 'looInternal.R' 'tskrr.R'
+        'tskrr.fit.R' 'valid_dimensions.R' 'xnet-package.R'
 VignetteBuilder: knitr

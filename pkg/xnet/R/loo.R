@@ -26,7 +26,8 @@
 #' response matrix contains only 0 and 1 values. In all other cases, setting
 #' this value to \code{TRUE} will result in an error.
 #'
-#' @return NULL FOR NOW
+#' @return a numeric matrix with the leave-one-out predictions for
+#' the model.
 #'
 #' @rdname loo
 #' @export

@@ -20,7 +20,8 @@ response matrix contains only 0 and 1 values. In all other cases, setting
 this value to \code{TRUE} will result in an error.}
 }
 \value{
-NULL FOR NOW
+a numeric matrix with the leave-one-out predictions for
+the model.
 }
 \description{
 Perform a leave-one-out cross validation for two-step kernel

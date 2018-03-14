@@ -17,7 +17,7 @@
 #' @param homogenous a logical value indicating whether the fitting should
 #' be done for a homogenous network. Normally this is obvious from the
 #' input (i.e. a lacking \code{g} matrix indicates the network is homogenous)
-#' @param test.dimensions a logical value indicating whether symmetry
+#' @param testdim a logical value indicating whether symmetry
 #' and the dimensions of the kernel(s) should be tested.
 #' Defaults to \code{TRUE}, but for large matrices
 #' putting this to \code{FALSE} will speed up the function.
@@ -34,7 +34,7 @@
 tskrr <- function(y,k,g = NULL,
                   lambda = 1e-4,
                   homogenous = is.null(g),
-                  test.dimensions = TRUE
+                  testdim = TRUE
                   ){
 
   # TESTS INPUT
@@ -61,7 +61,7 @@ tskrr <- function(y,k,g = NULL,
   }
 
   # TEST KERNELS
-  if(test.dimensions){
+  if(testdim){
     if(!isSymmetric(k))
       stop("k should be a symmetric matrix.")
 

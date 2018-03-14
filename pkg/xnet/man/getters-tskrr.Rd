@@ -7,6 +7,7 @@
 \alias{lambda,tskrr-method}
 \alias{lambda,tskrrHeterogenous-method}
 \alias{lambda}
+\alias{is_homogenous}
 \title{Getters for tskrr objects}
 \usage{
 \S4method{response}{tskrr}(x, ...)
@@ -14,6 +15,8 @@
 \S4method{lambda}{tskrr}(x)
 
 \S4method{lambda}{tskrrHeterogenous}(x)
+
+is_homogenous(x)
 }
 \arguments{
 \item{x}{a \code{\link[xnet:tskrr-class]{tskrr}} object or an

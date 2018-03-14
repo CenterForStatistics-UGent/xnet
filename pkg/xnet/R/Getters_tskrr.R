@@ -36,3 +36,10 @@ setMethod("lambda",
           function(x){
             c(k = x@lambda.k, g = x@lambda.g)
           })
+
+#' @rdname getters-tskrr
+#' @aliases is_homogenous
+is_homogenous <- function(x){
+  if(!inherits(x, "tskrr")) stop("x should be a tskrr model.")
+  inherits(x, "tskrrHomogenous")
+}

@@ -8,6 +8,7 @@
 \alias{lambda,tskrrHeterogenous-method}
 \alias{lambda}
 \alias{is_homogenous}
+\alias{symmetry}
 \title{Getters for tskrr objects}
 \usage{
 \S4method{response}{tskrr}(x, ...)
@@ -17,6 +18,8 @@
 \S4method{lambda}{tskrrHeterogenous}(x)
 
 is_homogenous(x)
+
+symmetry(x)
 }
 \arguments{
 \item{x}{a \code{\link[xnet:tskrr-class]{tskrr}} object or an
@@ -29,6 +32,13 @@ For \code{response}: the original response matrix
 
 For \code{lambda}: a named numeric vector with one resp both lambda
 values used in the model. The names are "k" and "g" respectively.
+
+For \code{is_homogenous} a logical value indicating whether the
+tskrr model is a homogenous one.
+
+For \code{symmetry} a character value indicating the symmetry
+for a \code{\link[xnet:tskrrHomogenous-class]{homogenous model}}. If
+the model is not homogenous, the function returns an error.
 }
 \description{
 The functions described here are convenience functions to get

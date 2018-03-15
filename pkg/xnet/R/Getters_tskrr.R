@@ -39,7 +39,20 @@ setMethod("lambda",
 
 #' @rdname getters-tskrr
 #' @aliases is_homogenous
+#' @return For \code{is_homogenous} a logical value indicating whether the
+#' tskrr model is a homogenous one.
 is_homogenous <- function(x){
   if(!inherits(x, "tskrr")) stop("x should be a tskrr model.")
   inherits(x, "tskrrHomogenous")
+}
+
+#' @rdname getters-tskrr
+#' @aliases symmetry
+#' @return For \code{symmetry} a character value indicating the symmetry
+#' for a \code{\link[xnet:tskrrHomogenous-class]{homogenous model}}. If
+#' the model is not homogenous, the function returns an error.
+symmetry <- function(x){
+  if(!is_homogenous(x))
+    stop('x is not a homogenous tskrr model.')
+  x@symmetry
 }

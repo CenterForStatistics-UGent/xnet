@@ -17,7 +17,7 @@
 #' as removing vertices, i.e. all interactions between one edge and
 #' all other edges. For more information, see Stock et al PAPER TO BE ADDED.
 #'
-#' @param x an object of class \code{\link[xnet:tskrr-clas]{tskrr}}
+#' @param x an object of class \code{\link[xnet:tskrr-class]{tskrr}}
 #' @param exclusion a character value with possible values "interaction",
 #' "row", "column" or "both". Defaults to "interaction". See details.
 #' @param replaceby0 a logical value indicating whether the interaction
@@ -40,9 +40,74 @@ loo <- function(x, exclusion = c("interaction","row","column","both"),
   exclusion <- match.arg(exclusion)
 
   if(exclusion !="interaction" && replaceby0)
-    stop("replaceby0 can only be set to TRUE when exlusion = 'interaction'.")
+    stop("replaceby0 can only be set to TRUE when exclusion = 'interaction'.")
 
-  NULL
+  homogenous <- is_homogenous(x)
 
+  if(homogenous && exclusion %in% c("row","column")){
 
+    warning(sprintf(paste("For homogenous networks exclusion can only be",
+                  "'interaction' or 'both'. Exclusion is set from '%s'",
+                  "to 'both',"), exclusion))
+    exclusion <- "both"
+  }
+
+  # For homogenous networks
+  if(homogenous){
+
+    Hk <- hat(x)
+    symmetry <- symmetry(x)
+
+    if(exclusion == 'interaction'){
+
+      if(symmetry == 'symmetric'){
+
+        out <- if(replaceby0)
+          loo.e0.sym(x@y, Hk, x@pred)
+        else
+          loo.e.sym(x@y, Hk, x@pred)
+
+      } else if(symmetry == 'skewed'){
+
+        out <- if(replaceby0)
+          loo.e0.skew(x@y, Hk, x@pred)
+        else
+          loo.e.skew(x@y, Hk, x@pred)
+
+      } else {
+        stop("Symmetry of homogenous network not recognized.")
+      }
+
+    } else { # eclusion == anything else
+      out <- loo.v(x@y, Hk)
+    }
+
+  } else {
+  # For heterogenous networks
+
+    Hk <- hat(x, "row")
+    Hg <- hat(x, "column")
+
+    if(exclusion == "interaction"){
+
+      out <- if(replaceby0)
+        loo.i0(x@y, Hk, Hg, x@pred)
+      else
+        loo.i(x@y, Hk, Hg, x@pred)
+
+    } else if(exclusion == "row"){
+
+      out <- loo.r(x@y, Hk, Hg)
+
+    } else if(exclusion == "column"){
+
+      out <- loo.c(x@y, Hk, Hg)
+
+    } else {
+
+      out <- loo.b(x@y, Hk, Hg)
+    }
+  }
+
+  return(out)
 }

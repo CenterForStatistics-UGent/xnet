@@ -8,7 +8,7 @@ loo(x, exclusion = c("interaction", "row", "column", "both"),
   replaceby0 = FALSE)
 }
 \arguments{
-\item{x}{an object of class \code{\link[xnet:tskrr-clas]{tskrr}}}
+\item{x}{an object of class \code{\link[xnet:tskrr-class]{tskrr}}}
 
 \item{exclusion}{a character value with possible values "interaction",
 "row", "column" or "both". Defaults to "interaction". See details.}

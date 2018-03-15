@@ -38,7 +38,7 @@ tskrr model is a homogenous one.
 
 For \code{symmetry} a character value indicating the symmetry
 for a \code{\link[xnet:tskrrHomogenous-class]{homogenous model}}. If
-the model is not homogenous, the function returns an error.
+the model is not homogenous, \code{NA} is returned.
 }
 \description{
 The functions described here are convenience functions to get

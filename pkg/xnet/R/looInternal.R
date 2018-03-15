@@ -26,7 +26,7 @@ loo.i0 <- function(Y, Hk, Hg, pred){
 }
 
 #' @rdname looInternal
-loo.r <- function(Y, Hk, Hg){
+loo.r <- function(Y, Hk, Hg, ...){
   div <- 1 - diag(Hk)
   diag(Hk) <- 0
 
@@ -34,7 +34,7 @@ loo.r <- function(Y, Hk, Hg){
 }
 
 #' @rdname looInternal
-loo.c <- function(Y, Hk, Hg){
+loo.c <- function(Y, Hk, Hg, ...){
   div <- 1 - diag(Hg)
   diag(Hg) <- 0
 
@@ -42,7 +42,7 @@ loo.c <- function(Y, Hk, Hg){
 }
 
 #' @rdname looInternal
-loo.b <- function(Y, Hk, Hg){
+loo.b <- function(Y, Hk, Hg, ...){
   divk <- 1 - diag(Hk)
   divg <- 1 - diag(Hg)
 
@@ -59,7 +59,7 @@ loo.b <- function(Y, Hk, Hg){
 ## SHORTCUTS FOR HOMOGENOUS NETWORKS
 
 #' @rdname looInternal
-loo.e.sym <- function(Y, Hk, pred){
+loo.e.sym <- function(Y, Hk, pred, ...){
 
   L <- tcrossprod(diag(Hk)) + Hk^2
   return((pred - L * Y) / ( 1 - L))
@@ -67,7 +67,7 @@ loo.e.sym <- function(Y, Hk, pred){
 }
 
 #' @rdname looInternal
-loo.e.skew <- function(Y, Hk, pred){
+loo.e.skew <- function(Y, Hk, pred, ...){
 
   L <- tcrossprod(diag(Hk)) - Hk^2
   return((pred - L * Y) / ( 1 - L))
@@ -75,7 +75,7 @@ loo.e.skew <- function(Y, Hk, pred){
 }
 
 #' @rdname looInternal
-loo.e0.sym <- function(Y, Hk, pred){
+loo.e0.sym <- function(Y, Hk, pred, ...){
 
   L <- tcrossprod(diag(Hk)) + Hk^2
   return( (pred - L * Y) )
@@ -83,7 +83,7 @@ loo.e0.sym <- function(Y, Hk, pred){
 }
 
 #' @rdname looInternal
-loo.e0.skew <- function(Y, Hk, pred){
+loo.e0.skew <- function(Y, Hk, pred, ...){
 
   L <- tcrossprod(diag(Hk)) - Hk^2
   return( (pred - L * Y) )
@@ -91,7 +91,7 @@ loo.e0.skew <- function(Y, Hk, pred){
 }
 
 #' @rdname looInternal
-loo.v <- function(Y, Hk){
+loo.v <- function(Y, Hk, ...){
 
   Hk0 <- Hk
   diag(Hk0) <- 0

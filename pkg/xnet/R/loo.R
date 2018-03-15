@@ -4,7 +4,7 @@
 #' ridge regression based on the shortcuts described in
 #' PAPER TO BE ADDED.
 #'
-#' The parameter \code{exclusion} defines what exactly is left out.
+#' @details The parameter \code{exclusion} defines what exactly is left out.
 #' The value "interaction" means that a single interaction is removed.
 #' In the case of a homogenous model this can be interpreted as the
 #' removal of the interaction between two edges. The values "row" and

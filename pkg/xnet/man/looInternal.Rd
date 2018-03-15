@@ -18,21 +18,21 @@ loo.i(Y, Hk, Hg, pred)
 
 loo.i0(Y, Hk, Hg, pred)
 
-loo.r(Y, Hk, Hg)
+loo.r(Y, Hk, Hg, ...)
 
-loo.c(Y, Hk, Hg)
+loo.c(Y, Hk, Hg, ...)
 
-loo.b(Y, Hk, Hg)
+loo.b(Y, Hk, Hg, ...)
 
-loo.e.sym(Y, Hk, pred)
+loo.e.sym(Y, Hk, pred, ...)
 
-loo.e.skew(Y, Hk, pred)
+loo.e.skew(Y, Hk, pred, ...)
 
-loo.e0.sym(Y, Hk, pred)
+loo.e0.sym(Y, Hk, pred, ...)
 
-loo.e0.skew(Y, Hk, pred)
+loo.e0.skew(Y, Hk, pred, ...)
 
-loo.v(Y, Hk)
+loo.v(Y, Hk, ...)
 }
 \arguments{
 \item{Y}{the matrix with responses}

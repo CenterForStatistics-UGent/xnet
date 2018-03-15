@@ -42,7 +42,7 @@ if (length(DESC) && DESC %in% fileDiff) {
   }
 }
 
-if ((length(fileDiff) > 0) && doIncrement){
+if ((length(fileDiff) > 0) && length(DESC) && doIncrement){
 
   currDCF <- read.dcf(DESC)
   currVersion <- currDCF[1,"Version"]

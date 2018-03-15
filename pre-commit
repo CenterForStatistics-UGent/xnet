@@ -28,7 +28,7 @@ fileDiff <- system("git diff HEAD --name-only", intern=TRUE)
 DESC <- grep("DESCRIPTION",list.files(".", recursive = TRUE),value = TRUE)
 
 
-if (DESC %in% fileDiff) {
+if (length(DESC) && DESC %in% fileDiff) {
   # Don't want to overwrite manual version bump
   desc_diff <- system(paste("git diff HEAD", DESC), intern = TRUE)
   doIncrement <- !any(grepl("\\+Version", desc_diff))

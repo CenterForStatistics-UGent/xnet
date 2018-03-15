@@ -8,7 +8,7 @@
 #' @slot k the eigen decomposition of the kernel matrix for the rows
 #' @slot lambda.k the lambda value used for k
 #' @slot pred the matrix with the predictions
-#' @slot symmetric a character value that can have the possible values
+#' @slot symmetry a character value that can have the possible values
 #' \code{"symmetric"}, \code{"skewed"} or \code{"not"}. It indicates
 #' whether the \code{y} matrix is symmetric, skewed-symmetric or not
 #' symmetric.
@@ -20,13 +20,13 @@
 #' @exportClass tskrrHomogenous
 setClass("tskrrHomogenous",
          contains = "tskrr",
-         slots = c(symmetric = "character"),
-         prototype = list(symmetric = "not")
+         slots = c(symmetry = "character"),
+         prototype = list(symmetry = "not")
          )
 
 validTskrrHomogenous <- function(object){
-  if(!object@symmetric %in% c("symmetric","skewed", "not"))
-    return("symmetric should be one of: symmetric, skewed or not.")
+  if(!object@symmetry %in% c("symmetric","skewed", "not"))
+    return("symmetry should be one of: symmetric, skewed or not.")
 
   else
     return(TRUE)

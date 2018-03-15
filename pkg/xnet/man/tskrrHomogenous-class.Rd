@@ -21,7 +21,7 @@ homogenous networks.
 
 \item{\code{pred}}{the matrix with the predictions}
 
-\item{\code{symmetric}}{a character value that can have the possible values
+\item{\code{symmetry}}{a character value that can have the possible values
 \code{"symmetric"}, \code{"skewed"} or \code{"not"}. It indicates
 whether the \code{y} matrix is symmetric, skewed-symmetric or not
 symmetric.}

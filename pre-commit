@@ -50,15 +50,16 @@ if ((length(fileDiff) > 0) && doIncrement){
   nVer <- length(splitVersion)
   if(nVer < 2){
       cat("No devel version (needs -). Version not updated.\n")
-      break
+  } else {
+      currEndVersion <- as.integer(trimws(splitVersion[nVer]))
+      newEndVersion <- as.character(currEndVersion + 1)
+      if(!is.na(currEndVersion)) splitVersion[nVer] <- newEndVersion
+      newVersion <- paste(splitVersion, collapse="-")
+      currDCF[1,"Version"] <- newVersion
+      currDCF[1, "Date"] <- strftime(as.POSIXlt(Sys.Date()), "%Y-%m-%d")
+      write.dcf(currDCF, DESC)
+      system(paste("git add", DESC))
+      cat("Incremented package version and added to commit!\n")
   }
-  currEndVersion <- as.integer(trimws(splitVersion[nVer]))
-  newEndVersion <- as.character(currEndVersion + 1)
-  if(!is.na(currEndVersion)) splitVersion[nVer] <- newEndVersion
-  newVersion <- paste(splitVersion, collapse="-")
-  currDCF[1,"Version"] <- newVersion
-  currDCF[1, "Date"] <- strftime(as.POSIXlt(Sys.Date()), "%Y-%m-%d")
-  write.dcf(currDCF, DESC)
-  system(paste("git add", DESC))
-  cat("Incremented package version and added to commit!\n")
+
 }

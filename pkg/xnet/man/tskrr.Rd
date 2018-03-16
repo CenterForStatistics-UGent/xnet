@@ -44,6 +44,12 @@ TO DO:
 data(drugtarget)
 
 mod <- tskrr(drugTargetInteraction, targetSim, drugSim)
-heatmap(fitted(mod))
 
+Y <- response(mod)
+pred <- fitted(mod)
+
+}
+\seealso{
+\code{\link{response}}, \code{\link{fitted}},
+\code{\link{get_eigen}}, \code{\link{eigen2hat}}
 }

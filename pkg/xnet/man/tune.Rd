@@ -7,10 +7,10 @@
 \alias{tune,tskrrHeterogenous-method}
 \title{tune the lambda parameters for a tskrr}
 \usage{
-\S4method{tune}{tskrrHomogenous}(x, lim = c(1e-04, 10000), ngrid = 10,
+\S4method{tune}{tskrrHomogenous}(x, lim = c(1e-04, 1), ngrid = 10,
   lambda = NULL)
 
-\S4method{tune}{tskrrHeterogenous}(x, lim = c(1e-04, 10000), ngrid = 10,
+\S4method{tune}{tskrrHeterogenous}(x, lim = c(1e-04, 1), ngrid = 10,
   lambda = NULL)
 }
 \arguments{
@@ -30,6 +30,15 @@ heterogenous networks. See Details. Defaults to
 \code{NULL}, which means that the function constructs the search grid
 from the other arguments.}
 }
+\value{
+a list with two elements:
+\itemize{
+   \item \code{MSE}: a vector or matrix with the mean squared errors
+   \item \code{lambda}: a list with one or two elements giving the
+   lambdas for the rows and the columns. If only one element in the
+   list, these lambda values can be used or both row and colum.
+}
+}
 \description{
 This function lets you tune the lambda parameter(s) of a two-step
 kernel ridge regression for optimal performance. The objective
@@ -47,4 +56,23 @@ for the two parameters that need tuning. In order to do so, you need to
 provide a list with the settings for every parameter to the arguments
 \code{lim}, \code{ngrid} and/or \code{lambda}. If you
 try this for a homogenous network, the function will return an error.
+}
+\examples{
+data(drugtarget)
+
+mod <- tskrr(drugTargetInteraction, targetSim, drugSim)
+tuned <- tune(mod, ngrid = 10)
+
+\dontrun{
+
+# This is just some visualization of the matrix
+# It can be run safely.
+
+x <- tuned$lambda[[1]] #lambdas for rows
+y <- tuned$lambda[[2]] #lambdas for columns
+z <- tuned$MSE         # Mean squared errors
+
+image(x,y,log(z), log = 'xy')
+
+}
 }

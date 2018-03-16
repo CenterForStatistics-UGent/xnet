@@ -24,11 +24,15 @@
 #'
 #' @return a \code{\link[xnet:tskrr-class]{tskrr}} object
 #'
+#' @seealso \code{\link{response}}, \code{\link{fitted}},
+#' \code{\link{get_eigen}}, \code{\link{eigen2hat}}
 #' @examples
 #' data(drugtarget)
 #'
 #' mod <- tskrr(drugTargetInteraction, targetSim, drugSim)
-#' heatmap(fitted(mod))
+#'
+#' Y <- response(mod)
+#' pred <- fitted(mod)
 #'
 #' @export
 tskrr <- function(y,k,g = NULL,

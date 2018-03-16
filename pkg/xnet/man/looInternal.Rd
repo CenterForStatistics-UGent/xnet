@@ -14,34 +14,36 @@
 \alias{loo.v}
 \title{Leave-one-out crossvalidation for two-step kernel ridge regression}
 \usage{
-loo.i(Y, Hk, Hg, pred)
+loo.i(Y, Hr, Hc, pred)
 
-loo.i0(Y, Hk, Hg, pred)
+loo.i0(Y, Hr, Hc, pred)
 
-loo.r(Y, Hk, Hg)
+loo.r(Y, Hr, Hc, ...)
 
-loo.c(Y, Hk, Hg)
+loo.c(Y, Hr, Hc, ...)
 
-loo.b(Y, Hk, Hg)
+loo.b(Y, Hr, Hc, ...)
 
-loo.e.sym(Y, Hk, pred)
+loo.e.sym(Y, Hr, pred)
 
-loo.e.skew(Y, Hk, pred)
+loo.e.skew(Y, Hr, pred)
 
-loo.e0.sym(Y, Hk, pred)
+loo.e0.sym(Y, Hr, pred)
 
-loo.e0.skew(Y, Hk, pred)
+loo.e0.skew(Y, Hr, pred)
 
-loo.v(Y, Hk)
+loo.v(Y, Hr, ...)
 }
 \arguments{
 \item{Y}{the matrix with responses}
 
-\item{Hk}{the hat matrix for the first kernel}
+\item{Hr}{the hat matrix for the first kernel (rows of Y)}
 
-\item{Hg}{the hat matrix for the second kernel}
+\item{Hc}{the hat matrix for the second kernel (columns of Y)}
 
 \item{pred}{the predictions}
+
+\item{...}{added to allow for specifying pred even when not needed.}
 }
 \value{
 a matrix with the leave-one-out predictions
@@ -52,5 +54,10 @@ two-step kernel ridge regression. It uses the shortcuts for
 leave-one-out crossvalidation.
 }
 \details{
-These functions are primarily for internal use and hence not exported
+These functions are primarily for internal use and hence not exported.
+Be careful when using them, as they do not perform any sanity check
+on the input. It's up to the user to make sure the input makes sense.
+}
+\seealso{
+\code{\link{loo}} for the user-level function.
 }

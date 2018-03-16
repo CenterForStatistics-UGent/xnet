@@ -44,6 +44,14 @@ loo <- function(x, exclusion = c("interaction","row","column","both"),
 
   homogenous <- is_homogenous(x)
 
+  if(replaceby0){
+    if(exclusion != "interaction")
+      stop("replaceby0 only makes sense when exclusion is set to 'interaction'.")
+
+    if(any(match(x@y, c(0,1), 0L ) == 0))
+      stop("replaceby0 only makes sense when the response has 0/1 values.")
+  }
+
   if(homogenous && exclusion %in% c("row","column")){
 
     warning(sprintf(paste("For homogenous networks exclusion can only be",

@@ -15,9 +15,7 @@ loo(x, exclusion = c("interaction", "row", "column", "both"),
 
 \item{replaceby0}{a logical value indicating whether the interaction
 should be simply removed (\code{FALSE}) or replaced by 0 (\code{TRUE}).
-This only makes sense when \code{exclusion = "interaction"} and the
-response matrix contains only 0 and 1 values. In all other cases, setting
-this value to \code{TRUE} will result in an error.}
+See Details.}
 }
 \value{
 a numeric matrix with the leave-one-out predictions for
@@ -41,4 +39,8 @@ In the case of a homogenous model, "row" and "column" don't make sense
 and will be replaced by "both" with a warning. This can be interpreted
 as removing vertices, i.e. all interactions between one edge and
 all other edges. For more information, see Stock et al PAPER TO BE ADDED.
+
+Replacying by 0 only makes sense when \code{exclusion = "interaction"} and the
+response matrix contains only 0 and 1 values. The function checks whether
+the conditions are fulfilled and if not, returns an error.
 }

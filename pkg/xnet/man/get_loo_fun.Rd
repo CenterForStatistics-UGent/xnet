@@ -4,17 +4,11 @@
 \alias{get_loo_fun}
 \title{Retrieve a loo function}
 \usage{
-get_loo_fun(exclusion, replaceby0, homogenous, symmetry)
+get_loo_fun(exclusion, homogenous, symmetry, replaceby0)
 }
 \arguments{
 \item{exclusion}{a character value with possible values "interaction",
 "row", "column" or "both". Defaults to "interaction". See details.}
-
-\item{replaceby0}{a logical value indicating whether the interaction
-should be simply removed (\code{FALSE}) or replaced by 0 (\code{TRUE}).
-This only makes sense when \code{exclusion = "interaction"} and the
-response matrix contains only 0 and 1 values. In all other cases, setting
-this value to \code{TRUE} will result in an error.}
 
 \item{homogenous}{a logical value indicating whether
 this should be for a homogenous model or not.}
@@ -24,6 +18,10 @@ this should be for a homogenous model or not.}
 \code{homogenous = FALSE} this argument is ignored. See also
 \code{\link{symmetry}} and the
 \code{\link[xnet:tskrrHomogenous-class]{tskrrHomogenous class}}}
+
+\item{replaceby0}{a logical value indicating whether the interaction
+should be simply removed (\code{FALSE}) or replaced by 0 (\code{TRUE}).
+See Details.}
 }
 \value{
 a function taking the arguments y, Hr, and possibly pred
@@ -39,4 +37,9 @@ for internal use but can be handy when doing simulations.
 \details{
 This function can be used to select the correct loo function in
 a simulation or tuning algorithm.
+}
+\seealso{
+\code{\link{loo}} for carrying out a leave on out crossvalidation,
+and \code{\link{loo_internal}} for more information on the internal
+functions one retrieves with this one.
 }

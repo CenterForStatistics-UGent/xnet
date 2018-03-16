@@ -58,3 +58,22 @@ symmetry <- function(x){
     NA else
   x@symmetry
 }
+
+#' @rdname getters-tskrr
+#' @aliases get_eigen
+#' @param which a character value indicating whether the eigen decomposition
+#' for the row kernel matrix or the column kernel matrix should be returned.
+#' @return For \code{get_eigen} the eigen decomposition of the requested
+#' kernel matrix.
+#' @export
+get_eigen <- function(x, which = c('row', 'column')){
+  if(is_homogenous(x)){
+    x@k
+  } else {
+    which <- match.arg(which)
+    if(which == 'row')
+      x@k
+    else
+      x@g
+  }
+}

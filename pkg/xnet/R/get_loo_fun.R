@@ -21,13 +21,17 @@
 #' \code{homogenous = FALSE}, the returned function also
 #' has an argument Hc.
 #'
+#' @seealso \code{\link{loo}} for carrying out a leave on out crossvalidation,
+#' and \code{\link{loo_internal}} for more information on the internal
+#' functions one retrieves with this one.
+#'
 #' @rdname get_loo_fun
 #' @name get_loo_fun
 #' @export
 get_loo_fun <- function(exclusion,
-                        replaceby0,
                         homogenous,
-                        symmetry){
+                        symmetry,
+                        replaceby0){
   if(homogenous){
     if(exclusion == "interaction"){
       if(symmetry == "symmetric"){

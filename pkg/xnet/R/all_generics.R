@@ -5,8 +5,11 @@ setGeneric("response",
            function(x, ...) standardGeneric("response"))
 setGeneric("lambda",
            function(x, ...) standardGeneric("lambda"))
+setGeneric("tune",
+           function(x, ...) standardGeneric("tune"))
 
 setGeneric("fitted")
+
 
 # For the hat matrices
 setGeneric("hat",

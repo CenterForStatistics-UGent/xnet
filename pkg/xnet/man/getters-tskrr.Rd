@@ -9,6 +9,7 @@
 \alias{lambda}
 \alias{is_homogenous}
 \alias{symmetry}
+\alias{get_eigen}
 \title{Getters for tskrr objects}
 \usage{
 \S4method{response}{tskrr}(x, ...)
@@ -20,12 +21,17 @@
 is_homogenous(x)
 
 symmetry(x)
+
+get_eigen(x, which = c("row", "column"))
 }
 \arguments{
 \item{x}{a \code{\link[xnet:tskrr-class]{tskrr}} object or an
 object inheriting from \code{tskrr}.}
 
 \item{...}{arguments passed to other methods.}
+
+\item{which}{a character value indicating whether the eigen decomposition
+for the row kernel matrix or the column kernel matrix should be returned.}
 }
 \value{
 For \code{response}: the original response matrix
@@ -39,6 +45,9 @@ tskrr model is a homogenous one.
 For \code{symmetry} a character value indicating the symmetry
 for a \code{\link[xnet:tskrrHomogenous-class]{homogenous model}}. If
 the model is not homogenous, \code{NA} is returned.
+
+For \code{get_eigen} the eigen decomposition of the requested
+kernel matrix.
 }
 \description{
 The functions described here are convenience functions to get

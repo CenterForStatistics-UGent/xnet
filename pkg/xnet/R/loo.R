@@ -17,14 +17,16 @@
 #' as removing vertices, i.e. all interactions between one edge and
 #' all other edges. For more information, see Stock et al PAPER TO BE ADDED.
 #'
+#' Replacying by 0 only makes sense when \code{exclusion = "interaction"} and the
+#' response matrix contains only 0 and 1 values. The function checks whether
+#' the conditions are fulfilled and if not, returns an error.
+#'
 #' @param x an object of class \code{\link[xnet:tskrr-class]{tskrr}}
 #' @param exclusion a character value with possible values "interaction",
 #' "row", "column" or "both". Defaults to "interaction". See details.
 #' @param replaceby0 a logical value indicating whether the interaction
 #' should be simply removed (\code{FALSE}) or replaced by 0 (\code{TRUE}).
-#' This only makes sense when \code{exclusion = "interaction"} and the
-#' response matrix contains only 0 and 1 values. In all other cases, setting
-#' this value to \code{TRUE} will result in an error.
+#' See Details.
 #'
 #' @return a numeric matrix with the leave-one-out predictions for
 #' the model.

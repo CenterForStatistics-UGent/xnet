@@ -7,6 +7,16 @@
 #' object inheriting from \code{tskrr}.
 #' @param ... arguments passed to other methods.
 #'
+#' @examples
+#' data(drugtarget)
+#'
+#' mod <- tskrr(drugTargetInteraction, targetSim, drugSim)
+#' is_homogenous(mod)
+#'
+#' EigR <- get_eigen(mod)
+#' EigC <- get_eigen(mod, which = 'column')
+#' lambda(mod)
+#'
 #' @include all_generics.R
 #' @rdname getters-tskrr
 #' @aliases response

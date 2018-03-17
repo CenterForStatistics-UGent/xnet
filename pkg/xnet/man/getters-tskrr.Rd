@@ -53,3 +53,14 @@ kernel matrix.
 The functions described here are convenience functions to get
 information out of a \code{\link[xnet:tskrr-class]{tskrr}} object.
 }
+\examples{
+data(drugtarget)
+
+mod <- tskrr(drugTargetInteraction, targetSim, drugSim)
+is_homogenous(mod)
+
+EigR <- get_eigen(mod)
+EigC <- get_eigen(mod, which = 'column')
+lambda(mod)
+
+}

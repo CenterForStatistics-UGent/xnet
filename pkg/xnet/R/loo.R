@@ -31,6 +31,15 @@
 #' @return a numeric matrix with the leave-one-out predictions for
 #' the model.
 #'
+#' @examples
+#' data(drugtarget)
+#'
+#' mod <- tskrr(drugTargetInteraction, targetSim, drugSim,
+#'              lambda = c(0.01,0.01))
+#'
+#' delta <- loo(mod, exclusion = 'both') - response(mod)
+#' delta0 <- loo(mod, replaceby0 = FALSE) - response(mod)
+#'
 #' @rdname loo
 #' @export
 loo <- function(x, exclusion = c("interaction","row","column","both"),

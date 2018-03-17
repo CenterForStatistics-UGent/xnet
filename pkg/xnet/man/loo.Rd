@@ -44,3 +44,13 @@ Replacying by 0 only makes sense when \code{exclusion = "interaction"} and the
 response matrix contains only 0 and 1 values. The function checks whether
 the conditions are fulfilled and if not, returns an error.
 }
+\examples{
+data(drugtarget)
+
+mod <- tskrr(drugTargetInteraction, targetSim, drugSim,
+             lambda = c(0.01,0.01))
+
+delta <- loo(mod, exclusion = 'both') - response(mod)
+delta0 <- loo(mod, replaceby0 = FALSE) - response(mod)
+
+}

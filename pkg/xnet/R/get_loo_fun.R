@@ -5,7 +5,10 @@
 #' for internal use but can be handy when doing simulations.
 #'
 #' This function can be used to select the correct loo function in
-#' a simulation or tuning algorithm.
+#' a simulation or tuning algorithm. The argument \code{replaceby0}
+#' has to be provided when \code{exclusion = 'interaction'}. In
+#' all other cases it can be omitted. If it is set to \code{TRUE}
+#' in these cases, an error is returned.
 #'
 #' @inheritParams loo
 #' @param homogenous a logical value indicating whether
@@ -32,6 +35,10 @@ get_loo_fun <- function(exclusion,
                         homogenous,
                         symmetry,
                         replaceby0){
+
+  if(!missing(replaceby0) && replaceby0 && exclusion != 'interaction')
+    stop("replaceby0 can only be TRUE when exclusion = 'interaction'.")
+
   if(homogenous){
     if(exclusion == "interaction"){
       if(symmetry == "symmetric"){

@@ -36,7 +36,10 @@ for internal use but can be handy when doing simulations.
 }
 \details{
 This function can be used to select the correct loo function in
-a simulation or tuning algorithm.
+a simulation or tuning algorithm. The argument \code{replaceby0}
+has to be provided when \code{exclusion = 'interaction'}. In
+all other cases it can be omitted. If it is set to \code{TRUE}
+in these cases, an error is returned.
 }
 \seealso{
 \code{\link{loo}} for carrying out a leave on out crossvalidation,

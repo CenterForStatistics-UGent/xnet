@@ -1,5 +1,4 @@
-library(xnet)
-context("matrix calculations for weights and predictions")
+context("modeling calculations")
 
 # Create the structures needed. Was saved in a .rdata file
 
@@ -39,10 +38,18 @@ test_that("hat and map matrix is calculated correctly",{
 })
 
 
-test_that("Model is fitted and constructed correctly",{
+test_that("Heterogenous model is fitted correctly",{
   expect_equal(fitted(mod),fits)
-  expect_equal(response(mod), Y)
-  expect_equal(lambda(mod), c(k = lambdak, g = lambdag))
 })
 
+test_that("Heterogenous model object is constructed correctly",{
+  expect_equal(response(mod), Y)
+  expect_equal(lambda(mod), c(k = lambdak, g = lambdag))
+  expect_true(is.na(symmetry(mod)))
+  expect_equal(get_eigen(mod, "row"), Keig)
+  expect_equal(get_eigen(mod, "column"), Geig)
+  expect_false(is_homogenous(mod))
+  expect_equal(hat(mod, 'row'), Hk)
+  expect_equal(hat(mod, 'column'), Hg)
+})
 

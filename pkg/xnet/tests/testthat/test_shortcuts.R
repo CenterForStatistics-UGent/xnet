@@ -1,6 +1,4 @@
-library(xnet)
 context("LOO shortcuts")
-data(drugtarget)
 
 test_that("get_loo_fun returns the correct function",{
 
@@ -24,6 +22,6 @@ test_that("get_loo_fun returns the correct function",{
 
 test_that("shortcut I bipartite works",{
 
-  expect_equal(1,1)
+  expect_equal(1,2)
 })
 

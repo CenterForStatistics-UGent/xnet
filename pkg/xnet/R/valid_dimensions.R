@@ -24,6 +24,8 @@ valid_dimensions <- function(y, k, g = NULL){
 
   if(!is.null(g)){
     out <- out && is_square(g) && ydim[2L] == dim(g)[1L]
+  } else {
+    out <- out && is_square(y)
   }
 
   return(out)

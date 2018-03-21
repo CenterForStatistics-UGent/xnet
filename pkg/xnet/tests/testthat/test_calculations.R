@@ -1,11 +1,16 @@
 library(xnet)
 context("matrix calculations for weights and predictions")
 
-K <- matrix(c(1,2,3,4,2,1,4,3,5,2,1,3,3,1,2,4),ncol = 4)
-G <- matrix(c(5,1,1,6,5,4,2,4,1,1,3,1,2,4,3,6,3,3,1,2,6,1,4,4,6),ncol = 5)
-Y <- matrix(c(1,0,0,1,0,0,1,1,0,0,0,0,0,1,0,0,1,0,1,1), ncol = 5)
+# Create the structures needed. Was saved in a .rdata file
 
-Keig <- eigen(X)
+
+dfile <- system.file("testdata","testdata.rda", package = "xnet")
+
+load(dfile)
+
+
+# Prepare the eigen decompositions
+Keig <- eigen(K)
 Kmat <- Keig$vectors
 Kvec <- Keig$values
 
@@ -13,15 +18,31 @@ Geig <- eigen(G)
 Gmat <- Geig$vectors
 Gvec <- Geig$values
 
-lambda <- 0.001
-H <- Kmat %*% diag(Kvec) %*% solve(diag(Kvec) + lambda*diag(4)) %*% t(Kmat)
-W <- Kmat %*% solve(diag(Kvec) + lambda*diag(4)) %*% t(Kmat)
+# Calculate the hat and map matrices
+lambdak <- 0.001
+lambdag <- 1.5
+Hk <- Kmat %*% diag(Kvec) %*% solve(diag(Kvec) + lambdak*diag(4)) %*% t(Kmat)
+Mk <- Kmat %*% solve(diag(Kvec) + lambdak*diag(4)) %*% t(Kmat)
+Hg <- Gmat %*% diag(Gvec) %*% solve(diag(Gvec) + lambdag*diag(5)) %*% t(Gmat)
+Mg <- Gmat %*% solve(diag(Gvec) + lambdag*diag(5)) %*% t(Gmat)
+
+# Fit the model
+mod <- tskrr(Y, K, G, lambda = c(lambdak, lambdag))
+
+# Manual construction of the fits
+fits <- Hk %*% Y %*% Hg
+wts <- Mk %*% Y %*% Mg
 
 test_that("hat and map matrix is calculated correctly",{
-  expect_equal(H, eigen2hat(Kmat, Kvec, lambda))
-  expect_equal(W, eigen2map(Kmat, Kvec, lambda))
+  expect_equal(Hk, eigen2hat(Kmat, Kvec, lambdak))
+  expect_equal(Mk, eigen2map(Kmat, Kvec, lambdak))
 })
 
-test_that("Model is fitted correctly",{
-  expect_equal(1,2)
+
+test_that("Model is fitted and constructed correctly",{
+  expect_equal(fitted(mod),fits)
+  expect_equal(response(mod), Y)
+  expect_equal(lambda(mod), c(k = lambdak, g = lambdag))
 })
+
+

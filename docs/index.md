@@ -8,7 +8,13 @@ like protein-ligand or plant-pollinator interactions. Currently the
 package provides a basic interface for two-step kernel ridge regression,
 including quick cross-validation due to algebraic shortcuts.
 
-The package is still in beta, so expect thorough changes and additions.
+The package is still in beta, so expect thorough changes and additions. 
+The current version can be installed at your own risk using following code:
+
+    devtools::install_github("CenterForStatistics-UGent/xnet/pkg/xnet", ref = "devel") 
+    
+Keep in mind that the repository structure will change when the package nears completion,
+so do NOT use this temporary installation instruction as reference for future installations.
 
 The paper describing the method is currently under review. A preprint is available. 
 

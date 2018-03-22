@@ -5,7 +5,7 @@
 \title{Fitting a two step kernel ridge regression}
 \usage{
 tskrr(y, k, g = NULL, lambda = 1e-04, homogenous = is.null(g),
-  testdim = TRUE)
+  testdim = TRUE, keep = FALSE)
 }
 \arguments{
 \item{y}{a response matrix}
@@ -26,6 +26,11 @@ input (i.e. a lacking \code{g} matrix indicates the network is homogenous)}
 and the dimensions of the kernel(s) should be tested.
 Defaults to \code{TRUE}, but for large matrices
 putting this to \code{FALSE} will speed up the function.}
+
+\item{keep}{a logical value indicating whether the original kernel
+matrices should be stored in the model object. Doing so makes the
+model object quite larger, but can speed up predictions in
+some cases. Defaults to \code{FALSE}}
 }
 \value{
 a \code{\link[xnet:tskrr-class]{tskrr}} object

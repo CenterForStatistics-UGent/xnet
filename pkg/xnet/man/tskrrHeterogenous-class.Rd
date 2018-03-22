@@ -24,5 +24,12 @@ heterogenous networks.
 \item{\code{g}}{the eigen decomposition of the kernel matrix for the columns}
 
 \item{\code{lambda.g}}{the lambda value used for g}
+
+\item{\code{has.orig}}{a logical value indicating whether the original kernel
+matrices are stored in the object.}
+
+\item{\code{k.orig}}{the original kernel matrix for the rows.}
+
+\item{\code{g.orig}}{the original kernel matrix for the columns.}
 }}
 

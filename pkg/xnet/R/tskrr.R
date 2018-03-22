@@ -21,6 +21,10 @@
 #' and the dimensions of the kernel(s) should be tested.
 #' Defaults to \code{TRUE}, but for large matrices
 #' putting this to \code{FALSE} will speed up the function.
+#' @param keep a logical value indicating whether the original kernel
+#' matrices should be stored in the model object. Doing so makes the
+#' model object quite larger, but can speed up predictions in
+#' some cases. Defaults to \code{FALSE}
 #'
 #' @return a \code{\link[xnet:tskrr-class]{tskrr}} object
 #'
@@ -38,7 +42,8 @@
 tskrr <- function(y,k,g = NULL,
                   lambda = 1e-4,
                   homogenous = is.null(g),
-                  testdim = TRUE
+                  testdim = TRUE,
+                  keep = FALSE
                   ){
 
   # TESTS INPUT
@@ -101,7 +106,9 @@ tskrr <- function(y,k,g = NULL,
                k = k.eigen,
                lambda.k = lambda.k,
                pred = res$pred,
-               symmetric = "symmetric")
+               symmetric = "symmetric",
+               has.orig = keep,
+               k.orig = if(keep) k else matrix(0))
   } else {
     out <- new("tskrrHeterogenous",
                y = y,
@@ -109,7 +116,10 @@ tskrr <- function(y,k,g = NULL,
                g = g.eigen,
                lambda.k = lambda.k,
                lambda.g = lambda.g,
-               pred = res$pred)
+               pred = res$pred,
+               has.orig = keep,
+               k.orig = if(keep) k else matrix(0),
+               g.orig = if(keep) g else matrix(0) )
   }
   return(out)
 }

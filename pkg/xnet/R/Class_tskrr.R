@@ -8,6 +8,9 @@
 #' @slot k the eigen decomposition of the kernel matrix for the rows
 #' @slot lambda.k the lambda value used for k
 #' @slot pred the matrix with the predictions
+#' @slot has.orig a logical value indicating whether the original kernel
+#' matrices are stored in the object.
+#' @slot k.orig the original kernel matrix for the rows.
 #'
 #' @seealso the classes \code{\link{tskrrHomogenous}} and
 #' \code{\link{tskrrHeterogenous}} for the actual classes
@@ -21,14 +24,18 @@ setClass("tskrr",
          slots = c(y = "matrix",
                    k = "eigen",
                    lambda.k = "numeric",
-                   pred = "matrix"),
+                   pred = "matrix",
+                   has.orig = "logical",
+                   k.orig = "matrix"),
          prototype = list(y = matrix(0),
                           k = structure(list(vectors = matrix(0),
                                              values = numeric(1)),
                                         class = "eigen"
                                         ),
                           lambda.k = 1e-4,
-                          pred = matrix(0)))
+                          pred = matrix(0),
+                          has.orig = FALSE,
+                          k.orig = matrix(0)))
 
 validTskrr <- function(object){
   if(!all(is.numeric(object@y),

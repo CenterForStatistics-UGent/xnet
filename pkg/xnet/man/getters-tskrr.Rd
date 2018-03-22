@@ -10,6 +10,9 @@
 \alias{is_homogenous}
 \alias{symmetry}
 \alias{get_eigen}
+\alias{get_kernel}
+\alias{get_kernelmatrix}
+\alias{has_original}
 \title{Getters for tskrr objects}
 \usage{
 \S4method{response}{tskrr}(x, ...)
@@ -23,6 +26,10 @@ is_homogenous(x)
 symmetry(x)
 
 get_eigen(x, which = c("row", "column"))
+
+get_kernel(x, which = c("row", "column"))
+
+has_original(x)
 }
 \arguments{
 \item{x}{a \code{\link[xnet:tskrr-class]{tskrr}} object or an
@@ -48,6 +55,12 @@ the model is not homogenous, \code{NA} is returned.
 
 For \code{get_eigen} the eigen decomposition of the requested
 kernel matrix.
+
+For \code{get_kernelmatrix} the original kernel matrix
+for the rows or columns.
+
+For \code{has_original} a logical value indicating whether
+the tskrr model contains the original kernel matrices.
 }
 \description{
 The functions described here are convenience functions to get

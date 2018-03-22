@@ -12,6 +12,9 @@
 #' \code{"symmetric"}, \code{"skewed"} or \code{"not"}. It indicates
 #' whether the \code{y} matrix is symmetric, skewed-symmetric or not
 #' symmetric.
+#' @slot has.orig a logical value indicating whether the original kernel
+#' matrices are stored in the object.
+#' @slot k.orig the original kernel matrix for the rows.
 #'
 #' @include Class_tskrr.R
 #' @rdname tskrrHomogenous-class
@@ -27,6 +30,9 @@ setClass("tskrrHomogenous",
 validTskrrHomogenous <- function(object){
   if(!object@symmetry %in% c("symmetric","skewed", "not"))
     return("symmetry should be one of: symmetric, skewed or not.")
+
+  else if(has.orig && !valid_dimensions(object@y, object@k.orig))
+    return("The dimensions of the original kernel matrices and the observations don't match.")
 
   else
     return(TRUE)

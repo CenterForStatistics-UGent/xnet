@@ -25,5 +25,10 @@ homogenous networks.
 \code{"symmetric"}, \code{"skewed"} or \code{"not"}. It indicates
 whether the \code{y} matrix is symmetric, skewed-symmetric or not
 symmetric.}
+
+\item{\code{has.orig}}{a logical value indicating whether the original kernel
+matrices are stored in the object.}
+
+\item{\code{k.orig}}{the original kernel matrix for the rows.}
 }}
 

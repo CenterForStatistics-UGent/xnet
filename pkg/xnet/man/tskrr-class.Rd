@@ -18,6 +18,11 @@ This is a superclass so it should not be instantiated directly.
 \item{\code{lambda.k}}{the lambda value used for k}
 
 \item{\code{pred}}{the matrix with the predictions}
+
+\item{\code{has.orig}}{a logical value indicating whether the original kernel
+matrices are stored in the object.}
+
+\item{\code{k.orig}}{the original kernel matrix for the rows.}
 }}
 
 \seealso{

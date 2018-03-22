@@ -87,3 +87,34 @@ get_eigen <- function(x, which = c('row', 'column')){
       x@g
   }
 }
+
+#' @rdname getters-tskrr
+#' @aliases get_kernelmatrix
+#' @return For \code{get_kernelmatrix} the original kernel matrix
+#' for the rows or columns.
+get_kernel <- function(x, which = c('row','column')){
+
+  which <- match.arg(which)
+
+  if(is_homogenous(x) || which == 'row'){
+
+    if(x@has.orig) x@k.orig else eigen2matrix(x@k$vectors, x@k$values)
+
+  } else{
+
+    if(x@has.orig) x@g.orig else eigen2matrix(x@g$vectors, x@g$values)
+
+  }
+}
+
+#' @rdname getters-tskrr
+#' @aliases has_original
+#' @return For \code{has_original} a logical value indicating whether
+#' the tskrr model contains the original kernel matrices.
+has_original <- function(x){
+  if(!inherits(x, 'tskrr'))
+    stop("x needs to be a tskrr model.")
+
+  x@has.orig
+}
+

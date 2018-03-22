@@ -32,11 +32,18 @@ mod <- tskrr(Y, K, G, lambda = c(lambdak, lambdag))
 fits <- Hk %*% Y %*% Hg
 wts <- Mk %*% Y %*% Mg
 
+naivewts <- solve(K + lambdak*diag(4)) %*% Y %*%
+  solve(G + lambdag*diag(5))
+
 test_that("hat and map matrix is calculated correctly",{
   expect_equal(Hk, eigen2hat(Kmat, Kvec, lambdak))
   expect_equal(Mk, eigen2map(Kmat, Kvec, lambdak))
 })
 
+test_that("weights are calculated correctly",{
+  expect_equal(wts, weights(mod))
+  expect_equal(naivewts, weights(mod))
+})
 
 test_that("Heterogenous model is fitted correctly",{
   expect_equal(fitted(mod),fits)
@@ -53,3 +60,7 @@ test_that("Heterogenous model object is constructed correctly",{
   expect_equal(hat(mod, 'column'), Hg)
 })
 
+test_that("Homogenous model object is constructed correctly",{
+  # NEEDS TO BE DONE!!!!
+  expect_equal(1,2)
+})

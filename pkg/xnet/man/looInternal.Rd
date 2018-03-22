@@ -14,32 +14,32 @@
 \alias{loo.v}
 \title{Leave-one-out crossvalidation for two-step kernel ridge regression}
 \usage{
-loo.i(Y, Hr, Hc, pred)
+loo.i(Y, Hk, Hg, pred)
 
-loo.i0(Y, Hr, Hc, pred)
+loo.i0(Y, Hk, Hg, pred)
 
-loo.r(Y, Hr, Hc, ...)
+loo.r(Y, Hk, Hg, ...)
 
-loo.c(Y, Hr, Hc, ...)
+loo.c(Y, Hk, Hg, ...)
 
-loo.b(Y, Hr, Hc, ...)
+loo.b(Y, Hk, Hg, ...)
 
-loo.e.sym(Y, Hr, pred)
+loo.e.sym(Y, Hk, pred)
 
-loo.e.skew(Y, Hr, pred)
+loo.e.skew(Y, Hk, pred)
 
-loo.e0.sym(Y, Hr, pred)
+loo.e0.sym(Y, Hk, pred)
 
-loo.e0.skew(Y, Hr, pred)
+loo.e0.skew(Y, Hk, pred)
 
-loo.v(Y, Hr, ...)
+loo.v(Y, Hk, ...)
 }
 \arguments{
 \item{Y}{the matrix with responses}
 
-\item{Hr}{the hat matrix for the first kernel (rows of Y)}
+\item{Hk}{the hat matrix for the first kernel (rows of Y)}
 
-\item{Hc}{the hat matrix for the second kernel (columns of Y)}
+\item{Hg}{the hat matrix for the second kernel (columns of Y)}
 
 \item{pred}{the predictions}
 

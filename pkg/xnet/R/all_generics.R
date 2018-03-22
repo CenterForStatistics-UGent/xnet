@@ -8,6 +8,9 @@ setGeneric("lambda",
 setGeneric("tune",
            function(x, ...) standardGeneric("tune"))
 
+## From stats
+setGeneric("fitted")
+setGeneric("weights")
 setGeneric("fitted")
 
 

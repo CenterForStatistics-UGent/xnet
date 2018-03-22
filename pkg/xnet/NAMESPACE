@@ -3,6 +3,7 @@
 export(create_grid)
 export(eigen2hat)
 export(eigen2map)
+export(eigen2matrix)
 export(get_eigen)
 export(get_loo_fun)
 export(is_homogenous)

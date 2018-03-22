@@ -1,8 +1,8 @@
 #' Calculate the hat matrix from an eigen decomposition
 #'
-#' This functions calculate either the hat matrix or the mapping matrix
-#' for a two-step kernel ridge regression based on the eigen decomposition
-#' of the kernel matrix.
+#' This functions calculate either the hat matrix, the mapping matrix or
+#' the original (kernel) matrix for a two-step kernel ridge regression,
+#' based on the eigen decomposition of the kernel matrix.
 #'
 #' For the hat matrix, this boils down to:
 #'
@@ -24,7 +24,8 @@
 #' @param lambda a single numeric value for the hyperparameter lambda
 #'
 #' @return a numeric matrix representing either the hat matrix
-#' (\code{eigen2hat}) or the map matrix (\code{eigen2map})
+#' (\code{eigen2hat}), the map matrix (\code{eigen2map}) or
+#' the original matrix (\code{eigen2matrix})
 #'
 #' @export
 eigen2hat <- function(eigen, vec , lambda){
@@ -52,4 +53,10 @@ eigen2map <- function(eigen, vec, lambda){
   # thanks to associativity of the matrix multiplication.
 
   return(eigen %*% (mid * t(eigen)))
+}
+
+#' @rdname eigen2hat
+#' @export
+eigen2matrix <- function(eigen, vec){
+  return(eigen %*% (vec*t(eigen)) )
 }

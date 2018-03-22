@@ -3,11 +3,14 @@
 \name{eigen2hat}
 \alias{eigen2hat}
 \alias{eigen2map}
+\alias{eigen2matrix}
 \title{Calculate the hat matrix from an eigen decomposition}
 \usage{
 eigen2hat(eigen, vec, lambda)
 
 eigen2map(eigen, vec, lambda)
+
+eigen2matrix(eigen, vec)
 }
 \arguments{
 \item{eigen}{a matrix with the eigenvectors.}
@@ -18,12 +21,13 @@ eigen2map(eigen, vec, lambda)
 }
 \value{
 a numeric matrix representing either the hat matrix
-(\code{eigen2hat}) or the map matrix (\code{eigen2map})
+(\code{eigen2hat}), the map matrix (\code{eigen2map}) or
+the original matrix (\code{eigen2matrix})
 }
 \description{
-This functions calculate either the hat matrix or the mapping matrix
-for a two-step kernel ridge regression based on the eigen decomposition
-of the kernel matrix.
+This functions calculate either the hat matrix, the mapping matrix or
+the original (kernel) matrix for a two-step kernel ridge regression,
+based on the eigen decomposition of the kernel matrix.
 }
 \details{
 For the hat matrix, this boils down to:

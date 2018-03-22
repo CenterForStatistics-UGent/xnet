@@ -11,50 +11,50 @@
 #' @seealso \code{\link{loo}} for the user-level function.
 #'
 #' @param Y the matrix with responses
-#' @param Hr the hat matrix for the first kernel (rows of Y)
-#' @param Hc the hat matrix for the second kernel (columns of Y)
+#' @param Hk the hat matrix for the first kernel (rows of Y)
+#' @param Hg the hat matrix for the second kernel (columns of Y)
 #' @param pred the predictions
 #' @param ... added to allow for specifying pred even when not needed.
 #'
 #' @return a matrix with the leave-one-out predictions
 #' @rdname looInternal
 #' @name loo_internal
-loo.i <- function(Y, Hr, Hc, pred){
-  L <- tcrossprod(diag(Hr), diag(Hc))
+loo.i <- function(Y, Hk, Hg, pred){
+  L <- tcrossprod(diag(Hk), diag(Hg))
   return((pred - Y * L) / (1 - L))
 }
 
 #' @rdname looInternal
-loo.i0 <- function(Y, Hr, Hc, pred){
-  L <- tcrossprod(diag(Hr), diag(Hc))
+loo.i0 <- function(Y, Hk, Hg, pred){
+  L <- tcrossprod(diag(Hk), diag(Hg))
   return((pred - Y * L))
 }
 
 #' @rdname looInternal
-loo.r <- function(Y, Hr, Hc, ...){
-  div <- 1 - diag(Hr)
-  diag(Hr) <- 0
+loo.r <- function(Y, Hk, Hg, ...){
+  div <- 1 - diag(Hk)
+  diag(Hk) <- 0
 
-  return( (Hr %*% Y %*% Hc) / div )
+  return( (Hk %*% Y %*% Hg) / div )
 }
 
 #' @rdname looInternal
-loo.c <- function(Y, Hr, Hc, ...){
-  div <- 1 - diag(Hc)
-  diag(Hc) <- 0
+loo.c <- function(Y, Hk, Hg, ...){
+  div <- 1 - diag(Hg)
+  diag(Hg) <- 0
 
-  return( (Hr %*% Y %*% Hc) / rep(div, each = nrow(Y)) )
+  return( (Hk %*% Y %*% Hg) / rep(div, each = nrow(Y)) )
 }
 
 #' @rdname looInternal
-loo.b <- function(Y, Hr, Hc, ...){
-  divk <- 1 - diag(Hr)
-  divg <- 1 - diag(Hc)
+loo.b <- function(Y, Hk, Hg, ...){
+  divk <- 1 - diag(Hk)
+  divg <- 1 - diag(Hg)
 
-  diag(Hr) <- 0
-  diag(Hc) <- 0
+  diag(Hk) <- 0
+  diag(Hg) <- 0
 
-  pred <- Hr %*% Y %*% Hc
+  pred <- Hk %*% Y %*% Hg
   div <- tcrossprod(divk, divg)
 
   return(pred / div)
@@ -64,47 +64,47 @@ loo.b <- function(Y, Hr, Hc, ...){
 ## SHORTCUTS FOR HOMOGENOUS NETWORKS
 
 #' @rdname looInternal
-loo.e.sym <- function(Y, Hr, pred){
+loo.e.sym <- function(Y, Hk, pred){
 
-  L <- tcrossprod(diag(Hr)) + Hr^2
+  L <- tcrossprod(diag(Hk)) + Hk^2
   return((pred - L * Y) / ( 1 - L))
 
 }
 
 #' @rdname looInternal
-loo.e.skew <- function(Y, Hr, pred){
+loo.e.skew <- function(Y, Hk, pred){
 
-  L <- tcrossprod(diag(Hr)) - Hr^2
+  L <- tcrossprod(diag(Hk)) - Hk^2
   return((pred - L * Y) / ( 1 - L))
 
 }
 
 #' @rdname looInternal
-loo.e0.sym <- function(Y, Hr, pred){
+loo.e0.sym <- function(Y, Hk, pred){
 
-  L <- tcrossprod(diag(Hr)) + Hr^2
+  L <- tcrossprod(diag(Hk)) + Hk^2
   return( (pred - L * Y) )
 
 }
 
 #' @rdname looInternal
-loo.e0.skew <- function(Y, Hr, pred){
+loo.e0.skew <- function(Y, Hk, pred){
 
-  L <- tcrossprod(diag(Hr)) - Hr^2
+  L <- tcrossprod(diag(Hk)) - Hk^2
   return( (pred - L * Y) )
 
 }
 
 #' @rdname looInternal
-loo.v <- function(Y, Hr, ...){
+loo.v <- function(Y, Hk, ...){
 
-  Hr0 <- Hr
-  diag(Hr0) <- 0
-  div <- 1 - diag(Hr)
+  Hk0 <- Hk
+  diag(Hk0) <- 0
+  div <- 1 - diag(Hk)
 
-  Floo <- Hr0 %*% Y / div
-  FlooV <- Floo %*% Hr
+  Floo <- Hk0 %*% Y / div
+  FlooV <- Floo %*% Hk
 
-  FlooV <- FlooV + Hr * ((diag(FlooV) - diag(Floo)) / div)
+  FlooV <- FlooV + Hk * ((diag(FlooV) - diag(Floo)) / div)
   return(FlooV)
 }

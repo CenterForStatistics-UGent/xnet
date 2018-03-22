@@ -1,5 +1,19 @@
 context("LOO shortcuts")
 
+# Setup for testing
+dfile <- system.file("testdata","testdata.rda", package = "xnet")
+
+load(dfile)
+lambdak <- 0.01
+lambdag <- 1.5
+mod <- tskrr(Y, K, G, lambda = c(lambdak, lambdag))
+eigK <- get_eigen(mod, 'row')
+eigG <- get_eigen(mod, 'column')
+Hk <- hat(mod, 'row')
+Hg <- hat(mod, 'column')
+pred <- fitted(mod)
+
+
 test_that("get_loo_fun returns the correct function",{
 
   expect_equal(get_loo_fun('interaction', FALSE, replaceby0 = FALSE), loo.i)
@@ -20,8 +34,40 @@ test_that("get_loo_fun returns the correct function",{
   expect_error(get_loo_fun('column', FALSE, replaceby0 = TRUE))
 })
 
-test_that("shortcut I bipartite works",{
+predict_ij <- function(Y,Hk, Hg, i, j){
+  Hk[i,] %*% Y %*% Hg[,j]
+}
 
-  expect_equal(1,2)
+test_that("shortcuts bipartite networks work",{
+
+  # Setting I
+  looI <- xnet:::loo(mod)
+  looItest <- sapply(seq_len(ncol(Y)),
+                     function(y) sapply(seq_len(nrow(Y)),
+                                        function(x){Ytilde <- Y
+                                        Ytilde[x,y] <- looI[x,y]
+                                        predict_ij(Ytilde, Hk, Hg, x, y) }
+                                        )
+                     )
+
+
+  expect_equal(looI,looItest)
+
+  # Setting I0
+  looI0 <- loo(mod, replaceby0 = TRUE)
+  looI0test <- sapply(seq_len(ncol(Y)),
+                     function(y) sapply(seq_len(nrow(Y)),
+                                        function(x){Ytilde <- Y
+                                        Ytilde[x,y] <- 0
+                                        predict_ij(Ytilde, Hk, Hg, x, y) }
+                     ))
+
+  expect_equal(looI0, looI0test)
+
+  # Setting Row
+  looR <- loo(mod, exclusion = "row")
+  looRtest <- 0
+  expect_equal(looR, looRtest)
+
 })
 

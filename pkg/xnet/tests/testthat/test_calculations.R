@@ -18,7 +18,7 @@ Gmat <- Geig$vectors
 Gvec <- Geig$values
 
 # Calculate the hat and map matrices
-lambdak <- 0.001
+lambdak <- 0.01
 lambdag <- 1.5
 Hk <- Kmat %*% diag(Kvec) %*% solve(diag(Kvec) + lambdak*diag(4)) %*% t(Kmat)
 Mk <- Kmat %*% solve(diag(Kvec) + lambdak*diag(4)) %*% t(Kmat)

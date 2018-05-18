@@ -15,8 +15,7 @@ predict.tskrr(object, K, G = NULL, ...)
 for both.
 
 This function is currently in testing and should be used
-with caution. There's a chance I missed with the inversions and/or
-transpose.}
+with caution.}
 }
 \description{
 Obtains predictions from a \code{\link{tskrr}} model for new

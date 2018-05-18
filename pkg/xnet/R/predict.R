@@ -10,8 +10,7 @@
 #' for both.
 #'
 #' This function is currently in testing and should be used
-#' with caution. There's a chance I missed with the inversions and/or
-#' transpose.
+#' with caution.
 #'
 #' @include all_generics.R
 #' @rdname predict

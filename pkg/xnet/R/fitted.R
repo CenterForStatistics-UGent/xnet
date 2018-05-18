@@ -11,6 +11,7 @@
 #' @param ... other arguments.
 #' @include all_generics.R
 #' @rdname fitted
+#' @name fitted.tskrr
 #' @export
 setMethod("fitted",
           "tskrr",

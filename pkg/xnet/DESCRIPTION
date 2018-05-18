@@ -1,7 +1,7 @@
 Package: xnet
 Type: Package
 Title: twostep kernel ridge regression for network predictions
-Version: 0.1.1-9038
+Version: 0.1.1-9039
 Authors@R: c(person("Joris","Meys", email = "Joris.Meys@UGent.be", role
         = c("cre","aut")), person("Michiel", "Stock", email =
         "Michiel.Stock@UGent.be", role = "aut"))
@@ -22,7 +22,7 @@ Suggests: testthat, knitr, rmarkdown
 Collate: 'Class_tskrr.R' 'Class_tskrrHeterogenous.R'
         'Class_tskrrHomogenous.R' 'all_generics.R' 'Getters_tskrr.R'
         'create_grid.R' 'data_drugtarget.R' 'eigen2hat.R' 'fitted.R'
-        'get_loo_fun.R' 'hat.R' 'loo.R' 'looInternal.R' 'tskrr.R'
-        'tskrr.fit.R' 'tune.R' 'valid_dimensions.R' 'weights.R'
-        'xnet-package.R'
+        'get_loo_fun.R' 'hat.R' 'loo.R' 'looInternal.R' 'predict.R'
+        'tskrr.R' 'tskrr.fit.R' 'tune.R' 'valid_dimensions.R'
+        'weights.R' 'xnet-package.R'
 VignetteBuilder: knitr

@@ -12,6 +12,7 @@ setGeneric("tune",
 setGeneric("fitted")
 setGeneric("weights")
 setGeneric("fitted")
+setGeneric("predict")
 
 
 # For the hat matrices

@@ -10,3 +10,23 @@ This package implements two-step kernel ridge regression, a technique
 that can be used for all kinds of cross-network analysis. Examples are
 protein-protein interaction, foodwebs, ...
 }
+\details{
+TO BE COMPLETED
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/CenterForStatistics-UGent/xnet}
+  \item Report bugs at \url{https://github.com/CenterForStatistics-UGent/xnet/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Joris Meys \email{Joris.Meys@UGent.be}
+
+Authors:
+\itemize{
+  \item Michiel Stock \email{Michiel.Stock@UGent.be}
+}
+
+}

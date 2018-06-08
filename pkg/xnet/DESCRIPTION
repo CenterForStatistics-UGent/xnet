@@ -1,13 +1,28 @@
 Package: xnet
 Type: Package
-Title: Cross-net: twostep kernel ridge regression
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
+Title: twostep kernel ridge regression for network predictions
+Version: 0.1.2
+Authors@R: c(person("Joris","Meys", email = "Joris.Meys@UGent.be", role
+        = c("cre","aut")), person("Michiel", "Stock", email =
+        "Michiel.Stock@UGent.be", role = "aut"))
 Description: This package implements two-step kernel ridge regression
-    for predicting edges in networks, together with many cross-validation
-    shortcuts for swift and accurate performance assessment.
+        for predicting edges in networks, together with many
+        cross-validation shortcuts for swift and accurate performance
+        assessment.
+Date: 2018-06-08
+BugReports: https://github.com/CenterForStatistics-UGent/xnet/issues
+URL: https://github.com/CenterForStatistics-UGent/xnet
+Depends: R(>= 3.4.0)
+Imports: methods
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
+Suggests: testthat, knitr, rmarkdown
+Collate: 'Class_tskrr.R' 'Class_tskrrHeterogenous.R'
+        'Class_tskrrHomogenous.R' 'all_generics.R' 'Getters_tskrr.R'
+        'create_grid.R' 'data_drugtarget.R' 'eigen2hat.R' 'fitted.R'
+        'get_loo_fun.R' 'hat.R' 'loo.R' 'looInternal.R' 'predict.R'
+        'tskrr.R' 'tskrr.fit.R' 'tune.R' 'valid_dimensions.R'
+        'weights.R' 'xnet-package.R'
+VignetteBuilder: knitr

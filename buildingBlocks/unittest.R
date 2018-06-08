@@ -1,19 +1,19 @@
 # test the leave-one-out shortcuts for networks
 
 require(testthat)
-source('train.tskrr.R')
-source('loo.R')
-source('linear.filter.r')
+source('BuildingBlocks/train.tskrr.R')
+source('BuildingBlocks/loo.R')
+source('BuildingBlocks/linear.filter.r')
 
 # load some data
 
 get.pl.data <- function(name){
   # loads one of the protein-ligand datasets
-  Y <- read.table(paste('../data/',name,'_admat_dgc.txt', sep=''),
+  Y <- read.table(paste('data/',name,'_admat_dgc.txt', sep=''),
                   sep='\t', header=T, row.names = 1)
-  K <- read.table(paste('../data/',name,'_simmat_dg.txt', sep=''),
+  K <- read.table(paste('data/',name,'_simmat_dg.txt', sep=''),
                   sep='\t', header=T, row.names = 1)
-  G <- read.table(paste('../data/',name,'_simmat_dc.txt', sep=''),
+  G <- read.table(paste('data/',name,'_simmat_dc.txt', sep=''),
                   sep='\t', header=T, row.names = 1)
   return(list(Y=as.matrix(Y), K=as.matrix(K), G=as.matrix(G)))
 }

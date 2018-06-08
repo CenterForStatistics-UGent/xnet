@@ -2,19 +2,20 @@
 #'
 #' Obtains predictions from a \code{\link{tskrr}} model for new
 #' data. To get the predictions on the training data, use the
-#' function \code{\link[xnet:fitted,tskrr-method]{fitted}}
+#' function \code{\link[xnet:fitted]{fitted}}
 #'
 #' @param object an object of class \code{\link[xnet:tskrr-class]{tskrr}}.
 #' @param K a new K matrix
 #' @param G a new G matrix or \code{NULL}. If \code{NULL}, K is used
 #' for both.
+#' @param ... arguments passed to or from other methods
 #'
 #' This function is currently in testing and should be used
 #' with caution.
 #'
 #' @include all_generics.R
 #' @rdname predict
-#' @export
+#' @S3method predict tskrr
 predict.tskrr <- function(object,
                           K,
                           G = NULL,
@@ -23,6 +24,8 @@ predict.tskrr <- function(object,
   K %*% weights(object) %*% G
 }
 
+#' @rdname predict
+#' @export
 setMethod("predict",
           "tskrr",
           predict.tskrr)

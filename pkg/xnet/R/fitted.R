@@ -8,13 +8,18 @@
 #'
 #' @param object an object for which the extraction of model fitted values
 #' is meaningful.
-#' @param ... other arguments.
+#' @param ... arguments passed to or from other methods.
 #' @include all_generics.R
+#'
+#'
 #' @rdname fitted
-#' @name fitted.tskrr
+#' @export
+fitted.tskrr <- function(object, ...){
+  object@pred
+}
+
+#' @rdname fitted
 #' @export
 setMethod("fitted",
           "tskrr",
-          function(object, ...){
-            object@pred
-          })
+          fitted.tskrr)

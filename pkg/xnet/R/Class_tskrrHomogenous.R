@@ -31,7 +31,7 @@ validTskrrHomogenous <- function(object){
   if(!object@symmetry %in% c("symmetric","skewed", "not"))
     return("symmetry should be one of: symmetric, skewed or not.")
 
-  else if(has.orig && !valid_dimensions(object@y, object@k.orig))
+  else if(object@has.orig && !valid_dimensions(object@y, object@k.orig))
     return("The dimensions of the original kernel matrices and the observations don't match.")
 
   else

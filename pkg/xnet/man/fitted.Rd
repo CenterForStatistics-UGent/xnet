@@ -3,15 +3,18 @@
 \docType{methods}
 \name{fitted.tskrr}
 \alias{fitted.tskrr}
+\alias{fitted,tskrr-method}
 \title{extract the predictions}
 \usage{
+fitted.tskrr(object, ...)
+
 \S4method{fitted}{tskrr}(object, ...)
 }
 \arguments{
 \item{object}{an object for which the extraction of model fitted values
 is meaningful.}
 
-\item{...}{other arguments.}
+\item{...}{arguments passed to or from other methods.}
 }
 \description{
 This functions extracts the fitted predictions from a

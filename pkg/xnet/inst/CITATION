@@ -1,0 +1,22 @@
+citation(auto = meta)
+bibentry("Article",
+         title = "Preliminary title",
+         author = c(
+           person("Michiel","Stock"),
+           person("One", "More")
+         ),
+         journal = "To be announced",
+         year = "2018",
+         volume = "NA",
+         number = "NA",
+         pages = "NA",
+         header = paste(
+           "For reference to the methods from this package, use: "
+         ),
+         footer = paste(
+           "You can get BibTex entries for both the package and the",
+           "theoretical paper with following command:\n",
+           "toBibtex(citation(\"xnet\"))"
+         )
+)
+

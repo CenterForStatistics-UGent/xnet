@@ -23,6 +23,11 @@ This is a superclass so it should not be instantiated directly.
 matrices are stored in the object.}
 
 \item{\code{k.orig}}{the original kernel matrix for the rows.}
+
+\item{\code{labels}}{a list with two character vectors, \code{k} and
+\code{g}, containing the labels for the rows resp. columns. See
+\code{\link{tskrrHomogenous}} and
+\code{\link{tskrrHeterogenous}} for more details.}
 }}
 
 \seealso{

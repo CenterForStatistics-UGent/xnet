@@ -15,6 +15,10 @@
 #' @slot has.orig a logical value indicating whether the original kernel
 #' matrices are stored in the object.
 #' @slot k.orig the original kernel matrix for the rows.
+#' @slot labels a list with elements \code{k} and \code{g} (see
+#' \code{\link{tskrr-class}}). For homogenous networks, \code{g}
+#' is always \code{NA}. If \code{k} is \code{NA}, the labels used
+#' are integers indicating the row resp column number.
 #'
 #' @include Class_tskrr.R
 #' @rdname tskrrHomogenous-class
@@ -28,11 +32,23 @@ setClass("tskrrHomogenous",
          )
 
 validTskrrHomogenous <- function(object){
+
+  browser()
   if(!object@symmetry %in% c("symmetric","skewed", "not"))
     return("symmetry should be one of: symmetric, skewed or not.")
 
   else if(object@has.orig && !valid_dimensions(object@y, object@k.orig))
     return("The dimensions of the original kernel matrices and the observations don't match.")
+
+  else if(!length(object@labels$g) == 1 || !is.na(object@labels$g))
+    return("The element g of labels should be NA")
+
+  else if(
+    (length(object@labels$k) == 1 && !is.na(object@labels$k)) &&
+    (length(object@labels$k) != nrow(object@y))
+     )
+    return("The element k should either be NA or a character vector with the same number of values as there are rows in the Y matrix.")
+
 
   else
     return(TRUE)

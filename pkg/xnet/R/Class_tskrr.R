@@ -11,6 +11,10 @@
 #' @slot has.orig a logical value indicating whether the original kernel
 #' matrices are stored in the object.
 #' @slot k.orig the original kernel matrix for the rows.
+#' @slot labels a list with two character vectors, \code{k} and
+#' \code{g}, containing the labels for the rows resp. columns. See
+#' \code{\link{tskrrHomogenous}} and
+#' \code{\link{tskrrHeterogenous}} for more details.
 #'
 #' @seealso the classes \code{\link{tskrrHomogenous}} and
 #' \code{\link{tskrrHeterogenous}} for the actual classes
@@ -26,7 +30,8 @@ setClass("tskrr",
                    lambda.k = "numeric",
                    pred = "matrix",
                    has.orig = "logical",
-                   k.orig = "matrix"),
+                   k.orig = "matrix",
+                   labels = "list"),
          prototype = list(y = matrix(0),
                           k = structure(list(vectors = matrix(0),
                                              values = numeric(1)),
@@ -35,15 +40,27 @@ setClass("tskrr",
                           lambda.k = 1e-4,
                           pred = matrix(0),
                           has.orig = FALSE,
-                          k.orig = matrix(0)))
+                          k.orig = matrix(0),
+                          labels = list(k = NA_character_,
+                                        g = NA_character_)))
 
 validTskrr <- function(object){
+
   if(!all(is.numeric(object@y),
           is.numeric(object@pred)))
     return("y and pred should be a numeric matrix.")
 
   else if(length(object@lambda.k) != 1)
     return("lambda.k should be a single value.")
+
+  else if(length(object@labels) != 2)
+    return("labels should be a list with 2 elements")
+
+  else if(any(names(object@labels) != c("k","g")))
+    return("The elements in labels should be called k and g")
+
+  else if(!all(sapply(object@labels, is.character)))
+    return("The elements in labels should be character vectors")
 
   else
     return(TRUE)

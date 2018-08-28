@@ -31,5 +31,10 @@ matrices are stored in the object.}
 \item{\code{k.orig}}{the original kernel matrix for the rows.}
 
 \item{\code{g.orig}}{the original kernel matrix for the columns.}
+
+\item{\code{labels}}{a list with elements \code{k} and \code{g} (see
+\code{\link{tskrr-class}}).
+ If any element is \code{NA}, the labels used
+are integers indicating the row resp column number.}
 }}
 

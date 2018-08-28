@@ -14,6 +14,10 @@
 #' matrices are stored in the object.
 #' @slot k.orig the original kernel matrix for the rows.
 #' @slot g.orig the original kernel matrix for the columns.
+#' @slot labels a list with elements \code{k} and \code{g} (see
+#' \code{\link{tskrr-class}}).
+#'  If any element is \code{NA}, the labels used
+#' are integers indicating the row resp column number.
 #'
 #' @include Class_tskrr.R
 #' @rdname tskrrHeterogenous-class
@@ -39,6 +43,18 @@ validTskrrHeterogenous <- function(object){
 
   else if(object@has.orig && !valid_dimensions(object@y, object@k.orig, object@g.orig))
     return("The dimensions of the original kernel matrices and the observations don't match.")
+
+  else if(
+    (length(object@labels$k) == 1 && !is.na(object@labels$k)) ||
+    (length(object@labels$k) != nrow(object@y))
+  )
+    return("The element k should either be NA or a character vector with the same number of values as there are rows in the Y matrix.")
+
+  else if(
+    (length(object@labels$g) == 1 && !is.na(object@labels$g)) ||
+    (length(object@labels$g) != ncol(object@y))
+  )
+    return("The element k should either be NA or a character vector with the same number of values as there are columns in the Y matrix.")
 
   else
     return(TRUE)

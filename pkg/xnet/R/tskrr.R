@@ -106,7 +106,7 @@ tskrr <- function(y,k,g = NULL,
                k = k.eigen,
                lambda.k = lambda.k,
                pred = res$pred,
-               symmetric = "symmetric",
+               symmetry = "symmetric",
                has.orig = keep,
                k.orig = if(keep) k else matrix(0))
   } else {

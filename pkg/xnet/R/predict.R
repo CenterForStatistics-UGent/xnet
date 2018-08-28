@@ -15,7 +15,8 @@
 #'
 #' @include all_generics.R
 #' @rdname predict
-#' @S3method predict tskrr
+#' @method predict tskrr
+#' @export
 predict.tskrr <- function(object,
                           K,
                           G = NULL,

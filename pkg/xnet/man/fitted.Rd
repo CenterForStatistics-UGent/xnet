@@ -6,7 +6,7 @@
 \alias{fitted,tskrr-method}
 \title{extract the predictions}
 \usage{
-fitted.tskrr(object, ...)
+\method{fitted}{tskrr}(object, ...)
 
 \S4method{fitted}{tskrr}(object, ...)
 }

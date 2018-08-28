@@ -46,12 +46,24 @@ TO DO:
 - add symmetry checks (for skewed or symmetric or none)
 }
 \examples{
+
+# Heterogenous network
+
 data(drugtarget)
 
 mod <- tskrr(drugTargetInteraction, targetSim, drugSim)
 
 Y <- response(mod)
 pred <- fitted(mod)
+
+# Homogenous network
+
+data(proteinInteraction)
+
+modh <- tskrr(proteinInteraction, Kmat_y2h_sc)
+
+Yh <- response(modh)
+pred <- fitted(modh)
 
 }
 \seealso{

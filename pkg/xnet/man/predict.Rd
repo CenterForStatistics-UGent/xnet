@@ -6,7 +6,7 @@
 \alias{predict,tskrr-method}
 \title{predict method for tskrr fits}
 \usage{
-predict.tskrr(object, K, G = NULL, ...)
+\method{predict}{tskrr}(object, K, G = NULL, ...)
 
 \S4method{predict}{tskrr}(object, K, G = NULL, ...)
 }

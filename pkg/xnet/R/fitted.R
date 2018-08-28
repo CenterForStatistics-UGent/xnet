@@ -13,6 +13,7 @@
 #'
 #'
 #' @rdname fitted
+#' @method fitted tskrr
 #' @export
 fitted.tskrr <- function(object, ...){
   object@pred

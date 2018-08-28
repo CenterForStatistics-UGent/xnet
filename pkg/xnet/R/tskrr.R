@@ -31,12 +31,24 @@
 #' @seealso \code{\link{response}}, \code{\link{fitted}},
 #' \code{\link{get_eigen}}, \code{\link{eigen2hat}}
 #' @examples
+#'
+#' # Heterogenous network
+#'
 #' data(drugtarget)
 #'
 #' mod <- tskrr(drugTargetInteraction, targetSim, drugSim)
 #'
 #' Y <- response(mod)
 #' pred <- fitted(mod)
+#'
+#' # Homogenous network
+#'
+#' data(proteinInteraction)
+#'
+#' modh <- tskrr(proteinInteraction, Kmat_y2h_sc)
+#'
+#' Yh <- response(modh)
+#' pred <- fitted(modh)
 #'
 #' @export
 tskrr <- function(y,k,g = NULL,

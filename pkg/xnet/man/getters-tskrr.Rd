@@ -8,6 +8,7 @@
 \alias{lambda,tskrrHeterogenous-method}
 \alias{lambda}
 \alias{is_homogenous}
+\alias{is_heterogenous}
 \alias{symmetry}
 \alias{get_eigen}
 \alias{get_kernel}
@@ -22,6 +23,8 @@
 \S4method{lambda}{tskrrHeterogenous}(x)
 
 is_homogenous(x)
+
+is_heterogenous(x)
 
 symmetry(x)
 
@@ -48,6 +51,9 @@ values used in the model. The names are "k" and "g" respectively.
 
 For \code{is_homogenous} a logical value indicating whether the
 tskrr model is a homogenous one.
+
+For \code{is_heterogenous} a logical value indicating whether the
+tskrr model is a heterogenous one.
 
 For \code{symmetry} a character value indicating the symmetry
 for a \code{\link[xnet:tskrrHomogenous-class]{homogenous model}}. If

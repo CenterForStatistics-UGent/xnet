@@ -58,6 +58,16 @@ is_homogenous <- function(x){
 }
 
 #' @rdname getters-tskrr
+#' @aliases is_heterogenous
+#' @return For \code{is_heterogenous} a logical value indicating whether the
+#' tskrr model is a heterogenous one.
+#' @export
+is_heterogenous <- function(x){
+  if(!inherits(x, "tskrr")) stop("x should be a tskrr model.")
+  inherits(x, "tskrrHeterogenous")
+}
+
+#' @rdname getters-tskrr
 #' @aliases symmetry
 #' @return For \code{symmetry} a character value indicating the symmetry
 #' for a \code{\link[xnet:tskrrHomogenous-class]{homogenous model}}. If

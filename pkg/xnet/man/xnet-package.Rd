@@ -10,9 +10,6 @@ This package implements two-step kernel ridge regression, a technique
 that can be used for all kinds of cross-network analysis. Examples are
 protein-protein interaction, foodwebs, ...
 }
-\details{
-TO BE COMPLETED
-}
 \seealso{
 Useful links:
 \itemize{

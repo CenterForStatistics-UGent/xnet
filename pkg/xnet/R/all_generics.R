@@ -14,3 +14,9 @@ setGeneric("hat",
 setMethod("hat",
           "ANY",
           stats::hat)
+
+# For the labels
+setGeneric("labels")
+setGeneric("rownames")
+setGeneric("colnames")
+setGeneric("dimnames")

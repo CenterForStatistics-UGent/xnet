@@ -2,7 +2,7 @@
 #'
 #' This function returns the hat matrix or hat matrices of
 #' a tskrr model. \code{xnet} creates an S4 generic for \code{hat}
-#' and links the default method to the \code{\link[stats]{hat}} function
+#' and links the default method to the \code{\link[=influence.measures]{hat}} function
 #' of \code{stats}
 #'
 #' @param x a tskrr model
@@ -12,10 +12,6 @@
 #' @param ... arguments passed to other methods.
 #'
 #' @return the requested hat matrix of the model.
-#'
-#' @rdname hat
-#' @name hat
-NULL
 #' @rdname hat
 #' @export
 setMethod("hat",

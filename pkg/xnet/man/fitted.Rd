@@ -16,10 +16,21 @@ is meaningful.}
 
 \item{...}{arguments passed to or from other methods.}
 }
+\value{
+a numeric matrix with the predictions
+}
 \description{
 This functions extracts the fitted predictions from a
 \code{\link[xnet:tskrr-class]{tskrr}} object. The \code{xnet}
 package provides a generic for the \code{stats} function
-\code{\link[stats]{fitted}} and a method for the
+\code{\link[=fitted]{fitted}} and a method for the
 \code{\link[xnet:tskrr-class]{tskrr}} objects.
+}
+\examples{
+
+data(drugtarget)
+
+mod <- tskrr(drugTargetInteraction, targetSim, drugSim)
+pred <- fitted(mod)
+
 }

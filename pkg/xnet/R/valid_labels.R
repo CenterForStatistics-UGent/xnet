@@ -70,11 +70,10 @@ valid_labels <- function(y, k, g = NULL){
   if(!out)
     stop("rownames of y and k are not matching.")
 
-  cnk <- colnames(k)
   out <- all(match(rnk, cnk, 0L) > 0L)
 
   if(!out)
-    return("Different row- and colnames found for k.")
+    stop("Different row- and colnames found for k.")
 
   if(checkg){
     # When there is g, check against g

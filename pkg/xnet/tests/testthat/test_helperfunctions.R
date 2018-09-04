@@ -18,3 +18,37 @@ test_that("create_grid works correctly", {
   expect_error(create_grid(4,1))
   expect_error(create_grid(1:2, 1:2))
 })
+
+test_that("valid labels are recognized", {
+  data("drugtarget")
+  data("proteinInteraction")
+  expect_true(xnet:::valid_labels(drugTargetInteraction,
+                                  targetSim,
+                                  drugSim))
+  expect_true(xnet:::valid_labels(Y,K,G))
+  expect_true(xnet:::valid_labels(proteinInteraction,
+                                  Kmat_y2h_sc))
+})
+
+test_that("valid_labels returns errors when needed",{
+  # Test with wrong dimensions
+  expect_error(xnet:::valid_labels(Y,K,targetSim),
+               "Dimensions are incompatible")
+  # Construct non-matching labels
+  Yw <- matrix(0,nrow = 4, ncol = 4)
+  rownames(Yw) <-  c("F","E","Q","R")
+  Kw <- matrix(0, nrow=4, ncol=4)
+  rownames(Kw) <- colnames(Kw) <- c("E","Q","R","G")
+  # No colnames Yw
+  expect_error(xnet:::valid_labels(Yw,Kw),
+               "Not all row labels and col labels")
+  colnames(Yw) <- rownames(Yw)
+  expect_error(xnet:::valid_labels(Yw,Kw),
+               "rownames of y and k are not matching")
+
+  rownames(Kw) <- colnames(Yw)
+  expect_error(xnet:::valid_labels(Yw, Kw),
+               "Different row- and colnames found for k")
+
+
+})

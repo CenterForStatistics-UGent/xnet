@@ -149,3 +149,33 @@ tskrr <- function(y,k,g = NULL,
   }
   return(out)
 }
+
+################################################
+# SHOW METHOD
+
+setMethod("show",
+          "tskrr",
+          function(object){
+            ishomog <- is_homogenous(object)
+            type <- ifelse(ishomog,"Homogenous","Heterogenous")
+            tl   <- ifelse(ishomog,"----------","------------")
+            cat(paste(type,"two-step kernel ridge regression"),
+                paste(tl,"--------------------------------",sep="-"),
+                sep = "\n")
+            dims <- paste(dim(object@y), collapse = " x ")
+            cat("Dimensions:", dims,"\n")
+            cat("Lambda:\n")
+            print(lambda(object))
+
+            labs <- labels(object)
+            if(ishomog)
+              cat("Labels:\n")
+            else
+              cat("Row Labels:\n")
+
+            str(labs$k)
+            if(!ishomog){
+              cat("Col Labels:\n")
+              str(labs$g)
+            }
+          })

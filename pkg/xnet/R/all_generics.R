@@ -21,3 +21,6 @@ setGeneric("labels")
 setGeneric("rownames")
 setGeneric("colnames")
 setGeneric("dimnames")
+
+# For the dimensions
+setGeneric("dim")

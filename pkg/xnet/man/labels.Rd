@@ -30,11 +30,15 @@ none are available. For \code{label}, a character vector of length 1 or 2.
 In case two values are given, the first is used for the rows and the second
 for the columns. Otherwise the only value is used for both. In the case of
 \code{rownames} and \code{colnames}, a single value.
-See also \code{\link[=row+colnames]{row+colnames}}}
+See also \code{\link[=colnames]{row+colnames}}}
 
 \item{...}{arguments passed to/from other methods.}
 
 \item{x}{a \code{\link{tskrr}} object}
+
+\item{do.NULL}{logical. If \code{FALSE} and labels are \code{NULL},
+labels are created. If \code{TRUE}, the function returns \code{NULL} in
+the absence of labels.}
 }
 \value{
 for \code{labels} and \code{dimnames}: a list with two elements \code{k} and

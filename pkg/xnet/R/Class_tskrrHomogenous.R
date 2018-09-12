@@ -33,7 +33,6 @@ setClass("tskrrHomogenous",
 
 validTskrrHomogenous <- function(object){
 
-  browser()
   if(!object@symmetry %in% c("symmetric","skewed", "not"))
     return("symmetry should be one of: symmetric, skewed or not.")
 

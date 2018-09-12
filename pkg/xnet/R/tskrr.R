@@ -4,10 +4,6 @@
 #' ridge regression. It can be used for both homogenous and heterogenous
 #' networks.
 #'
-#' TO DO:
-#'
-#' - add symmetry checks (for skewed or symmetric or none)
-#'
 #' @param y a response matrix
 #' @param k a kernel matrix for the rows
 #' @param g an optional kernel matrix for the columns
@@ -21,6 +17,10 @@
 #' and the dimensions of the kernel(s) should be tested.
 #' Defaults to \code{TRUE}, but for large matrices
 #' putting this to \code{FALSE} will speed up the function.
+#' @param testlabels a logical value indicating wether the row- and column
+#' names of the matrices have to be checked for consistency. Defaults to
+#' \code{TRUE}, but for large matrices putting this to \code{FALSE} will
+#' speed up the function.
 #' @param keep a logical value indicating whether the original kernel
 #' matrices should be stored in the model object. Doing so makes the
 #' model object quite larger, but can speed up predictions in
@@ -55,6 +55,7 @@ tskrr <- function(y,k,g = NULL,
                   lambda = 1e-4,
                   homogenous = is.null(g),
                   testdim = TRUE,
+                  testlabels = TRUE,
                   keep = FALSE
                   ){
 
@@ -91,8 +92,13 @@ tskrr <- function(y,k,g = NULL,
 
     if(!valid_dimensions(y,k,g))
       stop(paste("The dimensions of the matrices don't match.",
-                 "Did you switch the k and g matrices?",
+                 "Did you maybe switch the k and g matrices?",
                  sep = "\n"))
+  }
+  if(testlabels){
+
+    valid_labels(y,k,g) # Generates errors if something's wrong
+    y <- match_labels(y,rownames(k),colnames(g))
   }
 
   # SET LAMBDAS
@@ -111,6 +117,12 @@ tskrr <- function(y,k,g = NULL,
                    lambda.k,
                    lambda.g)
 
+  # Create labels
+  rn <- rownames(y)
+  cn <- colnames(y)
+  if(is.null(rn)) rn <- NA_character_
+  if(is.null(cn)) cn <- NA_character_
+
   # CREATE OUTPUT
   if(homogenous){
     out <- new("tskrrHomogenous",
@@ -120,7 +132,8 @@ tskrr <- function(y,k,g = NULL,
                pred = res$pred,
                symmetry = "symmetric",
                has.orig = keep,
-               k.orig = if(keep) k else matrix(0))
+               k.orig = if(keep) k else matrix(0),
+               labels = list(k=rn, g = NA_character_))
   } else {
     out <- new("tskrrHeterogenous",
                y = y,
@@ -131,7 +144,8 @@ tskrr <- function(y,k,g = NULL,
                pred = res$pred,
                has.orig = keep,
                k.orig = if(keep) k else matrix(0),
-               g.orig = if(keep) g else matrix(0) )
+               g.orig = if(keep) g else matrix(0),
+               labels = list(k=rn, g=cn))
   }
   return(out)
 }

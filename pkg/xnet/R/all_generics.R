@@ -9,6 +9,7 @@ setGeneric("tune",
            function(x, ...) standardGeneric("tune"))
 
 # For the hat matrices
+#' @rdname hat
 setGeneric("hat",
            function(x, ...) standardGeneric("hat"))
 setMethod("hat",

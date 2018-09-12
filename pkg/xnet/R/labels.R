@@ -11,12 +11,15 @@
 #'
 #' @param x a \code{\link{tskrr}} object
 #' @param object a \code{\link{tskrr}} object
+#' @param do.NULL logical. If \code{FALSE} and labels are \code{NULL},
+#' labels are created. If \code{TRUE}, the function returns \code{NULL} in
+#' the absence of labels.
 #' @param prefix a prefix used for construction of the labels in case
 #' none are available. For \code{label}, a character vector of length 1 or 2.
 #' In case two values are given, the first is used for the rows and the second
 #' for the columns. Otherwise the only value is used for both. In the case of
 #' \code{rownames} and \code{colnames}, a single value.
-#' See also \code{\link[=row+colnames]{row+colnames}}
+#' See also \code{\link[=colnames]{row+colnames}}
 #' @param ... arguments passed to/from other methods.
 #'
 #' @return for \code{labels} and \code{dimnames}: a list with two elements \code{k} and
@@ -76,7 +79,7 @@ setMethod("dimnames",
 #' @export
 setMethod("rownames",
           "tskrr",
-          function(x, do.NULL, prefix){
+          function(x, do.NULL = TRUE, prefix){
             rn <- x@labels$k
 
             nolabels <- length(rn) == 1 && is.na(rn)
@@ -84,7 +87,7 @@ setMethod("rownames",
             if(do.NULL && nolabels)
               return(NULL)
             else if(nolabels)
-              rn <- paste0(prefix, seq_len(nrow(object@y)))
+              rn <- paste0(prefix, seq_len(nrow(x@y)))
 
             return(rn)
           })
@@ -93,7 +96,7 @@ setMethod("rownames",
 #' @export
 setMethod("colnames",
           "tskrr",
-          function(x, do.NULL, prefix){
+          function(x, do.NULL = TRUE, prefix){
             rn <- x@labels$g
 
             nolabels <- length(rn) == 1 && is.na(rn)
@@ -101,7 +104,7 @@ setMethod("colnames",
             if(do.NULL && nolabels)
               return(NULL)
             else if(nolabels)
-              rn <- paste0(prefix, seq_len(nrow(object@y)))
+              rn <- paste0(prefix, seq_len(nrow(x@y)))
 
             return(rn)
           })

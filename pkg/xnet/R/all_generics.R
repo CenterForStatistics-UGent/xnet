@@ -24,3 +24,6 @@ setGeneric("dimnames")
 
 # For the dimensions
 setGeneric("dim")
+
+# For the linearFilter
+setGeneric("mean")

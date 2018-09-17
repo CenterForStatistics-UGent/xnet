@@ -10,11 +10,11 @@
 \alias{colnames,tskrr-method}
 \title{Extract labels from a tskrr object}
 \usage{
-\method{labels}{tskrr}(object, prefix = if (is_homogenous(object)) "row" else
-  c("row", "col"), ...)
-
-\S4method{labels}{tskrr}(object, prefix = if (is_homogenous(object)) "row"
+\method{labels}{tskrr}(object, prefix = if (is_homogenous(object)) "row"
   else c("row", "col"), ...)
+
+\S4method{labels}{tskrr}(object, prefix = if (is_homogenous(object))
+  "row" else c("row", "col"), ...)
 
 \S4method{dimnames}{tskrr}(x)
 

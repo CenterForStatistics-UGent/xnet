@@ -81,7 +81,7 @@ setMethod("tune",
               Hr <- eigen2hat(decomp$vectors,
                               decomp$values,
                               lambda)
-              mean(sqrt((loofun(x@y, Hr, x@pred) - x@y)^2))
+              mean((loofun(x@y, Hr, x@pred) - x@y)^2)
             }
 
             lval <- vapply(lambda,loss, numeric(1))
@@ -183,7 +183,7 @@ setMethod("tune",
               Hc <- eigen2hat(decompc$vectors,
                               decompc$values,
                               l2)
-              mean(sqrt((loofun(x@y, Hr, Hc, x@pred) - x@y)^2))
+              mean((loofun(x@y, Hr, Hc, x@pred) - x@y)^2)
             }
 
             if(twol){

@@ -27,3 +27,13 @@ setGeneric("dim")
 
 # For the linearFilter
 setGeneric("mean")
+setGeneric("colMeans")
+setGeneric("rowMeans")
+
+#' @rdname getters_linearFilter
+#' @export
+setGeneric("alpha", function(x) standardGeneric("alpha"))
+
+#' @rdname getters_linearFilter
+#' @export
+setGeneric("na_removed", function(x) standardGeneric("na_removed"))

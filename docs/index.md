@@ -11,7 +11,12 @@ including quick cross-validation due to algebraic shortcuts.
 The package is still in beta, so expect thorough changes and additions. 
 The current version can be installed at your own risk using following code:
 
-    devtools::install_github("CenterForStatistics-UGent/xnet/pkg/xnet", ref = "devel") 
+    devtools::install_github("CenterForStatistics-UGent/xnet") 
+    
+If you want to download the latest devel version, you can use the following code :
+
+    devtools::install_github("CenterForStatistics-UGent/xnet", ref = "devel) 
+
     
 Keep in mind that the repository structure will change when the package nears completion,
 so do NOT use this temporary installation instruction as reference for future installations.

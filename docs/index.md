@@ -23,8 +23,8 @@ so do NOT use this temporary installation instruction as reference for future in
 
 The paper describing the method is currently under review. A preprint is available. 
 
-Stock, M., Pahikkala, T., Airola, A., Waegeman, W. and De Baets, B. *Algebraic shortcuts for leave-one-out cross-validation in supervised network inference* Submitted to a journal. [Preprint](https://www.biorxiv.org/content/early/2018/01/03/242321.1)
+Stock, M., Pahikkala, T., Airola, A., Waegeman, W. and De Baets, B. *Algebraic shortcuts for leave-one-out cross-validation in supervised network inference* Briefings in Bioinformatics, accepted sep 2018. [Preprint](https://www.biorxiv.org/content/early/2018/01/03/242321.1)
 
 Our algorithms are part of a larger kernel-based framework for pairwise learning. A paper relating the different methods and their learning properties was recently accepted for publication in Neural Computation:
 
-Stock, M., Pahikkala, T., Airola, A., De Baets, B. and Waegeman, W. *A comparative study of pairwise learning methods based on kernel ridge regression* Accepted in Neural Computation (2018). [Preprint](https://arxiv.org/abs/1803.01575)
+Stock, M., Pahikkala, T., Airola, A., De Baets, B. and Waegeman, W. *A comparative study of pairwise learning methods based on kernel ridge regression* Neural Computation 30 (2018), 2245-2283. [Preprint](https://arxiv.org/abs/1803.01575)

@@ -1,8 +1,8 @@
 #' Leave one out crossvalidation for tskrr
 #'
 #' Perform a leave-one-out cross validation for two-step kernel
-#' ridge regression based on the shortcuts described in
-#' PAPER TO BE ADDED.
+#' ridge regression based on the shortcuts described in Stock et al, 2018.
+#' (\url{http://doi.org/10.1093/bib/bby095}).
 #'
 #' @details The parameter \code{exclusion} defines what exactly is left out.
 #' The value "interaction" means that a single interaction is removed.
@@ -15,7 +15,7 @@
 #' In the case of a homogenous model, "row" and "column" don't make sense
 #' and will be replaced by "both" with a warning. This can be interpreted
 #' as removing vertices, i.e. all interactions between one edge and
-#' all other edges. For more information, see Stock et al PAPER TO BE ADDED.
+#' all other edges. For more information, see Stock et al(2018).
 #'
 #' Replacying by 0 only makes sense when \code{exclusion = "interaction"} and the
 #' response matrix contains only 0 and 1 values. The function checks whether

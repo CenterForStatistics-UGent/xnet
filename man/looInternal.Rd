@@ -12,6 +12,8 @@
 \alias{loo.e0.sym}
 \alias{loo.e0.skew}
 \alias{loo.v}
+\alias{loo.i.lf}
+\alias{loo.i0.lf}
 \title{Leave-one-out crossvalidation for two-step kernel ridge regression}
 \usage{
 loo.i(Y, Hk, Hg, pred)
@@ -33,6 +35,10 @@ loo.e0.sym(Y, Hk, pred)
 loo.e0.skew(Y, Hk, pred)
 
 loo.v(Y, Hk, ...)
+
+loo.i.lf(Y, alpha, pred)
+
+loo.i0.lf(Y, alpha, pred)
 }
 \arguments{
 \item{Y}{the matrix with responses}
@@ -44,6 +50,9 @@ loo.v(Y, Hk, ...)
 \item{pred}{the predictions}
 
 \item{...}{added to allow for specifying pred even when not needed.}
+
+\item{alpha}{a vector of length 4 with the alpha values from a
+\code{\link{linearFilter}} model}
 }
 \value{
 a matrix with the leave-one-out predictions

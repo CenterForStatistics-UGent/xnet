@@ -13,6 +13,8 @@
 #' @param Y the matrix with responses
 #' @param Hk the hat matrix for the first kernel (rows of Y)
 #' @param Hg the hat matrix for the second kernel (columns of Y)
+#' @param alpha a vector of length 4 with the alpha values from a
+#' \code{\link{linearFilter}} model
 #' @param pred the predictions
 #' @param ... added to allow for specifying pred even when not needed.
 #'
@@ -107,4 +109,28 @@ loo.v <- function(Y, Hk, ...){
 
   FlooV <- FlooV + Hk * ((diag(FlooV) - diag(Floo)) / div)
   return(FlooV)
+}
+
+#' @rdname looInternal
+loo.i.lf <- function(Y, alpha, pred){
+
+  d <- dim(Y)
+  n <- length(Y)
+
+  lev <- alpha[1] + alpha[2] / d[2] + alpha[3] / d[1] + alpha[4] / n
+
+  loolf <- (pred - Y*lev) / (1 - lev)
+  return(loolf)
+}
+
+#' @rdname looInternal
+loo.i0.lf <- function(Y, alpha, pred){
+
+  d <- dim(Y)
+  n <- length(Y)
+
+  lev <- alpha[1] + alpha[2] / d[2] + alpha[3] / d[1] + alpha[4] / n
+
+  loolf <- (pred - Y*lev)
+  return(loolf)
 }

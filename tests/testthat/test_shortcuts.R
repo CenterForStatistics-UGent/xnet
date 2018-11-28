@@ -68,10 +68,11 @@ test_that("shortcuts bipartite networks work",{
   looR <- loo(mod, exclusion = "row")
   looRtest <- sapply(seq_len(nrow(Y)), function(i){
     modx <- tskrr(Y[-i,],K[-i,-i],G, lambda = c(lambdak, lambdag))
-    predict(modx, K[i,i],G)
+    predict(modx, K[i,-i],G)
 
   })
-  expect_equal(looR, looRtest)
+  # sapply gives the matrix in a different way.
+  expect_equal(looR, t(looRtest))
 
 })
 

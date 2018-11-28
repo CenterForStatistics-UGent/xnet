@@ -8,10 +8,10 @@
 \title{tune the lambda parameters for a tskrr}
 \usage{
 \S4method{tune}{tskrrHomogenous}(x, lim = c(1e-04, 1), ngrid = 10,
-  lambda = NULL)
+  lambda = NULL, exclusion = "interaction", replaceby0 = FALSE)
 
 \S4method{tune}{tskrrHeterogenous}(x, lim = c(1e-04, 1), ngrid = 10,
-  lambda = NULL)
+  lambda = NULL, exclusion = "interaction", replaceby0 = FALSE)
 }
 \arguments{
 \item{x}{a \code{\link{tskrr}} object representing a two step
@@ -29,6 +29,13 @@ homogenous networks, or possibly a list with two elements for
 heterogenous networks. See Details. Defaults to
 \code{NULL}, which means that the function constructs the search grid
 from the other arguments.}
+
+\item{exclusion}{a character value with possible values "interaction",
+"row", "column" or "both". Defaults to "interaction". See details.}
+
+\item{replaceby0}{a logical value indicating whether the interaction
+should be simply removed (\code{FALSE}) or replaced by 0 (\code{TRUE}).
+See Details.}
 }
 \value{
 a list with two elements:

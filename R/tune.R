@@ -28,6 +28,7 @@
 #' heterogenous networks. See Details. Defaults to
 #' \code{NULL}, which means that the function constructs the search grid
 #' from the other arguments.
+#' @inheritParams get_loo_fun
 #'
 #' @return a list with two elements:
 #' \itemize{
@@ -66,14 +67,17 @@ setMethod("tune",
           function(x,
                    lim = c(1e-4,1),
                    ngrid = 10,
-                   lambda = NULL){
+                   lambda = NULL,
+                   exclusion = 'interaction',
+                   replaceby0 = FALSE){
 
             if(is.null(lambda))
               lambda <- create_grid(lim, ngrid)
 
-            loofun <- get_loo_fun(exclusion = 'interaction',
+            loofun <- get_loo_fun(exclusion = exclusion,
                                   homogenous = TRUE,
-                                  symmetry = symmetry(x))
+                                  symmetry = symmetry(x),
+                                  replaceby0 = replaceby0)
 
             decomp <- get_eigen(x)
 
@@ -99,7 +103,9 @@ setMethod("tune",
           function(x,
                    lim = c(1e-4,1),
                    ngrid = 10,
-                   lambda = NULL){
+                   lambda = NULL,
+                   exclusion = 'interaction',
+                   replaceby0 = FALSE){
 
             twol <- FALSE #check for two separate lambda vectors
             nolambda <- is.null(lambda)
@@ -172,9 +178,9 @@ setMethod("tune",
             decompr <- get_eigen(x, 'row')
             decompc <- get_eigen(x, 'column')
 
-            loofun <- get_loo_fun(exclusion = 'interaction',
+            loofun <- get_loo_fun(exclusion = exclusion,
                                    homogenous = FALSE,
-                                   replaceby0 = FALSE)
+                                   replaceby0 = replaceby0)
 
             loss <- function(l1, l2){
               Hr <- eigen2hat(decompr$vectors,

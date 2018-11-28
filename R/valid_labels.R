@@ -3,7 +3,7 @@
 #' This function checks whether the labels between the Y, K and G
 #' matrices make sense. This means that all the labels found as
 #' rownames for \code{y} can be found in \code{k}, and all the
-#' labels for \code{g} can be found in \code{g}. This is a non-
+#' colnames for \code{y} can be found in \code{g}. This is a non-
 #' exported convenience function.
 #'
 #' Compatible labels means that it is unequivocally clear which

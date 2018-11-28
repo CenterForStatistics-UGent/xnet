@@ -98,7 +98,12 @@ tskrr <- function(y,k,g = NULL,
   if(testlabels){
 
     valid_labels(y,k,g) # Generates errors if something's wrong
-    y <- match_labels(y,rownames(k),colnames(g))
+
+    rk <- rownames(k) # not when there's no row/-colnames
+    if(!is.null(rk)){
+      y <- match_labels(y,rk,colnames(g))
+    }
+
   }
 
   # SET LAMBDAS

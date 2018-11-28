@@ -16,6 +16,10 @@
 #' \code{lim}, \code{ngrid} and/or \code{lambda}. If you
 #' try this for a homogenous network, the function will return an error.
 #'
+#' The arguments \code{exclusion} and \code{replaceby0} are used by
+#' the function \code{\link{get_loo_fun}} to find the correct
+#' leave-one-out function.
+#'
 #' @param x a \code{\link{tskrr}} object representing a two step
 #' kernel ridge regression model.
 #' @param lim a vector with 2 values that give the boundaries for the domain
@@ -37,6 +41,12 @@
 #'    lambdas for the rows and the columns. If only one element in the
 #'    list, these lambda values can be used or both row and colum.
 #' }
+#'
+#' @seealso \code{\link{loo}}, \code{\link{loo_internal}} and
+#' \code{\link{get_loo_fun}} for more information on how leave one out
+#' validation works.
+#'
+#' \code{\link{tskrr}} for fitting a twostep kernel ridge regression.
 #'
 #' @examples
 #' data(drugtarget)

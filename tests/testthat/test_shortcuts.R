@@ -1,6 +1,8 @@
 context("LOO shortcuts")
 
 # Setup for testing
+
+## Heterogenous network
 dfile <- system.file("testdata","testdata.rda", package = "xnet")
 
 load(dfile)
@@ -13,25 +15,36 @@ Hk <- hat(mod, 'row')
 Hg <- hat(mod, 'column')
 pred <- fitted(mod)
 
+## Homogenous network
+dfile <- system.file("testdata","testdataH.rda", package = "xnet")
+load(dfile)
+modh <- tskrr(Yh, Kh, lambda = lambdak)
+eigKh <- get_eigen(modh)
+Hkh <- hat(modh)
+predh <- fitted(modh)
+
+# Skewed network
+mods <- tskrr(Ys, Kh, lambda = lambdak)
+eigKs <- get_eigen(mods)
+Hks <- hat(mods)
+preds <- fitted(mods)
 
 test_that("get_loo_fun returns the correct function",{
 
-  expect_equal(get_loo_fun('interaction', FALSE, replaceby0 = FALSE), loo.i)
-  expect_equal(get_loo_fun('interaction', FALSE, replaceby0 = TRUE), loo.i0)
-  expect_equal(get_loo_fun('row', FALSE), loo.r)
-  expect_equal(get_loo_fun('column',FALSE), loo.c)
-  expect_equal(get_loo_fun('both',FALSE), loo.b)
+  # Heterogenous models
+  expect_equal(get_loo_fun(mod, 'interaction', replaceby0 = FALSE), loo.i)
+  expect_equal(get_loo_fun(mod, 'interaction', replaceby0 = TRUE), loo.i0)
+  expect_equal(get_loo_fun(mod,'row'), loo.r)
+  expect_equal(get_loo_fun(mod,'column'), loo.c)
+  expect_equal(get_loo_fun(mod,'both'), loo.b)
 
-  expect_equal(get_loo_fun('interaction', TRUE,
-                           symmetry = "skewed",
-                           replaceby0 = FALSE), loo.e.skew)
-  expect_equal(get_loo_fun('interaction', TRUE,
-                           symmetry = "symmetric",
+  expect_equal(get_loo_fun(modh,'interaction',
                            replaceby0 = FALSE), loo.e.sym)
-  expect_equal(get_loo_fun('row', TRUE), loo.v)
-  expect_equal(get_loo_fun('column', TRUE), loo.v)
-  expect_equal(get_loo_fun('both', TRUE), loo.v)
-  expect_error(get_loo_fun('column', FALSE, replaceby0 = TRUE))
+  expect_equal(get_loo_fun(mods, 'interaction'), loo.e.skew)
+  expect_equal(get_loo_fun(modh,'both'), loo.v)
+  expect_equal(get_loo_fun(mods,'both'), loo.v)
+  expect_error(get_loo_fun(modh,'row'))
+  expect_error(get_loo_fun(mods,'column',replaceby0 = TRUE))
 })
 
 predict_ij <- function(Y,Hk, Hg, i, j){

@@ -21,11 +21,13 @@
 #' response matrix contains only 0 and 1 values. The function checks whether
 #' the conditions are fulfilled and if not, returns an error.
 #'
-#' @param x an object of class \code{\link[xnet:tskrr-class]{tskrr}}
+#' @param x an object of class \code{\link[xnet:tskrr-class]{tskrr}} or
+#' \code{\link{linearFilter}}.
 #' @param exclusion a character value with possible values "interaction",
 #' "row", "column" or "both". Defaults to "interaction". See details.
 #' @param replaceby0 a logical value indicating whether the interaction
 #' should be simply removed (\code{FALSE}) or replaced by 0 (\code{TRUE}).
+#' @param ... arguments passed to methods.
 #' See Details.
 #'
 #' @return a numeric matrix with the leave-one-out predictions for
@@ -38,95 +40,93 @@
 #'              lambda = c(0.01,0.01))
 #'
 #' delta <- loo(mod, exclusion = 'both') - response(mod)
-#' delta0 <- loo(mod, replaceby0 = FALSE) - response(mod)
+#' delta0 <- loo(mod, replaceby0 = TRUE) - response(mod)
 #'
 #' @rdname loo
 #' @export
-loo <- function(x, exclusion = c("interaction","row","column","both"),
-                replaceby0 = FALSE){
+setMethod("loo",
+          "tskrrHeterogenous",
+          function(x,
+                   exclusion = c("interaction","row","column","both"),
+                   replaceby0 = FALSE){
 
-  if(!inherits(x, "tskrr"))
-    stop("x should be a tskrr model.")
+            exclusion <- match.arg(exclusion)
+            if(replaceby0){
+              if(exclusion != "interaction")
+                stop("replaceby0 only makes sense when exclusion is set to 'interaction'.")
 
-  exclusion <- match.arg(exclusion)
+              if(any(match(x@y, c(0,1), 0L ) == 0))
+                stop("replaceby0 only makes sense when the response has 0/1 values.")
+            }
 
-  if(exclusion !="interaction" && replaceby0)
-    stop("replaceby0 can only be set to TRUE when exclusion = 'interaction'.")
+            Hk <- hat(x, "row")
+            Hg <- hat(x, "column")
 
-  homogenous <- is_homogenous(x)
+            if(exclusion == "interaction"){
 
-  if(replaceby0){
-    if(exclusion != "interaction")
-      stop("replaceby0 only makes sense when exclusion is set to 'interaction'.")
+              out <- if(replaceby0)
+                loo.i0(x@y, Hk, Hg, x@pred)
+              else
+                loo.i(x@y, Hk, Hg, x@pred)
 
-    if(any(match(x@y, c(0,1), 0L ) == 0))
-      stop("replaceby0 only makes sense when the response has 0/1 values.")
-  }
+            } else if(exclusion == "row"){
 
-  if(homogenous && exclusion %in% c("row","column")){
+              out <- loo.r(x@y, Hk, Hg)
 
-    warning(sprintf(paste("For homogenous networks exclusion can only be",
-                  "'interaction' or 'both'. Exclusion is set from '%s'",
-                  "to 'both',"), exclusion))
-    exclusion <- "both"
-  }
+            } else if(exclusion == "column"){
 
-  # For homogenous networks
-  if(homogenous){
+              out <- loo.c(x@y, Hk, Hg)
 
-    Hk <- hat(x)
-    symmetry <- symmetry(x)
+            } else {
 
-    if(exclusion == 'interaction'){
+              out <- loo.b(x@y, Hk, Hg)
+            }
 
-      if(symmetry == 'symmetric'){
+          return(out)
+          })
 
-        out <- if(replaceby0)
-          loo.e0.sym(x@y, Hk, x@pred)
-        else
-          loo.e.sym(x@y, Hk, x@pred)
+#' @rdname loo
+#' @export
+setMethod("loo",
+          "tskrrHomogenous",
+          function(x,
+                   exclusion = c("interaction","both"),
+                   replaceby0 = FALSE){
 
-      } else if(symmetry == 'skewed'){
+            exclusion <- match.arg(exclusion)
+            if(replaceby0){
+              if(exclusion != "interaction")
+                stop("replaceby0 only makes sense when exclusion is set to 'interaction'.")
 
-        out <- if(replaceby0)
-          loo.e0.skew(x@y, Hk, x@pred)
-        else
-          loo.e.skew(x@y, Hk, x@pred)
+              if(any(match(x@y, c(0,1), 0L ) == 0))
+                stop("replaceby0 only makes sense when the response has 0/1 values.")
+            }
 
-      } else {
-        stop("Symmetry of homogenous network not recognized.")
-      }
+            Hk <- hat(x)
 
-    } else { # eclusion == anything else
-      out <- loo.v(x@y, Hk)
-    }
+            if(exclusion == "interaction"){
+              loofun <- .getloo_homogenous("interaction",
+                                           replaceby0,
+                                           symmetry(x))
+              out <- loofun(x@y, Hk, x@pred)
+            } else {
+              out <- loo.v(x@y, Hk)
+            }
+            return(out)
+          })
 
-  } else {
-  # For heterogenous networks
+#' @rdname loo
+#' @export
+setMethod("loo",
+          "linearFilter",
+          function(x, replaceby0 = FALSE){
 
-    Hk <- hat(x, "row")
-    Hg <- hat(x, "column")
+            if(replaceby0 && any(match(x@y, c(0,1), 0L ) == 0))
+              stop("replaceby0 only makes sense when the response has 0/1 values.")
 
-    if(exclusion == "interaction"){
-
-      out <- if(replaceby0)
-        loo.i0(x@y, Hk, Hg, x@pred)
-      else
-        loo.i(x@y, Hk, Hg, x@pred)
-
-    } else if(exclusion == "row"){
-
-      out <- loo.r(x@y, Hk, Hg)
-
-    } else if(exclusion == "column"){
-
-      out <- loo.c(x@y, Hk, Hg)
-
-    } else {
-
-      out <- loo.b(x@y, Hk, Hg)
-    }
-  }
-
-  return(out)
-}
+            if(replaceby0){
+              loo.i0.lf(x@y, x@alpha, x@pred)
+            } else {
+              loo.i.lf(x@y, x@alpha, x@pred)
+            }
+          })

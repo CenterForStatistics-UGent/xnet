@@ -34,8 +34,7 @@ from the other arguments.}
 "row", "column" or "both". Defaults to "interaction". See details.}
 
 \item{replaceby0}{a logical value indicating whether the interaction
-should be simply removed (\code{FALSE}) or replaced by 0 (\code{TRUE}).
-See Details.}
+should be simply removed (\code{FALSE}) or replaced by 0 (\code{TRUE}).}
 }
 \value{
 a list with two elements:

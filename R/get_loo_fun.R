@@ -5,65 +5,71 @@
 #' for internal use but can be handy when doing simulations.
 #'
 #' This function can be used to select the correct loo function in
-#' a simulation or tuning algorithm. The argument \code{replaceby0}
-#' has to be provided when \code{exclusion = 'interaction'}. In
-#' all other cases it can be omitted. If it is set to \code{TRUE}
-#' in these cases, an error is returned.
+#' a simulation or tuning algorithm, based on the model object you
+#' created. Depending on its class, the returned functions will have
+#' different arguments, so you should only use this if you know
+#' what you're doing and after you checked the actual possibly returned
+#' functions in \code{\link{loo_internal}}.
+#'
+#' Using \code{replaceby0} only makes sense if you only remove the interaction.
+#' In all other cases, this argument is ignored.
+#'
+#' For the class \code{tskrrHomogenous}, it doesn't make sense to only
+#' remove rows or columns. If you try it anyway, you'll be met with an error.
+#' For the class \code{linearFilter} it only makes sense to exclude the
+#' interaction (i.e. a single cell). Therefor you do not have an argument
+#' \code{exclusion} for that method.
 #'
 #' @inheritParams loo
-#' @param homogenous a logical value indicating whether
-#' this should be for a homogenous model or not.
-#' @param symmetry a character value with possible values
-#' \code{"symmetric"}, \code{"skewed"} or \code{"not"}. If
-#' \code{homogenous = FALSE} this argument is ignored. See also
-#' \code{\link{symmetry}} and the
-#' \code{\link[xnet:tskrrHomogenous-class]{tskrrHomogenous class}}
+#' @param x a character value with the class or a \code{\link{tskrr}}
+#' or \code{\link{linearFilter}} object.
+#' @param ... arguments passed to or from other methods.
 #'
-#' @return a function taking the arguments y, Hr, and possibly pred
-#' for calculating the leave one out crossvalidation. When
-#' \code{homogenous = FALSE}, the returned function also
-#' has an argument Hc.
+#' @return a function taking the arguments y, and possibly pred
+#' for calculating the leave one out crossvalidation. For class
+#' \code{tskrrHeterogenous}, the returned function also
+#' has an argument Hk and Hg, representing the hat matrix for the rows
+#' and the columns respectively. For class \code{tskrrHomogenous},
+#' only the extra argument Hk is available. For class \code{linearFilter},
+#' the extra argument is called \code{alpha} and takes the alpha vector
+#' of that model.
 #'
 #' @seealso \code{\link{loo}} for carrying out a leave on out crossvalidation,
 #' and \code{\link{loo_internal}} for more information on the internal
 #' functions one retrieves with this one.
 #'
 #' @rdname get_loo_fun
-#' @name get_loo_fun
 #' @export
-get_loo_fun <- function(exclusion,
-                        homogenous,
-                        symmetry,
-                        replaceby0){
+setMethod("get_loo_fun",
+          "tskrrHeterogenous",
+          function(x,
+                   exclusion = c("interaction","row","column","both"),
+                   replaceby0 = FALSE
+                   ){
 
-  if(!missing(replaceby0) && replaceby0 && exclusion != 'interaction')
-    stop("replaceby0 can only be TRUE when exclusion = 'interaction'.")
+            exclusion <- match.arg(exclusion)
+            .getloo_heterogenous(exclusion, replaceby0)
+          })
 
-  if(homogenous){
-    if(exclusion == "interaction"){
-      if(symmetry == "symmetric"){
-        if(replaceby0) loo.e0.sym else loo.e.sym
-      } else if(symmetry == "skewed"){
-        if(replaceby0) loo.e0.skew else loo.e.skew
-      } else {
-        stop("No loo optimization for homogenous networks that aren't symmetric or skewed.")
-      }
-    } else if(exclusion %in% c('row','column','both')) { # exclusion is not interaction
-      loo.v
-    } else {
-      stop("Exclusion should be one of interaction, row,column or both")
-    }
-  } else { # Heterogenous network
-    if(exclusion == "interaction"){
-      if(replaceby0) loo.i0 else loo.i
-    } else if(exclusion == "row"){
-      loo.r
-    } else if(exclusion == "column"){
-      loo.c
-    } else if(exclusion == "both"){
-      loo.b
-    } else {
-      stop("Exclusion should be one of interaction, row, column or both.")
-    }
-  }
-}
+#' @rdname get_loo_fun
+#' @export
+setMethod("get_loo_fun",
+          "tskrrHomogenous",
+          function(x,
+                   exclusion = c("interaction","both"),
+                   replaceby0 = FALSE
+                   ){
+            exclusion <- match.arg(exclusion)
+            symmetry <- symmetry(x)
+            .getloo_homogenous(exclusion,replaceby0, symmetry)
+
+          })
+
+#' @rdname get_loo_fun
+#' @export
+setMethod("get_loo_fun",
+          "linearFilter",
+          function(x,
+                   replaceby0 = FALSE){
+            .getloo_linearfilter(replaceby0)
+          })

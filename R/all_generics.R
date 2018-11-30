@@ -1,5 +1,15 @@
 # All Generics
 
+#' @rdname get_loo_fun
+#' @export
+setGeneric("get_loo_fun",
+           function(x, ...) standardGeneric("get_loo_fun"))
+
+#' @rdname loo
+#' @export
+setGeneric("loo",
+           function(x, ...) standardGeneric("loo"))
+
 ## For tskrr
 setGeneric("response",
            function(x, ...) standardGeneric("response"))

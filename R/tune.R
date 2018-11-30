@@ -84,10 +84,9 @@ setMethod("tune",
             if(is.null(lambda))
               lambda <- create_grid(lim, ngrid)
 
-            loofun <- get_loo_fun(exclusion = exclusion,
-                                  homogenous = TRUE,
-                                  symmetry = symmetry(x),
-                                  replaceby0 = replaceby0)
+            loofun <- .getloo_homogenous(exclusion = exclusion,
+                                         symmetry = symmetry(x),
+                                         replaceby0 = replaceby0)
 
             decomp <- get_eigen(x)
 
@@ -188,9 +187,8 @@ setMethod("tune",
             decompr <- get_eigen(x, 'row')
             decompc <- get_eigen(x, 'column')
 
-            loofun <- get_loo_fun(exclusion = exclusion,
-                                   homogenous = FALSE,
-                                   replaceby0 = replaceby0)
+            loofun <- .getloo_heterogenous(exclusion = exclusion,
+                                           replaceby0 = replaceby0)
 
             loss <- function(l1, l2){
               Hr <- eigen2hat(decompr$vectors,

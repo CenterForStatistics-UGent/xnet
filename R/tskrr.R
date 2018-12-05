@@ -89,10 +89,10 @@ tskrr <- function(y,k,g = NULL,
 
   # TEST KERNELS
   if(testdim){
-    if(!isSymmetric(k))
+    if(!is_symmetric(k))
       stop("k should be a symmetric matrix.")
 
-    if(!homogenous && !isSymmetric(g))
+    if(!homogenous && !is_symmetric(g))
       stop("g should be a symmetric matrix.")
 
     if(!valid_dimensions(y,k,g))

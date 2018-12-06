@@ -4,7 +4,8 @@ citation(auto = meta)
 # filled in.
 
 bibentry("Article",
-         title = "A comparative study of pairwise learning methods based on Kernel Ridge Regression",
+         title = "Algebraic shortcuts for leave-one-out crossvalidation
+         in supervised network inference.",
          author = c(
            person("Michiel","Stock"),
            person("Tapio", "Pahikkala"),

@@ -25,7 +25,7 @@ predict.tskrr <- function(object,
                           ...){
   if(is.null(K))
     return(fitted(object))
-  if(is.null(G)) G <- K
+  if(is.null(G) && !is_symmetric(K)) G <- t(K)
   K %*% weights(object) %*% G
 }
 

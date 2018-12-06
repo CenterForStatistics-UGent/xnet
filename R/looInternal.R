@@ -111,6 +111,9 @@ loo.v <- function(Y, Hk, ...){
   return(FlooV)
 }
 
+####################################
+## SHORTCUTS FOR LINEAR FILTERS
+
 #' @rdname looInternal
 loo.i.lf <- function(Y, alpha, pred){
 

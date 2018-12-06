@@ -46,5 +46,5 @@ makes much more sense to use \code{\link{tskrr}}, as that function
 returns an object one can actually work with. The function
 \code{tskrr.fit} could be useful when doing simulations or
 fitting algorithms, as the information returned from this function
-is enough to use the functions returned by \code\link{{get_loo_fun}}.
+is enough to use the functions returned by \code{\link{get_loo_fun}}.
 }

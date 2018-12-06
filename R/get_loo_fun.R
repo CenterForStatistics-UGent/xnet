@@ -73,3 +73,18 @@ setMethod("get_loo_fun",
                    replaceby0 = FALSE){
             .getloo_linearfilter(replaceby0)
           })
+
+#' @rdname get_loo_fun
+#' @export
+setMethod("get_loo_fun",
+          "character",
+          function(x = c("tskrrHeterogenous","tskrrHomogenous","linearFilter"),
+                   ...){
+            x <- match.arg(x)
+
+            fun <- switch(x,
+                          tskrrHeterogenous = .getloo_heterogenous,
+                          tskrrHomogenous = .getloo_homogenous,
+                          linearFilter = .getloo_linearfilter)
+            fun(...)
+          })

@@ -6,6 +6,7 @@
 \alias{get_loo_fun,tskrrHeterogenous-method}
 \alias{get_loo_fun,tskrrHomogenous-method}
 \alias{get_loo_fun,linearFilter-method}
+\alias{get_loo_fun,character-method}
 \title{Retrieve a loo function}
 \usage{
 get_loo_fun(x, ...)
@@ -17,6 +18,9 @@ get_loo_fun(x, ...)
   "both"), replaceby0 = FALSE)
 
 \S4method{get_loo_fun}{linearFilter}(x, replaceby0 = FALSE)
+
+\S4method{get_loo_fun}{character}(x = c("tskrrHeterogenous",
+  "tskrrHomogenous", "linearFilter"), ...)
 }
 \arguments{
 \item{x}{a character value with the class or a \code{\link{tskrr}}

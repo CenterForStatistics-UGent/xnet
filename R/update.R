@@ -21,16 +21,16 @@ setMethod("update",
                          "for homogenous networks."))
             }
 
-            decomp <- get_eigen(x)
+            decomp <- get_eigen(object)
 
             Hk <- eigen2hat(decomp$vectors,
                             decomp$values,
                             lambda)
 
-            x@lambda.k <- lambda
-            x@pred <- Hk %*% x@y %*% Hk
+            object@lambda.k <- lambda
+            object@pred <- Hk %*% object@y %*% Hk
 
-            return(x)
+            return(object)
           })
 
 #' @rdname update
@@ -54,8 +54,8 @@ setMethod("update",
               lambda.g <- lambda[2]
             }
 
-            decompk <- get_eigen(x, 'row')
-            decompg <- get_eigen(x, 'column')
+            decompk <- get_eigen(object, 'row')
+            decompg <- get_eigen(object, 'column')
 
             Hk <- eigen2hat(decompk$vectors,
                             decompk$values,
@@ -64,9 +64,9 @@ setMethod("update",
                             decompg$values,
                             lambda.g)
 
-            x@lambda.k <- lambda.k
-            x@lambda.g <- lambda.g
-            x@pred <- Hk %*% x@y %*% Hg
+            object@lambda.k <- lambda.k
+            object@lambda.g <- lambda.g
+            object@pred <- Hk %*% object@y %*% Hg
 
-            return(x)
+            return(object)
           })

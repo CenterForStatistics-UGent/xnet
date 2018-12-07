@@ -18,6 +18,10 @@ setGeneric("lambda",
 setGeneric("tune",
            function(x, ...) standardGeneric("tune"))
 
+#' @rdname update
+#' @export
+setGeneric("update")
+
 # For the hat matrices
 #' @rdname hat
 setGeneric("hat",

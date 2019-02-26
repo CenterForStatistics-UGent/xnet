@@ -152,7 +152,7 @@ test_that("shortcuts homogenous networks work", {
   looVtest <- sapply(seq_len(nrow(Yh)), function(i){
 
     modx <- tskrr(Yh[-i, -i], Kh[-i, -i], lambda = lambdak)
-    predict(modx, Kh[i, -i, drop = FALSE], Kh[-i,i,drop = FALSE])
+    predict(modx, Kh[i, -i, drop = FALSE], Kh[-i,,drop = FALSE])
   })
 
   expect_equal(looV, t(looVtest))

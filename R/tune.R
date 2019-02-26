@@ -20,6 +20,12 @@
 #' the function \code{\link{get_loo_fun}} to find the correct
 #' leave-one-out function.
 #'
+#' By default the function uses classic mean squared error based on
+#' the crossvalidation results as a measure for optimization. But you
+#' can provide your own function if needed, as long as it takes
+#' two matrices as input: `Y` being the observed interactions and
+#' `LOO` being the result of the chosen crossvalidation.
+#'
 #' @param x a \code{\link{tskrr}} object representing a two step
 #' kernel ridge regression model.
 #' @param lim a vector with 2 values that give the boundaries for the domain
@@ -32,11 +38,13 @@
 #' heterogenous networks. See Details. Defaults to
 #' \code{NULL}, which means that the function constructs the search grid
 #' from the other arguments.
+#' @param fun a loss function that takes the adjacency matrix Y and the
+#' result of the crossvalidation LOO as input.
 #' @inheritParams get_loo_fun
 #'
 #' @return a list with two elements:
 #' \itemize{
-#'    \item \code{MSE}: a vector or matrix with the mean squared errors
+#'    \item \code{loss}: a vector or matrix with the calculated losses
 #'    \item \code{lambda}: a list with one or two elements giving the
 #'    lambdas for the rows and the columns. If only one element in the
 #'    list, these lambda values can be used or both row and colum.
@@ -61,7 +69,7 @@
 #'
 #' x <- tuned$lambda[[1]] #lambdas for rows
 #' y <- tuned$lambda[[2]] #lambdas for columns
-#' z <- tuned$MSE         # Mean squared errors
+#' z <- tuned$loss        # loss values
 #'
 #' image(x,y,log(z), log = 'xy')
 #'
@@ -78,6 +86,7 @@ setMethod("tune",
                    lim = c(1e-4,1),
                    ngrid = 10,
                    lambda = NULL,
+                   fun = function(Y,LOO) mean((Y - LOO)^2),
                    exclusion = 'interaction',
                    replaceby0 = FALSE){
 
@@ -95,12 +104,12 @@ setMethod("tune",
                               decomp$values,
                               lambda)
               pred <- Hr %*% x@y %*% Hr
-              mean((loofun(x@y, Hr, pred) - x@y)^2)
+              fun(x@y, loofun(x@y, Hr, pred))
             }
 
             lval <- vapply(lambda,loss, numeric(1))
 
-            out <- list(MSE = lval, lambda = list(lambda))
+            out <- list(loss = lval, lambda = list(lambda))
             class(out) <- 'tskrrTune'
             return( out )
 
@@ -114,6 +123,7 @@ setMethod("tune",
                    lim = c(1e-4,1),
                    ngrid = 10,
                    lambda = NULL,
+                   fun = function(Y,LOO) mean((Y - LOO)^2),
                    exclusion = 'interaction',
                    replaceby0 = FALSE){
 
@@ -199,7 +209,7 @@ setMethod("tune",
                               decompc$values,
                               l2)
               pred <- Hr %*% x@y %*% Hc
-              mean((loofun(x@y, Hr, Hc, pred) - x@y)^2)
+              fun(x@y, loofun(x@y, Hr, Hc, pred))
             }
 
             if(twol){
@@ -226,7 +236,7 @@ setMethod("tune",
 
             }
 
-            out <- list(MSE = lval, lambda = llist)
+            out <- list(loss = lval, lambda = llist)
             class(out) <- 'tskrrTune'
             return(out)
 

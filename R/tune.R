@@ -23,8 +23,8 @@
 #' By default the function uses classic mean squared error based on
 #' the crossvalidation results as a measure for optimization. But you
 #' can provide your own function if needed, as long as it takes
-#' two matrices as input: `Y` being the observed interactions and
-#' `LOO` being the result of the chosen crossvalidation.
+#' two matrices as input: \code{Y} being the observed interactions and
+#' \code{LOO} being the result of the chosen crossvalidation.
 #'
 #' @param x a \code{\link{tskrr}} object representing a two step
 #' kernel ridge regression model.

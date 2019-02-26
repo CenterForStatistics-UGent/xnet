@@ -8,12 +8,12 @@
 \title{tune the lambda parameters for a tskrr}
 \usage{
 \S4method{tune}{tskrrHomogenous}(x, lim = c(1e-04, 1), ngrid = 10,
-  lambda = NULL, fun = function(Y, LOO) mean((Y - LOO)^2),
-  exclusion = "interaction", replaceby0 = FALSE)
+  lambda = NULL, fun = loss_mse, exclusion = "interaction",
+  replaceby0 = FALSE, ...)
 
 \S4method{tune}{tskrrHeterogenous}(x, lim = c(1e-04, 1), ngrid = 10,
-  lambda = NULL, fun = function(Y, LOO) mean((Y - LOO)^2),
-  exclusion = "interaction", replaceby0 = FALSE)
+  lambda = NULL, fun = loss_mse, exclusion = "interaction",
+  replaceby0 = FALSE, ...)
 }
 \arguments{
 \item{x}{a \code{\link{tskrr}} object representing a two step
@@ -40,6 +40,8 @@ result of the crossvalidation LOO as input.}
 
 \item{replaceby0}{a logical value indicating whether the interaction
 should be simply removed (\code{FALSE}) or replaced by 0 (\code{TRUE}).}
+
+\item{...}{arguments to be passed to the loss function}
 }
 \value{
 a list with two elements:
@@ -103,4 +105,6 @@ image(x,y,log(z), log = 'xy')
 validation works.
 
 \code{\link{tskrr}} for fitting a twostep kernel ridge regression.
+
+\code{link{loss_functions}} for different loss functions.
 }

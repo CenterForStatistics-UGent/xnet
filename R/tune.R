@@ -41,6 +41,7 @@
 #' @param fun a loss function that takes the adjacency matrix Y and the
 #' result of the crossvalidation LOO as input.
 #' @inheritParams get_loo_fun
+#' @param ... arguments to be passed to the loss function
 #'
 #' @return a list with two elements:
 #' \itemize{
@@ -55,6 +56,8 @@
 #' validation works.
 #'
 #' \code{\link{tskrr}} for fitting a twostep kernel ridge regression.
+#'
+#' @seealso \code{\link{loss_functions}} for different loss functions.
 #'
 #' @examples
 #' data(drugtarget)
@@ -86,9 +89,10 @@ setMethod("tune",
                    lim = c(1e-4,1),
                    ngrid = 10,
                    lambda = NULL,
-                   fun = function(Y,LOO) mean((Y - LOO)^2),
+                   fun = loss_mse,
                    exclusion = 'interaction',
-                   replaceby0 = FALSE){
+                   replaceby0 = FALSE,
+                   ...){
 
             if(is.null(lambda))
               lambda <- create_grid(lim, ngrid)
@@ -104,7 +108,7 @@ setMethod("tune",
                               decomp$values,
                               lambda)
               pred <- Hr %*% x@y %*% Hr
-              fun(x@y, loofun(x@y, Hr, pred))
+              fun(x@y, loofun(x@y, Hr, pred), ...)
             }
 
             lval <- vapply(lambda,loss, numeric(1))
@@ -123,9 +127,10 @@ setMethod("tune",
                    lim = c(1e-4,1),
                    ngrid = 10,
                    lambda = NULL,
-                   fun = function(Y,LOO) mean((Y - LOO)^2),
+                   fun = loss_mse,
                    exclusion = 'interaction',
-                   replaceby0 = FALSE){
+                   replaceby0 = FALSE,
+                   ...){
 
             twol <- FALSE #check for two separate lambda vectors
             nolambda <- is.null(lambda)
@@ -209,7 +214,7 @@ setMethod("tune",
                               decompc$values,
                               l2)
               pred <- Hr %*% x@y %*% Hc
-              fun(x@y, loofun(x@y, Hr, Hc, pred))
+              fun(x@y, loofun(x@y, Hr, Hc, pred), ...)
             }
 
             if(twol){

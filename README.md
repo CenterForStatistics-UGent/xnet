@@ -10,8 +10,8 @@ Please note this is work in progress. All suggestions/issues/feature requests ar
 
 The package can be installed in R using the following code:
 
-devtools::install_github("CenterForStatistics-UGent/xnet")
+remotes::install_github("CenterForStatistics-UGent/xnet")
 
 To install the dev version, use:
 
-devtools::install_github("CenterForStatistics-UGent/xnet", ref = "devel")
+remotes::install_github("CenterForStatistics-UGent/xnet", ref = "devel")

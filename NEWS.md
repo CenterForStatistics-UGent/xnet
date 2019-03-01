@@ -13,7 +13,13 @@ the class of that object.
 
 * There's a new function `linear_filter` that fits a linear filter over
 an adjacency matrix. This function comes with a class `linearFilter`.
+* `tune()` has a new argument `fun` that allows to specify a function
+for optimization.
+* functions `loss_mse()` and `loss_auc()` are provided for tuning.
+* `update()` allows to retrain the model with new lambdas.
 
 ## bug fixes and minor improvements
 
-Currently none.
+* predictions were calculated wrongly in `tune()`: fixed.
+* MSE was calculated wrongly in the previous version of `tune()`: fixed.
+

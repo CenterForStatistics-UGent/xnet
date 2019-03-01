@@ -106,5 +106,5 @@ validation works.
 
 \code{\link{tskrr}} for fitting a twostep kernel ridge regression.
 
-\code{link{loss_functions}} for different loss functions.
+\code{\link{loss_functions}} for different loss functions.
 }

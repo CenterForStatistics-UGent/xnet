@@ -11,19 +11,14 @@ that can be used for all kinds of cross-network analysis. Examples are
 protein-protein interaction, foodwebs, ...
 }
 \seealso{
-Useful links:
-\itemize{
-  \item \url{https://github.com/CenterForStatistics-UGent/xnet}
-  \item Report bugs at \url{https://github.com/CenterForStatistics-UGent/xnet/issues}
-}
+Send your bug reports to:
 
+\url{https://github.com/CenterForStatistics-UGent/xnet/issues}
+
+More background in the paper by Stock et al, 2018:
+
+\url{http://doi.org/10.1093/bib/bby095}
 }
 \author{
-\strong{Maintainer}: Joris Meys \email{Joris.Meys@UGent.be}
-
-Authors:
-\itemize{
-  \item Michiel Stock \email{Michiel.Stock@UGent.be}
-}
-
+Joris Meys and Michiel Stock
 }

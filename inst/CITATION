@@ -3,25 +3,41 @@ citation(auto = meta)
 # After the paper of Michiel is published, this should be
 # filled in.
 
-#bibentry("Article",
-#         title = "Preliminary title",
-#         author = c(
-#           person("Michiel","Stock"),
-#           person("Sir", "OneMore")
-#         ),
-#         journal = "To be announced",
-#         year = "2018",
-#         volume = "NA",
-#         number = "NA",
-#         pages = "NA",
-#         header = paste(
-#           "For reference to the methods from this package, use: "
-#         ),
-#         footer = paste(
-#           "You can get BibTex entries for both the package and the",
-#           "theoretical paper with following command:\n",
-#           "toBibtex(citation(\"xnet\"))"
-#         )
-#)
-#
+bibentry("Article",
+         title = "Algebraic shortcuts for leave-one-out crossvalidation
+         in supervised network inference.",
+         author = c(
+           person("Michiel","Stock"),
+           person("Tapio", "Pahikkala"),
+           person("Antti","Airola"),
+           person("Willem", "Waegeman"),
+           person("Bernard", "de Baets")
+         ),
+         journal = "Briefings in Bioinformatic",
+         year = "2018",
+         pages = "bby095",
+         doi = "10.1093/bib/bby095",
+         header = paste(
+           "For reference to the methods from this package, use: "
+         )
+)
+
+
+bibentry("Article",
+         title = "A comparative study of pairwise learning methods based on Kernel Ridge Regression",
+         author = c(
+           person("Michiel","Stock"),
+           person("Tapio", "Pahikkala"),
+           person("Antti","Airola"),
+           person("Bernard", "de Baets"),
+           person("Willem", "Waegeman")
+         ),
+         journal = "Neural Computation",
+         year = "2018",
+         volume = "30",
+         number = "8",
+         pages = "2245-2283",
+         doi = "10.1162/neco_a_01096"
+)
+
 

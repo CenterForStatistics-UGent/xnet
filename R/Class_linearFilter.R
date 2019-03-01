@@ -9,7 +9,8 @@
 #' @slot mean a numeric vector containing the global mean of \code{y}
 #' @slot colmeans a numeric vector containing the column means of \code{y}
 #' @slot rowmeans a numeric vector containing the row means of \code{y}.
-#'
+#' @slot na.rm a logical value indicating whether missing values were
+#' removed prior to the calculation of the means.
 #' @seealso \code{\link{linear_filter}} for creating a linear filter model,
 #' and \code{\link[=getters_linearFilter]{getter fuctions for linearFilter}}.
 #'
@@ -21,7 +22,8 @@ setClass("linearFilter",
            pred = "matrix",
            mean = "numeric",
            colmeans = "numeric",
-           rowmeans = "numeric"
+           rowmeans = "numeric",
+           na.rm = "logical"
          ))
 
 validLinearFilter <- function(object){
@@ -33,6 +35,9 @@ validLinearFilter <- function(object){
     return("The length of colmeans is incompatible with the number of columns in y.")
   if(length(object@rowmeans) != nrow(object@y))
     return("The length of rowmeans is incompatible with the number of rows in y.")
+
+  if(length(object@na.rm) != 1)
+    return("na.rm needs to be a single logical value.")
 
   if(length(object@alpha) != 4)
     return("Alpha should contain exactly 4 numeric values.")

@@ -21,6 +21,10 @@
 #' names of the matrices have to be checked for consistency. Defaults to
 #' \code{TRUE}, but for large matrices putting this to \code{FALSE} will
 #' speed up the function.
+#' @param symmetry a character value with the possibilities
+#' "auto", "symmetric" or "skewed". In case of a homogenous fit, you
+#' can either specify whether the adjacency matrix is symmetric or
+#' skewed, or you can let the function decide (option "auto").
 #' @param keep a logical value indicating whether the original kernel
 #' matrices should be stored in the model object. Doing so makes the
 #' model object quite larger, but can speed up predictions in
@@ -56,6 +60,7 @@ tskrr <- function(y,k,g = NULL,
                   homogenous = is.null(g),
                   testdim = TRUE,
                   testlabels = TRUE,
+                  symmetry = c("auto","symmetric","skewed"),
                   keep = FALSE
                   ){
 
@@ -84,10 +89,10 @@ tskrr <- function(y,k,g = NULL,
 
   # TEST KERNELS
   if(testdim){
-    if(!isSymmetric(k))
+    if(!is_symmetric(k))
       stop("k should be a symmetric matrix.")
 
-    if(!homogenous && !isSymmetric(g))
+    if(!homogenous && !is_symmetric(g))
       stop("g should be a symmetric matrix.")
 
     if(!valid_dimensions(y,k,g))
@@ -98,7 +103,12 @@ tskrr <- function(y,k,g = NULL,
   if(testlabels){
 
     valid_labels(y,k,g) # Generates errors if something's wrong
-    y <- match_labels(y,rownames(k),colnames(g))
+
+    rk <- rownames(k) # not when there's no row/-colnames
+    if(!is.null(rk)){
+      y <- match_labels(y,rk,colnames(g))
+    }
+
   }
 
   # SET LAMBDAS
@@ -125,12 +135,19 @@ tskrr <- function(y,k,g = NULL,
 
   # CREATE OUTPUT
   if(homogenous){
+
+    # Test symmetry if required.
+    symmetry <- match.arg(symmetry)
+    if(symmetry == "auto"){
+      symmetry <- test_symmetry(y)
+    }
+
     out <- new("tskrrHomogenous",
                y = y,
                k = k.eigen,
                lambda.k = lambda.k,
                pred = res$pred,
-               symmetry = "symmetric",
+               symmetry = symmetry,
                has.orig = keep,
                k.orig = if(keep) k else matrix(0),
                labels = list(k=rn, g = NA_character_))

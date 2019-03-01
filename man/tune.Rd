@@ -8,10 +8,12 @@
 \title{tune the lambda parameters for a tskrr}
 \usage{
 \S4method{tune}{tskrrHomogenous}(x, lim = c(1e-04, 1), ngrid = 10,
-  lambda = NULL)
+  lambda = NULL, fun = loss_mse, exclusion = "interaction",
+  replaceby0 = FALSE, ...)
 
 \S4method{tune}{tskrrHeterogenous}(x, lim = c(1e-04, 1), ngrid = 10,
-  lambda = NULL)
+  lambda = NULL, fun = loss_mse, exclusion = "interaction",
+  replaceby0 = FALSE, ...)
 }
 \arguments{
 \item{x}{a \code{\link{tskrr}} object representing a two step
@@ -29,11 +31,22 @@ homogenous networks, or possibly a list with two elements for
 heterogenous networks. See Details. Defaults to
 \code{NULL}, which means that the function constructs the search grid
 from the other arguments.}
+
+\item{fun}{a loss function that takes the adjacency matrix Y and the
+result of the crossvalidation LOO as input.}
+
+\item{exclusion}{a character value with possible values "interaction",
+"row", "column" or "both". Defaults to "interaction". See details.}
+
+\item{replaceby0}{a logical value indicating whether the interaction
+should be simply removed (\code{FALSE}) or replaced by 0 (\code{TRUE}).}
+
+\item{...}{arguments to be passed to the loss function}
 }
 \value{
 a list with two elements:
 \itemize{
-   \item \code{MSE}: a vector or matrix with the mean squared errors
+   \item \code{loss}: a vector or matrix with the calculated losses
    \item \code{lambda}: a list with one or two elements giving the
    lambdas for the rows and the columns. If only one element in the
    list, these lambda values can be used or both row and colum.
@@ -56,6 +69,16 @@ for the two parameters that need tuning. In order to do so, you need to
 provide a list with the settings for every parameter to the arguments
 \code{lim}, \code{ngrid} and/or \code{lambda}. If you
 try this for a homogenous network, the function will return an error.
+
+The arguments \code{exclusion} and \code{replaceby0} are used by
+the function \code{\link{get_loo_fun}} to find the correct
+leave-one-out function.
+
+By default the function uses classic mean squared error based on
+the crossvalidation results as a measure for optimization. But you
+can provide your own function if needed, as long as it takes
+two matrices as input: \code{Y} being the observed interactions and
+\code{LOO} being the result of the chosen crossvalidation.
 }
 \examples{
 data(drugtarget)
@@ -70,9 +93,18 @@ tuned <- tune(mod, ngrid = 10)
 
 x <- tuned$lambda[[1]] #lambdas for rows
 y <- tuned$lambda[[2]] #lambdas for columns
-z <- tuned$MSE         # Mean squared errors
+z <- tuned$loss        # loss values
 
 image(x,y,log(z), log = 'xy')
 
 }
+}
+\seealso{
+\code{\link{loo}}, \code{\link{loo_internal}} and
+\code{\link{get_loo_fun}} for more information on how leave one out
+validation works.
+
+\code{\link{tskrr}} for fitting a twostep kernel ridge regression.
+
+\code{\link{loss_functions}} for different loss functions.
 }

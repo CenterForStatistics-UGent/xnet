@@ -58,7 +58,8 @@ linear_filter <- function(y, alpha=0.25, na.rm = FALSE){
       pred = pred,
       mean = m,
       colmeans = cm,
-      rowmeans = rm)
+      rowmeans = rm,
+      na.rm = na.rm)
 }
 
 # Function .linear_filter allows for optimization algorithms.

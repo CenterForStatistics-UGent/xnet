@@ -5,7 +5,8 @@
 \title{Fitting a two step kernel ridge regression}
 \usage{
 tskrr(y, k, g = NULL, lambda = 1e-04, homogenous = is.null(g),
-  testdim = TRUE, testlabels = TRUE, keep = FALSE)
+  testdim = TRUE, testlabels = TRUE, symmetry = c("auto",
+  "symmetric", "skewed"), keep = FALSE)
 }
 \arguments{
 \item{y}{a response matrix}
@@ -31,6 +32,11 @@ putting this to \code{FALSE} will speed up the function.}
 names of the matrices have to be checked for consistency. Defaults to
 \code{TRUE}, but for large matrices putting this to \code{FALSE} will
 speed up the function.}
+
+\item{symmetry}{a character value with the possibilities
+"auto", "symmetric" or "skewed". In case of a homogenous fit, you
+can either specify whether the adjacency matrix is symmetric or
+skewed, or you can let the function decide (option "auto").}
 
 \item{keep}{a logical value indicating whether the original kernel
 matrices should be stored in the model object. Doing so makes the

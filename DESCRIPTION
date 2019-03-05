@@ -1,7 +1,7 @@
 Package: xnet
 Type: Package
 Title: twostep kernel ridge regression for network predictions
-Version: 0.1.4-4
+Version: 0.1.4-5
 Authors@R: c(person("Joris","Meys", email = "Joris.Meys@UGent.be", role
         = c("cre","aut")), person("Michiel", "Stock", email =
         "Michiel.Stock@UGent.be", role = "aut"))
@@ -21,12 +21,13 @@ RoxygenNote: 6.1.1
 Suggests: testthat, knitr, rmarkdown, ChemmineR
 VignetteBuilder: knitr
 Collate: 'Class_linearFilter.R' 'Class_tskrr.R'
-        'Class_tskrrHeterogenous.R' 'Class_tskrrHomogenous.R'
-        'all_generics.R' 'Getters_tskrr.R' 'create_grid.R'
-        'data_drugtarget.R' 'data_proteinInteraction.R' 'dim.R'
-        'eigen2hat.R' 'fitted.R' 'get_loo_fun.R' 'getlooInternal.R'
-        'getters_linearFilter.R' 'hat.R' 'is_symmetric.R' 'labels.R'
-        'linear_filter.R' 'loo.R' 'looInternal.R' 'loss_functions.R'
-        'match_labels.R' 'predict.R' 'test_symmetry.R' 'tskrr.R'
-        'tskrr.fit.R' 'tune.R' 'update.R' 'valid_dimensions.R'
-        'valid_labels.R' 'weights.R' 'xnet-package.R'
+        'Class_tskrrHeterogenous.R' 'Class_tskrrHeterogenousImpute.R'
+        'Class_tskrrHomogenous.R' 'all_generics.R' 'Getters_tskrr.R'
+        'create_grid.R' 'data_drugtarget.R' 'data_proteinInteraction.R'
+        'dim.R' 'eigen2hat.R' 'fitted.R' 'get_loo_fun.R'
+        'getlooInternal.R' 'getters_linearFilter.R' 'hat.R'
+        'impute_tskrr.R' 'is_symmetric.R' 'labels.R' 'linear_filter.R'
+        'loo.R' 'looInternal.R' 'loss_functions.R' 'match_labels.R'
+        'predict.R' 'test_symmetry.R' 'tskrr.R' 'tskrr.fit.R' 'tune.R'
+        'update.R' 'valid_dimensions.R' 'valid_labels.R' 'weights.R'
+        'xnet-package.R'

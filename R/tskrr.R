@@ -25,10 +25,10 @@
 #' "auto", "symmetric" or "skewed". In case of a homogenous fit, you
 #' can either specify whether the adjacency matrix is symmetric or
 #' skewed, or you can let the function decide (option "auto").
-#' @param keep a logical value indicating whether the original kernel
+#' @param keep a logical value indicating whether the kernel hat
 #' matrices should be stored in the model object. Doing so makes the
 #' model object quite larger, but can speed up predictions in
-#' some cases. Defaults to \code{FALSE}
+#' some cases. Defaults to \code{FALSE}.
 #'
 #' @return a \code{\link[xnet:tskrr-class]{tskrr}} object
 #'
@@ -86,6 +86,10 @@ tskrr <- function(y,k,g = NULL,
     if(length(lambda) != 1)
       stop("lambda should be a single value. See ?tskrr")
   }
+
+  if(any(is.na(y)))
+    stop(paste("Missing values in the y matrix are not allowed. You can",
+               "use the function impute_tskrr for imputations."))
 
   # TEST KERNELS
   if(testdim){
@@ -148,8 +152,8 @@ tskrr <- function(y,k,g = NULL,
                lambda.k = lambda.k,
                pred = res$pred,
                symmetry = symmetry,
-               has.orig = keep,
-               k.orig = if(keep) k else matrix(0),
+               has.hat = keep,
+               Hk = if(keep) res$k else matrix(0),
                labels = list(k=rn, g = NA_character_))
   } else {
     out <- new("tskrrHeterogenous",
@@ -159,9 +163,9 @@ tskrr <- function(y,k,g = NULL,
                lambda.k = lambda.k,
                lambda.g = lambda.g,
                pred = res$pred,
-               has.orig = keep,
-               k.orig = if(keep) k else matrix(0),
-               g.orig = if(keep) g else matrix(0),
+               has.hat = keep,
+               Hk = if(keep) res$k else matrix(0),
+               Hg = if(keep) res$g else matrix(0),
                labels = list(k=rn, g=cn))
   }
   return(out)

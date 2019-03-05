@@ -38,10 +38,10 @@ speed up the function.}
 can either specify whether the adjacency matrix is symmetric or
 skewed, or you can let the function decide (option "auto").}
 
-\item{keep}{a logical value indicating whether the original kernel
+\item{keep}{a logical value indicating whether the kernel hat
 matrices should be stored in the model object. Doing so makes the
 model object quite larger, but can speed up predictions in
-some cases. Defaults to \code{FALSE}}
+some cases. Defaults to \code{FALSE}.}
 }
 \value{
 a \code{\link[xnet:tskrr-class]{tskrr}} object

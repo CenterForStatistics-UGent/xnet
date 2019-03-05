@@ -10,10 +10,10 @@
 #' @slot pred the matrix with the predictions
 #' @slot g the eigen decomposition of the kernel matrix for the columns
 #' @slot lambda.g the lambda value used for g
-#' @slot has.orig a logical value indicating whether the original kernel
-#' matrices are stored in the object.
-#' @slot k.orig the original kernel matrix for the rows.
-#' @slot g.orig the original kernel matrix for the columns.
+#' @slot has.hat a logical value indicating whether the kernel hat matrices
+#' are stored in the object.
+#' @slot Hk the kernel hat matrix for the rows.
+#' @slot Hg the kernel hat matrix for the columns.
 #' @slot labels a list with elements \code{k} and \code{g} (see
 #' \code{\link{tskrr-class}}).
 #'  If any element is \code{NA}, the labels used
@@ -28,12 +28,12 @@ setClass("tskrrHeterogenous",
          contains = "tskrr",
          slots = c(g = "eigen",
                    lambda.g = "numeric",
-                   g.orig = "matrix"),
+                   Hg = "matrix"),
          prototype = list(lambda.g = 1e-4,
                           g = structure(list(vectors = matrix(0),
                                              values = numeric(1)),
                                         class = "eigen"),
-                          g.orig = matrix(0)
+                          Hg = matrix(0)
                           )
          )
 
@@ -41,7 +41,7 @@ validTskrrHeterogenous <- function(object){
   if(length(object@lambda.g) != 1)
     return("lambda.g should be a single value")
 
-  else if(object@has.orig && !valid_dimensions(object@y, object@k.orig, object@g.orig))
+  else if(object@has.hat && !valid_dimensions(object@y, object@Hk, object@Hg))
     return("The dimensions of the original kernel matrices and the observations don't match.")
 
   else if(

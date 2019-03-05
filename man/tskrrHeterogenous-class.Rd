@@ -25,12 +25,12 @@ heterogenous networks.
 
 \item{\code{lambda.g}}{the lambda value used for g}
 
-\item{\code{has.orig}}{a logical value indicating whether the original kernel
-matrices are stored in the object.}
+\item{\code{has.hat}}{a logical value indicating whether the kernel hat matrices
+are stored in the object.}
 
-\item{\code{k.orig}}{the original kernel matrix for the rows.}
+\item{\code{Hk}}{the kernel hat matrix for the rows.}
 
-\item{\code{g.orig}}{the original kernel matrix for the columns.}
+\item{\code{Hg}}{the kernel hat matrix for the columns.}
 
 \item{\code{labels}}{a list with elements \code{k} and \code{g} (see
 \code{\link{tskrr-class}}).

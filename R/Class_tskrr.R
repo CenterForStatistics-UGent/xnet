@@ -8,9 +8,9 @@
 #' @slot k the eigen decomposition of the kernel matrix for the rows
 #' @slot lambda.k the lambda value used for k
 #' @slot pred the matrix with the predictions
-#' @slot has.orig a logical value indicating whether the original kernel
-#' matrices are stored in the object.
-#' @slot k.orig the original kernel matrix for the rows.
+#' @slot has.hat a logical value indicating whether the kernel hat matrices
+#' are stored in the object.
+#' @slot Hk the kernel hat matrix for the rows.
 #' @slot labels a list with two character vectors, \code{k} and
 #' \code{g}, containing the labels for the rows resp. columns. See
 #' \code{\link{tskrrHomogenous}} and
@@ -31,8 +31,8 @@ setClass("tskrr",
                    k = "eigen",
                    lambda.k = "numeric",
                    pred = "matrix",
-                   has.orig = "logical",
-                   k.orig = "matrix",
+                   has.hat = "logical",
+                   Hk = "matrix",
                    labels = "list"),
          prototype = list(y = matrix(0),
                           k = structure(list(vectors = matrix(0),
@@ -41,8 +41,8 @@ setClass("tskrr",
                                         ),
                           lambda.k = 1e-4,
                           pred = matrix(0),
-                          has.orig = FALSE,
-                          k.orig = matrix(0),
+                          has.hat = FALSE,
+                          Hk = matrix(0),
                           labels = list(k = NA_character_,
                                         g = NA_character_)))
 

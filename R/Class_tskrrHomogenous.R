@@ -12,9 +12,9 @@
 #' \code{"symmetric"}, \code{"skewed"} or \code{"not"}. It indicates
 #' whether the \code{y} matrix is symmetric, skewed-symmetric or not
 #' symmetric.
-#' @slot has.orig a logical value indicating whether the original kernel
-#' matrices are stored in the object.
-#' @slot k.orig the original kernel matrix for the rows.
+#' @slot has.hat a logical value indicating whether the kernel hat matrices
+#' are stored in the object.
+#' @slot Hk the kernel hat matrix for the rows.
 #' @slot labels a list with elements \code{k} and \code{g} (see
 #' \code{\link{tskrr-class}}). For homogenous networks, \code{g}
 #' is always \code{NA}. If \code{k} is \code{NA}, the labels used
@@ -36,7 +36,7 @@ validTskrrHomogenous <- function(object){
   if(!object@symmetry %in% c("symmetric","skewed", "not"))
     return("symmetry should be one of: symmetric, skewed or not.")
 
-  else if(object@has.orig && !valid_dimensions(object@y, object@k.orig))
+  else if(object@has.hat && !valid_dimensions(object@y, object@Hk))
     return("The dimensions of the original kernel matrices and the observations don't match.")
 
   else if(!length(object@labels$g) == 1 || !is.na(object@labels$g))

@@ -2,6 +2,8 @@
 #'
 #' This function allows you to refit a \code{\link{tskrr}} with a
 #' new lambda. It can be used to do manual tuning/crossvalidation.
+#' If the object has the hat matrices stored, these will be updated
+#' as well.
 #'
 #' @param object a \code{\link[xnet:tskrr-class]{tskrr}} object
 #' @inheritParams tskrr
@@ -9,6 +11,31 @@
 #'
 #' @return an updated \code{\link[xnet:tskrr-class]{tskrr}} object
 #' fitted with the new lambdas.
+#'
+#' @examples
+#' data(drugtarget)
+#'
+#' mod <- tskrr(drugTargetInteraction, targetSim, drugSim)
+#'
+#' # Update with the same lambda
+#' mod2 <- update(mod, lambda = 1e-3)
+#'
+#' # Use different lambda for rows and columns
+#' mod3 <- update(mod, lambda = c(0.01,0.001))
+#'
+#' # A model with the hat matrices stored
+#' lambda <- c(0.001,0.01)
+#' modkeep <- tskrr(drugTargetInteraction, targetSim, drugSim, keep = TRUE)
+#' Hk_1 <- hat(modkeep, which = "row")
+#' modkeep2 <- update(modkeep, lambda = lambda)
+#' Hk_2 <- hat(modkeep2, which = "row")
+#'
+#' # Calculate new hat matrix by hand:
+#' decomp <- get_eigen(modkeep, which = "row")
+#' Hk_byhand <- eigen2hat(decomp$vectors,
+#'                        decomp$values,
+#'                        lambda = lambda[1])
+#' identical(Hk_2, Hk_byhand)
 #'
 #' @rdname update
 #' @export
@@ -29,6 +56,9 @@ setMethod("update",
 
             object@lambda.k <- lambda
             object@pred <- Hk %*% object@y %*% Hk
+
+            if(has_hat(object))
+              object@Hk <- Hk
 
             return(object)
           })
@@ -67,6 +97,11 @@ setMethod("update",
             object@lambda.k <- lambda.k
             object@lambda.g <- lambda.g
             object@pred <- Hk %*% object@y %*% Hg
+
+            if(has_hat(object)){
+              object@Hk <- Hk
+              object@Hg <- Hg
+            }
 
             return(object)
           })

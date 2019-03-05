@@ -13,7 +13,8 @@
 * The function `has_original` has been removed and replaced by `has_hat`
 * The argument `keep` of the function `tskrr` now stores the hat matrices
 instead of the original kernel matrices.
- 
+* The function `tskrr` has lost its argument `homogenous`. It didn't make
+sense to set that by hand.
 
 ### New features
 

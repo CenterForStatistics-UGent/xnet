@@ -10,9 +10,6 @@
 #' @param lambda a numeric vector with one or two values for the
 #' hyperparameter lambda. If two values are given, the first one is
 #' used for the k matrix and the second for the g matrix.
-#' @param homogenous a logical value indicating whether the fitting should
-#' be done for a homogenous network. Normally this is obvious from the
-#' input (i.e. a lacking \code{g} matrix indicates the network is homogenous)
 #' @param testdim a logical value indicating whether symmetry
 #' and the dimensions of the kernel(s) should be tested.
 #' Defaults to \code{TRUE}, but for large matrices
@@ -57,12 +54,14 @@
 #' @export
 tskrr <- function(y,k,g = NULL,
                   lambda = 1e-4,
-                  homogenous = is.null(g),
                   testdim = TRUE,
                   testlabels = TRUE,
                   symmetry = c("auto","symmetric","skewed"),
                   keep = FALSE
                   ){
+
+  # SET FLAGS
+  homogenous <- is.null(g)
 
   # TESTS INPUT
   if( !(is.matrix(y) && is.numeric(y)) )

@@ -1,9 +1,10 @@
-#' Class tskrrHeterogenousImpute
+#' Class tskrrHomogenousImpute
 #'
-#' The class \code{tskrrHeterogenousImpute} is a subclass of the
-#' class \code{\link[xnet:tskrrHeterogenous-class]{tskrrHeterogenous}}
-#' specifically for heterogenous networks with imputed values. It is
-#' the result of the function \code{\link{impute_tskrr}} or the function \code{\link{impute_loo}}.
+#' The class \code{tskrrHomogenousImpute} is a subclass of the
+#' class \code{\link[xnet:tskrrHomogenous-class]{tskrrHomogenous}}
+#' specifically for homogenous networks with imputed values. It is
+#' the result of the function \code{\link{impute_tskrr}} or
+#' the function \code{\link{impute_loo}}.
 #'
 #' @slot y the matrix with responses
 #' @slot k the eigen decomposition of the kernel matrix for the rows
@@ -27,12 +28,12 @@
 #' @slot loofun if imputemethod is "loo", this slot contains the loo
 #' function used during imputation.
 #'
-#' @include Class_tskrrHeterogenous.R
-#' @rdname tskrrHeterogenousImpute-class
-#' @aliases tskrrHeterogenousImpute
-#' @exportClass tskrrHeterogenousImpute
-setClass("tskrrHeterogenousImpute",
-         contains = "tskrrHeterogenous",
+#' @include Class_tskrrHomogenous.R
+#' @rdname tskrrHomogenousImpute-class
+#' @aliases tskrrHomogenousImpute
+#' @exportClass tskrrHomogenousImpute
+setClass("tskrrHomogenousImpute",
+         contains = "tskrrHomogenous",
          slots = c(imputeid = "integer",
                    imputemethod = "character",
                    loofun = "function"),

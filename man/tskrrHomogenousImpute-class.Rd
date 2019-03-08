@@ -48,5 +48,9 @@ crossvalidation values were used in the imputation.}
 
 \item{\code{loofun}}{if imputemethod is "loo", this slot contains the loo
 function used during imputation.}
+
+\item{\code{niter}}{an integer value gving the number of iterations used}
+
+\item{\code{tol}}{a numeric value with the tolerance used}
 }}
 

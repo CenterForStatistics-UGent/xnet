@@ -27,6 +27,8 @@
 #' crossvalidation values were used in the imputation.
 #' @slot loofun if imputemethod is "loo", this slot contains the loo
 #' function used during imputation.
+#' @slot niter an integer value gving the number of iterations used
+#' @slot tol a numeric value with the tolerance used
 #'
 #' @include Class_tskrrHomogenous.R
 #' @rdname tskrrHomogenousImpute-class
@@ -36,7 +38,9 @@ setClass("tskrrHomogenousImpute",
          contains = "tskrrHomogenous",
          slots = c(imputeid = "integer",
                    imputemethod = "character",
-                   loofun = "function"),
+                   loofun = "function",
+                   niter = "integer",
+                   tol = "numeric"),
          prototype = list(
            imputeid = integer(0),
            imputemethod = "",

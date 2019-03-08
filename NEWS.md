@@ -18,6 +18,9 @@ sense to set that by hand.
 
 ### New features
 
+* classes `tskrrHeterogenousImpute` and `tskrrHomogenousImpute` are added
+  to allow for storing models with imputed predictions.
+
 ### bug fixes and minor improvements
 
 ## xnet 0.1.4

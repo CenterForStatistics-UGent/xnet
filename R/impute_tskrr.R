@@ -14,11 +14,18 @@
 #' @param verbose either a logical value, 1 or 2. \code{1} means "show the number
 #' of iterations and the final deviation", \code{2} means "show the deviation
 #' every 10 iterations". A value \code{TRUE} is read as \code{1}.
-#' @param useloo a logical value indicating whether leave-one-out
-#' crossvalidation should be used to do the imputations.
-#' @inheritParams get_loo_fun
 #'
-#' @return a matrix with the missing values replaced by the imputations
+#' @return A \code{tskrr} model of the class \code{\link{tskrrHeterogenousImpute}} or \code{\link{tskrrHomogenousImpute}} depending on whether or
+#' not \code{g} has a value.
+#'
+#' @examples
+#'
+#' data(drugtarget)
+#'
+#' naid <- sample(length(drugTargetInteraction), 30)
+#' drugTargetInteraction[naid] <- NA
+#'
+#' impute_tskrr(drugTargetInteraction, targetSim, drugSim)
 #'
 #' @export
 impute_tskrr <- function(y,
@@ -30,15 +37,11 @@ impute_tskrr <- function(y,
                    niter = 1e4,
                    tol = sqrt(.Machine$double.eps),
                    start = mean(y, na.rm = TRUE),
-                   verbose = FALSE,
-                   useloo = FALSE,
-                   exclusion = c("interaction","row","column","both"),
-                   replaceby0 = FALSE
+                   verbose = FALSE
 ){
 
   # Set flags
   homogenous <- is.null(g)
-  stop("This function needs reworking.")
 
   # TESTS INPUT
   if( !(is.matrix(y) && is.numeric(y)) )
@@ -111,16 +114,8 @@ impute_tskrr <- function(y,
   else
     Hk
 
-  if(useloo){
-    exclusion <- match.arg(exclusion)
-    whatfun <- if(homogenous)"tskrrHomogenous" else "tskrrHeterogenous"
-    loofun <- get_loo_fun(whatfun,
-                          exclusion = exclusion,
-                          replaceby0 = replaceby0)
-    .impute_loo(y, Hk, Hg, loofun, niter, tol, start, verbose)
-  } else {
-    .impute_pred(y,Hk,Hg,niter,tol,start, verbose)
-  }
+  .impute_pred(y,Hk,Hg,niter,tol, start, verbose)
+
 
 }
 # Workhorse function

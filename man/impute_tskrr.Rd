@@ -6,9 +6,7 @@
 \usage{
 impute_tskrr(y, k, g = NULL, lambda = 1e-04, testdim = TRUE,
   testlabels = TRUE, niter = 10000, tol = sqrt(.Machine$double.eps),
-  start = mean(y, na.rm = TRUE), verbose = FALSE, useloo = FALSE,
-  exclusion = c("interaction", "row", "column", "both"),
-  replaceby0 = FALSE)
+  start = mean(y, na.rm = TRUE), verbose = FALSE)
 }
 \arguments{
 \item{y}{a response matrix}
@@ -43,21 +41,23 @@ replaced in the first step of the algorithm. Defaults to 0.}
 \item{verbose}{either a logical value, 1 or 2. \code{1} means "show the number
 of iterations and the final deviation", \code{2} means "show the deviation
 every 10 iterations". A value \code{TRUE} is read as \code{1}.}
-
-\item{useloo}{a logical value indicating whether leave-one-out
-crossvalidation should be used to do the imputations.}
-
-\item{exclusion}{a character value with possible values "interaction",
-"row", "column" or "both". Defaults to "interaction". See details.}
-
-\item{replaceby0}{a logical value indicating whether the interaction
-should be simply removed (\code{FALSE}) or replaced by 0 (\code{TRUE}).}
 }
 \value{
-a matrix with the missing values replaced by the imputations
+A \code{tskrr} model of the class \code{\link{tskrrHeterogenousImpute}} or \code{\link{tskrrHomogenousImpute}} depending on whether or
+not \code{g} has a value.
 }
 \description{
 This function implements an optimization algorithm that allows to
 impute missing values in the adjacency matrix while fitting a
 \code{tskrr} model.
+}
+\examples{
+
+data(drugtarget)
+
+naid <- sample(length(drugTargetInteraction), 30)
+drugTargetInteraction[naid] <- NA
+
+impute_tskrr(drugTargetInteraction, targetSim, drugSim)
+
 }

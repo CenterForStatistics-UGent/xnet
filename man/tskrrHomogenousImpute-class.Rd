@@ -23,20 +23,19 @@ the function \code{\link{impute_loo}}.
 
 \item{\code{pred}}{the matrix with the predictions}
 
-\item{\code{g}}{the eigen decomposition of the kernel matrix for the columns}
-
-\item{\code{lambda.g}}{the lambda value used for g}
+\item{\code{symmetry}}{a character value that can have the possible values
+\code{"symmetric"}, \code{"skewed"} or \code{"not"}. It indicates
+whether the \code{y} matrix is symmetric, skewed-symmetric or not
+symmetric.}
 
 \item{\code{has.hat}}{a logical value indicating whether the kernel hat matrices
 are stored in the object.}
 
 \item{\code{Hk}}{the kernel hat matrix for the rows.}
 
-\item{\code{Hg}}{the kernel hat matrix for the columns.}
-
 \item{\code{labels}}{a list with elements \code{k} and \code{g} (see
-\code{\link{tskrr-class}}).
- If any element is \code{NA}, the labels used
+\code{\link{tskrr-class}}). For homogenous networks, \code{g}
+is always \code{NA}. If \code{k} is \code{NA}, the labels used
 are integers indicating the row resp column number.}
 
 \item{\code{imputeid}}{a vector with integer values indicating which of

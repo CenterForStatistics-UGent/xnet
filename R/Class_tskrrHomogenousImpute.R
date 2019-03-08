@@ -10,15 +10,16 @@
 #' @slot k the eigen decomposition of the kernel matrix for the rows
 #' @slot lambda.k the lambda value used for k
 #' @slot pred the matrix with the predictions
-#' @slot g the eigen decomposition of the kernel matrix for the columns
-#' @slot lambda.g the lambda value used for g
+#' @slot symmetry a character value that can have the possible values
+#' \code{"symmetric"}, \code{"skewed"} or \code{"not"}. It indicates
+#' whether the \code{y} matrix is symmetric, skewed-symmetric or not
+#' symmetric.
 #' @slot has.hat a logical value indicating whether the kernel hat matrices
 #' are stored in the object.
 #' @slot Hk the kernel hat matrix for the rows.
-#' @slot Hg the kernel hat matrix for the columns.
 #' @slot labels a list with elements \code{k} and \code{g} (see
-#' \code{\link{tskrr-class}}).
-#'  If any element is \code{NA}, the labels used
+#' \code{\link{tskrr-class}}). For homogenous networks, \code{g}
+#' is always \code{NA}. If \code{k} is \code{NA}, the labels used
 #' are integers indicating the row resp column number.
 #' @slot imputeid a vector with integer values indicating which of
 #' the values in \code{y} are imputed

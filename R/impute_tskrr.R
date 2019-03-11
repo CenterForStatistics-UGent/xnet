@@ -27,6 +27,9 @@
 #'
 #' impute_tskrr(drugTargetInteraction, targetSim, drugSim)
 #'
+#' @rdname impute_tskrr
+#' @name impute_tskrr
+#' @aliases impute_tskrr
 #' @export
 impute_tskrr <- function(y,
                    k,

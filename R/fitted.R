@@ -30,7 +30,21 @@ fitted.tskrr <- function(object, ...){
 }
 
 #' @rdname fitted
+#' @method fitted linearFilter
+#' @export
+fitted.linearFilter <- function(object, ...){
+  object@pred
+}
+
+
+#' @rdname fitted
 #' @export
 setMethod("fitted",
           "tskrr",
           fitted.tskrr)
+
+#' @rdname fitted
+#' @export
+setMethod("fitted",
+          "linearFilter",
+          fitted.linearFilter)

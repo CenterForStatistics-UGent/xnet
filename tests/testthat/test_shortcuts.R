@@ -51,7 +51,7 @@ test_that("get_loo_fun returns the correct function",{
 })
 
 predict_ij <- function(Y,Hk, Hg, i, j){
-  Hk[i,, drop = FALSE] %*% Y %*% Hg[,j, drop = FALSE]
+  (Hk[i,,drop = FALSE] %*% Y %*% Hg[,j,drop = FALSE])
 }
 
 ## Heterogenous network -------------------------------------------
@@ -119,16 +119,15 @@ test_that("shortcuts homogenous networks work", {
   # gives very weird results. Replacement by looE result is maybe
   # not the best way forward.
   looE <- loo(modh)
-  looEtest <- sapply(seq_len(ncol(Yh)),
+  looEtest<-  sapply(seq_len(ncol(Yh)),
                      function(y) sapply(seq_len(nrow(Yh)),
                                         function(x){Ytilde <- Yh
-                                        Ytilde[x,y] <- looE[x,y]
-                                        Ytilde[y,x] <- looE[x,y]
-                                        if(x == y) Ytilde[x,y] else
-                                        predict_ij(Ytilde, Hkh, Hkh, x, y) }
+                                          Ytilde[x,y] <- looE[x,y]
+                                          Ytilde[y,x] <- looE[y,x]
+                                          predict_ij(Ytilde, Hkh, Hkh, x, y) }
                      )
   )
-
+  diag(looEtest) <- diag(looE)
 
   expect_equal(looE,looEtest)
 
@@ -157,4 +156,63 @@ test_that("shortcuts homogenous networks work", {
 
   expect_equal(looV, t(looVtest))
 
+})
+
+## Homogenous networks - skewed ---------------------------------
+
+test_that("shortcuts skewed homogenous networks work", {
+
+  # Shortcut for the moment is not tested on the diagonal, as that
+  # gives very weird results. Replacement by looE result is maybe
+  # not the best way forward.
+  looE <- loo(mods)
+  looEtest <- sapply(seq_len(ncol(Ys)),
+                     function(y) sapply(seq_len(nrow(Ys)),
+                                        function(x){Ytilde <- Ys
+                                        Ytilde[x,y] <- looE[x,y]
+                                        Ytilde[y,x] <- looE[y,x]
+                                        if(x == y) Ytilde[x,y] else
+                                          predict_ij(Ytilde, Hks, Hks, x, y) }
+                     )
+  )
+
+
+  expect_equal(looE,looEtest)
+
+  # setting E0
+  looE0 <- loo(mods, replaceby0 = TRUE)
+  looE0test <- sapply(seq_len(ncol(Ys)),
+                      function(y) sapply(seq_len(nrow(Ys)),
+                                         function(x){Ytilde <- Ys
+                                         Ytilde[x,y] <- 0
+                                         Ytilde[y,x] <- 0
+                                         predict_ij(Ytilde, Hks, Hks, x, y)
+                                         }
+                      )
+  )
+
+  expect_equal(looE0, looE0test)
+
+  # Setting both
+
+  looV <- loo(mods, exclusion = "both")
+  looVtest <- sapply(seq_len(nrow(Ys)), function(i){
+
+    modx <- tskrr(Ys[-i, -i], Kh[-i, -i], lambda = lambdak)
+    predict(modx, Kh[i, -i, drop = FALSE], Kh[-i,,drop = FALSE])
+  })
+
+  expect_equal(looV, t(looVtest))
+
+})
+
+## Linear filter ---------------------------------------------
+
+linF <- linear_filter(Y)
+
+test_that("shortcuts linear filter work", {
+  # Setting I
+
+  looI <- loo(linF)
+  Ytilde <- Y
 })

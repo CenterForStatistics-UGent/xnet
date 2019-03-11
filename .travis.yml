@@ -4,5 +4,13 @@ language: R
 sudo: false
 cache: packages
 
+before_install:
+  - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
+  - chmod 755 ./travis-tool.sh
+  - ./travis-tool.sh bootstrap
+
+install:
+    - ./travis-tool.sh install_bioc ChemmineR
+
 after_success:
     - Rscript -e 'covr::codecov()'

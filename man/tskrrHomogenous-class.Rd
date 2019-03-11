@@ -26,10 +26,10 @@ homogenous networks.
 whether the \code{y} matrix is symmetric, skewed-symmetric or not
 symmetric.}
 
-\item{\code{has.orig}}{a logical value indicating whether the original kernel
-matrices are stored in the object.}
+\item{\code{has.hat}}{a logical value indicating whether the kernel hat matrices
+are stored in the object.}
 
-\item{\code{k.orig}}{the original kernel matrix for the rows.}
+\item{\code{Hk}}{the kernel hat matrix for the rows.}
 
 \item{\code{labels}}{a list with elements \code{k} and \code{g} (see
 \code{\link{tskrr-class}}). For homogenous networks, \code{g}

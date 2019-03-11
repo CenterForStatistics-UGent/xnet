@@ -2,12 +2,11 @@
 #'
 #' This function creates an grid of values for
 #' tuning a \code{\link{tskrr}} model. The grid is equally spaced on
-#' a logarithmic
+#' a logarithmic scale.
 #'
 #' The \code{lim} argument sets the boundaries of the domain in which
-#' the lambdas are sought. The function creates a grid based onbases
-#' of the value of \code{base}. So if \code{base = 2} then the
-#' lambda values at which the function is evaluated, is calculated as:
+#' the lambdas are sought. The lambda values at which the function is
+#' evaluated, are calculated as:
 #'
 #' \code{exp(seq(log(1e-4), log(1e4), length.out = ngrid))}
 

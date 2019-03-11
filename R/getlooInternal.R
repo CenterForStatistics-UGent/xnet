@@ -30,6 +30,7 @@
   }
 }
 
-.getloo_linearfilter <- function(replaceby0){
+# dots catch other arguments to avoid errors when exclusion is passed
+.getloo_linearfilter <- function(replaceby0, ...){
   if(replaceby0) loo.i0.lf else loo.i.lf
 }

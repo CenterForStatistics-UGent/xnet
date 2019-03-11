@@ -20,6 +20,14 @@ setMethod("hat",
 
             which <- match.arg(which)
 
+            if(has_hat(x)){
+              if(which == "row")
+                return(x@Hk)
+              else
+                return(x@Hg)
+            }
+
+
             eig <- if(which == 'row') x@k else x@g
             l <- if(which == 'row') x@lambda.k else x@lambda.g
 
@@ -31,6 +39,11 @@ setMethod("hat",
 setMethod("hat",
           "tskrrHomogenous",
           function(x, ...){
+
+            if(has_hat(x)){
+                return(x@Hk)
+            }
+
             eig <- x@k
             l <- x@lambda.k
 

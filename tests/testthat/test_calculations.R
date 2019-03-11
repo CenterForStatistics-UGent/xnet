@@ -58,7 +58,7 @@ test_that("Heterogenous model object is constructed correctly",{
   expect_false(is_homogenous(mod))
   expect_equal(hat(mod, 'row'), Hk)
   expect_equal(hat(mod, 'column'), Hg)
-  expect_false(has_original(mod))
+  expect_false(has_hat(mod))
 })
 
 test_that("Kernel matrices are extracted correctly", {

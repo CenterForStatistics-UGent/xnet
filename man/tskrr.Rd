@@ -4,9 +4,9 @@
 \alias{tskrr}
 \title{Fitting a two step kernel ridge regression}
 \usage{
-tskrr(y, k, g = NULL, lambda = 1e-04, homogenous = is.null(g),
-  testdim = TRUE, testlabels = TRUE, symmetry = c("auto",
-  "symmetric", "skewed"), keep = FALSE)
+tskrr(y, k, g = NULL, lambda = 1e-04, testdim = TRUE,
+  testlabels = TRUE, symmetry = c("auto", "symmetric", "skewed"),
+  keep = FALSE)
 }
 \arguments{
 \item{y}{a response matrix}
@@ -18,10 +18,6 @@ tskrr(y, k, g = NULL, lambda = 1e-04, homogenous = is.null(g),
 \item{lambda}{a numeric vector with one or two values for the
 hyperparameter lambda. If two values are given, the first one is
 used for the k matrix and the second for the g matrix.}
-
-\item{homogenous}{a logical value indicating whether the fitting should
-be done for a homogenous network. Normally this is obvious from the
-input (i.e. a lacking \code{g} matrix indicates the network is homogenous)}
 
 \item{testdim}{a logical value indicating whether symmetry
 and the dimensions of the kernel(s) should be tested.
@@ -38,10 +34,10 @@ speed up the function.}
 can either specify whether the adjacency matrix is symmetric or
 skewed, or you can let the function decide (option "auto").}
 
-\item{keep}{a logical value indicating whether the original kernel
+\item{keep}{a logical value indicating whether the kernel hat
 matrices should be stored in the model object. Doing so makes the
 model object quite larger, but can speed up predictions in
-some cases. Defaults to \code{FALSE}}
+some cases. Defaults to \code{FALSE}.}
 }
 \value{
 a \code{\link[xnet:tskrr-class]{tskrr}} object

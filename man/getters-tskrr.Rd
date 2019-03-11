@@ -13,7 +13,7 @@
 \alias{get_eigen}
 \alias{get_kernel}
 \alias{get_kernelmatrix}
-\alias{has_original}
+\alias{has_hat}
 \title{Getters for tskrr objects}
 \usage{
 \S4method{response}{tskrr}(x, ...)
@@ -32,7 +32,7 @@ get_eigen(x, which = c("row", "column"))
 
 get_kernel(x, which = c("row", "column"))
 
-has_original(x)
+has_hat(x)
 }
 \arguments{
 \item{x}{a \code{\link[xnet:tskrr-class]{tskrr}} object or an
@@ -65,8 +65,8 @@ kernel matrix.
 For \code{get_kernelmatrix} the original kernel matrix
 for the rows or columns.
 
-For \code{has_original} a logical value indicating whether
-the tskrr model contains the original kernel matrices.
+For \code{has_hat} a logical value indicating whether
+the tskrr model contains the kernel hat matrices.
 }
 \description{
 The functions described here are convenience functions to get

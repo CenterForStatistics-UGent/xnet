@@ -108,23 +108,23 @@ get_kernel <- function(x, which = c('row','column')){
 
   if(is_homogenous(x) || which == 'row'){
 
-    if(x@has.orig) x@k.orig else eigen2matrix(x@k$vectors, x@k$values)
+    eigen2matrix(x@k$vectors, x@k$values)
 
   } else{
 
-    if(x@has.orig) x@g.orig else eigen2matrix(x@g$vectors, x@g$values)
+    eigen2matrix(x@g$vectors, x@g$values)
 
   }
 }
 
 #' @rdname getters-tskrr
-#' @aliases has_original
-#' @return For \code{has_original} a logical value indicating whether
-#' the tskrr model contains the original kernel matrices.
-has_original <- function(x){
+#' @aliases has_hat
+#' @return For \code{has_hat} a logical value indicating whether
+#' the tskrr model contains the kernel hat matrices.
+has_hat <- function(x){
   if(!inherits(x, 'tskrr'))
     stop("x needs to be a tskrr model.")
 
-  x@has.orig
+  x@has.hat
 }
 

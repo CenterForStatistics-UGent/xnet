@@ -31,7 +31,7 @@ is_symmetric <- function(x, tol = 100 * .Machine$double.eps){
   else if(n == 1L)
     return(TRUE)
 
-  # fast first testing to check if the rows
+  # fast first testing to check if the first column and row match
   if(any(x[c(1,n),] - x[,c(1,n)] > tol))
     return(FALSE)
 

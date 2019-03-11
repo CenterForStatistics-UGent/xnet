@@ -1,7 +1,7 @@
 Package: xnet
 Type: Package
 Title: twostep kernel ridge regression for network predictions
-Version: 0.1.4
+Version: 0.1.5
 Authors@R: c(person("Joris","Meys", email = "Joris.Meys@UGent.be", role
         = c("cre","aut")), person("Michiel", "Stock", email =
         "Michiel.Stock@UGent.be", role = "aut"))
@@ -9,7 +9,7 @@ Description: This package implements two-step kernel ridge regression
         for predicting edges in networks, together with many
         cross-validation shortcuts for swift and accurate performance
         assessment <doi:10.1093/bib/bby095>.
-Date: 2019-03-01
+Date: 2019-03-11
 BugReports: https://github.com/CenterForStatistics-UGent/xnet/issues
 URL: https://github.com/CenterForStatistics-UGent/xnet
 Depends: R(>= 3.4.0)
@@ -18,15 +18,17 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
-Suggests: testthat, knitr, rmarkdown
+Suggests: testthat, knitr, rmarkdown, ChemmineR, covr
 VignetteBuilder: knitr
 Collate: 'Class_linearFilter.R' 'Class_tskrr.R'
-        'Class_tskrrHeterogenous.R' 'Class_tskrrHomogenous.R'
+        'Class_tskrrHeterogenous.R' 'Class_tskrrHeterogenousImpute.R'
+        'Class_tskrrHomogenous.R' 'Class_tskrrHomogenousImpute.R'
         'all_generics.R' 'Getters_tskrr.R' 'create_grid.R'
         'data_drugtarget.R' 'data_proteinInteraction.R' 'dim.R'
         'eigen2hat.R' 'fitted.R' 'get_loo_fun.R' 'getlooInternal.R'
-        'getters_linearFilter.R' 'hat.R' 'is_symmetric.R' 'labels.R'
-        'linear_filter.R' 'loo.R' 'looInternal.R' 'loss_functions.R'
-        'match_labels.R' 'predict.R' 'test_symmetry.R' 'tskrr.R'
-        'tskrr.fit.R' 'tune.R' 'update.R' 'valid_dimensions.R'
-        'valid_labels.R' 'weights.R' 'xnet-package.R'
+        'getters_linearFilter.R' 'hat.R' 'impute_tskrr.R'
+        'is_symmetric.R' 'labels.R' 'linear_filter.R' 'loo.R'
+        'looInternal.R' 'loss_functions.R' 'match_labels.R' 'predict.R'
+        'test_symmetry.R' 'tskrr.R' 'tskrr.fit.R' 'tune.R' 'update.R'
+        'valid_dimensions.R' 'valid_labels.R' 'weights.R'
+        'xnet-package.R'

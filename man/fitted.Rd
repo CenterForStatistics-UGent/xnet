@@ -3,12 +3,18 @@
 \docType{methods}
 \name{fitted.tskrr}
 \alias{fitted.tskrr}
+\alias{fitted.linearFilter}
 \alias{fitted,tskrr-method}
+\alias{fitted,linearFilter-method}
 \title{extract the predictions}
 \usage{
 \method{fitted}{tskrr}(object, ...)
 
+\method{fitted}{linearFilter}(object, ...)
+
 \S4method{fitted}{tskrr}(object, ...)
+
+\S4method{fitted}{linearFilter}(object, ...)
 }
 \arguments{
 \item{object}{an object for which the extraction of model fitted values

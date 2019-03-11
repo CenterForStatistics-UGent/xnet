@@ -94,12 +94,16 @@ setMethod("loo",
                    replaceby0 = FALSE){
 
             exclusion <- match.arg(exclusion)
+            symm <- symmetry(x)
             if(replaceby0){
               if(exclusion != "interaction")
                 stop("replaceby0 only makes sense when exclusion is set to 'interaction'.")
 
-              if(any(match(x@y, c(0,1), 0L ) == 0))
+
+              if(symm == "symmetric" && any(match(x@y, c(0,1), 0L ) == 0))
                 stop("replaceby0 only makes sense when the response has 0/1 values.")
+              else if(symm == "skewed" && any(match(x@y, c(-1,0,1), 0L ) == 0))
+                stop("replaceby0 only makes sense when the response has -1/0/1 values.")
             }
 
             Hk <- hat(x)
@@ -107,7 +111,7 @@ setMethod("loo",
             if(exclusion == "interaction"){
               loofun <- .getloo_homogenous("interaction",
                                            replaceby0,
-                                           symmetry(x))
+                                           symm)
               out <- loofun(x@y, Hk, x@pred)
             } else {
               out <- loo.v(x@y, Hk)

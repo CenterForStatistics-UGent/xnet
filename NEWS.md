@@ -1,3 +1,17 @@
+## xnet devel (to become 0.1.6)
+
+### Breaking changes
+
+### New features
+
+### bug fixes and minor improvements
+
+* `linear_filter` gave totally wrong predictions due to a code error:  fixed.
+
+* In the testing procedures
+    - testing skewed homogenous networks added.
+    
+
 ## xnet 0.1.5
 
 ### Breaking changes

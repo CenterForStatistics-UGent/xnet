@@ -49,7 +49,8 @@ linear_filter <- function(y, alpha=0.25, na.rm = FALSE){
       return(matrix(NA, ncol = nc, nrow = nr))
   }
 
-  pred <- .linear_filter(y,cm,rm,m,nc)
+  pred <- .linear_filter(y,alpha,cm,rm,m,nr,nc)
+
 
   # simple matrix filter
   new("linearFilter",
@@ -65,6 +66,7 @@ linear_filter <- function(y, alpha=0.25, na.rm = FALSE){
 # Function .linear_filter allows for optimization algorithms.
 # Input: cm is column mean, rm is row mean, m is global mean, nc is
 # number of columns
-.linear_filter <- function(y, alpha, cm, rm, m, nc){
-  alpha[1]*y + alpha[2]*rep(cm, each = nc) + alpha[3]*rm + alpha[4] * m
+.linear_filter <- function(y, alpha, cm, rm, m, nr, nc){
+  alpha[1]*y + rep(alpha[2]*cm, each = nr) +
+    rep(alpha[3]*rm, times = nc) + alpha[4] * m
 }

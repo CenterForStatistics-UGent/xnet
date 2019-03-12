@@ -32,11 +32,23 @@ test_that("symmetry works correctly",{
 })
 
 mod2 <- tskrr(Y, K, G, lambda = c(lambdak, lambdag), keep = TRUE)
+mod3 <- tskrr(Yh,Kh, lambda = lambdak, keep = TRUE)
 
 test_that("has_hat works correctly",{
   expect_error(has_hat(1))
   expect_false(has_hat(mod))
   expect_true(has_hat(mod2))
+  expect_true(has_hat(mod3))
+})
+
+test_that("hat returns the correct hat when they're stored",{
+  expect_equal(hat(mod),hat(mod2))
+  expect_equal(hat(modh), hat(mod3))
+})
+
+test_that("dim works correctly",{
+  expect_equal(dim(mod),dim(Y))
+  expect_equal(dim(modh),dim(Yh))
 })
 
 # LINEAR FILTER ----------------------------------------

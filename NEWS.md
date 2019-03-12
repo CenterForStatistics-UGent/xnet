@@ -7,6 +7,7 @@
 ### bug fixes and minor improvements
 
 * `linear_filter` gave totally wrong predictions due to a code error:  fixed.
+* `linear_filter` returned a matrix when NAs were present: fixed.
 
 * In the testing procedures
     - testing skewed homogenous networks added.

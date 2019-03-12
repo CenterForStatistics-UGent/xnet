@@ -47,7 +47,7 @@ preds <- alphas[1] * Yna +
 
 test_that("NAs are dealt with properly", {
   expect_equal(fitted(linFNA),
-               matrix(NA_real_,ncol = ncol(Y), nrow = nrow(Y)))
+               matrix(NA_real_,ncol = ncol(X), nrow = nrow(X)))
   expect_true(na_removed(linFNONA))
   expect_identical(colMeans(linFNONA), cmna)
   expect_identical(rowMeans(linFNONA), rmna)

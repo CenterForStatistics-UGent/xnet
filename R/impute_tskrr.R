@@ -43,7 +43,8 @@ impute_tskrr <- function(y,
                    verbose = FALSE
 ){
 
-  iptest <- .test_input(y,k,g,lambda,testdim,testlabels)
+  iptest <- .test_input(y,k,g,lambda,testdim,testlabels,
+                        checkna = FALSE)
   homogenous <- iptest$homogenous
   lambda.k <- iptest$lambda.k
   lambda.g <- iptest$lambda.g

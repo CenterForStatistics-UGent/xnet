@@ -10,6 +10,11 @@
 
 * In the testing procedures
     - testing skewed homogenous networks added.
+    - testing validations added
+    - testing symmetric calculations
+    
+* input testing for `tskrr` moved to its own function and is 
+also used by `impute_tskrr` now.
     
 
 ## xnet 0.1.5

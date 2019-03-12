@@ -256,10 +256,43 @@ test_that("shortcuts skewed homogenous networks work", {
 ## Linear filter ---------------------------------------------
 
 linF <- linear_filter(Y)
+testLOO <- function(Y,alpha,pred){
+
+  res <- matrix(NA, nrow = nrow(Y), ncol = ncol(Y))
+
+  for(i in seq_len(nrow(Y))){
+    for(j in seq_len(ncol(Y))){
+
+      res[i,j] <-
+        (mean(Y[-i,j])*alpha[2] + #column mean minus ith row
+        mean(Y[i,-j])*alpha[3] + #row mean minus jth column
+        mean(Y[-i,-j])*alpha[4])  # mean minus observation
+    }
+  }
+  return(res)
+}
+
+testLOO0 <- function(Y,alpha){
+
+  res <- matrix(NA, nrow = nrow(Y), ncol = ncol(Y))
+
+  for(i in seq_len(nrow(Y))){
+    for(j in seq_len(ncol(Y))){
+      Ytilde <- Y
+      Ytilde[i,j] <- 0
+      res[i,j] <- 0 +
+        mean(Ytilde[,j])*alpha[2] + #column mean
+        mean(Ytilde[i,])*alpha[3] + #row mean
+        mean(Ytilde)*alpha[4]  # mean
+    }
+  }
+  return(res)
+
+}
 
 test_that("shortcuts linear filter work", {
   # Setting I
 
-  looI <- loo(linF)
-  Ytilde <- Y
+  looI0 <- loo(linF, replaceby0 = TRUE)
+  expect_equal(looI0,testLOO0(Y,rep(0.25,4)))
 })

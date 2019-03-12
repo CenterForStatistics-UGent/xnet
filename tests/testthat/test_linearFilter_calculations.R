@@ -5,6 +5,7 @@ X <- matrix(c(1,0,0,1,0,0,0,1,0,1,0,1,1,1,0,1,0,0,1,1),
             ncol = 5)
 alphas <- c(0.1,0.1,0.4,0.4)
 linF <- linear_filter(X, alpha = alphas)
+linF2 <- linear_filter(X)
 cm <- colMeans(X)
 rm <- rowMeans(X)
 m <- mean(X)

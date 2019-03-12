@@ -1,11 +1,13 @@
 # Function to test inputs for tskrr etc.
 
-# This function tests the input for all fitting functions
+# This function tests the input for all fitting functions.
+# Put checkna = FALSE if NA values are allowed in y.
 # It returns a list with the following elements:
 # - lambda.k
 # - lambda.g
 # - homogenous
-.test_input <- function(y,k,g,lambda,testdim,testlabels){
+.test_input <- function(y,k,g,lambda,testdim,testlabels,
+                        checkna = TRUE){
 
   # SET FLAGS
   homogenous <- is.null(g)
@@ -33,7 +35,7 @@
       stop("lambda should be a single value. See ?tskrr")
   }
 
-  if(any(is.na(y)))
+  if(checkna && any(is.na(y)))
     stop(paste("Missing values in the y matrix are not allowed. You can",
                "use the function impute_tskrr for imputations."))
 

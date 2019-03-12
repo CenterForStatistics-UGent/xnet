@@ -3,7 +3,7 @@
 | Master | Devel |
 | :----: | :---: |
 | [![Travis build status](https://travis-ci.org/CenterForStatistics-UGent/xnet.svg?branch=master)](https://travis-ci.org/CenterForStatistics-UGent/xnet) | [![Travis devel-build status](https://travis-ci.org/CenterForStatistics-UGent/xnet.svg?branch=devel)](https://travis-ci.org/CenterForStatistics-UGent/xnet) |
-| [![Coverage status](https://codecov.io/gh/CenterForStatistics-UGent/xnet/branch/master/graph/badge.svg)](https://codecov.io/github/CenterForStatistics-UGent/xnet?branch=master) | [![Coverage status](https://codecov.io/gh/CenterForStatistics-UGent/xnet/branch/devel/graph/badge.svg)](https://codecov.io/github/CenterForStatistics-UGent/xnet?branch=devel) |
+| [![Coverage status](https://codecov.io/gh/CenterForStatistics-UGent/xnet/branch/master/graph/badge.svg)](https://codecov.io/github/CenterForStatistics-UGent/xnet?branch=master) | [![Coverage status](https://codecov.io/gh/CenterForStatistics-UGent/xnet/branch/devel/graph/badge.svg)](https://codecov.io/github/CenterForStatistics-UGent/xnet/branch/devel) |
 
 
 

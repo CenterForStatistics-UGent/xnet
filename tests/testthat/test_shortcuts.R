@@ -27,6 +27,9 @@ eigKs <- get_eigen(mods)
 Hks <- hat(mods)
 preds <- fitted(mods)
 
+# Linear filter
+linF <- linear_filter(Y)
+
 # Tests -----------------------------------------------------------
 
 ## get_loo_fun ----------------------------------------------------
@@ -48,6 +51,50 @@ test_that("get_loo_fun returns the correct function",{
   expect_equal(get_loo_fun(mods,'both'), loo.v)
   expect_error(get_loo_fun(modh,'row'))
   expect_error(get_loo_fun(mods,'column',replaceby0 = TRUE))
+  # Linear filters
+  expect_equal(get_loo_fun(linF), loo.i.lf)
+  expect_equal(get_loo_fun(linF, replaceby0 = TRUE), loo.i0.lf)
+  # Character values
+  expect_equal(get_loo_fun("tskrrHeterogenous","column"),
+               loo.c)
+  expect_equal(get_loo_fun("tskrrHeterogenous","interaction",
+                           replaceby0 = TRUE),
+               loo.i0)
+  expect_equal(get_loo_fun("tskrrHeterogenous","interaction",
+                           replaceby0 = FALSE),
+               loo.i)
+  expect_equal(get_loo_fun("tskrrHeterogenous","both",
+                           replaceby0 = TRUE),
+               loo.b)
+
+  expect_equal(get_loo_fun("tskrrHomogenous","both",
+                           symmetry = "skewed"),
+               loo.v)
+  expect_equal(get_loo_fun("tskrrHomogenous","both",
+                           symmetry = "symmetric"),
+               loo.v)
+  expect_equal(get_loo_fun("tskrrHomogenous","interaction",
+                           replaceby0 = TRUE,
+                           symmetry = "skewed"),
+               loo.e0.skew)
+  expect_equal(get_loo_fun("tskrrHomogenous","interaction",
+                           replaceby0 = FALSE,
+                           symmetry = "skewed"),
+               loo.e.skew)
+  expect_equal(get_loo_fun("tskrrHomogenous","interaction",
+                           replaceby0 = TRUE,
+                           symmetry = "symmetric"),
+               loo.e0.sym)
+  expect_equal(get_loo_fun("tskrrHomogenous","interaction",
+                           replaceby0 = FALSE,
+                           symmetry = "symmetric"),
+               loo.e.sym)
+
+  expect_equal(get_loo_fun("linearFilter",replaceby0 = FALSE),
+               loo.i.lf)
+  expect_equal(get_loo_fun("linearFilter", replaceby0 = TRUE),
+               loo.i0.lf)
+
 })
 
 predict_ij <- function(Y,Hk, Hg, i, j){

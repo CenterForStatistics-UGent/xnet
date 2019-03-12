@@ -1,4 +1,4 @@
-context("modeling calculations")
+context("tskrr calculations")
 
 # Create the structures needed. Was saved in a .rdata file
 

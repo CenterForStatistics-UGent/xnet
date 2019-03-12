@@ -65,6 +65,24 @@ tskrr <- function(y,k,g = NULL,
   lambda.k <- iptest$lambda.k
   lambda.g <- iptest$lambda.g
 
+  # Rearrange matrices if necessary
+  rk <- rownames(k) # not when there's no row/-colnames
+  ck <- colnames(k)
+
+  if(!is.null(rk)){
+    cg <- colnames(g)
+    if(!all(rownames(y) == rk))
+      y <- match_labels(y,rk,cg)
+    if(!all(rk == ck))
+      k <- match_labels(k,rk,rk)
+    if(!homogenous){
+      rg <- rownames(g)
+      if(!all(cg == rg))
+        g <- match_labels(g,cg,cg)
+    }
+
+  }
+
   # CALCULATE EIGEN DECOMPOSITION
   k.eigen <- eigen(k, symmetric = TRUE)
   g.eigen <- if(!homogenous) eigen(g, symmetric = TRUE) else NULL

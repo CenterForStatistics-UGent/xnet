@@ -52,3 +52,12 @@ test_that("valid_labels returns errors when needed",{
 
 
 })
+
+test_that("Input is checked correctly", {
+  expect_equal(.test_input(Y,K,G, lambda = 1e-4,
+                           testdim = TRUE, testlabels = TRUE),
+               list(lambda.k = 1e-4,
+                    lambda.g = 1e-4,
+                    homogenous = FALSE)
+  )
+})

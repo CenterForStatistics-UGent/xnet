@@ -2,9 +2,9 @@
 #'
 #' This function checks whether the labels between the Y, K and G
 #' matrices make sense. This means that all the labels found as
-#' rownames for \code{y} can be found in \code{k}, and all the
-#' colnames for \code{y} can be found in \code{g}. This is a non-
-#' exported convenience function.
+#' rownames for \code{y} can be found as rownames \emph{and} column
+#' names of \code{k}, and all the colnames for \code{y} can be found
+#' as rownames \emph{and} colnames of \code{g} (if provided).
 #'
 #' Compatible labels means that it is unequivocally clear which
 #' rows and columns can be linked throughout the model. In case none
@@ -26,6 +26,8 @@
 #' @param k the kernel matrix for the rows
 #' @param g the kernel matrix for the columns (optional). If not available,
 #' it takes the value \code{NULL}
+#'
+#' @note This is a non-exported convenience function.
 #'
 #' @return \code{TRUE} if all labels are compatible, an error otherwise.
 #'
@@ -57,18 +59,23 @@ valid_labels <- function(y, k, g = NULL){
     if(all(rynull,rknull,rgnull,cynull,cknull,cgnull))
       return(TRUE)
     else if(any(rynull,rknull,rgnull,cynull,cknull,cgnull))
-      stop("Not all row labels and col labels could be found.")
+      stop(paste("Not all row labels and col labels could be found.",
+                 "You need to have compatible row and column labels",
+                 "for all matrices. See also ?valid_labels."))
   } else {
     if(all(rynull,rknull,cynull,cknull))
       return(TRUE)
     else if(any(rynull,rknull,cynull,cknull))
-      stop("Not all row labels and col labels could be found.")
+      stop(paste("Not all row labels and col labels could be found.",
+                 "You need to have compatible row and column labels",
+                 "for all matrices. See also ?valid_labels."))
   }
 
   out <- all(match(rny,rnk,0L) > 0L)
 
   if(!out)
-    stop("rownames of y and k are not matching.")
+    stop(paste("rownames of y and k are not matching.",
+               "See also ?valid_labels."))
 
   out <- all(match(rnk, cnk, 0L) > 0L)
 
@@ -82,7 +89,8 @@ valid_labels <- function(y, k, g = NULL){
     out <- all(match(cny,cng,0L) > 0L)
 
     if(!out)
-      stop("colnames of y and g are not matching.")
+      stop(paste("colnames of y and g are not matching.",
+                 "See also ?valid_labels."))
 
     out <- all(match(rng,cng, 0L) > 0L)
 
@@ -94,7 +102,8 @@ valid_labels <- function(y, k, g = NULL){
     out <- all(match(cny, cnk,0L) > 0L)
 
     if(!out)
-      stop("colnames of y and k are not matching.")
+      stop(paste("colnames of y and k are not matching.",
+                 "See also ?valid_labels."))
   }
   return(out)
 }

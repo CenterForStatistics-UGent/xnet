@@ -6,7 +6,10 @@
 # - lambda.k
 # - lambda.g
 # - homogenous
-.test_input <- function(y,k,g,lambda,testdim,testlabels,
+.test_input <- function(y,k,g,
+                        lambda = 1e-4,
+                        testdim = TRUE,
+                        testlabels = TRUE,
                         checkna = TRUE){
 
   # SET FLAGS
@@ -55,11 +58,6 @@
   if(testlabels){
 
     valid_labels(y,k,g) # Generates errors if something's wrong
-
-    rk <- rownames(k) # not when there's no row/-colnames
-    if(!is.null(rk)){
-      y <- match_labels(y,rk,colnames(g))
-    }
 
   }
 

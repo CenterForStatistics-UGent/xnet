@@ -51,25 +51,3 @@ test_that("dim works correctly",{
   expect_equal(dim(modh),dim(Yh))
 })
 
-# LINEAR FILTER ----------------------------------------
-X <- matrix(c(1,0,0,1,0,0,0,1,0,1,0,1,1,1,0,1,0,0,1,1),
-            ncol = 5)
-alphas <- c(0.1,0.1,0.4,0.4)
-linF <- linear_filter(X, alpha = alphas)
-cm <- colMeans(X)
-rm <- rowMeans(X)
-m <- mean(X)
-
-preds <- alphas[1] * X +
-  alphas[2] * rep(cm, each = nrow(X)) +
-  alphas[3] * rep(rm, times = ncol(X)) +
-  alphas[4] * m
-
-test_that("Linear filter is constructed correctly",{
-  expect_identical(colMeans(linF), cm)
-  expect_identical(rowMeans(linF), rm)
-  expect_identical(mean(linF), m)
-  expect_identical(alpha(linF), alphas)
-  expect_false(na_removed(linF))
-  expect_equal(fitted(linF),preds)
-})

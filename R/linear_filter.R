@@ -36,18 +36,29 @@ linear_filter <- function(y, alpha=0.25, na.rm = FALSE){
   else if(length(alpha) !=4)
     stop("alpha should be a single number of 4 numbers.")
 
+  if(any(is.na(y))){
+    if(na.rm){
+      warning("NAs removed before fitting the linear filter.")
+    } else {
+      # Return the empty matrix for now.
+      res <- new("linearFilter",
+                 y = y,
+                 alpha = alpha,
+                 pred = matrix(NA_real_,
+                               nrow = nrow(y),ncol = ncol(y)),
+                 mean = NA_real_,
+                 colmeans = colMeans(y),
+                 rowmeans = rowMeans(y),
+                 na.rm = na.rm)
+    }
+
+  }
+
   cm <- colMeans(y, na.rm = na.rm)
   rm <- rowMeans(y, na.rm = na.rm)
   m <- mean(y, na.rm = na.rm)
   nc <- ncol(y)
   nr <- nrow(y)
-
-  if(any(is.na(y))){
-    if(na.rm)
-      warning("NAs removed before fitting the linear filter.")
-    else
-      return(matrix(NA, ncol = nc, nrow = nr))
-  }
 
   pred <- .linear_filter(y,alpha,cm,rm,m,nr,nc)
 

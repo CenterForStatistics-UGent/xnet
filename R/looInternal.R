@@ -120,7 +120,7 @@ loo.i.lf <- function(Y, alpha, pred){
   d <- dim(Y)
   n <- length(Y)
 
-  lev <- alpha[1] + alpha[2] / d[2] + alpha[3] / d[1] + alpha[4] / n
+  lev <- alpha[1] + alpha[2] / d[1] + alpha[3] / d[2] + alpha[4] / n
 
   loolf <- (pred - Y*lev) / (1 - lev)
   return(loolf)
@@ -132,7 +132,7 @@ loo.i0.lf <- function(Y, alpha, pred){
   d <- dim(Y)
   n <- length(Y)
 
-  lev <- alpha[1] + alpha[2] / d[2] + alpha[3] / d[1] + alpha[4] / n
+  lev <- alpha[1] + alpha[2] / d[1] + alpha[3] / d[2] + alpha[4] / n
 
   loolf <- (pred - Y*lev)
   return(loolf)

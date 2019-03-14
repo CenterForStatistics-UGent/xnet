@@ -255,18 +255,29 @@ test_that("shortcuts skewed homogenous networks work", {
 
 ## Linear filter ---------------------------------------------
 
-linF <- linear_filter(Y)
-testLOO <- function(Y,alpha,pred){
+alphas <- c(0.4,0.3,0.2,0.1)
+linF <- linear_filter(Y, alpha = alphas)
+testLOO <- function(Y,alpha){
 
-  res <- matrix(NA, nrow = nrow(Y), ncol = ncol(Y))
+  nr <- nrow(Y)
+  nc <- ncol(Y)
 
-  for(i in seq_len(nrow(Y))){
-    for(j in seq_len(ncol(Y))){
+  res <- matrix(NA, nrow = nr, ncol = nc)
+
+  a <- alpha[1] + alpha[2]/nr + alpha[3]/nc + alpha[4]/(nr*nc)
+
+  for(i in seq_len(nr)){
+    for(j in seq_len(nc)){
 
       res[i,j] <-
-        (mean(Y[-i,j])*alpha[2] + #column mean minus ith row
-        mean(Y[i,-j])*alpha[3] + #row mean minus jth column
-        mean(Y[-i,-j])*alpha[4])  # mean minus observation
+        (sum(Y[-i,j])*alpha[2]/nr + #column mean minus ith row
+        sum(Y[i,-j])*alpha[3]/nc + #row mean minus jth column
+        sum(Y[row(Y) != i | col(Y) != j])*alpha[4]/(nr*nc)) /  # mean minus observation
+        (1 - a)
+
+      # KEEP IN MIND: Y[-i,-j] drops both ith row and jth column
+      # not just the element at row i and column j. This costed
+      # you a week Joris, you daft idiot.
     }
   }
   return(res)
@@ -292,7 +303,10 @@ testLOO0 <- function(Y,alpha){
 
 test_that("shortcuts linear filter work", {
   # Setting I
+  looI <- loo(linF)
+  expect_equal(looI, testLOO(Y, alphas))
 
+  # Setting I0
   looI0 <- loo(linF, replaceby0 = TRUE)
-  expect_equal(looI0,testLOO0(Y,rep(0.25,4)))
+  expect_equal(looI0,testLOO0(Y, alphas))
 })

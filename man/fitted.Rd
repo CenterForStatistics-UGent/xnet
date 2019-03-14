@@ -8,17 +8,20 @@
 \alias{fitted,linearFilter-method}
 \title{extract the predictions}
 \usage{
-\method{fitted}{tskrr}(object, ...)
+\method{fitted}{tskrr}(object, labels = TRUE, ...)
 
 \method{fitted}{linearFilter}(object, ...)
 
-\S4method{fitted}{tskrr}(object, ...)
+\S4method{fitted}{tskrr}(object, labels = TRUE, ...)
 
 \S4method{fitted}{linearFilter}(object, ...)
 }
 \arguments{
 \item{object}{an object for which the extraction of model fitted values
 is meaningful.}
+
+\item{labels}{a logical value indicating whether the labels should
+be shown. Defaults to TRUE}
 
 \item{...}{arguments passed to or from other methods.}
 }

@@ -33,7 +33,7 @@ test_that("tskrr homogenous is valid",{
 })
 
 test_that("Symmetric model is fitted correctly",{
-  expect_equal(fitted(mod),fits)
+  expect_equal(fitted(mod, labels = FALSE),fits)
 })
 
 test_that("Symmetric model object is constructed correctly",{
@@ -64,7 +64,7 @@ naivewts <- solve(Kh + lambdak*diag(5)) %*% Ys %*%
   solve(Kh + lambdak*diag(5))
 
 test_that("Skewed model is fitted correctly",{
-  expect_equal(fitted(mod),fits)
+  expect_equal(fitted(mod, labels = FALSE),fits)
 })
 
 test_that("Skewed model object is constructed correctly",{
@@ -77,4 +77,37 @@ test_that("Skewed model object is constructed correctly",{
   expect_equal(hat(mod, 'row'), Hk)
   expect_equal(hat(mod, 'column'), Hk)
   expect_false(has_hat(mod))
+})
+
+# test labels
+
+# Check label matching
+
+hlabels <- letters[1:5]
+
+Ylh <- Yh
+Yls <- Ys
+Klh <- Kh
+
+rownames(Ylh) <- colnames(Ylh) <- hlabels
+colnames(Yls) <- rownames(Yls) <- hlabels
+rownames(Klh) <- colnames(Klh) <- hlabels
+
+idk <- sample(1:5)
+idy <- sample(1:5)
+Ylh2 <- Ylh[idy, idy]
+Klh2 <- Klh[idk, idk]
+Yls2 <- Yls[idy, idy]
+
+test_that("Labels are correctly processed in fitting tskrr",{
+  mod1 <- tskrr(Ylh, Klh)
+  mod2 <- tskrr(Ylh2, Klh2)
+  expect_equal(fitted(mod1)[hlabels,hlabels],
+               fitted(mod2)[hlabels,hlabels])
+
+  mod1 <- tskrr(Yls, Klh)
+  mod2 <- tskrr(Yls2, Klh2)
+  expect_equal(fitted(mod1)[hlabels,hlabels],
+               fitted(mod2)[hlabels,hlabels])
+
 })

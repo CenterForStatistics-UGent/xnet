@@ -50,7 +50,7 @@ test_that("weights are calculated correctly",{
 })
 
 test_that("Heterogenous model is fitted correctly",{
-  expect_equal(fitted(mod),fits)
+  expect_equal(fitted(mod, labels = FALSE),fits)
 })
 
 test_that("Heterogenous model object is constructed correctly",{
@@ -70,7 +70,27 @@ test_that("Kernel matrices are extracted correctly", {
   expect_equal(G, get_kernel(mod, 'column'))
 })
 
-# test_that("Homogenous model object is constructed correctly",{
-#   # NEEDS TO BE DONE!!!!
-#   expect_equal(1,2)
-# })
+# Check label matching
+
+rlabels <- letters[1:4]
+clabels <- letters[1:5]
+
+Yl <- Y
+Kl <- K
+Gl <- G
+rownames(Yl) <- rownames(Kl) <- colnames(Kl) <- rlabels
+colnames(Yl) <- rownames(Gl) <- colnames(Gl) <- clabels
+
+idk <- sample(1:4)
+idg <- sample(1:5)
+Yl2 <- Yl[sample(1:4), sample(1:5)]
+Kl2 <- Kl[idk, idk]
+Gl2 <- Gl[idg,idg]
+
+mod1 <- tskrr(Yl,Kl,Gl)
+mod2 <- tskrr(Yl2,Kl2,Gl2)
+
+test_that("Labels are correctly processed in fitting tskrr",{
+  expect_equal(fitted(mod1)[rlabels,clabels],
+               fitted(mod2)[rlabels,clabels])
+})

@@ -45,6 +45,7 @@ test_that("valid_labels returns errors when needed",{
 
 })
 
+# Check input ------------------------------------------------
 test_that("Input is checked correctly", {
   expect_equal(.test_input(Y,K,G, lambda = 1e-4,
                            testdim = TRUE, testlabels = TRUE),
@@ -95,4 +96,56 @@ test_that("Dimension checks work correctly",{
   expect_true(valid_dimensions(matrix(ncol = 5, nrow = 5),
                                matrix(ncol = 5, nrow = 5)))
   expect_false(valid_dimensions(Y,G,K))
+})
+
+
+# Match labels -----------------------------------------------
+mat <- matrix(1:12, ncol = 4,
+              dimnames = list(c("b", "a", "d"),
+                              c("ca", "cb","cd","cc")))
+rmatch <- c("a","b", "d")
+cmatch <- c("ca","cb","cc","cd")
+
+rmat <- matrix(1:9, ncol = 3, dimnames = list(rmatch,rmatch))
+cmat <- matrix(1:16, ncol = 4, dimnames = list(cmatch,cmatch))
+res <- mat[c(2,1,3), c(1,2,4,3)]
+
+mat2 <- mat
+rownames(mat2) <- c("x","a","d")
+mat3 <- mat
+colnames(mat3) <- c("cx","cb","cc","cd")
+
+
+test_that("Label matching produces correct errors",{
+  expect_error(match_labels(1:10,rmatch, cmatch),
+               "be a matrix")
+  expect_error(match_labels(mat, matrix(1:9,nrow=3)),
+               "no rownames")
+  expect_error(match_labels(mat, 1:3),
+               "with rownames or a character vector")
+  expect_error(match_labels(mat, rmat, matrix(1:16, ncol = 4)),
+               "no colnames")
+  expect_error(match_labels(mat, rmat, 1:16),
+               "colnames or a character vector")
+  expect_error(match_labels(mat, cmat,rmat),
+               "row labels not of the correct length")
+  expect_error(match_labels(mat, rmat, rmat),
+               "col labels not of the correct length")
+  expect_error(match_labels(mat2, rmat, cmat),
+               "row labels not compatible with rownames y")
+  expect_error(match_labels(mat3, rmat, cmat),
+               "col labels not compatible with colnames y")
+
+})
+
+nomatres <- nomat <- mat
+dimnames(nomat) <- NULL
+dimnames(nomatres) <- list(rmatch,cmatch)
+
+test_that("Label matching gives correct results",{
+  expect_equal(match_labels(mat,rmatch,cmatch), res)
+  expect_equal(match_labels(mat,rmat,cmatch), res)
+  expect_equal(match_labels(mat,rmatch,cmat), res)
+  expect_equal(match_labels(mat,rmat,cmat), res)
+  expect_equal(match_labels(nomat,rmatch,cmatch), nomatres)
 })

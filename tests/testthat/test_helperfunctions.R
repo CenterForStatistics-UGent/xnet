@@ -151,12 +151,15 @@ nomatres <- nomat <- mat
 dimnames(nomat) <- NULL
 dimnames(nomatres) <- list(rmatch,cmatch)
 
+rmatshift <- rmat[c(2,1,3),c(3,1,2)]
+
 test_that("Label matching gives correct results",{
   expect_equal(match_labels(mat,rmatch,cmatch), res)
   expect_equal(match_labels(mat,rmat,cmatch), res)
   expect_equal(match_labels(mat,rmatch,cmat), res)
   expect_equal(match_labels(mat,rmat,cmat), res)
   expect_equal(match_labels(nomat,rmatch,cmatch), nomatres)
+  expect_equal(match_labels(rmatshift,rmatch),rmat)
 })
 
 # Test symmetry

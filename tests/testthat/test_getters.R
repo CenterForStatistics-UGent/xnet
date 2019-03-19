@@ -140,6 +140,8 @@ test_that("labels produces the correct errors", {
                "prefix should contain 1 or 2 values")
   expect_error(labels(mod, prefix = character(0)),
                "prefix should contain 1 or 2 values")
+  expect_error(labels(mod, prefix = prefix[1]),
+               "heterogenous .* needs 2 values")
   expect_warning(labels(modh, prefix = prefix),
                  "Two prefixes were given for a homogenous model")
 })

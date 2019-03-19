@@ -26,7 +26,8 @@
 \item{object}{a \code{\link{tskrr}} object}
 
 \item{prefix}{a prefix used for construction of the labels in case
-none are available. For \code{label}, a character vector of length 1 or 2.
+none are available. For \code{label}, a character vector of length 1 for
+homogenous networks or of length 2 for heterogenous networks.
 In case two values are given, the first is used for the rows and the second
 for the columns. Otherwise the only value is used for both. In the case of
 \code{rownames} and \code{colnames}, a single value.

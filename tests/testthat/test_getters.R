@@ -48,6 +48,8 @@ test_that("has_hat works correctly",{
 test_that("hat returns the correct hat when they're stored",{
   expect_equal(hat(mod),hat(mod2))
   expect_equal(hat(modh), hat(mod3))
+  expect_equal(hat(mod, which = 'column'),
+               hat(mod2, which = 'column'))
 })
 
 test_that("dim works correctly",{

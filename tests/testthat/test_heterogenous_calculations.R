@@ -35,10 +35,6 @@ wts <- Mk %*% Y %*% Mg
 naivewts <- solve(K + lambdak*diag(4)) %*% Y %*%
   solve(G + lambdag*diag(5))
 
-test_that("tskrr heterogenous is valid",{
-  expect_true(validObject(mod))
-})
-
 test_that("hat and map matrix is calculated correctly",{
   expect_equal(Hk, eigen2hat(Kmat, Kvec, lambdak))
   expect_equal(Mk, eigen2map(Kmat, Kvec, lambdak))

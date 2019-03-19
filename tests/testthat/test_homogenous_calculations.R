@@ -28,10 +28,6 @@ wts <- Mk %*% Yh %*% Mk
 naivewts <- solve(Kh + lambdak*diag(5)) %*% Yh %*%
   solve(Kh + lambdak*diag(5))
 
-test_that("tskrr homogenous is valid",{
-  expect_true(validObject(mod))
-})
-
 test_that("Symmetric model is fitted correctly",{
   expect_equal(fitted(mod, labels = FALSE),fits)
 })

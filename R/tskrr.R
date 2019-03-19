@@ -65,18 +65,6 @@ tskrr <- function(y,k,g = NULL,
   lambda.k <- iptest$lambda.k
   lambda.g <- iptest$lambda.g
 
-  # Test whether Y is symmetric
-  if(homogenous){
-    # Test symmetry if required.
-    symmetry <- match.arg(symmetry)
-    if(symmetry == "auto"){
-      symmetry <- test_symmetry(y)
-      if(symmetry == "none")
-        stop(paste("The Y matrix is not symmetric.",
-                   "You need a kernel matrix for rows and columns."))
-    }
-  }
-
   # Rearrange matrices if necessary
   rk <- rownames(k) # not when there's no row/-colnames
 
@@ -90,7 +78,18 @@ tskrr <- function(y,k,g = NULL,
       if(any(rownames(y) != rk) || any(colnames(y) !=cg) )
         y <- match_labels(y,rk,cg)
     }
+  }
 
+  # Test whether Y is symmetric
+  if(homogenous){
+    # Test symmetry if required.
+    symmetry <- match.arg(symmetry)
+    if(symmetry == "auto"){
+      symmetry <- test_symmetry(y)
+      if(symmetry == "none")
+        stop(paste("The Y matrix is not symmetric or skewed symmetric.",
+                   "You need a kernel matrix for rows and columns."))
+    }
   }
 
   # CALCULATE EIGEN DECOMPOSITION

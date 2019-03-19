@@ -97,6 +97,36 @@ test_that("get_loo_fun returns the correct function",{
 
 })
 
+## Test loo errors ------------------------------------------------
+
+test_that("loo processes arguments correctly",{
+  expect_error(loo(mod, exclusion = "row", replaceby0 = TRUE),
+               regexp = "only makes sense .* 'interaction'")
+  expect_error(loo(modh, exclusion = "both", replaceby0 = TRUE),
+               regexp = "only makes sense .* 'interaction'")
+})
+
+Ycont <- Y
+Ycont[3,4] <- 2
+modcont <- tskrr(Ycont, K, G)
+Yhcont <- Yh
+Yhcont[3,4] <- Yhcont[4,3] <- 2
+modhcont <- tskrr(Yhcont,Kh)
+Yscont <- Ys
+Yscont[3,4] <- 2
+Yscont[4,3] <- -2
+modscont <- tskrr(Yscont, Kh)
+
+test_that("Replaceby0 is only used on 0/1 matrices",{
+  expect_error(loo(modcont, replaceby0=TRUE),
+               "only makes sense .* 0/1 values")
+  expect_error(loo(modhcont, replaceby0=TRUE),
+               "only makes sense .* 0/1 values")
+  expect_error(loo(modscont, replaceby0=TRUE),
+               "only makes sense .* -1/0/1 values")
+
+})
+
 predict_ij <- function(Y,Hk, Hg, i, j){
   (Hk[i,,drop = FALSE] %*% Y %*% Hg[,j,drop = FALSE])
 }

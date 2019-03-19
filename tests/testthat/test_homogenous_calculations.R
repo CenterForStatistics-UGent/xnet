@@ -19,7 +19,7 @@ Hk <- Kmat %*% diag(Kvec) %*% solve(diag(Kvec) + lambdak*diag(5)) %*% t(Kmat)
 Mk <- Kmat %*% solve(diag(Kvec) + lambdak*diag(5)) %*% t(Kmat)
 
 # Fit the model
-mod <- tskrr(Yh, Kh, lambda = lambdak)
+modh <- tskrr(Yh, Kh, lambda = lambdak)
 
 # Manual construction of the fits
 fits <- Hk %*% Yh %*% Hk
@@ -29,29 +29,29 @@ naivewts <- solve(Kh + lambdak*diag(5)) %*% Yh %*%
   solve(Kh + lambdak*diag(5))
 
 test_that("Symmetric model is fitted correctly",{
-  expect_equal(fitted(mod, labels = FALSE),fits)
+  expect_equal(fitted(modh, labels = FALSE),fits)
 })
 
 test_that("Symmetric model object is constructed correctly",{
-  expect_equal(response(mod), Yh)
-  expect_equal(lambda(mod), c(k = lambdak))
-  expect_equal(symmetry(mod), "symmetric")
-  expect_equal(get_eigen(mod, "row"), Keig)
-  expect_equal(get_eigen(mod, "column"), Keig)
-  expect_true(is_homogenous(mod))
-  expect_equal(hat(mod, 'row'), Hk)
-  expect_equal(hat(mod, 'column'), Hk)
-  expect_false(has_hat(mod))
+  expect_equal(response(modh), Yh)
+  expect_equal(lambda(modh), c(k = lambdak))
+  expect_equal(symmetry(modh), "symmetric")
+  expect_equal(get_eigen(modh, "row"), Keig)
+  expect_equal(get_eigen(modh, "column"), Keig)
+  expect_true(is_homogenous(modh))
+  expect_equal(hat(modh, 'row'), Hk)
+  expect_equal(hat(modh, 'column'), Hk)
+  expect_false(has_hat(modh))
 })
 
 test_that("Kernel matrices are extracted correctly", {
-  expect_equal(Kh, get_kernel(mod, 'row'))
-  expect_equal(Kh, get_kernel(mod, 'column'))
+  expect_equal(Kh, get_kernel(modh, 'row'))
+  expect_equal(Kh, get_kernel(modh, 'column'))
 })
 
 # Skewed networks ----------------------------------------------
 
-mod <- tskrr(Ys, Kh, lambda = lambdak)
+mods <- tskrr(Ys, Kh, lambda = lambdak)
 # Manual construction of the fits
 fits <- Hk %*% Ys %*% Hk
 wts <- Mk %*% Ys %*% Mk
@@ -60,19 +60,19 @@ naivewts <- solve(Kh + lambdak*diag(5)) %*% Ys %*%
   solve(Kh + lambdak*diag(5))
 
 test_that("Skewed model is fitted correctly",{
-  expect_equal(fitted(mod, labels = FALSE),fits)
+  expect_equal(fitted(mods, labels = FALSE),fits)
 })
 
 test_that("Skewed model object is constructed correctly",{
-  expect_equal(response(mod), Ys)
-  expect_equal(lambda(mod), c(k = lambdak))
-  expect_equal(symmetry(mod), "skewed")
-  expect_equal(get_eigen(mod, "row"), Keig)
-  expect_equal(get_eigen(mod, "column"), Keig)
-  expect_true(is_homogenous(mod))
-  expect_equal(hat(mod, 'row'), Hk)
-  expect_equal(hat(mod, 'column'), Hk)
-  expect_false(has_hat(mod))
+  expect_equal(response(mods), Ys)
+  expect_equal(lambda(mods), c(k = lambdak))
+  expect_equal(symmetry(mods), "skewed")
+  expect_equal(get_eigen(mods, "row"), Keig)
+  expect_equal(get_eigen(mods, "column"), Keig)
+  expect_true(is_homogenous(mods))
+  expect_equal(hat(mods, 'row'), Hk)
+  expect_equal(hat(mods, 'column'), Hk)
+  expect_false(has_hat(mods))
 })
 
 # test labels
@@ -126,7 +126,7 @@ lambdanew <- 0.001
 modhnew <- tskrr(Yh, Kh, lambda = lambdanew)
 modsnew <- tskrr(Ys, Kh, lambda = lambdanew)
 
-test_that("Heterogenous model gets updated correctly",{
+test_that("Homogenous model gets updated correctly",{
   expect_error(update(modh, lambda = numeric(0)))
   expect_error(update(mods, lambda = c(1,2,3)))
   expect_error(update(mods, lambda = c(0.01,0.01)))

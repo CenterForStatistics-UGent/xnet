@@ -126,11 +126,15 @@ lambdanew <- 0.001
 modhnew <- tskrr(Yh, Kh, lambda = lambdanew)
 modsnew <- tskrr(Ys, Kh, lambda = lambdanew)
 
+mod3 <- tskrr(Yh,Kh, lambda = lambdak, keep = TRUE)
+modnew3 <- mod3 <- tskrr(Yh,Kh, lambda = lambdanew, keep = TRUE)
+
 test_that("Homogenous model gets updated correctly",{
   expect_error(update(modh, lambda = numeric(0)))
   expect_error(update(mods, lambda = c(1,2,3)))
   expect_error(update(mods, lambda = c(0.01,0.01)))
   expect_equal(update(modh, lambdanew), modhnew)
   expect_equal(update(mods, lambdanew), modsnew)
+  expect_equal(update(mod3, lambdanew), modhnew3)
 
 })

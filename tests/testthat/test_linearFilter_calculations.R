@@ -56,3 +56,10 @@ test_that("NAs are dealt with properly", {
   expect_identical(alpha(linFNONA), alphas)
   expect_equal(fitted(linFNONA),preds)
 })
+
+test_that("linear_filter returns correct errors",{
+  expect_error(linear_filter(Y, alpha = c(0.5,0.5)),
+               "alpha should .* either 1 or 4 values")
+  expect_error(linear_filter(Y, alpha = c(0.1,0.1,0.1,0.1)),
+               "alpha values should add up to 1")
+})

@@ -176,4 +176,5 @@ test_that("is_symmetric returns correct values/errors",{
                "x should be a numeric matrix")
   expect_true(is_symmetric(matrix(1)))
   expect_false(is_symmetric(matrix(0,nrow=2,ncol=3)))
+  expect_false(is_symmetric(matrix(rnorm(16), ncol = 4)))
 })

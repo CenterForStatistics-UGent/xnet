@@ -135,6 +135,6 @@ test_that("Homogenous model gets updated correctly",{
   expect_error(update(mods, lambda = c(0.01,0.01)))
   expect_equal(update(modh, lambdanew), modhnew)
   expect_equal(update(mods, lambdanew), modsnew)
-  expect_equal(update(mod3, lambdanew), modhnew3)
+  expect_equal(update(mod3, lambdanew), modnew3)
 
 })

@@ -33,7 +33,8 @@ and column names. They should fulfill the following conditions:
 
 \itemize{
   \item the row and column names of a kernel matrix must contain
-  the same values.
+  the same values in the same order. Otherwise the matrix can't
+  be symmetric.
   \item the rownames of \code{y} should correspond to the rownames
   of \code{k}
   \item the colnames of \code{y} should correspond to the colnames

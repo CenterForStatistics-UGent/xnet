@@ -25,10 +25,14 @@ test_that("is_homogenous works correctly",{
   expect_error(is_heterogenous(1))
 })
 
+Ywrong <- Yh
+Ywrong[3,4] <- 2
+
 test_that("symmetry works correctly",{
   expect_equal(symmetry(mod), NA)
   expect_equal(symmetry(modh),"symmetric")
   expect_equal(symmetry(mods), "skewed")
+  expect_equal(test_symmetry(Ywrong), "none")
 })
 
 mod2 <- tskrr(Y, K, G, lambda = c(lambdak, lambdag), keep = TRUE)

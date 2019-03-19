@@ -79,18 +79,16 @@ tskrr <- function(y,k,g = NULL,
 
   # Rearrange matrices if necessary
   rk <- rownames(k) # not when there's no row/-colnames
-  ck <- colnames(k)
 
   if(!is.null(rk)){
-    cg <- colnames(g)
-    if(!all(rownames(y) == rk))
-      y <- match_labels(y,rk,cg)
-    if(!all(rk == ck))
-      k <- match_labels(k,rk,rk)
-    if(!homogenous){
-      rg <- rownames(g)
-      if(!all(cg == rg))
-        g <- match_labels(g,cg,cg)
+    if(homogenous){
+      ck <- rownames(k)
+      if(any(rownames(y) !=rk))
+        y <- match_labels(y,rk,ck)
+    } else {
+      cg <- colnames(g)
+      if(any(rownames(y) != rk) || any(colnames(y) !=cg) )
+        y <- match_labels(y,rk,cg)
     }
 
   }

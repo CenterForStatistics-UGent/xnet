@@ -5,6 +5,7 @@
 * `valid_labels` now requires the K and G matrices to have the
 same ordering of row and column names. Otherwise the matrix 
 wouldn't be symmetric and can't be used.
+* `linear_filter` now forces the alphas to sum up to 1.
 
 ### New features
 
@@ -24,6 +25,7 @@ skewed when fitting a homogenous network.
     - testing symmetric calculations
     - testing processing of labels
     - testing shortcuts
+    - testing update function
     
 * input testing for `tskrr` moved to its own function and is 
 also used by `impute_tskrr` now.

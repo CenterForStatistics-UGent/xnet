@@ -120,3 +120,17 @@ test_that("Asymmetry in Y is detected",{
   expect_error(tskrr(Yswrong, Kh),
                "The Y matrix is not .* skewed symmetric")
 })
+
+## Update --------------------------------------
+lambdanew <- 0.001
+modhnew <- tskrr(Yh, Kh, lambda = lambdanew)
+modsnew <- tskrr(Ys, Kh, lambda = lambdanew)
+
+test_that("Heterogenous model gets updated correctly",{
+  expect_error(update(modh, lambda = numeric(0)))
+  expect_error(update(mods, lambda = c(1,2,3)))
+  expect_error(update(mods, lambda = c(0.01,0.01)))
+  expect_equal(update(modh, lambdanew), modhnew)
+  expect_equal(update(mods, lambdanew), modsnew)
+
+})

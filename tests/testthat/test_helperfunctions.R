@@ -11,20 +11,9 @@ test_that("create_grid works correctly", {
   expect_error(create_grid(1:2, 1:2))
 })
 
-test_that("valid labels are recognized", {
-  data("drugtarget")
-  data("proteinInteraction")
-  expect_true(xnet:::valid_labels(drugTargetInteraction,
-                                  targetSim,
-                                  drugSim))
-  expect_true(xnet:::valid_labels(Y,K,G))
-  expect_true(xnet:::valid_labels(proteinInteraction,
-                                  Kmat_y2h_sc))
-})
-
 test_that("valid_labels returns errors when needed",{
   # Test with wrong dimensions
-  expect_error(xnet:::valid_labels(Y,K,targetSim),
+  expect_error(valid_labels(Y,K,matrix(0,ncol=3,nrow=3)),
                "Dimensions are incompatible")
   # Construct non-matching labels
   Yw <- matrix(0,nrow = 4, ncol = 4)
@@ -32,16 +21,29 @@ test_that("valid_labels returns errors when needed",{
   Kw <- matrix(0, nrow=4, ncol=4)
   rownames(Kw) <- colnames(Kw) <- c("E","Q","R","G")
   # No colnames Yw
-  expect_error(xnet:::valid_labels(Yw,Kw),
+  expect_error(valid_labels(Yw,Kw),
                "Not all row labels and col labels")
   colnames(Yw) <- rownames(Yw)
-  expect_error(xnet:::valid_labels(Yw,Kw),
+  expect_error(valid_labels(Yw,Kw),
                "rownames of y and k are not matching")
 
-  rownames(Kw) <- colnames(Yw)
-  expect_error(xnet:::valid_labels(Yw, Kw),
+  rownames(Kw) <- rownames(Kw)[c(2,1,3,4)]
+  expect_error(valid_labels(Yw, Kw),
                "Different row- and colnames found for k")
 
+  # Create G and set everything back to OK for Y and K
+  Gw <- matrix(0,nrow = 4, ncol = 4)
+  rownames(Gw) <- colnames(Gw) <- c("D","A","V","B")
+  rownames(Yw) <- colnames(Kw)
+  colnames(Yw) <- c("D","A","W","B")
+  rownames(Kw) <- colnames(Kw)
+
+  expect_error(valid_labels(Yw, Kw, Gw),
+               "colnames of y and g are not matching")
+  colnames(Yw) <- colnames(Gw)
+  rownames(Gw) <- rownames(Gw)[c(2,1,3,4)]
+  expect_error(valid_labels(Yw, Kw, Gw),
+               "Different row- and colnames found for g")
 
 })
 

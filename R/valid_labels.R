@@ -14,7 +14,8 @@
 #'
 #' \itemize{
 #'   \item the row and column names of a kernel matrix must contain
-#'   the same values.
+#'   the same values in the same order. Otherwise the matrix can't
+#'   be symmetric.
 #'   \item the rownames of \code{y} should correspond to the rownames
 #'   of \code{k}
 #'   \item the colnames of \code{y} should correspond to the colnames
@@ -71,31 +72,27 @@ valid_labels <- function(y, k, g = NULL){
                  "for all matrices. See also ?valid_labels."))
   }
 
+  if(!all(rnk == cnk))
+    stop("Different row- and colnames found for k.")
+
   out <- all(match(rny,rnk,0L) > 0L)
 
   if(!out)
     stop(paste("rownames of y and k are not matching.",
                "See also ?valid_labels."))
 
-  out <- all(match(rnk, cnk, 0L) > 0L)
-
-  if(!out)
-    stop("Different row- and colnames found for k.")
-
   if(checkg){
     # When there is g, check against g
     cng <- colnames(g)
     rng <- rownames(g)
+
+    if(!all(rng == cng))
+      stop("Different row- and colnames found for g.")
     out <- all(match(cny,cng,0L) > 0L)
 
     if(!out)
       stop(paste("colnames of y and g are not matching.",
                  "See also ?valid_labels."))
-
-    out <- all(match(rng,cng, 0L) > 0L)
-
-    if(!out)
-      stop("Different row- and colnames found for g.")
 
   } else {
     # No g, so check against k again

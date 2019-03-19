@@ -37,13 +37,13 @@ labels.tskrr <- function(object,
 
 
   # Process the prefixes
-  if(!is.character(prefix) && !is.vector(prefix))
+  if(!is.character(prefix) || !is.vector(prefix))
     stop("prefix should be a character vector with maximum 2 values.")
   nref <- length(prefix)
   if(nref == 1 && !homogenous)
     prefix <- rep(prefix, 2)
   else if(nref > 2 || nref < 1)
-    stop("prefix should contain maximum 2 values.")
+    stop("prefix should contain 1 or 2 values. See also ?labels.")
   else if(nref == 2 && homogenous)
     warning(paste("Two prefixes were given for a homogenous model.",
                   "The second value", prefix[2],"is ignored."))
@@ -79,15 +79,18 @@ setMethod("dimnames",
 #' @export
 setMethod("rownames",
           "tskrr",
-          function(x, do.NULL = TRUE, prefix){
+          function(x, do.NULL = TRUE, prefix = "row"){
             rn <- x@labels$k
 
             nolabels <- length(rn) == 1 && is.na(rn)
 
             if(do.NULL && nolabels)
               return(NULL)
-            else if(nolabels)
+            else if(nolabels){
+              if(length(prefix) > 1 || !is.character(prefix))
+                stop("prefix should be a single character value.")
               rn <- paste0(prefix, seq_len(nrow(x@y)))
+            }
 
             return(rn)
           })
@@ -96,15 +99,18 @@ setMethod("rownames",
 #' @export
 setMethod("colnames",
           "tskrr",
-          function(x, do.NULL = TRUE, prefix){
+          function(x, do.NULL = TRUE, prefix = "col"){
             rn <- x@labels$g
 
             nolabels <- length(rn) == 1 && is.na(rn)
 
             if(do.NULL && nolabels)
               return(NULL)
-            else if(nolabels)
-              rn <- paste0(prefix, seq_len(nrow(x@y)))
+            else if(nolabels){
+              if(length(prefix) > 1 || !is.character(prefix))
+                stop("prefix should be a single character value.")
+              rn <- paste0(prefix, seq_len(ncol(x@y)))
+            }
 
             return(rn)
           })

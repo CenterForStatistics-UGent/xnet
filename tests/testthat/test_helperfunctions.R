@@ -11,6 +11,8 @@ test_that("create_grid works correctly", {
   expect_error(create_grid(1:2, 1:2))
 })
 
+# Valid labels ------------------------------------------------
+
 test_that("valid_labels returns errors when needed",{
   # Test with wrong dimensions
   expect_error(valid_labels(Y,K,matrix(0,ncol=3,nrow=3)),
@@ -44,6 +46,11 @@ test_that("valid_labels returns errors when needed",{
   rownames(Gw) <- rownames(Gw)[c(2,1,3,4)]
   expect_error(valid_labels(Yw, Kw, Gw),
                "Different row- and colnames found for g")
+  colnames(Gw) <- NULL
+  expect_error(valid_labels(Yw, Kw, Gw),
+               "Not all row labels and col labels could be found")
+  expect_error(valid_labels(Yw, Kw),
+               "colnames of y and k are not matching")
 
 })
 
@@ -150,4 +157,10 @@ test_that("Label matching gives correct results",{
   expect_equal(match_labels(mat,rmatch,cmat), res)
   expect_equal(match_labels(mat,rmat,cmat), res)
   expect_equal(match_labels(nomat,rmatch,cmatch), nomatres)
+})
+
+# Test symmetry
+test_that("test_symmetry returns correct error",{
+  expect_error(test_symmetry(1),
+               "x should be a matrix")
 })

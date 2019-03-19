@@ -15,7 +15,8 @@
 #' labels are created. If \code{TRUE}, the function returns \code{NULL} in
 #' the absence of labels.
 #' @param prefix a prefix used for construction of the labels in case
-#' none are available. For \code{label}, a character vector of length 1 or 2.
+#' none are available. For \code{label}, a character vector of length 1 for
+#' homogenous networks or of length 2 for heterogenous networks.
 #' In case two values are given, the first is used for the rows and the second
 #' for the columns. Otherwise the only value is used for both. In the case of
 #' \code{rownames} and \code{colnames}, a single value.
@@ -41,7 +42,7 @@ labels.tskrr <- function(object,
     stop("prefix should be a character vector with maximum 2 values.")
   nref <- length(prefix)
   if(nref == 1 && !homogenous)
-    prefix <- rep(prefix, 2)
+    stop("A heterogenous network needs 2 values for prefix.")
   else if(nref > 2 || nref < 1)
     stop("prefix should contain 1 or 2 values. See also ?labels.")
   else if(nref == 2 && homogenous)

@@ -116,6 +116,7 @@ Yscont <- Ys
 Yscont[3,4] <- 2
 Yscont[4,3] <- -2
 modscont <- tskrr(Yscont, Kh)
+Lincont <- linear_filter(Ycont)
 
 test_that("Replaceby0 is only used on 0/1 matrices",{
   expect_error(loo(modcont, replaceby0=TRUE),
@@ -124,6 +125,8 @@ test_that("Replaceby0 is only used on 0/1 matrices",{
                "only makes sense .* 0/1 values")
   expect_error(loo(modscont, replaceby0=TRUE),
                "only makes sense .* -1/0/1 values")
+  expect_error(loo(Lincont, replaceby0=TRUE),
+               "only makes sense .* 0/1 values")
 
 })
 

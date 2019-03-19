@@ -77,6 +77,10 @@ Gl <- G
 rownames(Yl) <- rownames(Kl) <- colnames(Kl) <- rlabels
 colnames(Yl) <- rownames(Gl) <- colnames(Gl) <- clabels
 
+set.seed(5432) # Due to small size of matrices, there might be
+               # significant deviation bcs of differences in the
+               # decompositions. See eg with seed = 5434 (R3.5.3)
+
 idk <- sample(1:4)
 idg <- sample(1:5)
 Yl2 <- Yl[sample(1:4), sample(1:5)]
@@ -89,4 +93,5 @@ mod2 <- tskrr(Yl2,Kl2,Gl2)
 test_that("Labels are correctly processed in fitting tskrr",{
   expect_equal(fitted(mod1)[rlabels,clabels],
                fitted(mod2)[rlabels,clabels])
+
 })

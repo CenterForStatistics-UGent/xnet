@@ -69,7 +69,8 @@ test_that("Input is checked correctly", {
                "lambda should contain one or two values")
   expect_error(.test_input(Y,K,g = NULL, lambda = c(1,2)),
                "lambda should be a single value")
-  expect_error(.test_input(Y,K, lambda = "a"))
+  expect_error(.test_input(Y,K,g = NULL, lambda = "a"),
+               "lambda should be numeric")
   # Test NA passage
   Yna <- Y
   Yna[c(3,7)] <- NA

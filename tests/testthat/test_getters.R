@@ -60,3 +60,86 @@ test_that("fitted and predict give same result",{
   expect_equal(fitted(mod3, labels = FALSE), predict(mod3, Kh))
 })
 
+## Test the rownames colnames functions ----------------------------
+prefix <- c("therows", "thecols")
+r1 <- paste0(prefix[1], seq_len(nrow(Y)))
+c1 <- paste0(prefix[2], seq_len(ncol(Y)))
+rh1 <- paste0(prefix[1], seq_len(nrow(Yh)))
+
+r2 <- paste0("row", seq_len(nrow(Y)))
+c2 <- paste0("col", seq_len(ncol(Y)))
+
+r3 <- paste0("row", seq_len(nrow(Yh)))
+
+test_that("Row and colnames are returned correctly",{
+  expect_null(rownames(mod))
+  expect_null(colnames(mod))
+
+  expect_equal(rownames(mod, do.NULL = FALSE, prefix = prefix[1]), r1)
+  expect_equal(colnames(mod, do.NULL = FALSE, prefix = prefix[2]), c1)
+
+  expect_equal(rownames(mod, do.NULL = FALSE), r2)
+  expect_equal(colnames(mod, do.NULL = FALSE), c2)
+})
+
+test_that("row- and colnames return correct errors",{
+  expect_error(rownames(mod, do.NULL = FALSE, prefix = prefix),
+               "prefix should be a single character value")
+  expect_error(colnames(mod, do.NULL = FALSE, prefix = prefix),
+               "prefix should be a single character value")
+  expect_error(rownames(mod, do.NULL = FALSE, prefix = 1),
+               "prefix should be a single character value")
+  expect_error(colnames(mod, do.NULL = FALSE, prefix = 1),
+               "prefix should be a single character value")
+
+})
+
+## Test the labels functions --------------------------------
+
+rlabels <- letters[1:4]
+clabels <- letters[1:5]
+
+Yl <- Y
+Yhl <- Yh
+Kl <- K
+Gl <- G
+Khl <- Kh
+rownames(Yl) <- rownames(Kl) <- colnames(Kl) <- rlabels
+colnames(Yl) <- rownames(Gl) <- colnames(Gl) <- clabels
+rownames(Yhl) <- colnames(Yhl) <- clabels
+rownames(Khl) <- colnames(Khl) <- clabels
+
+modl <- tskrr(Yl, Kl, Gl)
+modhl <- tskrr(Yhl, Khl)
+
+test_that("dimnames returns the correct result",{
+  expect_equal(labels(mod), dimnames(mod))
+  expect_equal(labels(modl), dimnames(modl))
+})
+
+test_that("labels gives the correct result", {
+  expect_equal(labels(mod), list(k = r2, g = c2))
+  expect_equal(labels(modh), list(k = r3, g = r3))
+  expect_equal(labels(mods), list(k = r3, g = r3))
+
+  expect_equal(labels(mod, prefix = prefix),
+               list(k = r1, g = c1))
+  expect_equal(labels(modh, prefix = prefix[1]),
+               list(k = rh1, g = rh1))
+
+  expect_equal(labels(modl), list(k = rlabels, g = clabels))
+  expect_equal(labels(modhl), list(k = clabels, g = clabels))
+})
+
+test_that("labels produces the correct errors", {
+  expect_error(labels(mod, prefix = c(1,2)),
+               "should be a character vector")
+  expect_error(labels(mod, prefix = matrix(prefix)),
+               "should be a character vector")
+  expect_error(labels(mod, prefix = letters[1:3]),
+               "prefix should contain 1 or 2 values")
+  expect_error(labels(mod, prefix = character(0)),
+               "prefix should contain 1 or 2 values")
+  expect_warning(labels(modh, prefix = prefix),
+                 "Two prefixes were given for a homogenous model")
+})

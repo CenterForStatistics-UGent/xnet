@@ -2,6 +2,10 @@
 
 ### Breaking changes
 
+* `valid_labels` now requires the K and G matrices to have the
+same ordering of row and column names. Otherwise the matrix 
+wouldn't be symmetric and can't be used.
+
 ### New features
 
 ### bug fixes and minor improvements
@@ -10,12 +14,16 @@
 * `linear_filter` returned a matrix when NAs were present: fixed.
 * `fitted` now has an argument `labels` which allows to add the
 labels to the returned object.
+* `tskrr` now returns an error if the Y matrix is not symmetric or
+skewed when fitting a homogenous network.
+* `labels` now produces more informative errors and warnings.
 
 * In the testing procedures
     - testing skewed homogenous networks added.
     - testing validations added
     - testing symmetric calculations
     - testing processing of labels
+    - testing shortcuts
     
 * input testing for `tskrr` moved to its own function and is 
 also used by `impute_tskrr` now.

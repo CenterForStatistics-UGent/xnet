@@ -95,3 +95,13 @@ test_that("Labels are correctly processed in fitting tskrr",{
                fitted(mod2)[rlabels,clabels])
 
 })
+
+# update -------------------------
+lambdanew <- c(0.001,0.01)
+modnew <- tskrr(Y, K, G, lambda = lambdanew)
+
+test_that("Heterogenous model gets updated correctly",{
+  expect_error(update(mod, lambda = numeric(0)))
+  expect_error(update(mod, lambda = c(1,2,3)))
+  expect_equal(update(mod, lambdanew), modnew)
+})

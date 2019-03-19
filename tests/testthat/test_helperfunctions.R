@@ -162,8 +162,18 @@ test_that("Label matching gives correct results",{
   expect_equal(match_labels(rmatshift,rmatch),rmat)
 })
 
-# Test symmetry
+# Test symmetry ----------------------------------
 test_that("test_symmetry returns correct error",{
   expect_error(test_symmetry(1),
                "x should be a matrix")
+})
+
+# Test is_symmetric ------------------------------
+test_that("is_symmetric returns correct values/errors",{
+  expect_error(is_symmetric(matrix(c("a","b"))),
+               "x should be a numeric matrix")
+  expect_error(is_symmetric(c(1,4)),
+               "x should be a numeric matrix")
+  expect_true(is_symmetric(matrix(1)))
+  expect_false(is_symmetric(matrix(0,nrow=2,ncol=3)))
 })

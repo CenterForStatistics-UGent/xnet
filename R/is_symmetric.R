@@ -26,17 +26,17 @@ is_symmetric <- function(x, tol = 100 * .Machine$double.eps){
 
   dims <- dim(x)
 
-  if(n <- dims[1L] != dims[2L])
+  if((n <- dims[1L]) != dims[2L])
     return(FALSE)
   else if(n == 1L)
     return(TRUE)
 
   # fast first testing to check if the first column and row match
-  if(any(x[c(1,n),] - x[,c(1,n)] > tol))
+  if(any(x[1,] - x[,1] > tol))
     return(FALSE)
 
-  rd <- .row(dims - 2L) + 1
-  cd <- .col(dims - 2L) + 1
+  rd <- .row(dims - 1L) + 1
+  cd <- .col(dims - 1L) + 1
   tohave <- rd > cd
 
   idr <- rd[tohave]

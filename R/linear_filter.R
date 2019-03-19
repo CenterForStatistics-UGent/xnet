@@ -34,7 +34,9 @@ linear_filter <- function(y, alpha=0.25, na.rm = FALSE){
   if(length(alpha) == 1)
     alpha <- rep(alpha,4)
   else if(length(alpha) !=4)
-    stop("alpha should be a single number of 4 numbers.")
+    stop("alpha should be a numeric vector with either 1 or 4 values.")
+  if(sum(alpha) != 1 )
+    stop("alpha values should add up to 1.")
 
   cm <- colMeans(y, na.rm = na.rm)
   rm <- rowMeans(y, na.rm = na.rm)

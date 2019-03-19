@@ -91,7 +91,7 @@ rownames(Klh) <- colnames(Klh) <- hlabels
 
 idk <- sample(1:5)
 idy <- sample(1:5)
-Ylh2 <- Ylh[idy, idy]
+Ylh2 <- Ylh[idy, idk]
 Klh2 <- Klh[idk, idk]
 Yls2 <- Yls[idy, idy]
 
@@ -106,4 +106,17 @@ test_that("Labels are correctly processed in fitting tskrr",{
   expect_equal(fitted(mod1)[hlabels,hlabels],
                fitted(mod2)[hlabels,hlabels])
 
+})
+
+## Error testing ---------------------------------
+Yhwrong <- Yh
+Yhwrong[4,5] <- 1
+Yswrong <- Ys
+Yswrong[4,5] <- Yswrong[5,4] <- 1
+
+test_that("Asymmetry in Y is detected",{
+  expect_error(tskrr(Yhwrong, Kh),
+               "The Y matrix is not symmetric")
+  expect_error(tskrr(Yswrong, Kh),
+               "The Y matrix is not .* skewed symmetric")
 })

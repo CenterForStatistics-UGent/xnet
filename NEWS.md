@@ -6,6 +6,7 @@
 same ordering of row and column names. Otherwise the matrix 
 wouldn't be symmetric and can't be used.
 * `linear_filter` now forces the alphas to sum up to 1.
+* `tune` now returns an object of class `tskrrTune`
 
 ### New features
 

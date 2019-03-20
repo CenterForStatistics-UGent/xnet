@@ -14,7 +14,9 @@
 #' minimize the loss function
 #' @slot best_loss a numeric value with the loss associated with the
 #' best lambdas
-#' @slot loss_values a matrix with the loss results from the searched grid
+#' @slot loss_values a matrix with the loss results from the searched grid.
+#' The rows form the X dimension (related to the first lambda), the columns
+#' form the Y dimension (related to the second lambda if applicable)
 #' @slot loss_function the used loss function
 #' @slot exclusion a character value describing the exclusion used
 #' @slot replaceby0 a logical value indicating whether or not the cross
@@ -55,31 +57,31 @@ validTskrrTune <- function(object){
     if(length(object@best_lambda) != 1)
       return("best_lambda should contain a single value for homogenous networks.")
 
-    if(nrow(lossval) != 1 ||
-       ncol(lossval) != length(lgrid$k))
+    if(ncol(lossval) != 1 ||
+       nrow(lossval) != length(lgrid$k))
       return(paste("Loss values should have 1 row and",length(lgrid$k),"columns to match the lambda grid."))
 
   } else {
     # All tests for heterogenous models
-    if(names(lgrid) != c("k","g"))
+    if(any(names(lgrid) != c("k","g")))
       return("lambda grid should be a list with two elements named k and g (in that order) for heterogenous networks")
 
     if(length(object@best_lambda) != 2)
       return("best_lambda should contain two values for heterogenous networks.")
 
-    if(nrow(lossval) != length(lgrid$g) ||
-       ncol(lossval) != length(lgrid$k))
-      return(paste("Loss values should have",length(lgrid$g),"rows and",length(lgrid$k),"columns to match the lambda grid."))
+    if(nrow(lossval) != length(lgrid$k) ||
+       ncol(lossval) != length(lgrid$g))
+      return(paste("Loss values should have",length(lgrid$k),"rows and",length(lgrid$g),"columns to match the lambda grid."))
   }
 
   # General tests
-  if(lambda(object@mod) != object@best_lambda)
+  if(any(lambda(object@model) != object@best_lambda))
     return("best_lambda is not the one used for fitting.")
 
   if(!all(sapply(lgrid, is.numeric)))
     return("lambda_grid should have only numeric elements.")
 
-  if(length(object@best_loss != 1))
+  if(length(object@best_loss) != 1)
     return("best_loss should be a single value.")
 
   if(length(excl) != 1)

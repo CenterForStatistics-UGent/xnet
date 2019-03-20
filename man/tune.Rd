@@ -44,13 +44,7 @@ should be simply removed (\code{FALSE}) or replaced by 0 (\code{TRUE}).}
 \item{...}{arguments to be passed to the loss function}
 }
 \value{
-a list with two elements:
-\itemize{
-   \item \code{loss}: a vector or matrix with the calculated losses
-   \item \code{lambda}: a list with one or two elements giving the
-   lambdas for the rows and the columns. If only one element in the
-   list, these lambda values can be used or both row and colum.
-}
+a model of class \code{\link[xnet:tskrrTune-class]{tskrrTune}}
 }
 \description{
 This function lets you tune the lambda parameter(s) of a two-step
@@ -100,11 +94,11 @@ image(x,y,log(z), log = 'xy')
 }
 }
 \seealso{
-\code{\link{loo}}, \code{\link{loo_internal}} and
+\itemize{
+\item \code{\link{loo}}, \code{\link{loo_internal}} and
 \code{\link{get_loo_fun}} for more information on how leave one out
 validation works.
-
-\code{\link{tskrr}} for fitting a twostep kernel ridge regression.
-
-\code{\link{loss_functions}} for different loss functions.
+\item \code{\link{tskrr}} for fitting a twostep kernel ridge regression.
+\item \code{\link{loss_functions}} for different loss functions.
+}
 }

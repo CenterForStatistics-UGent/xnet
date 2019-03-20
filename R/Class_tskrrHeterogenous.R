@@ -59,3 +59,5 @@ validTskrrHeterogenous <- function(object){
   else
     return(TRUE)
 }
+
+setValidity("tskrrHeterogenous", validTskrrHeterogenous)

@@ -186,6 +186,14 @@ setMethod("tune",
             )
           })
 
+#' @rdname tune
+#' @export
+setMethod("tune",
+          "tskrrTune",
+          function(x, ...){
+            tune(x@model, ...)
+          })
+
 # Helper function find_best_lambda
 
 find_min_pos <- function(x){

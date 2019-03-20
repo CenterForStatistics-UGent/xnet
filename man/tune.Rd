@@ -5,6 +5,7 @@
 \alias{tune}
 \alias{tune,tskrrHomogenous-method}
 \alias{tune,tskrrHeterogenous-method}
+\alias{tune,tskrrTune-method}
 \title{tune the lambda parameters for a tskrr}
 \usage{
 \S4method{tune}{tskrrHomogenous}(x, lim = c(1e-04, 1), ngrid = 10,
@@ -14,6 +15,8 @@
 \S4method{tune}{tskrrHeterogenous}(x, lim = c(1e-04, 1), ngrid = 10,
   lambda = NULL, fun = loss_mse, exclusion = "interaction",
   replaceby0 = FALSE, ...)
+
+\S4method{tune}{tskrrTune}(x, ...)
 }
 \arguments{
 \item{x}{a \code{\link{tskrr}} object representing a two step

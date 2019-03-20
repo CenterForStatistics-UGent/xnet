@@ -9,6 +9,9 @@ wouldn't be symmetric and can't be used.
 
 ### New features
 
+* the class `tskrrTune` provides a more complete object with all
+information of tuning.
+
 ### bug fixes and minor improvements
 
 * `linear_filter` gave totally wrong predictions due to a code error:  fixed.

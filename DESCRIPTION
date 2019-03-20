@@ -1,7 +1,7 @@
 Package: xnet
 Type: Package
 Title: twostep kernel ridge regression for network predictions
-Version: 0.1.5-42
+Version: 0.1.5-43
 Authors@R: c(person("Joris","Meys", email = "Joris.Meys@UGent.be", role
         = c("cre","aut")), person("Michiel", "Stock", email =
         "Michiel.Stock@UGent.be", role = "aut"))

@@ -27,7 +27,9 @@ minimize the loss function}
 \item{\code{best_loss}}{a numeric value with the loss associated with the
 best lambdas}
 
-\item{\code{loss_values}}{a matrix with the loss results from the searched grid}
+\item{\code{loss_values}}{a matrix with the loss results from the searched grid.
+The rows form the X dimension (related to the first lambda), the columns
+form the Y dimension (related to the second lambda if applicable)}
 
 \item{\code{loss_function}}{the used loss function}
 

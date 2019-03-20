@@ -31,4 +31,10 @@ test_that("Output of tuned model is correct", {
                         lim = list(c(0.001,1),c(0.015,2)),
                         ngrid = list(10,20),
                         exclusion = "row"))
+  expect_identical(get_loo_fun(tuned),
+                   get_loo_fun(mod,
+                               exclusion = "row"))
+  expect_identical(tuned@loss_function,
+                   loss_mse)
+
 })

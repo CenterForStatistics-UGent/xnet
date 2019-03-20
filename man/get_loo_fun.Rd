@@ -7,6 +7,7 @@
 \alias{get_loo_fun,tskrrHomogenous-method}
 \alias{get_loo_fun,linearFilter-method}
 \alias{get_loo_fun,character-method}
+\alias{get_loo_fun,tskrrTune-method}
 \title{Retrieve a loo function}
 \usage{
 get_loo_fun(x, ...)
@@ -21,6 +22,8 @@ get_loo_fun(x, ...)
 
 \S4method{get_loo_fun}{character}(x = c("tskrrHeterogenous",
   "tskrrHomogenous", "linearFilter"), ...)
+
+\S4method{get_loo_fun}{tskrrTune}(x, ...)
 }
 \arguments{
 \item{x}{a character value with the class or a \code{\link{tskrr}}
@@ -65,6 +68,11 @@ remove rows or columns. If you try it anyway, you'll be met with an error.
 For the class \code{linearFilter} it only makes sense to exclude the
 interaction (i.e. a single cell). Therefor you do not have an argument
 \code{exclusion} for that method.
+
+For the class \code{tskrrTune}, not specifying \code{exclusion} or
+\code{replaceby0} returns the used loo function. If you specify either
+of them, it will use the method for the appropriate model and return
+a new loo function.
 }
 \seealso{
 \code{\link{loo}} for carrying out a leave on out crossvalidation,

@@ -60,3 +60,52 @@ validTskrrTune <- function(object){
 }
 
 setValidity("tskrrTune", validTskrrTune)
+
+setMethod("show",
+          "tskrrTune",
+          function(object){
+            ishomog <- is_homogenous(object)
+            type <- ifelse(ishomog,"Homogenous","Heterogenous")
+            tl   <- ifelse(ishomog,"----------","------------")
+            cat(paste(type,"tuned two-step kernel ridge regression"),
+                paste(tl,"--------------------------------------",sep="-"),
+                sep = "\n")
+            dims <- paste(dim(object@y), collapse = " x ")
+            cat("Dimensions:", dims,"\n")
+            cat("Lambda:\n")
+            print(lambda(object))
+
+            labs <- labels(object)
+            if(ishomog)
+              cat("\nLabels:")
+            else
+              cat("\nRow Labels:")
+
+            str(labs$k, give.length = FALSE, give.head = FALSE,
+                width = getOption("width") - 11)
+            if(!ishomog){
+              cat("Col Labels:")
+              str(labs$g, give.length = FALSE, give.head = FALSE,
+                  width = getOption("width") - 11)
+            }
+
+            # Information on tuning
+            excl <- object@exclusion
+            if(object@replaceby0) excl <- paste(excl,"(values replaced by 0)")
+
+
+
+            if(identical(object@loss_function, loss_mse))
+              loss_name <- "Mean Squared Error (loss_mse)"
+            else if(identical(object@loss_function, loss_auc))
+              loss_name <- "Area under curve (loss_auc)"
+            else
+              loss_name <- "custom function by user"
+
+            cat("\nTuning information:\n")
+            cat("  exclusion:",object@exclusion,"\n")
+            cat("  loss value:", object@best_loss,"\n")
+            cat("  loss function:", loss_name,"\n")
+          })
+
+

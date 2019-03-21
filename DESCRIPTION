@@ -1,7 +1,7 @@
 Package: xnet
 Type: Package
 Title: twostep kernel ridge regression for network predictions
-Version: 0.1.5-50
+Version: 0.1.5-51
 Authors@R: c(person("Joris","Meys", email = "Joris.Meys@UGent.be", role
         = c("cre","aut")), person("Michiel", "Stock", email =
         "Michiel.Stock@UGent.be", role = "aut"))
@@ -24,14 +24,13 @@ Collate: 'Class_linearFilter.R' 'Class_tskrr.R'
         'Class_tskrrHeterogenous.R' 'Class_tskrrHeterogenousImpute.R'
         'Class_tskrrHomogenous.R' 'Class_tskrrHomogenousImpute.R'
         'Class_tskrrTune.R' 'Class_tskrrTuneHeterogenous.R'
-        'Class_tskrrTuneHomogenous.R' 'all_generics.R'
-        'Getters_tskrr.R' 'as_tuned.R' 'create_grid.R'
-        'data_drugtarget.R' 'data_proteinInteraction.R' 'dim.R'
-        'eigen2hat.R' 'fitted.R' 'get_loo_fun.R' 'getlooInternal.R'
-        'getters_linearFilter.R' 'hat.R' 'impute_tskrr.R'
-        'impute_loo.R' 'is_symmetric.R' 'labels.R' 'linear_filter.R'
-        'loo.R' 'looInternal.R' 'loss_functions.R' 'match_labels.R'
-        'predict.R' 'prepare_lambdas.R' 'test_input.R'
-        'test_symmetry.R' 'tskrr.R' 'tskrr.fit.R' 'tune.R' 'update.R'
-        'valid_dimensions.R' 'valid_labels.R' 'weights.R'
-        'xnet-package.R'
+        'Class_tskrrTuneHomogenous.R' 'all_generics.R' 'as_tuned.R'
+        'create_grid.R' 'data_drugtarget.R' 'data_proteinInteraction.R'
+        'dim.R' 'eigen2hat.R' 'fitted.R' 'get_loo_fun.R'
+        'getlooInternal.R' 'getters_linearFilter.R' 'getters_tskrr.R'
+        'getters_tskrrTune.R' 'hat.R' 'impute_tskrr.R' 'impute_loo.R'
+        'is_symmetric.R' 'labels.R' 'linear_filter.R' 'loo.R'
+        'looInternal.R' 'loss_functions.R' 'match_labels.R' 'predict.R'
+        'prepare_lambdas.R' 'test_input.R' 'test_symmetry.R' 'tskrr.R'
+        'tskrr.fit.R' 'tune.R' 'update.R' 'valid_dimensions.R'
+        'valid_labels.R' 'weights.R' 'xnet-package.R'

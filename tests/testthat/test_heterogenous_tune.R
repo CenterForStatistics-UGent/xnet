@@ -26,15 +26,28 @@ tuned <- tune(mod,
               exclusion = "row")
 
 test_that("Output of tuned model is correct", {
+  # retuning should give the exact same outcome
   expect_identical(tuned,
                    tune(tuned,
                         lim = list(c(0.001,1),c(0.015,2)),
                         ngrid = list(10,20),
                         exclusion = "row"))
+  # You should get the exact same loo function
   expect_identical(get_loo_fun(tuned),
                    get_loo_fun(mod,
                                exclusion = "row"))
+  # Loss function should be correct
   expect_identical(tuned@loss_function,
                    loss_mse)
 
+})
+
+# Test behaviour as tskrr ---------------------------------
+test_that("get_loo_fun works correctly on tuned models",{
+  expect_identical(get_loo_fun(tuned,
+                               exclusion = "interaction",
+                               replaceby0 = TRUE),
+                   get_loo_fun(mod,
+                               exclusion = "interaction",
+                               replaceby0 = TRUE))
 })

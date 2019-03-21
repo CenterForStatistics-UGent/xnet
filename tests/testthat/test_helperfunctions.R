@@ -180,3 +180,15 @@ test_that("is_symmetric returns correct values/errors",{
   expect_false(is_symmetric(matrix(0,nrow=2,ncol=3)))
   expect_false(is_symmetric(matrix(rnorm(16), ncol = 4)))
 })
+
+# Test find_min_pos ------------------------------
+test_that("find_min_pos finds the correct value",{
+  # Border cases
+  x <- matrix(c(6:1), ncol = 2)
+  expect_equal(find_min_pos(x), c(3,2))
+  x <- matrix(c(4,5,6,1,2,3), ncol = 2)
+  expect_equal(find_min_pos(x), c(1,2))
+  # normal case
+  x <- matrix(c(3,2,2,4,3,1,2,2,4,5,6,7), ncol = 3)
+  expect_equal(find_min_pos(x), c(2,2))
+})

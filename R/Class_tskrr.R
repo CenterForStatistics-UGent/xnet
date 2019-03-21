@@ -88,9 +88,9 @@ setMethod("show",
 
             labs <- labels(object)
             if(ishomog)
-              cat("Labels:")
+              cat("\nLabels:")
             else
-              cat("Row Labels:")
+              cat("\nRow Labels:")
 
             str(labs$k, give.length = FALSE, give.head = FALSE,
                 width = getOption("width") - 11)

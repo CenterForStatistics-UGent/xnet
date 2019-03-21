@@ -51,3 +51,8 @@ setGeneric("alpha", function(x) standardGeneric("alpha"))
 #' @rdname getters_linearFilter
 #' @export
 setGeneric("na_removed", function(x) standardGeneric("na_removed"))
+
+# For the tune
+
+#' @rdname as_tuned
+setGeneric("as_tuned", function(x, ...) standardGeneric("as_tuned"))

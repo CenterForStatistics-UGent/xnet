@@ -100,9 +100,12 @@ setMethod("get_loo_fun",
           "tskrrTune",
           function(x, ... ){
             dots <- list(...)
+            class <- if(is_homogenous(x)) "tskrrHomogenous" else "tskrrHeterogenous"
             if(length(dots))
               do.call(get_loo_fun,
-                      c(x@model, dots))
+                      c(as(x, class), dots))
             else
-              get_loo_fun(x@model, x@exclusion, x@replaceby0)
+              get_loo_fun(as(x, class),
+                          exclusion = x@exclusion,
+                          replaceby0 = x@replaceby0)
           })

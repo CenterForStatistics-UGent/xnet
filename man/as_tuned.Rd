@@ -3,6 +3,7 @@
 \docType{methods}
 \name{as_tuned}
 \alias{as_tuned}
+\alias{as_tuned,tskrrHomogenous-method}
 \alias{as_tuned,tskrrHeterogenous-method}
 \title{convert tskrr model to a tuned model}
 \usage{

@@ -26,7 +26,7 @@
 #'
 #' @include all_generics.R
 #' @rdname as_tuned
-#' @name as_tuned
+#' @method as_tuned tskrrHomogenous
 setMethod("as_tuned",
           "tskrrHomogenous",
           function(x, ...){
@@ -36,6 +36,7 @@ setMethod("as_tuned",
           })
 
 #' @rdname as_tuned
+#' @method as_tuned tskrrHeterogenous
 setMethod("as_tuned",
           "tskrrHeterogenous",
           function(x, ...){

@@ -147,4 +147,6 @@ test_that("loss is calculated correctly",{
                     replaceby0 = TRUE),
                loss_auc(response(mods),
                         loo(mods, replaceby0 = TRUE)))
+  expect_equal(loss(modh, predictions = TRUE),
+               loss_mse(response(modh), fitted(modh)))
 })

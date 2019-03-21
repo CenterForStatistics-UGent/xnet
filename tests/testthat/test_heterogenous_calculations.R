@@ -119,4 +119,6 @@ test_that("loss is calculated correctly",{
   expect_equal(loss(mod, exclusion = "column", fun = loss_auc),
                loss_auc(response(mod),
                         loo(mod, exclusion = "column")))
+  expect_equal(loss(mod, predictions = TRUE),
+               loss_mse(response(mod), fitted(mod)))
 })

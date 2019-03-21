@@ -18,7 +18,7 @@
 #' matrix that contains solely the values 0 and 1.
 #'
 #' @param Y the adjacency matrix with observed responses
-#' @param LOO the leave-one-out crossvalidation (or predidctions if you
+#' @param LOO the leave-one-out crossvalidation (or predictions if you
 #' must). This one can be calculated by the function \code{loo}.
 #' @param na.rm a logical value
 #'

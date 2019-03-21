@@ -1,14 +1,18 @@
-#' convert tskrr model to a tuned model
+#' convert tskrr models
 #'
-#' This function allows to convert a \code{\link[xnet:tskrr-class]{tskrr}}
-#' model to a \code{\link[xnet:tskrrTune-class]{tskrrTune}} model of
-#' the same type. The arguments take the values of the slots needed
-#' for the conversion. More information on these slots can be found
-#' at the help page of \code{\link[xnet:tskrrTune-class]{tskrrTune}}. This function is not exported.
+#' These functions allow to convert models that inherit from the
+#' \code{\link[xnet:tskrr-class]{tskrr}} and
+#' \code{\link[xnet:tskrrTune-class]{tskrrTune}} class into eachother,
+#' keeping track of whether the model is homogenous or heterogenous.
+#' The dots argument allows to specify values for possible extra slots
+#' when converting from \code{tskrr} to \code{tskrrTune}.
+#' More information on these slots can be found
+#' at the help page of \code{\link[xnet:tskrrTune-class]{tskrrTune}}.
+#' These functions are not exported.
 #'
 #' @section \bold{Warning}:
-#' This function does NOT tune a model. It is used to
-#' construct the appropriate object by \code{\link{tune}}.
+#' This functions do NOT tune a model. they are used internally to
+#' make the connection between both types in the methods.
 #'
 #' @seealso
 #' * \code{\link{tune}} for actually tuning a model.
@@ -21,7 +25,8 @@
 #' @param ... values for the extra slots defined by
 #' the class \code{\link[xnet:tskrrTune-class]{tskrrTune}}
 #'
-#' @return a \code{\link[xnet:tskrrTune-class]{tskrrTune}} object of
+#' @return For \code{as_tuned}:
+#' a \code{\link[xnet:tskrrTune-class]{tskrrTune}} object of
 #' the proper class (homogenous or heterogenous)
 #'
 #' @include all_generics.R
@@ -43,4 +48,28 @@ setMethod("as_tuned",
 
             x <- as(x, "tskrrTuneHeterogenous")
             initialize(x, ...)
+          })
+
+#' @rdname as_tuned
+#' @return For \code{as_tskrr}: an object of class
+#' \code{\link[xnet:tskrrHomogenous-class]{tskrrHomogenous}} or
+#' \code{\link[xnet:tskrrHeterogenous-class]{tskrrHeterogenous}} depending
+#' on whether the original object was homogenous or heterogenous.
+#'
+#' @method as_tskrr tskrrTune
+setMethod("as_tskrr",
+          "tskrrTune",
+          function(x){
+            if(is_homogenous(x))
+              as(x, "tskrrHomogenous")
+            else
+              as(x, "tskrrHeterogenous")
+          })
+
+#' @rdname as_tuned
+#' @method as_tskrr tskrr
+setMethod("as_tskrr",
+          "tskrr",
+          function(x){
+            return(x)
           })

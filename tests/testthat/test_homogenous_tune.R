@@ -50,8 +50,30 @@ test_that("Output of tuned model is correct", {
   # Loss function should be correct
   expect_identical(tuned@loss_function,
                    loss_mse)
+  # grid is correct
+  expect_identical(get_grid(tuned),
+                   list(k = manlambdas))
+  # loss values are correct
+  lossval <- get_loss_values(tuned)
+  expect_equal(dim(lossval), c(length(manlambdas),1))
+
+  testmod <- update(mod,manlambdas[15])
+  expect_equal(lossval[15,1],
+               loss(testmod, exclusion = "both"))
 
 })
+
+# loss --------------------------
+
+test_that("loss is calculated correctly",{
+  expect_equal(loss(tuned),loss_mse(response(tuned),
+                                    loo(tuned, exclusion = "both")))
+  expect_equal(loss(tuned, exclusion = "interaction", fun = loss_auc,
+                    replaceby0 = TRUE),
+               loss_auc(response(tuned),
+                        loo(tuned, replaceby0 = TRUE)))
+})
+
 
 # Test behaviour as tskrr ---------------------------------
 test_that("get_loo_fun works correctly on tuned homogenous models",{

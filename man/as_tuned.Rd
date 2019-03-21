@@ -3,15 +3,24 @@
 \docType{methods}
 \name{as_tuned}
 \alias{as_tuned}
+\alias{as_tskrr}
 \alias{as_tuned,tskrrHomogenous-method}
 \alias{as_tuned,tskrrHeterogenous-method}
-\title{convert tskrr model to a tuned model}
+\alias{as_tskrr,tskrrTune-method}
+\alias{as_tskrr,tskrr-method}
+\title{convert tskrr models}
 \usage{
 as_tuned(x, ...)
+
+as_tskrr(x, ...)
 
 \S4method{as_tuned}{tskrrHomogenous}(x, ...)
 
 \S4method{as_tuned}{tskrrHeterogenous}(x, ...)
+
+\S4method{as_tskrr}{tskrrTune}(x)
+
+\S4method{as_tskrr}{tskrr}(x)
 }
 \arguments{
 \item{x}{a model of class \code{\link[xnet:tskrr-class]{tskrr}}}
@@ -20,20 +29,30 @@ as_tuned(x, ...)
 the class \code{\link[xnet:tskrrTune-class]{tskrrTune}}}
 }
 \value{
+For \code{as_tuned}:
 a \code{\link[xnet:tskrrTune-class]{tskrrTune}} object of
 the proper class (homogenous or heterogenous)
+
+For \code{as_tskrr}: an object of class
+\code{\link[xnet:tskrrHomogenous-class]{tskrrHomogenous}} or
+\code{\link[xnet:tskrrHeterogenous-class]{tskrrHeterogenous}} depending
+on whether the original object was homogenous or heterogenous.
 }
 \description{
-This function allows to convert a \code{\link[xnet:tskrr-class]{tskrr}}
-model to a \code{\link[xnet:tskrrTune-class]{tskrrTune}} model of
-the same type. The arguments take the values of the slots needed
-for the conversion. More information on these slots can be found
-at the help page of \code{\link[xnet:tskrrTune-class]{tskrrTune}}. This function is not exported.
+These functions allow to convert models that inherit from the
+\code{\link[xnet:tskrr-class]{tskrr}} and
+\code{\link[xnet:tskrrTune-class]{tskrrTune}} class into eachother,
+keeping track of whether the model is homogenous or heterogenous.
+The dots argument allows to specify values for possible extra slots
+when converting from \code{tskrr} to \code{tskrrTune}.
+More information on these slots can be found
+at the help page of \code{\link[xnet:tskrrTune-class]{tskrrTune}}.
+These functions are not exported.
 }
 \section{\bold{Warning}}{
 
-This function does NOT tune a model. It is used to
-construct the appropriate object by \code{\link{tune}}.
+This functions do NOT tune a model. they are used internally to
+make the connection between both types in the methods.
 }
 
 \seealso{

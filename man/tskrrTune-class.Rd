@@ -8,21 +8,16 @@
 \description{
 The class tskrrTune represents a tuned \code{\link[xnet:tskrr-class]{tskrr}}
 model, and is the output of the function \code{\link{tune}}. Apart from
-the model, it contains extra information on the tuning procedure.
+the model, it contains extra information on the tuning procedure. This is
+a virtual class only.
 }
 \section{Slots}{
 
 \describe{
-\item{\code{model}}{an object of class \code{\link[xnet:tskrr-class]{tskrr}} with
-the tuned model.}
-
 \item{\code{lambda_grid}}{a list object with the elements \code{k} and possibly
 \code{g} indicating the tested lambda values for the row kernel \code{K}
 and - if applicable - the column kernel \code{G}. Both elements have
 to be numeric.}
-
-\item{\code{best_lambda}}{a numeric vector with the lambda value(s) that
-minimize the loss function}
 
 \item{\code{best_loss}}{a numeric value with the loss associated with the
 best lambdas}
@@ -41,8 +36,8 @@ validation replaced the excluded values by zero}
 
 \seealso{
 \itemize{
-\item classes \code{\link{tskrrHomogenous}} and
-\code{\link{tskrrHeterogenous}} for the model classes
 \item the function \code{tune} for the tuning itself
+\item the class \code{\link{tskrrTuneHomogenous}} and
+\code{tskrrTuneHeterogenous} for the actual classes.
 }
 }

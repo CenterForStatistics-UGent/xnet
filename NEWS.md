@@ -6,12 +6,14 @@
 same ordering of row and column names. Otherwise the matrix 
 wouldn't be symmetric and can't be used.
 * `linear_filter` now forces the alphas to sum up to 1.
-* `tune` now returns an object of class `tskrrTune`
+* `tune` now returns an object of class `tskrrTuneHomogenous` or
+`tskrrTuneHeterogenous`. 
 
 ### New features
 
 * the class `tskrrTune` provides a more complete object with all
-information of tuning.
+information of tuning. It is a superclass with two real subclasses,
+`tskrrTuneHeterogenous` and `tskrrTuneHomogenous`.
 
 ### bug fixes and minor improvements
 

@@ -107,15 +107,14 @@ setMethod("tune",
             lval <- vapply(lambda$k,loss, numeric(1))
             best <- which.min(lval)
 
-            best_lambda <- lambda$k[best]
             best_loss <- lval[best]
+            best_lambda <- lambda$k[best]
 
             newx <- update(x, best_lambda)
 
-            new("tskrrTune",
-                model = newx,
+            as_tuned(newx,
                 lambda_grid = lambda,
-                best_lambda = best_lambda,
+                lambda.k = best_lambda,
                 best_loss = best_loss,
                 loss_values = matrix(lval, ncol = 1),
                 loss_function = fun,
@@ -174,24 +173,16 @@ setMethod("tune",
 
             newx <- update(x, best_lambda)
 
-            new("tskrrTune",
-                model = newx,
+            as_tuned(newx,
                 lambda_grid = lambda,
-                best_lambda = best_lambda,
+                lambda.k = best_lambda[1],
+                lambda.g = best_lambda[2],
                 best_loss = best_loss,
                 loss_values = lval,
                 loss_function = fun,
                 exclusion = exclusion,
                 replaceby0 = replaceby0
             )
-          })
-
-#' @rdname tune
-#' @export
-setMethod("tune",
-          "tskrrTune",
-          function(x, ...){
-            tune(x@model, ...)
           })
 
 # Helper function find_best_lambda

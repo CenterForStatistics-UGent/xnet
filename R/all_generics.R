@@ -56,3 +56,10 @@ setGeneric("na_removed", function(x) standardGeneric("na_removed"))
 
 #' @rdname as_tuned
 setGeneric("as_tuned", function(x, ...) standardGeneric("as_tuned"))
+
+#' @rdname as_tuned
+setGeneric("as_tskrr", function(x, ...) standardGeneric("as_tskrr"))
+
+#' @rdname loss
+#' @export
+setGeneric("loss", function(x, ...) standardGeneric("loss"))

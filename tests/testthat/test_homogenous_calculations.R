@@ -138,3 +138,13 @@ test_that("Homogenous model gets updated correctly",{
   expect_equal(update(mod3, lambdanew), modnew3)
 
 })
+
+# loss --------------------------
+
+test_that("loss is calculated correctly",{
+  expect_equal(loss(modh),loss_mse(response(modh), loo(modh)))
+  expect_equal(loss(mods, exclusion = "interaction", fun = loss_auc,
+                    replaceby0 = TRUE),
+               loss_auc(response(mods),
+                        loo(mods, replaceby0 = TRUE)))
+})

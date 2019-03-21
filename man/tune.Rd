@@ -79,18 +79,17 @@ two matrices as input: \code{Y} being the observed interactions and
 data(drugtarget)
 
 mod <- tskrr(drugTargetInteraction, targetSim, drugSim)
-tuned <- tune(mod, ngrid = 10)
+tuned <- tune(mod, lim = c(0.1,1), ngrid = list(5,10))
 
 \dontrun{
 
 # This is just some visualization of the matrix
 # It can be run safely.
+gridvals <- get_grid(tuned)
+z <- get_loss_values(tuned)        # loss values
 
-x <- tuned$lambda[[1]] #lambdas for rows
-y <- tuned$lambda[[2]] #lambdas for columns
-z <- tuned$loss        # loss values
-
-image(x,y,log(z), log = 'xy')
+image(gridvals$k,gridvals$g,log(z), log = 'xy',
+xlab = "lambda k", ylab = "lambda g")
 
 }
 }

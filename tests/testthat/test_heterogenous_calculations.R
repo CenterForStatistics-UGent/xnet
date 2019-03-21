@@ -111,3 +111,12 @@ test_that("Heterogenous model gets updated correctly",{
   expect_equal(update(mod3, lambdanew),modnew3)
   expect_equal(update(mod3, 0.5), modnew4)
 })
+
+# loss --------------------------
+
+test_that("loss is calculated correctly",{
+  expect_equal(loss(mod),loss_mse(response(mod), loo(mod)))
+  expect_equal(loss(mod, exclusion = "column", fun = loss_auc),
+               loss_auc(response(mod),
+                        loo(mod, exclusion = "column")))
+})

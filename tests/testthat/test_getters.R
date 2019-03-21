@@ -161,3 +161,14 @@ test_that("labels produces the correct errors", {
 })
 
 # Test for tskrrTune objects
+test_that("getters produce correct errors", {
+  expect_error(get_grid(1),
+               "x should be a tuned model")
+  expect_error(get_loss_values(1),
+               "x should be a tuned model")
+})
+
+# Conversions -----------------------------------
+test_that("Conversions happen correctly",{
+  expect_true(is_tskrr(as_tskrr(mod)))
+})

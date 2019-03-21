@@ -33,7 +33,7 @@ setMethod("response",
 #' values used in the model. The names are "k" and "g" respectively.
 #' @export
 setMethod("lambda",
-          "tskrr",
+          "tskrrHomogenous",
           function(x){
             c(k = x@lambda.k)
           })
@@ -46,6 +46,14 @@ setMethod("lambda",
           function(x){
             c(k = x@lambda.k, g = x@lambda.g)
           })
+
+#' @rdname getters-tskrr
+#' @aliases is_tskrr
+#' @return For \code{is_tskrr} a logical value indicating whether the
+#' object is a \code{tskrr} object
+is_tskrr <- function(x){
+  inherits(x, "tskrr")
+}
 
 #' @rdname getters-tskrr
 #' @aliases is_homogenous

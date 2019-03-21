@@ -33,7 +33,8 @@ heterogenous networks. See Details. Defaults to
 from the other arguments.}
 
 \item{fun}{a loss function that takes the adjacency matrix Y and the
-result of the crossvalidation LOO as input.}
+result of the crossvalidation LOO as input. The function name can
+be passed as a character string as well.}
 
 \item{exclusion}{a character value with possible values "interaction",
 "row", "column" or "both". Defaults to "interaction". See details.}

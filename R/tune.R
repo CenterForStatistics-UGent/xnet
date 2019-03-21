@@ -39,7 +39,8 @@
 #' \code{NULL}, which means that the function constructs the search grid
 #' from the other arguments.
 #' @param fun a loss function that takes the adjacency matrix Y and the
-#' result of the crossvalidation LOO as input.
+#' result of the crossvalidation LOO as input. The function name can
+#' be passed as a character string as well.
 #' @inheritParams get_loo_fun
 #' @param ... arguments to be passed to the loss function
 #'
@@ -88,6 +89,7 @@ setMethod("tune",
                    replaceby0 = FALSE,
                    ...){
 
+            fun <- match.fun(fun)
             lambda <- .prepare_lambdas(lim, ngrid, lambda, homogenous = TRUE)
 
             loofun <- .getloo_homogenous(exclusion = exclusion,
@@ -137,6 +139,7 @@ setMethod("tune",
                    replaceby0 = FALSE,
                    ...){
 
+            fun <- match.fun(fun)
             lambda <- .prepare_lambdas(lim, ngrid, lambda, homogenous = FALSE)
 
             # Prepare objects
@@ -192,7 +195,7 @@ find_min_pos <- function(x){
   id <- which.min(x)
   nr <- nrow(x)
   rowid <- id %% nr
-  colid <- id %/% nr + 1
   if(rowid == 0) rowid <- nr
+  colid <- id %/% nr + 1*(rowid != nr)
   return(c(rowid,colid))
 }

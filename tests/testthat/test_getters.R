@@ -6,13 +6,15 @@ load(dfile)
 lambdak <- 0.01
 lambdag <- 1.5
 mod <- tskrr(Y, K, G, lambda = c(lambdak, lambdag))
+tunedmod <- tune(mod)
 
 dfile <- system.file("testdata","testdataH.rda", package = "xnet")
 load(dfile)
 modh <- tskrr(Yh, Kh, lambda = lambdak)
 mods <- tskrr(Ys, Kh, lambda = lambdak)
+tunedmodh <- tune(modh)
 
-test_that("is_homogenous works correctly",{
+test_that("is_xxx works correctly",{
 
   expect_error(is_homogenous(1))
   expect_true(is_homogenous(modh))
@@ -23,6 +25,16 @@ test_that("is_homogenous works correctly",{
   expect_false(is_heterogenous(modh))
   expect_false(is_heterogenous(mods))
   expect_error(is_heterogenous(1))
+
+  expect_true(is_tskrr(mod))
+  expect_true(is_tskrr(modh))
+  expect_false(is_tskrr("not-tskrr"))
+
+  expect_true(is_tuned(tunedmod))
+  expect_false(is_tuned(mod))
+  expect_true(is_tuned(tunedmodh))
+  expect_false(is_tuned(modh))
+  expect_error(is_tuned("not-tskrr"))
 })
 
 Ywrong <- Yh
@@ -147,3 +159,5 @@ test_that("labels produces the correct errors", {
   expect_warning(labels(modh, prefix = prefix),
                  "Two prefixes were given for a homogenous model")
 })
+
+# Test for tskrrTune objects

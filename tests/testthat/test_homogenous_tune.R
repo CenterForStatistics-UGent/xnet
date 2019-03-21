@@ -27,6 +27,11 @@ tuned <- tune(mod,
               lim = list(c(0.001,1)),
               ngrid = list(20),
               exclusion = "both")
+manlambdas <- create_grid(lim = c(0.001,1),
+                          ngrid = 20)
+tunedman <- tune(mod,
+                 lambda = manlambdas,
+                 exclusion = "both")
 
 test_that("Output of tuned model is correct", {
   # retuning should give the exact same outcome
@@ -35,6 +40,9 @@ test_that("Output of tuned model is correct", {
                         lim = list(c(0.001,1)),
                         ngrid = list(20),
                         exclusion = "both"))
+  # manually setting lambdas should give exact same outcome
+  expect_identical(tuned,
+                   tunedman)
   # You should get the exact same loo function
   expect_identical(get_loo_fun(tuned),
                    get_loo_fun(mod,

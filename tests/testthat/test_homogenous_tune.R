@@ -32,6 +32,10 @@ manlambdas <- create_grid(lim = c(0.001,1),
 tunedman <- tune(mod,
                  lambda = manlambdas,
                  exclusion = "both")
+tunedirect <- tune(Yh, Kh,
+                   lim = list(c(0.001,1)),
+                   ngrid = list(20),
+                   exclusion = "both")
 
 test_that("Output of tuned model is correct", {
   # retuning should give the exact same outcome
@@ -60,6 +64,9 @@ test_that("Output of tuned model is correct", {
   testmod <- update(mod,manlambdas[15])
   expect_equal(lossval[15,1],
                loss(testmod, exclusion = "both"))
+  # direct construction of the model works
+  expect_equal(tuned,
+               tunedirect)
 
 })
 

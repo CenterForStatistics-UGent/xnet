@@ -7,7 +7,8 @@
 \title{Class tskrrHomogenousImpute}
 \description{
 The class \code{tskrrHomogenousImpute} is a subclass of the
-class \code{\link[xnet:tskrrHomogenous-class]{tskrrHomogenous}}
+class \code{\link[xnet:tskrrHomogenous-class]{tskrrHomogenous}} and
+\code{\link[xnet:tskrrImpute-class]{tskrrImpute}}
 specifically for homogenous networks with imputed values. It is
 the result of the function \code{\link{impute_tskrr}} or
 the function \code{\link{impute_loo}}.
@@ -45,8 +46,9 @@ the values in \code{y} are imputed}
 "loo" indicating whether the predictions or the leave-one-out
 crossvalidation values were used in the imputation.}
 
-\item{\code{loofun}}{if imputemethod is "loo", this slot contains the loo
-function used during imputation.}
+\item{\code{loo_settings}}{in case \code{imputemethod = "loo"}, a list with
+two elements named \code{exclusion} and \code{replaceby0}. These
+indicate the arguments used in \code{\link{get_loo_fun}}.}
 
 \item{\code{niter}}{an integer value gving the number of iterations used}
 

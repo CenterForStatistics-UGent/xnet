@@ -7,6 +7,7 @@
 \alias{as_tuned,tskrrHomogenous-method}
 \alias{as_tuned,tskrrHeterogenous-method}
 \alias{as_tskrr,tskrrTune-method}
+\alias{as_tskrr,tskrrImpute-method}
 \alias{as_tskrr,tskrr-method}
 \title{convert tskrr models}
 \usage{
@@ -19,6 +20,8 @@ as_tskrr(x, ...)
 \S4method{as_tuned}{tskrrHeterogenous}(x, ...)
 
 \S4method{as_tskrr}{tskrrTune}(x)
+
+\S4method{as_tskrr}{tskrrImpute}(x)
 
 \S4method{as_tskrr}{tskrr}(x)
 }

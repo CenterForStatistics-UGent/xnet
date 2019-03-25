@@ -1,7 +1,8 @@
 #' Class tskrrHomogenousImpute
 #'
 #' The class \code{tskrrHomogenousImpute} is a subclass of the
-#' class \code{\link[xnet:tskrrHomogenous-class]{tskrrHomogenous}}
+#' class \code{\link[xnet:tskrrHomogenous-class]{tskrrHomogenous}} and
+#' \code{\link[xnet:tskrrImpute-class]{tskrrImpute}}
 #' specifically for homogenous networks with imputed values. It is
 #' the result of the function \code{\link{impute_tskrr}} or
 #' the function \code{\link{impute_loo}}.
@@ -26,24 +27,16 @@
 #' @slot imputemethod a character value with either \code{"predictions"} or
 #' "loo" indicating whether the predictions or the leave-one-out
 #' crossvalidation values were used in the imputation.
-#' @slot loofun if imputemethod is "loo", this slot contains the loo
-#' function used during imputation.
+#' @slot loo_settings in case \code{imputemethod = "loo"}, a list with
+#' two elements named \code{exclusion} and \code{replaceby0}. These
+#' indicate the arguments used in \code{\link{get_loo_fun}}.
 #' @slot niter an integer value gving the number of iterations used
 #' @slot tol a numeric value with the tolerance used
 #'
-#' @include Class_tskrrHomogenous.R
+#' @include Class_tskrrHomogenous.R Class_tskrrImpute.R
 #' @rdname tskrrHomogenousImpute-class
 #' @aliases tskrrHomogenousImpute
 #' @exportClass tskrrHomogenousImpute
 setClass("tskrrHomogenousImpute",
-         contains = "tskrrHomogenous",
-         slots = c(imputeid = "integer",
-                   imputemethod = "character",
-                   loofun = "function",
-                   niter = "integer",
-                   tol = "numeric"),
-         prototype = list(
-           imputeid = integer(0),
-           imputemethod = "",
-           loofun = function(){}
-         ))
+         contains = c("tskrrImpute", "tskrrHomogenous")
+         )

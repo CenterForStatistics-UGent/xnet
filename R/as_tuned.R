@@ -67,6 +67,17 @@ setMethod("as_tskrr",
           })
 
 #' @rdname as_tuned
+#' @method as_tskrr tskrrImpute
+setMethod("as_tskrr",
+          "tskrrImpute",
+          function(x){
+            if(is_homogenous(x))
+              as(x, "tskrrHomogenous")
+            else
+              as(x, "tskrrHeterogenous")
+          })
+
+#' @rdname as_tuned
 #' @method as_tskrr tskrr
 setMethod("as_tskrr",
           "tskrr",

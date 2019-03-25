@@ -1,0 +1,102 @@
+---
+title: "S4 class structure of the xnet package"
+author: "Meys Joris"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{xnet}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(xnet)
+
+slotsToRmd <- function(class){
+  slots <- getSlots(class)
+  
+  txt <- paste(" *",names(slots), ": object of type", slots)
+  cat(txt, sep = "\n")
+}
+```
+
+This document defines the S4 class structure used in the `xnet` package.
+
+## Virtual classes
+
+The `xnet` package has three virtual classes that each define a 
+number of slots necessary for that specific type of model:
+
+ 1. the class `tskrr` for general two step kernel ridge regressions
+ 2. the class `tskrrTune` for tuned two step kernel ridge regressions
+ 3. the class `tskrrImpute` for two step kernel ridge regressions with
+ imputed data.
+ 
+Each of these classes defines the necessary slots for that specific 
+type of action. The actual classes returned by the functions `tskrr()`,
+`tune()` and `impute()` inherit from (a combination of) these virtual
+classes.
+
+## Actual classes
+
+### Inheritance from tskrr
+
+After using the function `tskrr()`, one of the following classes is
+returned:
+
+  * `tskrrHomogenous` : for homogenous networks
+  * `tskrrHeterogenous` : for heterogenous networks
+     
+These classes have similar slots, but the homogenous models don't need
+information on the column kernel matrix. The slots are listed below.
+
+### Slots defined by tskrrHomogenous
+
+```{r Create slots tskrrHomogenous, results='asis', echo = FALSE}
+slotsToRmd("tskrrHomogenous")
+```
+
+### Slots defined by tskrrHeterogenous
+
+```{r Create slots tskrrHeterogenous, results='asis', echo = FALSE}
+slotsToRmd("tskrrHeterogenous")
+```
+
+Both classes inherit directly from the class `tskrr`. But these 
+classes also function as parent classes from which `tune()` related
+and `impute()` related classes inherit.
+
+### Inheritance from tskrrTune
+
+When using the function `tune()`, you get one of the following classes:
+
+  * `tskrrTuneHomogenous` : for tuned homogenous networks. Inherits also from `tskrrHomogenous`.
+  * `tskrrTuneHeterogenous` : for tuned heterogenous networks. Inherits also from `tskrrHeterogenous`.
+     
+Apart from the slots of the respective `tskrr` class, the inheritance
+from `tskrrTune` adds the following slots:
+
+```{r Create slots tskrrTune, results='asis', echo = FALSE}
+slotsToRmd("tskrrTune")
+```
+
+     
+### Inheritance from tskrrImpute
+
+When using the function `impute()`, you get one of the following 
+classes:
+
+  * `tskrrHomogenousImpute` : for homogenous networks with imputed data.
+  * `tskrrHeterogenousImpute` : for heterogenous networks with imputed data.
+
+Apart from the slots of the respective `tskrr` class, the inheritance
+from `tskrrImpute` adds the following slots:
+
+```{r Create slots tskrrImpute, results='asis', echo = FALSE}
+slotsToRmd("tskrrImpute")
+```
+

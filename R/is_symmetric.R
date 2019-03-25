@@ -32,7 +32,7 @@ is_symmetric <- function(x, tol = 100 * .Machine$double.eps){
     return(TRUE)
 
   # fast first testing to check if the first column and row match
-  if(any(x[1,] - x[,1] > tol))
+  if(any(abs(x[1,] - x[,1]) > tol))
     return(FALSE)
 
   rd <- .row(dims - 1L) + 1
@@ -42,6 +42,6 @@ is_symmetric <- function(x, tol = 100 * .Machine$double.eps){
   idr <- rd[tohave]
   idc <- cd[tohave]
 
-  all(x[cbind(idr,idc)] - x[cbind(idc,idr)] < tol)
+  all(abs(x[cbind(idr,idc)] - x[cbind(idc,idr)]) < tol)
 
 }

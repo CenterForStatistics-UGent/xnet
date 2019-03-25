@@ -14,6 +14,8 @@ wouldn't be symmetric and can't be used.
 * the class `tskrrTune` provides a more complete object with all
 information of tuning. It is a superclass with two real subclasses,
 `tskrrTuneHeterogenous` and `tskrrTuneHomogenous`.
+* the function `tune` now allows to pass the matrices directly so
+you don't have to create a model with `tskrr` first.
 
 ### bug fixes and minor improvements
 

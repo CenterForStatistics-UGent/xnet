@@ -9,6 +9,8 @@
 #' @param object an object for which the extraction of model fitted values
 #' is meaningful.
 #' @param ... arguments passed to or from other methods.
+#' @param labels a logical value indicating whether the labels should
+#' be shown. Defaults to TRUE
 #'
 #' @return a numeric matrix with the predictions
 #'
@@ -25,12 +27,32 @@
 #' @rdname fitted
 #' @method fitted tskrr
 #' @export
-fitted.tskrr <- function(object, ...){
+fitted.tskrr <- function(object, labels = TRUE, ...){
+  out <- object@pred
+  if(labels){
+    l <- labels(object)
+    rownames(out) <- l$k
+    colnames(out) <- l$g
+  }
+  out
+}
+
+#' @rdname fitted
+#' @method fitted linearFilter
+#' @export
+fitted.linearFilter <- function(object, ...){
   object@pred
 }
+
 
 #' @rdname fitted
 #' @export
 setMethod("fitted",
           "tskrr",
           fitted.tskrr)
+
+#' @rdname fitted
+#' @export
+setMethod("fitted",
+          "linearFilter",
+          fitted.linearFilter)

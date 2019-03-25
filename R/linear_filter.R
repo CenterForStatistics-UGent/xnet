@@ -34,7 +34,9 @@ linear_filter <- function(y, alpha=0.25, na.rm = FALSE){
   if(length(alpha) == 1)
     alpha <- rep(alpha,4)
   else if(length(alpha) !=4)
-    stop("alpha should be a single number of 4 numbers.")
+    stop("alpha should be a numeric vector with either 1 or 4 values.")
+  if(sum(alpha) != 1 )
+    stop("alpha values should add up to 1.")
 
   cm <- colMeans(y, na.rm = na.rm)
   rm <- rowMeans(y, na.rm = na.rm)
@@ -43,13 +45,25 @@ linear_filter <- function(y, alpha=0.25, na.rm = FALSE){
   nr <- nrow(y)
 
   if(any(is.na(y))){
-    if(na.rm)
+    if(na.rm){
       warning("NAs removed before fitting the linear filter.")
-    else
-      return(matrix(NA, ncol = nc, nrow = nr))
+    } else {
+      # Return the empty matrix for now.
+      res <- new("linearFilter",
+                 y = y,
+                 alpha = alpha,
+                 pred = matrix(NA_real_,
+                               nrow = nrow(y),ncol = ncol(y)),
+                 mean = NA_real_,
+                 colmeans = cm,
+                 rowmeans = rm,
+                 na.rm = na.rm)
+    }
+
   }
 
-  pred <- .linear_filter(y,cm,rm,m,nc)
+  pred <- .linear_filter(y,alpha,cm,rm,m,nr,nc)
+
 
   # simple matrix filter
   new("linearFilter",
@@ -65,6 +79,7 @@ linear_filter <- function(y, alpha=0.25, na.rm = FALSE){
 # Function .linear_filter allows for optimization algorithms.
 # Input: cm is column mean, rm is row mean, m is global mean, nc is
 # number of columns
-.linear_filter <- function(y, alpha, cm, rm, m, nc){
-  alpha[1]*y + alpha[2]*rep(cm, each = nc) + alpha[3]*rm + alpha[4] * m
+.linear_filter <- function(y, alpha, cm, rm, m, nr, nc){
+  alpha[1]*y + rep(alpha[2]*cm, each = nr) +
+    rep(alpha[3]*rm, times = nc) + alpha[4] * m
 }

@@ -20,9 +20,9 @@ it takes the value \code{NULL}}
 \description{
 This function checks whether the labels between the Y, K and G
 matrices make sense. This means that all the labels found as
-rownames for \code{y} can be found in \code{k}, and all the
-colnames for \code{y} can be found in \code{g}. This is a non-
-exported convenience function.
+rownames for \code{y} can be found as rownames \emph{and} column
+names of \code{k}, and all the colnames for \code{y} can be found
+as rownames \emph{and} colnames of \code{g} (if provided).
 }
 \details{
 Compatible labels means that it is unequivocally clear which
@@ -33,11 +33,15 @@ and column names. They should fulfill the following conditions:
 
 \itemize{
   \item the row and column names of a kernel matrix must contain
-  the same values.
+  the same values in the same order. Otherwise the matrix can't
+  be symmetric.
   \item the rownames of \code{y} should correspond to the rownames
   of \code{k}
   \item the colnames of \code{y} should correspond to the colnames
   of \code{g} if it is supplied, or the colnames of \code{k} in
   case \code{g} is \code{NULL}
 }
+}
+\note{
+This is a non-exported convenience function.
 }

@@ -88,14 +88,16 @@ setMethod("show",
 
             labs <- labels(object)
             if(ishomog)
-              cat("Labels:\n")
+              cat("\nLabels:")
             else
-              cat("Row Labels:\n")
+              cat("\nRow Labels:")
 
-            str(labs$k)
+            str(labs$k, give.length = FALSE, give.head = FALSE,
+                width = getOption("width") - 11)
             if(!ishomog){
-              cat("Col Labels:\n")
-              str(labs$g)
+              cat("Col Labels:")
+              str(labs$g, give.length = FALSE, give.head = FALSE,
+                  width = getOption("width") - 11)
             }
           })
 

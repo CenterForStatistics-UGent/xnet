@@ -5,6 +5,7 @@
 \alias{tune}
 \alias{tune,tskrrHomogenous-method}
 \alias{tune,tskrrHeterogenous-method}
+\alias{tune,matrix-method}
 \title{tune the lambda parameters for a tskrr}
 \usage{
 \S4method{tune}{tskrrHomogenous}(x, lim = c(1e-04, 1), ngrid = 10,
@@ -14,6 +15,12 @@
 \S4method{tune}{tskrrHeterogenous}(x, lim = c(1e-04, 1), ngrid = 10,
   lambda = NULL, fun = loss_mse, exclusion = "interaction",
   replaceby0 = FALSE, ...)
+
+\S4method{tune}{matrix}(x, k, g = NULL, lim = c(1e-04, 1),
+  ngrid = 10, lambda = NULL, fun = loss_mse,
+  exclusion = "interaction", replaceby0 = FALSE, testdim = TRUE,
+  testlabels = TRUE, symmetry = c("auto", "symmetric", "skewed"),
+  keep = FALSE, ...)
 }
 \arguments{
 \item{x}{a \code{\link{tskrr}} object representing a two step
@@ -33,7 +40,8 @@ heterogenous networks. See Details. Defaults to
 from the other arguments.}
 
 \item{fun}{a loss function that takes the adjacency matrix Y and the
-result of the crossvalidation LOO as input.}
+result of the crossvalidation LOO as input. The function name can
+be passed as a character string as well.}
 
 \item{exclusion}{a character value with possible values "interaction",
 "row", "column" or "both". Defaults to "interaction". See details.}
@@ -42,21 +50,40 @@ result of the crossvalidation LOO as input.}
 should be simply removed (\code{FALSE}) or replaced by 0 (\code{TRUE}).}
 
 \item{...}{arguments to be passed to the loss function}
+
+\item{k}{a kernel matrix for the rows}
+
+\item{g}{an optional kernel matrix for the columns}
+
+\item{testdim}{a logical value indicating whether symmetry
+and the dimensions of the kernel(s) should be tested.
+Defaults to \code{TRUE}, but for large matrices
+putting this to \code{FALSE} will speed up the function.}
+
+\item{testlabels}{a logical value indicating wether the row- and column
+names of the matrices have to be checked for consistency. Defaults to
+\code{TRUE}, but for large matrices putting this to \code{FALSE} will
+speed up the function.}
+
+\item{symmetry}{a character value with the possibilities
+"auto", "symmetric" or "skewed". In case of a homogenous fit, you
+can either specify whether the adjacency matrix is symmetric or
+skewed, or you can let the function decide (option "auto").}
+
+\item{keep}{a logical value indicating whether the kernel hat
+matrices should be stored in the model object. Doing so makes the
+model object quite larger, but can speed up predictions in
+some cases. Defaults to \code{FALSE}.}
 }
 \value{
-a list with two elements:
-\itemize{
-   \item \code{loss}: a vector or matrix with the calculated losses
-   \item \code{lambda}: a list with one or two elements giving the
-   lambdas for the rows and the columns. If only one element in the
-   list, these lambda values can be used or both row and colum.
-}
+a model of class \code{\link[xnet:tskrrTune-class]{tskrrTune}}
 }
 \description{
 This function lets you tune the lambda parameter(s) of a two-step
-kernel ridge regression for optimal performance. The objective
-function used for tuning is the squared norm based on leave-one-out
-crossvalidation.
+kernel ridge regression for optimal performance. You can either
+tune a previously fitted \code{\link{tskrr}} model, or pass the
+adjacency matrix and kernel matrices to fit and tune a model in
+one go.
 }
 \details{
 This function currently only performs a naive grid search for all
@@ -84,27 +111,26 @@ two matrices as input: \code{Y} being the observed interactions and
 data(drugtarget)
 
 mod <- tskrr(drugTargetInteraction, targetSim, drugSim)
-tuned <- tune(mod, ngrid = 10)
+tuned <- tune(mod, lim = c(0.1,1), ngrid = list(5,10))
 
 \dontrun{
 
 # This is just some visualization of the matrix
 # It can be run safely.
+gridvals <- get_grid(tuned)
+z <- get_loss_values(tuned)        # loss values
 
-x <- tuned$lambda[[1]] #lambdas for rows
-y <- tuned$lambda[[2]] #lambdas for columns
-z <- tuned$loss        # loss values
-
-image(x,y,log(z), log = 'xy')
+image(gridvals$k,gridvals$g,log(z), log = 'xy',
+xlab = "lambda k", ylab = "lambda g")
 
 }
 }
 \seealso{
-\code{\link{loo}}, \code{\link{loo_internal}} and
+\itemize{
+\item \code{\link{loo}}, \code{\link{loo_internal}} and
 \code{\link{get_loo_fun}} for more information on how leave one out
 validation works.
-
-\code{\link{tskrr}} for fitting a twostep kernel ridge regression.
-
-\code{\link{loss_functions}} for different loss functions.
+\item \code{\link{tskrr}} for fitting a twostep kernel ridge regression.
+\item \code{\link{loss_functions}} for different loss functions.
+}
 }

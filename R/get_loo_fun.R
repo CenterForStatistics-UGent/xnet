@@ -20,6 +20,11 @@
 #' interaction (i.e. a single cell). Therefor you do not have an argument
 #' \code{exclusion} for that method.
 #'
+#' For the class \code{tskrrTune}, not specifying \code{exclusion} or
+#' \code{replaceby0} returns the used loo function. If you specify either
+#' of them, it will use the method for the appropriate model and return
+#' a new loo function.
+#'
 #' @inheritParams loo
 #' @param x a character value with the class or a \code{\link{tskrr}}
 #' or \code{\link{linearFilter}} object.
@@ -87,4 +92,20 @@ setMethod("get_loo_fun",
                           tskrrHomogenous = .getloo_homogenous,
                           linearFilter = .getloo_linearfilter)
             fun(...)
+          })
+
+#' @rdname get_loo_fun
+#' @export
+setMethod("get_loo_fun",
+          "tskrrTune",
+          function(x, ... ){
+            dots <- list(...)
+            class <- if(is_homogenous(x)) "tskrrHomogenous" else "tskrrHeterogenous"
+            if(length(dots))
+              do.call(get_loo_fun,
+                      c(as(x, class), dots))
+            else
+              get_loo_fun(as(x, class),
+                          exclusion = x@exclusion,
+                          replaceby0 = x@replaceby0)
           })

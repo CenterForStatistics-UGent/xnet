@@ -1,9 +1,10 @@
 #' tune the lambda parameters for a tskrr
 #'
 #' This function lets you tune the lambda parameter(s) of a two-step
-#' kernel ridge regression for optimal performance. The objective
-#' function used for tuning is the squared norm based on leave-one-out
-#' crossvalidation.
+#' kernel ridge regression for optimal performance. You can either
+#' tune a previously fitted \code{\link{tskrr}} model, or pass the
+#' adjacency matrix and kernel matrices to fit and tune a model in
+#' one go.
 #'
 #' This function currently only performs a naive grid search for all
 #' (combinations of) lambda values. If no specific lambda values are
@@ -39,42 +40,37 @@
 #' \code{NULL}, which means that the function constructs the search grid
 #' from the other arguments.
 #' @param fun a loss function that takes the adjacency matrix Y and the
-#' result of the crossvalidation LOO as input.
+#' result of the crossvalidation LOO as input. The function name can
+#' be passed as a character string as well.
 #' @inheritParams get_loo_fun
+#' @inheritParams tskrr
 #' @param ... arguments to be passed to the loss function
 #'
-#' @return a list with two elements:
-#' \itemize{
-#'    \item \code{loss}: a vector or matrix with the calculated losses
-#'    \item \code{lambda}: a list with one or two elements giving the
-#'    lambdas for the rows and the columns. If only one element in the
-#'    list, these lambda values can be used or both row and colum.
-#' }
+#' @return a model of class \code{\link[xnet:tskrrTune-class]{tskrrTune}}
 #'
-#' @seealso \code{\link{loo}}, \code{\link{loo_internal}} and
+#' @seealso
+#' * \code{\link{loo}}, \code{\link{loo_internal}} and
 #' \code{\link{get_loo_fun}} for more information on how leave one out
 #' validation works.
-#'
-#' \code{\link{tskrr}} for fitting a twostep kernel ridge regression.
-#'
-#' @seealso \code{\link{loss_functions}} for different loss functions.
+#' * \code{\link{tskrr}} for fitting a twostep kernel ridge regression.
+#' * \code{\link{loss_functions}} for different loss functions.
+#' @md
 #'
 #' @examples
 #' data(drugtarget)
 #'
 #' mod <- tskrr(drugTargetInteraction, targetSim, drugSim)
-#' tuned <- tune(mod, ngrid = 10)
+#' tuned <- tune(mod, lim = c(0.1,1), ngrid = list(5,10))
 #'
 #' \dontrun{
 #'
 #' # This is just some visualization of the matrix
 #' # It can be run safely.
+#' gridvals <- get_grid(tuned)
+#' z <- get_loss_values(tuned)        # loss values
 #'
-#' x <- tuned$lambda[[1]] #lambdas for rows
-#' y <- tuned$lambda[[2]] #lambdas for columns
-#' z <- tuned$loss        # loss values
-#'
-#' image(x,y,log(z), log = 'xy')
+#' image(gridvals$k,gridvals$g,log(z), log = 'xy',
+#' xlab = "lambda k", ylab = "lambda g")
 #'
 #' }
 #' @rdname tune
@@ -94,8 +90,8 @@ setMethod("tune",
                    replaceby0 = FALSE,
                    ...){
 
-            if(is.null(lambda))
-              lambda <- create_grid(lim, ngrid)
+            fun <- match.fun(fun)
+            lambda <- .prepare_lambdas(lim, ngrid, lambda, homogenous = TRUE)
 
             loofun <- .getloo_homogenous(exclusion = exclusion,
                                          symmetry = symmetry(x),
@@ -111,11 +107,23 @@ setMethod("tune",
               fun(x@y, loofun(x@y, Hr, pred), ...)
             }
 
-            lval <- vapply(lambda,loss, numeric(1))
+            lval <- vapply(lambda$k,loss, numeric(1))
+            best <- which.min(lval)
 
-            out <- list(loss = lval, lambda = list(lambda))
-            class(out) <- 'tskrrTune'
-            return( out )
+            best_loss <- lval[best]
+            best_lambda <- lambda$k[best]
+
+            newx <- update(x, best_lambda)
+
+            as_tuned(newx,
+                lambda_grid = lambda,
+                lambda.k = best_lambda,
+                best_loss = best_loss,
+                loss_values = matrix(lval, ncol = 1),
+                loss_function = fun,
+                exclusion = exclusion,
+                replaceby0 = replaceby0
+                )
 
           })
 
@@ -132,72 +140,8 @@ setMethod("tune",
                    replaceby0 = FALSE,
                    ...){
 
-            twol <- FALSE #check for two separate lambda vectors
-            nolambda <- is.null(lambda)
-
-            if(!nolambda){
-              # Processing lambda
-              if(is.list(lambda) && length(lambda) == 2){
-                twol <- TRUE
-                lambda1 <- lambda[[1]]
-                lambda2 <- lambda[[2]]
-                if(!all(is.numeric(lambda1), is.numeric(lambda2)))
-                  stop(paste0("lambda should be either a list with two numeric",
-                              " vectors or a single numeric vector."))
-              } else if(!is.numeric(lambda)) {
-                stop(paste0("lambda should be either a list with two numeric",
-                            " vectors or a single numeric vector."))
-              }
-            } else {
-
-              if(is.list(lim) && length(lim) == 2){
-
-                twol <- TRUE
-                onelim <- FALSE
-                lim1 <- lim[[1]]
-                lim2 <- lim[[2]]
-                # Check lim values
-                if(length(lim1) != 2 || length(lim2) != 2 ||
-                   !is.numeric(lim1) || !is.numeric(lim2))
-                  stop("If lim is a list, both elements should contain 2 numeric values")
-
-              } else if(is.numeric(lim) && length(lim) == 2) {
-
-                onelim <- TRUE
-
-              } else {
-
-                stop(paste0("lim should be either a list with two elements ",
-                            "or a numeric vector with 2 values."))
-              }
-
-              if(is.list(ngrid) && length(ngrid) == 2){
-                twol <- TRUE
-                onegrid <- FALSE
-                ngrid1 <- ngrid[[1]]
-                ngrid2 <- ngrid[[2]]
-              } else if(is.numeric(ngrid) && length(ngrid) == 1){
-
-                onegrid <- TRUE
-
-              } else {
-                stop(paste0("ngrid should be either a list with two elements ",
-                            "or a numeric vector with 1 value."))
-              }
-
-              if(onelim && onegrid){
-                lambda <- create_grid(lim, ngrid)
-              } else if(onelim){
-                lambda1 <- create_grid(lim, ngrid1)
-                lambda2 <- create_grid(lim, ngrid2)
-              } else if(onegrid){
-                lambda1 <- create_grid(lim1, ngrid)
-                lambda2 <- create_grid(lim2, ngrid)
-              } else {
-                lambda1 <- create_grid(lim1, ngrid1)
-                lambda2 <- create_grid(lim2, ngrid2)
-              }
-            } # END if(!nolambda)
+            fun <- match.fun(fun)
+            lambda <- .prepare_lambdas(lim, ngrid, lambda, homogenous = FALSE)
 
             # Prepare objects
             decompr <- get_eigen(x, 'row')
@@ -217,32 +161,88 @@ setMethod("tune",
               fun(x@y, loofun(x@y, Hr, Hc, pred), ...)
             }
 
-            if(twol){
-              lval <- vapply(lambda2,
-                             function(l2){
-                               vapply(lambda1,
-                                      loss,
-                                      numeric(1),
-                                      l2)
-                             },
-                             numeric(length(lambda2)))
-              llist <- list(l1 = lambda1, l2 = lambda2)
+            lval <- vapply(lambda$g,
+                           function(l2){
+                             vapply(lambda$k,
+                                    loss,
+                                    numeric(1),
+                                    l2)
+                           },
+                           numeric(length(lambda$k)))
 
+            best <- find_min_pos(lval)
+
+            best_lambda <- c(lambda$k[best[1]], lambda$g[best[2]])
+            best_loss <- lval[best[1],best[2]]
+
+            newx <- update(x, best_lambda)
+
+            as_tuned(newx,
+                lambda_grid = lambda,
+                lambda.k = best_lambda[1],
+                lambda.g = best_lambda[2],
+                best_loss = best_loss,
+                loss_values = lval,
+                loss_function = fun,
+                exclusion = exclusion,
+                replaceby0 = replaceby0
+            )
+          })
+
+#' @rdname tune
+#' @export
+setMethod("tune",
+          "matrix",
+          function(x,
+                   k,
+                   g = NULL,
+                   lim = c(1e-4,1),
+                   ngrid = 10,
+                   lambda = NULL,
+                   fun = loss_mse,
+                   exclusion = 'interaction',
+                   replaceby0 = FALSE,
+                   testdim = TRUE,
+                   testlabels = TRUE,
+                   symmetry = c("auto","symmetric","skewed"),
+                   keep = FALSE,
+                   ...){
+
+            homogenous <- is.null(g)
+            fun <- match.fun(fun)
+            # get initial lambdas
+            lambda <- .prepare_lambdas(lim, ngrid, lambda,
+                                       homogenous = homogenous)
+            if(homogenous){
+              init_lambda <- lambda$k[1]
             } else {
-              lval <- vapply(lambda,
-                             function(l2){
-                               vapply(lambda,
-                                      loss,
-                                      numeric(1),
-                                      l2)
-                             },
-                             numeric(length(lambda)))
-              llist <- list(l1 = lambda, l2 = lambda)
-
+              init_lambda <- c(lambda$k[1], lambda$g[1])
             }
 
-            out <- list(loss = lval, lambda = llist)
-            class(out) <- 'tskrrTune'
-            return(out)
+            # Fit initial model
+            mod <- tskrr(x,k,g, lambda = init_lambda,
+                         testdim = testdim,
+                         testlabels = testlabels,
+                         symmetry = symmetry,
+                         keep = keep)
 
+            # Carry out the tuning
+            callGeneric(mod,
+                        lambda = lambda,
+                        fun = fun,
+                        exclusion = exclusion,
+                        replaceby0 = replaceby0,
+                        ...)
           })
+
+# Helper function find_best_lambda
+
+find_min_pos <- function(x){
+
+  id <- which.min(x)
+  nr <- nrow(x)
+  rowid <- id %% nr
+  if(rowid == 0) rowid <- nr
+  colid <- id %/% nr + 1*(rowid != nr)
+  return(c(rowid,colid))
+}

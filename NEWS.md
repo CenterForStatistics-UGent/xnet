@@ -1,3 +1,44 @@
+## xnet 0.1.6
+
+### Breaking changes
+
+* `valid_labels` now requires the K and G matrices to have the
+same ordering of row and column names. Otherwise the matrix 
+wouldn't be symmetric and can't be used.
+* `linear_filter` now forces the alphas to sum up to 1.
+* `tune` now returns an object of class `tskrrTuneHomogenous` or
+`tskrrTuneHeterogenous`. 
+
+### New features
+
+* the class `tskrrTune` provides a more complete object with all
+information of tuning. It is a superclass with two real subclasses,
+`tskrrTuneHeterogenous` and `tskrrTuneHomogenous`.
+* the function `tune` now allows to pass the matrices directly so
+you don't have to create a model with `tskrr` first.
+
+### bug fixes and minor improvements
+
+* `linear_filter` gave totally wrong predictions due to a code error:  fixed.
+* `linear_filter` returned a matrix when NAs were present: fixed.
+* `fitted` now has an argument `labels` which allows to add the
+labels to the returned object.
+* `tskrr` now returns an error if the Y matrix is not symmetric or
+skewed when fitting a homogenous network.
+* `labels` now produces more informative errors and warnings.
+
+* In the testing procedures
+    - testing skewed homogenous networks added.
+    - testing validations added
+    - testing symmetric calculations
+    - testing processing of labels
+    - testing shortcuts
+    - testing update function
+    
+* input testing for `tskrr` moved to its own function and is 
+also used by `impute_tskrr` now.
+    
+
 ## xnet 0.1.5
 
 ### Breaking changes

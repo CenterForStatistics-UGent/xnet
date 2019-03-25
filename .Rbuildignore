@@ -6,3 +6,4 @@ pre.commit
 README.md
 logo/*
 docs/*
+.covrignore

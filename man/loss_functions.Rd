@@ -13,7 +13,7 @@ loss_auc(Y, LOO)
 \arguments{
 \item{Y}{the adjacency matrix with observed responses}
 
-\item{LOO}{the leave-one-out crossvalidation (or predidctions if you
+\item{LOO}{the leave-one-out crossvalidation (or predictions if you
 must). This one can be calculated by the function \code{loo}.}
 
 \item{na.rm}{a logical value}

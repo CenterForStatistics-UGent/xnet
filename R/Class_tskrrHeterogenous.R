@@ -38,6 +38,7 @@ setClass("tskrrHeterogenous",
          )
 
 validTskrrHeterogenous <- function(object){
+
   if(length(object@lambda.g) != 1)
     return("lambda.g should be a single value")
 
@@ -45,17 +46,19 @@ validTskrrHeterogenous <- function(object){
     return("The dimensions of the original kernel matrices and the observations don't match.")
 
   else if(
-    (length(object@labels$k) == 1 && !is.na(object@labels$k)) ||
+    (length(object@labels$k) == 1 && !is.na(object@labels$k)) &&
     (length(object@labels$k) != nrow(object@y))
   )
-    return("The element k should either be NA or a character vector with the same number of values as there are rows in the Y matrix.")
+    return("The labels element k should either be NA or a character vector with the same number of values as there are rows in the Y matrix.")
 
   else if(
-    (length(object@labels$g) == 1 && !is.na(object@labels$g)) ||
+    (length(object@labels$g) == 1 && !is.na(object@labels$g)) &&
     (length(object@labels$g) != ncol(object@y))
   )
-    return("The element k should either be NA or a character vector with the same number of values as there are columns in the Y matrix.")
+    return("The labels element g should either be NA or a character vector with the same number of values as there are columns in the Y matrix.")
 
   else
     return(TRUE)
 }
+
+setValidity("tskrrHeterogenous", validTskrrHeterogenous)

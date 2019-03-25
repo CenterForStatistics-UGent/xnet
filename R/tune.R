@@ -1,9 +1,10 @@
 #' tune the lambda parameters for a tskrr
 #'
 #' This function lets you tune the lambda parameter(s) of a two-step
-#' kernel ridge regression for optimal performance. The objective
-#' function used for tuning is the squared norm based on leave-one-out
-#' crossvalidation.
+#' kernel ridge regression for optimal performance. You can either
+#' tune a previously fitted \code{\link{tskrr}} model, or pass the
+#' adjacency matrix and kernel matrices to fit and tune a model in
+#' one go.
 #'
 #' This function currently only performs a naive grid search for all
 #' (combinations of) lambda values. If no specific lambda values are
@@ -42,6 +43,7 @@
 #' result of the crossvalidation LOO as input. The function name can
 #' be passed as a character string as well.
 #' @inheritParams get_loo_fun
+#' @inheritParams tskrr
 #' @param ... arguments to be passed to the loss function
 #'
 #' @return a model of class \code{\link[xnet:tskrrTune-class]{tskrrTune}}
@@ -185,6 +187,52 @@ setMethod("tune",
                 exclusion = exclusion,
                 replaceby0 = replaceby0
             )
+          })
+
+#' @rdname tune
+#' @export
+setMethod("tune",
+          "matrix",
+          function(x,
+                   k,
+                   g = NULL,
+                   lim = c(1e-4,1),
+                   ngrid = 10,
+                   lambda = NULL,
+                   fun = loss_mse,
+                   exclusion = 'interaction',
+                   replaceby0 = FALSE,
+                   testdim = TRUE,
+                   testlabels = TRUE,
+                   symmetry = c("auto","symmetric","skewed"),
+                   keep = FALSE,
+                   ...){
+
+            homogenous <- is.null(g)
+            fun <- match.fun(fun)
+            # get initial lambdas
+            lambda <- .prepare_lambdas(lim, ngrid, lambda,
+                                       homogenous = homogenous)
+            if(homogenous){
+              init_lambda <- lambda$k[1]
+            } else {
+              init_lambda <- c(lambda$k[1], lambda$g[1])
+            }
+
+            # Fit initial model
+            mod <- tskrr(x,k,g, lambda = init_lambda,
+                         testdim = testdim,
+                         testlabels = testlabels,
+                         symmetry = symmetry,
+                         keep = keep)
+
+            # Carry out the tuning
+            callGeneric(mod,
+                        lambda = lambda,
+                        fun = fun,
+                        exclusion = exclusion,
+                        replaceby0 = replaceby0,
+                        ...)
           })
 
 # Helper function find_best_lambda

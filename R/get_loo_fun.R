@@ -20,9 +20,10 @@
 #' interaction (i.e. a single cell). Therefor you do not have an argument
 #' \code{exclusion} for that method.
 #'
-#' For the class \code{tskrrTune}, not specifying \code{exclusion} or
-#' \code{replaceby0} returns the used loo function. If you specify either
-#' of them, it will use the method for the appropriate model and return
+#' For the classes \code{tskrrTune} and \code{tskrrImpute},
+#' not specifying \code{exclusion} or \code{replaceby0} returns the used
+#' loo function. If you specify either of them,
+#' it will use the method for the appropriate model and return
 #' a new loo function.
 #'
 #' @inheritParams loo
@@ -108,4 +109,20 @@ setMethod("get_loo_fun",
               get_loo_fun(as(x, class),
                           exclusion = x@exclusion,
                           replaceby0 = x@replaceby0)
+          })
+
+#' @rdname get_loo_fun
+#' @export
+setMethod("get_loo_fun",
+          "tskrrImpute",
+          function(x, ... ){
+            dots <- list(...)
+            class <- if(is_homogenous(x)) "tskrrHomogenous" else "tskrrHeterogenous"
+            if(length(dots))
+              do.call(get_loo_fun,
+                      c(as(x, class), dots))
+            else
+              get_loo_fun(as(x, class),
+                          exclusion = x@loo_settings$exclusion,
+                          replaceby0 = x@loo_settings$replaceby0)
           })

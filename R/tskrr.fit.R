@@ -2,7 +2,8 @@
 #'
 #' This function provides an interface for two-step kernel ridge regression.
 #' To use this function, you need at least one kernel matrix and one
-#' interaction matrix.
+#' interaction matrix. It's the internal engine used by the function
+#' \code{\link{tskrr}}.
 #'
 #' This function is mostly available for internal use. In most cases it
 #' makes much more sense to use \code{\link{tskrr}}, as that function
@@ -33,8 +34,15 @@
 #'    \item pred : the predictions
 #' }
 #'
+#' @examples
 #'
+#' data(drugtarget)
 #'
+#' K <- eigen(targetSim)
+#' G <- eigen(drugSim)
+#'
+#' res <- tskrr.fit(drugTargetInteraction,K,G,
+#'                  lambda.k = 0.01, lambda.g = 0.05)
 #'
 #' @export
 tskrr.fit <- function(y, k, g = NULL, lambda.k = NULL, lambda.g = NULL,

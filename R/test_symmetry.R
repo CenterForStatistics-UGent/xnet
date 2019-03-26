@@ -6,6 +6,7 @@
 #' the adjacency matrix.
 #'
 #' @param x a matrix
+#' @param tol a single numeric value with the tolerance for comparison
 #'
 #' @return a character value with the possible values "symmetric",
 #' "skewed" or "none".
@@ -22,15 +23,15 @@
 #' test_symmetry(mat3)
 #'
 #' @export
-test_symmetry <- function(x){
+test_symmetry <- function(x, tol = .Machine$double.eps){
   if(!is.matrix(x))
     stop("x should be a matrix")
   idl <- lower.tri(x)
   tx <- t(x)
 
-  if(all(x[idl] == tx[idl])){
+  if(all(abs(x[idl] - tx[idl]) < tol )){
     out <- "symmetric"
-  } else if(all(x[idl] == -tx[idl])){
+  } else if(all( abs(x[idl] + tx[idl]) < tol )){
     out <- "skewed"
   } else {
     out <- "none"

@@ -4,7 +4,7 @@
 \alias{impute_tskrr}
 \title{Impute missing values in a adjacency matrix}
 \usage{
-impute_tskrr(y, k, g = NULL, lambda = 1e-04, testdim = TRUE,
+impute_tskrr(y, k, g = NULL, lambda = 0.01, testdim = TRUE,
   testlabels = TRUE, symmetry = c("auto", "symmetric", "skewed"),
   keep = FALSE, niter = 10000, tol = sqrt(.Machine$double.eps),
   start = mean(y, na.rm = TRUE), verbose = FALSE)

@@ -12,6 +12,7 @@ package.
 ### bug fixes and minor improvements
 
 * `is_symmetric` didn't take absolute values to compare. Fixed.
+* show methods for objects are cleaned up.
 
 ## xnet 0.1.6
 

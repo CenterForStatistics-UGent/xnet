@@ -34,7 +34,7 @@
 impute_tskrr <- function(y,
                    k,
                    g = NULL,
-                   lambda = 1e-04,
+                   lambda = 1e-02,
                    testdim = TRUE,
                    testlabels = TRUE,
                    symmetry = c("auto","symmetric","skewed"),
@@ -82,19 +82,24 @@ impute_tskrr <- function(y,
   else
     Hk
 
+  naid <- is.na(y)
+
   if(homogenous){
     # Test symmetry if required.
     symmetry <- match.arg(symmetry)
     if(symmetry == "auto"){
-      symmetry <- test_symmetry(y)
+      ynona <- y
+      ynona[naid] <- 0
+      symmetry <- test_symmetry(ynona)
       if(symmetry == "none")
         stop(paste("The Y matrix is not symmetric or skewed symmetric.",
                    "You need a kernel matrix for rows and columns."))
     }
   }
 
-  naid <- is.na(y)
-  pred <- .impute_pred(y,Hk,Hg,naid,niter,tol, start, verbose)
+
+  imp <- impute_tskrr.fit(y,Hk,Hg,naid,niter,tol, start, verbose)
+  pred <- Hk %*% imp$y %*% Hg
 
   # Create labels
   rn <- rownames(y)
@@ -106,7 +111,7 @@ impute_tskrr <- function(y,
   if(homogenous){
 
     out <- new("tskrrHomogenousImpute",
-               y = y,
+               y = imp$y,
                k = k.eigen,
                lambda.k = lambda.k,
                pred = pred,
@@ -115,12 +120,12 @@ impute_tskrr <- function(y,
                Hk = if(keep) Hk else matrix(0),
                labels = list(k=rn, g = NA_character_),
                imputeid = which(naid),
-               niter = as.integer(niter),
+               niter = as.integer(imp$niter),
                tol = tol
                )
   } else {
     out <- new("tskrrHeterogenousImpute",
-               y = y,
+               y = imp$y,
                k = k.eigen,
                g = g.eigen,
                lambda.k = lambda.k,
@@ -131,45 +136,9 @@ impute_tskrr <- function(y,
                Hg = if(keep) Hg else matrix(0),
                labels = list(k=rn, g = cn),
                imputeid = which(naid),
-               niter = as.integer(niter),
+               niter = as.integer(imp$niter),
                tol = tol
     )
   }
   return(out)
 }
-# Workhorse function
-.impute_pred <- function(x,Hk,Hg,naid, niter,tol, start, verbose){
-
-  if(!any(naid)){
-    warning("The matrix didn't contain missing values")
-    return(x)
-  }
-
-  # Replace values
-  x[naid] <- start
-  prev <- x[naid]
-  div <- TRUE
-  # Loop
-  iter <- 0
-  showsteps <- verbose > 1
-  showres <- verbose > 0
-  while(iter <= niter && div > tol){
-
-    iter <- iter + 1
-
-    pred <- Hk %*% x %*% Hg
-    x[naid] <- pred[naid]
-
-    div <- sum((prev - x[naid])^2)
-    if(showsteps){
-      if(iter %% 10 == 0) cat("iteration: ",iter," - deviation: ",div,"\n")
-    }
-    prev <- x[naid]
-
-  }
-  if(showres){
-    cat("Nr. of iterations:", iter, " - Deviation:",div,"\n")
-  }
-  return(x)
-}
-

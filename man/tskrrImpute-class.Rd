@@ -17,14 +17,6 @@ information on the imputed values.
 \item{\code{imputeid}}{a vector with integer values indicating which of
 the values in \code{y} are imputed}
 
-\item{\code{imputemethod}}{a character value with either \code{"predictions"} or
-\code{"loo"} indicating whether the predictions or the leave-one-out
-crossvalidation values were used in the imputation.}
-
-\item{\code{loo_settings}}{in case \code{imputemethod = "loo"}, a list with
-two elements named \code{exclusion} and \code{replaceby0}. These
-indicate the arguments used in \code{\link{get_loo_fun}}.}
-
 \item{\code{niter}}{an integer value gving the number of iterations used}
 
 \item{\code{tol}}{a numeric value with the tolerance used}

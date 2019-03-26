@@ -110,19 +110,3 @@ setMethod("get_loo_fun",
                           exclusion = x@exclusion,
                           replaceby0 = x@replaceby0)
           })
-
-#' @rdname get_loo_fun
-#' @export
-setMethod("get_loo_fun",
-          "tskrrImpute",
-          function(x, ... ){
-            dots <- list(...)
-            class <- if(is_homogenous(x)) "tskrrHomogenous" else "tskrrHeterogenous"
-            if(length(dots))
-              do.call(get_loo_fun,
-                      c(as(x, class), dots))
-            else
-              get_loo_fun(as(x, class),
-                          exclusion = x@loo_settings$exclusion,
-                          replaceby0 = x@loo_settings$replaceby0)
-          })

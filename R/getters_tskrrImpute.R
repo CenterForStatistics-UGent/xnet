@@ -8,8 +8,10 @@
 #' an object inheriting from \code{tskrrImpute}.
 #' @param ... arguments passed to other methods/
 #'
-#' @return For \code{is_imputed}: a logical value indicating whether
-#' the model has imputed values
+#' @return For \code{has_imputed_values}: a logical value indicating whether
+#' the model has imputed values. If \code{x} is not some form of a
+#' \code{\link{tskrr}} model, the function will return an error.
+#'
 #'
 #' @examples
 #'
@@ -21,9 +23,9 @@
 #'
 #' @include all_generics.R
 #' @rdname getters-tskrrImpute
-#' @aliases is_imputed
+#' @aliases has_imputed_values
 #' @export
-is_imputed <- function(x){
+has_imputed_values <- function(x){
   if(!inherits(x, "tskrr")) stop("x should be a tskrr model.")
   inherits(x, "tskrrImpute")
 }
@@ -39,11 +41,11 @@ which_imputed <- function(x){
 }
 
 #' @rdname getters-tskrrImpute
-#' @return for \code{imputed}: a matrix of the same dimensions as the
+#' @return for \code{is_imputed}: a matrix of the same dimensions as the
 #' adjacency matrix. It contains the value \code{FALSE} at positions that
 #' were not imputed, and \code{TRUE} at positions that were.
 #' @export
-imputed <- function(x){
+is_imputed <- function(x){
   if(!inherits(x, "tskrrImpute"))
     stop("x should be a tskrr model with imputed values.")
   dims <- dim(x@y)

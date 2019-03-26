@@ -8,7 +8,6 @@
 \alias{get_loo_fun,linearFilter-method}
 \alias{get_loo_fun,character-method}
 \alias{get_loo_fun,tskrrTune-method}
-\alias{get_loo_fun,tskrrImpute-method}
 \title{Retrieve a loo function}
 \usage{
 get_loo_fun(x, ...)
@@ -25,8 +24,6 @@ get_loo_fun(x, ...)
   "tskrrHomogenous", "linearFilter"), ...)
 
 \S4method{get_loo_fun}{tskrrTune}(x, ...)
-
-\S4method{get_loo_fun}{tskrrImpute}(x, ...)
 }
 \arguments{
 \item{x}{a character value with the class or a \code{\link{tskrr}}

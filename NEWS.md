@@ -1,3 +1,18 @@
+## xnet devel (to become 0.1.7)
+
+### Breaking changes
+
+* Preliminary function `impute_loo` is removed from the 
+package.
+
+### New features
+
+* A `tskrrImpute` virtual class is added to represent imputed models.
+
+### bug fixes and minor improvements
+
+* `is_symmetric` didn't take absolute values to compare. Fixed.
+
 ## xnet 0.1.6
 
 ### Breaking changes

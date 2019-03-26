@@ -36,14 +36,18 @@ setMethod("show",
           "tskrrImpute",
           function(object){
 
-            cat("Two-step kernel ridge regression with imputation\n")
+            ishomog <- is_homogenous(object)
+            type <- ifelse(ishomog,"Homogenous","Heterogenous")
+            tl   <- ifelse(ishomog,"----------","------------")
+            cat(paste(type,"two-step kernel ridge regression with imputation"),
+                paste(tl,"------------------------------------------------",sep="-"),
+                sep = "\n")
+            .show_tskrr(object, ishomog)
 
             cat("\nImputation information:\n")
-            cat("-------------------\n")
-            cat("  iterations:", object@niter,"\n")
-            cat("  tolerance:", signif(object@tol, 4),"\n")
+            cat("-----------------------\n")
+            cat("iterations:", object@niter,"\n")
+            cat("tolerance:", signif(object@tol, 4),"\n")
 
-            cat("\nModel:\n")
-            show(as_tskrr(object))
 
           })

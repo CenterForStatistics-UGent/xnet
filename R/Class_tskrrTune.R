@@ -65,11 +65,19 @@ setMethod("show",
           "tskrrTune",
           function(object){
 
+            # HEADER
+
+            ishomog <- is_homogenous(object)
+            type <- ifelse(ishomog,"homogenous","heterogenous")
+            tl   <- ifelse(ishomog,"----------","------------")
+            cat(paste("Tuned",type,"two-step kernel ridge regression"),
+                  paste("-----",tl,"--------------------------------",sep="-"),
+                sep = "\n")
+            .show_tskrr(object, ishomog)
+
             # Information on tuning
             excl <- object@exclusion
             if(object@replaceby0) excl <- paste(excl,"(values replaced by 0)")
-
-
 
             if(identical(object@loss_function, loss_mse))
               loss_name <- "Mean Squared Error (loss_mse)"
@@ -78,17 +86,12 @@ setMethod("show",
             else
               loss_name <- "custom function by user"
 
-            cat("Tuned two-step kernel ridge regression\n")
-
             cat("\nTuning information:\n")
             cat("-------------------\n")
-            cat("  exclusion:",object@exclusion,"\n")
-            cat("  loss value:", object@best_loss,"\n")
-            cat("  loss function:", loss_name,"\n")
+            cat("exclusion setting:",object@exclusion,"\n")
+            cat("loss value:", object@best_loss,"\n")
+            cat("loss function:", loss_name,"\n")
 
-            cat("\nModel:\n")
-
-            show(as_tskrr(object))
           })
 
 

@@ -72,6 +72,27 @@ setValidity("tskrr", validTskrr)
 ################################################
 # SHOW METHOD
 
+.show_tskrr <- function(object, homogenous){
+  dims <- paste(dim(object@y), collapse = " x ")
+  cat("Dimensions:", dims,"\n")
+  cat("Lambda:\n")
+  print(lambda(object))
+
+  labs <- labels(object)
+  if(homogenous)
+    cat("\nLabels:")
+  else
+    cat("\nRow Labels:")
+
+  str(labs$k, give.length = FALSE, give.head = FALSE,
+      width = getOption("width") - 11)
+  if(!homogenous){
+    cat("Col Labels:")
+    str(labs$g, give.length = FALSE, give.head = FALSE,
+        width = getOption("width") - 11)
+  }
+}
+
 setMethod("show",
           "tskrr",
           function(object){
@@ -81,23 +102,8 @@ setMethod("show",
             cat(paste(type,"two-step kernel ridge regression"),
                 paste(tl,"--------------------------------",sep="-"),
                 sep = "\n")
-            dims <- paste(dim(object@y), collapse = " x ")
-            cat("Dimensions:", dims,"\n")
-            cat("Lambda:\n")
-            print(lambda(object))
 
-            labs <- labels(object)
-            if(ishomog)
-              cat("\nLabels:")
-            else
-              cat("\nRow Labels:")
+            .show_tskrr(object, ishomog)
 
-            str(labs$k, give.length = FALSE, give.head = FALSE,
-                width = getOption("width") - 11)
-            if(!ishomog){
-              cat("Col Labels:")
-              str(labs$g, give.length = FALSE, give.head = FALSE,
-                  width = getOption("width") - 11)
-            }
           })
 

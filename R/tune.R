@@ -60,7 +60,8 @@
 #' data(drugtarget)
 #'
 #' mod <- tskrr(drugTargetInteraction, targetSim, drugSim)
-#' tuned <- tune(mod, lim = c(0.1,1), ngrid = list(5,10))
+#' tuned <- tune(mod, lim = c(0.1,1), ngrid = list(5,10),
+#'               fun = loss_auc)
 #'
 #' \dontrun{
 #'
@@ -69,8 +70,9 @@
 #' gridvals <- get_grid(tuned)
 #' z <- get_loss_values(tuned)        # loss values
 #'
-#' image(gridvals$k,gridvals$g,log(z), log = 'xy',
-#' xlab = "lambda k", ylab = "lambda g")
+#' image(gridvals$k,gridvals$g,z, log = 'xy',
+#'       xlab = "lambda k", ylab = "lambda g",
+#'       col = rev(heat.colors(20)))
 #'
 #' }
 #' @rdname tune

@@ -5,7 +5,8 @@
 \title{Impute missing values in a adjacency matrix}
 \usage{
 impute_tskrr(y, k, g = NULL, lambda = 1e-04, testdim = TRUE,
-  testlabels = TRUE, niter = 10000, tol = sqrt(.Machine$double.eps),
+  testlabels = TRUE, symmetry = c("auto", "symmetric", "skewed"),
+  keep = FALSE, niter = 10000, tol = sqrt(.Machine$double.eps),
   start = mean(y, na.rm = TRUE), verbose = FALSE)
 }
 \arguments{
@@ -28,6 +29,16 @@ putting this to \code{FALSE} will speed up the function.}
 names of the matrices have to be checked for consistency. Defaults to
 \code{TRUE}, but for large matrices putting this to \code{FALSE} will
 speed up the function.}
+
+\item{symmetry}{a character value with the possibilities
+"auto", "symmetric" or "skewed". In case of a homogenous fit, you
+can either specify whether the adjacency matrix is symmetric or
+skewed, or you can let the function decide (option "auto").}
+
+\item{keep}{a logical value indicating whether the kernel hat
+matrices should be stored in the model object. Doing so makes the
+model object quite larger, but can speed up predictions in
+some cases. Defaults to \code{FALSE}.}
 
 \item{niter}{an integer giving the maximum number of iterations}
 

@@ -1,3 +1,24 @@
+## xnet 0.1.7
+
+### Breaking changes
+
+* Preliminary function `impute_loo` is removed from the 
+package.
+* `eigen2hat`, `eigen2map` and `eigen2matrix` had the second argument
+renamed from `vec` to `val`. The old name implied that the second argument
+took the vectors, which it doesn't!
+
+
+### New features
+
+* A `tskrrImpute` virtual class is added to represent imputed models.
+
+### bug fixes and minor improvements
+
+* `is_symmetric` didn't take absolute values to compare. Fixed.
+* `show` methods for objects are cleaned up.
+* `predict` gave nonsensical output. Fixed.
+
 ## xnet 0.1.6
 
 ### Breaking changes

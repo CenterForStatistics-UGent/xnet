@@ -7,10 +7,10 @@
 \title{Class tskrrHomogenousImpute}
 \description{
 The class \code{tskrrHomogenousImpute} is a subclass of the
-class \code{\link[xnet:tskrrHomogenous-class]{tskrrHomogenous}}
+class \code{\link[xnet:tskrrHomogenous-class]{tskrrHomogenous}} and
+\code{\link[xnet:tskrrImpute-class]{tskrrImpute}}
 specifically for homogenous networks with imputed values. It is
-the result of the function \code{\link{impute_tskrr}} or
-the function \code{\link{impute_loo}}.
+the result of the function \code{\link{impute_tskrr}}.
 }
 \section{Slots}{
 
@@ -40,13 +40,6 @@ are integers indicating the row resp column number.}
 
 \item{\code{imputeid}}{a vector with integer values indicating which of
 the values in \code{y} are imputed}
-
-\item{\code{imputemethod}}{a character value with either \code{"predictions"} or
-"loo" indicating whether the predictions or the leave-one-out
-crossvalidation values were used in the imputation.}
-
-\item{\code{loofun}}{if imputemethod is "loo", this slot contains the loo
-function used during imputation.}
 
 \item{\code{niter}}{an integer value gving the number of iterations used}
 

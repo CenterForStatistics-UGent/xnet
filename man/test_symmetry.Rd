@@ -4,10 +4,12 @@
 \alias{test_symmetry}
 \title{test the symmetry of a matrix}
 \usage{
-test_symmetry(x)
+test_symmetry(x, tol = .Machine$double.eps)
 }
 \arguments{
 \item{x}{a matrix}
+
+\item{tol}{a single numeric value with the tolerance for comparison}
 }
 \value{
 a character value with the possible values "symmetric",

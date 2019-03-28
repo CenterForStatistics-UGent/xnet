@@ -6,16 +6,16 @@
 \alias{eigen2matrix}
 \title{Calculate the hat matrix from an eigen decomposition}
 \usage{
-eigen2hat(eigen, vec, lambda)
+eigen2hat(eigen, val, lambda)
 
-eigen2map(eigen, vec, lambda)
+eigen2map(eigen, val, lambda)
 
-eigen2matrix(eigen, vec)
+eigen2matrix(eigen, val)
 }
 \arguments{
 \item{eigen}{a matrix with the eigenvectors.}
 
-\item{vec}{an numeric vector with the eigen values.}
+\item{val}{an numeric vector with the eigen values.}
 
 \item{lambda}{a single numeric value for the hyperparameter lambda}
 }

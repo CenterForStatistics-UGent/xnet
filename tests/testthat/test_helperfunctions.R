@@ -1,5 +1,5 @@
 context("Helper functions")
-
+set.seed(100)
 dfile <- system.file("testdata","testdata.rda", package = "xnet")
 
 load(dfile)
@@ -178,7 +178,8 @@ test_that("is_symmetric returns correct values/errors",{
                "x should be a numeric matrix")
   expect_true(is_symmetric(matrix(1)))
   expect_false(is_symmetric(matrix(0,nrow=2,ncol=3)))
-  expect_false(is_symmetric(matrix(rnorm(16), ncol = 4)))
+  newmat <- matrix(rnorm(16), ncol = 4)
+  expect_false(is_symmetric(newmat))
 })
 
 # Test find_min_pos ------------------------------

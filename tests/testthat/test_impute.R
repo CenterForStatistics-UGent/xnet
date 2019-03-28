@@ -92,3 +92,81 @@ test_that("impute constructs the correct homogenous objects",{
   expect_identical(is_imputed(impYh), is.na(Yhna))
   expect_identical(which_imputed(impYh),as.integer(naposh))
 })
+
+# Test labels heterogenous -----------------------------------------------
+
+rlabels <- letters[1:4]
+clabels <- letters[1:5]
+
+Yl <- Yna
+Kl <- K
+Gl <- G
+rownames(Yl) <- rownames(Kl) <- colnames(Kl) <- rlabels
+colnames(Yl) <- rownames(Gl) <- colnames(Gl) <- clabels
+
+set.seed(5432) # Due to small size of matrices, there might be
+# significant deviation bcs of differences in the
+# decompositions. See eg with seed = 5434 (R3.5.3)
+
+idk <- sample(1:4)
+idg <- sample(1:5)
+Yl2 <- Yl[sample(1:4), sample(1:5)]
+Kl2 <- Kl[idk, idk]
+Gl2 <- Gl[idg,idg]
+
+mod1 <- impute_tskrr(Yl,Kl,Gl)
+mod2 <- impute_tskrr(Yl2,Kl2,Gl2)
+
+test_that("Labels are correctly processed in heterogenous impute",{
+  expect_equal(fitted(mod1)[rlabels,clabels],
+               fitted(mod2)[rlabels,clabels])
+
+})
+
+# Test labels homogenous -----------------------------------------------
+
+hlabels <- letters[1:5]
+
+Ylh <- Yhna
+Klh <- Kh
+
+rownames(Ylh) <- colnames(Ylh) <- hlabels
+
+rownames(Klh) <- colnames(Klh) <- hlabels
+
+idk <- sample(1:5)
+idy <- sample(1:5)
+Ylh2 <- Ylh[idy, idk]
+Klh2 <- Klh[idk, idk]
+
+test_that("Labels are correctly processed in homogenous impute",{
+  mod1 <- impute_tskrr(Ylh, Klh)
+  mod2 <- impute_tskrr(Ylh2, Klh2)
+  expect_equal(fitted(mod1)[hlabels,hlabels],
+               fitted(mod2)[hlabels,hlabels])
+
+})
+
+# Error testing ---------------------------------
+Yhwrong <- Yhna
+Yhwrong[4,5] <- 1
+
+test_that("Asymmetry in Y is detected",{
+  expect_error(impute_tskrr(Yhwrong, Kh),
+               "The Y matrix is not symmetric")
+})
+eigK <- eigen(K)
+eigG <- eigen(G)
+Hk <- eigen2hat(eigK$vectors, eigK$values, lambda = 0.01)
+Hg <- eigen2hat(eigG$vectors, eigG$values, lambda = 0.015)
+
+preds <- impute_tskrr.fit(
+  Yna, Hk, Hg, niter = 1000,
+  tol = sqrt(.Machine$double.eps),
+  start = mean(Yna, na.rm = TRUE),
+  verbose = FALSE
+)$y
+
+test_that("NA values are detected by impute_tskrr.fit",{
+  expect_equal(preds, response(impY))
+})

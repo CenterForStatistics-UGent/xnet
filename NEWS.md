@@ -8,6 +8,7 @@ package.
 renamed from `vec` to `val`. The old name implied that the second argument
 took the vectors, which it doesn't!
 
+
 ### New features
 
 * A `tskrrImpute` virtual class is added to represent imputed models.
@@ -15,7 +16,8 @@ took the vectors, which it doesn't!
 ### bug fixes and minor improvements
 
 * `is_symmetric` didn't take absolute values to compare. Fixed.
-* show methods for objects are cleaned up.
+* `show` methods for objects are cleaned up.
+* `predict` gave nonsensical output. Fixed.
 
 ## xnet 0.1.6
 

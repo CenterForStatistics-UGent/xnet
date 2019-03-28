@@ -26,10 +26,8 @@ predict.tskrr <- function(object,
   if(is.null(K))
     return(fitted(object))
   if(is.null(G)){
-    if(is_symmetric(K))
-      G <- K
-    else
-      G <- t(K)
+    Keig <- get_eigen(object)
+    G <- eigen2matrix(Keig$vectors, Keig$values)
   }
 
   K %*% weights(object) %*% G

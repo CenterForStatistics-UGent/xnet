@@ -4,6 +4,9 @@
 
 * Preliminary function `impute_loo` is removed from the 
 package.
+* `eigen2hat`, `eigen2map` and `eigen2matrix` had the second argument
+renamed from `vec` to `val`. The old name implied that the second argument
+took the vectors, which it doesn't!
 
 ### New features
 

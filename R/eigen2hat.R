@@ -20,7 +20,7 @@
 #' diagonal matrix.
 #'
 #' @param eigen a matrix with the eigenvectors.
-#' @param vec an numeric vector with the eigen values.
+#' @param val an numeric vector with the eigen values.
 #' @param lambda a single numeric value for the hyperparameter lambda
 #'
 #' @return a numeric matrix representing either the hat matrix
@@ -28,14 +28,14 @@
 #' the original matrix (\code{eigen2matrix})
 #'
 #' @export
-eigen2hat <- function(eigen, vec , lambda){
+eigen2hat <- function(eigen, val , lambda){
 
   # Sigma is a diagonal matrix, so Sigma %*% Sigma + lambdaI can
-  # be calculated based on the vecs as vec * 1/(vec + lambda)
+  # be calculated based on the vals as val * 1/(val + lambda)
   # This can be calculated first due to associativity of the
   # matrix multiplication.
 
-  mid <- vec / (vec + lambda)
+  mid <- val / (val + lambda)
 
   # Use recycling to calculate the right side first
   # thanks to associativity of the matrix multiplication.
@@ -45,9 +45,9 @@ eigen2hat <- function(eigen, vec , lambda){
 
 #' @rdname eigen2hat
 #' @export
-eigen2map <- function(eigen, vec, lambda){
+eigen2map <- function(eigen, val, lambda){
 
-  mid <- 1 / (vec + lambda)
+  mid <- 1 / (val + lambda)
 
   # Use recycling to calculate the right side first
   # thanks to associativity of the matrix multiplication.
@@ -57,6 +57,6 @@ eigen2map <- function(eigen, vec, lambda){
 
 #' @rdname eigen2hat
 #' @export
-eigen2matrix <- function(eigen, vec){
-  return(eigen %*% (vec*t(eigen)) )
+eigen2matrix <- function(eigen, val){
+  return(eigen %*% (val * t(eigen)) )
 }

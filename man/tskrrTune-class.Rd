@@ -32,6 +32,10 @@ form the Y dimension (related to the second lambda if applicable)}
 
 \item{\code{replaceby0}}{a logical value indicating whether or not the cross
 validation replaced the excluded values by zero}
+
+\item{\code{onedim}}{a logical value indicating whether the grid search
+was done in one dimension. For homogenous networks, this is
+true by default.}
 }}
 
 \seealso{

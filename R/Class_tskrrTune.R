@@ -18,6 +18,9 @@
 #' @slot exclusion a character value describing the exclusion used
 #' @slot replaceby0 a logical value indicating whether or not the cross
 #' validation replaced the excluded values by zero
+#' @slot onedim a logical value indicating whether the grid search
+#' was done in one dimension. For homogenous networks, this is
+#' true by default.
 #'
 #' @seealso
 #'  * the function \code{tune} for the tuning itself
@@ -35,7 +38,8 @@ setClass("tskrrTune",
                    loss_values = "matrix",
                    loss_function = "function",
                    exclusion = "character",
-                   replaceby0 = "logical"))
+                   replaceby0 = "logical",
+                   onedim = "logical"))
 
 validTskrrTune <- function(object){
 
@@ -55,6 +59,9 @@ validTskrrTune <- function(object){
 
   if(object@replaceby0 && excl != "interaction")
     return("replaceby0 can only be used with interaction exclusion")
+
+  if(length(object@onedim) != 1)
+    return("onedim should be a single logical value.")
   else
     return(TRUE)
 }
@@ -91,6 +98,8 @@ setMethod("show",
             cat("exclusion setting:",object@exclusion,"\n")
             cat("loss value:", object@best_loss,"\n")
             cat("loss function:", loss_name,"\n")
+            if(object@onedim && is_heterogenous(object))
+              cat("Grid search done in one dimension.\n")
 
           })
 

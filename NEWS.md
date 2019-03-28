@@ -1,3 +1,14 @@
+## xnet devel (to become 0.1.8)
+
+### Breaking changes
+
+### New features
+
+* `tune` now allows for a one-dimensional grid search for heterogenous
+networks. Set `onedim = TRUE` to avoid a full grid search.
+
+### Bug fixes and minor improvements
+
 ## xnet 0.1.7
 
 ### Breaking changes

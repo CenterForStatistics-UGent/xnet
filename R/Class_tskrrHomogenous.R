@@ -48,7 +48,6 @@ validTskrrHomogenous <- function(object){
      )
     return("The element k should either be NA or a character vector with the same number of values as there are rows in the Y matrix.")
 
-
   else
     return(TRUE)
 }

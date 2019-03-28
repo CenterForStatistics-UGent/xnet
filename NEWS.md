@@ -1,4 +1,4 @@
-## xnet devel (to become 0.1.7)
+## xnet 0.1.7
 
 ### Breaking changes
 

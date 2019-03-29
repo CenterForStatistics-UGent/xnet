@@ -1,5 +1,5 @@
 ---
-title: "Introduction to cross-network analysis with xnet"
+title: "A short introduction to cross-network analysis with xnet"
 author: "Meys Joris"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -14,6 +14,60 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+suppressMessages(library(xnet))
 ```
 
-The xnet package started as an implementation 
+Networks exist in all forms and shapes. The package `xnet` 
+provides a few methods for analysis of networks that describe
+the interaction between one or two sets of entities. For example:
+
+ * which proteins interact with eachother?
+ * which goods are bought by which clients?
+ * How many likes give twitter users to eachother's tweets?
+ 
+These interactions can on a continuous scale giving a measure
+of how strong the interaction is, or they can be binary (1 for
+interaction, 0 for no interaction and possibly -1 for an inverse
+interaction). The interactions are presented in a 
+**adjacency matrix** called $\mathbf{Y}$.
+
+The methods provided by `xnet` will try to evaluate and predict
+these interactions based on some form of similarity between the
+studied entities. These similarities are presented in a **kernel matrix**. These matrices are called $\mathbf{K}$ for the rows
+and - if applicable - $\mathbf{G}$ for the columns. If the network
+is homogenous (i.e. the interactions exist between entities of
+the same set), only a $\mathbf{K}$ matrix is needed.
+
+## Heterogenous networks
+
+The package has a dataset called "drugtarget" that consists of
+three objects:
+
+ * the adjacency matrix `drugTargetInteraction`
+ * the kernel matrix for the rows `targetSim`
+ * the kernel matrix for the columns `drugSim`
+ 
+The adjacency matrix indicates which drugs interact with which
+protein targets, and the purpose of that dataset is to predict
+new targets for known drugs. 
+
+### Fitting a two-step kernel ridge regression
+
+To fit a two-step kernel ridge regression, you use the function `tskrr()`. This function needs to get some tuning parameter(s)
+`lambda`. You can choose to set 1 lambda for tuning $\mathbf{K}$
+and $\mathbf{G}$ using the same lambda value, or you can specify
+a different lambda for $\mathbf{K}$ and $\mathbf{G}$.
+
+```{r fit a heterogenous model}
+
+data(drugtarget)
+
+drugmodel <- tskrr(y = drugTargetInteraction,
+                   k = targetSim,
+                   g = drugSim, 
+                   lambda = c(0.01,0.1))
+
+drugmodel
+```
+
+## Homogenous networks

@@ -19,12 +19,14 @@ library(xnet)
 slotsToRmd <- function(class){
   slots <- getSlots(class)
   
-  txt <- paste(" *",names(slots), ": object of type", slots)
+  txt <- paste0(" * `",names(slots), "` : object of type **", slots, "**")
   cat(txt, sep = "\n")
 }
 ```
 
-This document defines the S4 class structure used in the `xnet` package.
+This document describes the S4 class structure used in the `xnet` package.
+It's mainly a reference for package developers. Users are advised to 
+use the appropriate functions for extracting the information they need.
 
 ## Virtual classes
 
@@ -52,7 +54,22 @@ returned:
   * `tskrrHeterogenous` : for heterogenous networks
      
 These classes have similar slots, but the homogenous models don't need
-information on the column kernel matrix. The slots are listed below.
+information on the column kernel matrix. The slots are listed below. In
+general the following design principles hold:
+
+ * the slot `y` contains the adjacency matrix used to fit the model. This
+ goes for all different classes, including the `tskrrTune` and `tskrrImpute` classes. 
+ * the object stores the eigendecompositions of the row kernel K and
+ -if applicable- the column kernel G. 
+ * if `has.hat = TRUE`, the hat matrices Hk and possibly Hg are stored
+ in the object as well. This can speed up calculations but comes at
+ a memory cost.
+ * the slot `pred` holds the predicted values.
+ * the slots `lambda.k` and `lambda.g` store the tuning parameters.
+ * the slot `labels` store the labels attached to the rows and the 
+ columns in a list with elements `k` and `g`. If no labels were present,
+ the single element `k` will have one `NA` value. The function `labels()`
+ will still construct default labels when required.
 
 ### Slots defined by tskrrHomogenous
 
@@ -84,6 +101,19 @@ from `tskrrTune` adds the following slots:
 slotsToRmd("tskrrTune")
 ```
 
+These slots use the following design principles:
+
+ * `lambda_grid` is a list with one or two elements named `k` and `g`,
+ similar to the `labels` slot of the `tskrr` classes. These elements
+ contain the lambda values tested for that dimension. If the grid search
+ was one-dimensional (and `onedim` contains `TRUE`), there's only one
+ element called `k`. 
+ * `loss_values` is always a matrix, but when `onedim = TRUE` it's a 
+ matrix with a single column. In that matrix, the values are arranged in
+ such a way that the rows correspond with the lambdas for the row kernel,
+ and the columns with the lambdas for the column kernel.
+ * The slots `exclusion` and `replaceby0` follow the same rules as the
+ arguments of the function `get_loo_fun()`. 
      
 ### Inheritance from tskrrImpute
 
@@ -100,3 +130,6 @@ from `tskrrImpute` adds the following slots:
 slotsToRmd("tskrrImpute")
 ```
 
+The slot `imputeid` treats the Y matrix as a vector and stores the
+position of the imputed values as a integer vector. The other two slots
+just store the settings used during imputation.

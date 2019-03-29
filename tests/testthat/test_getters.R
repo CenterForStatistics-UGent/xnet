@@ -160,12 +160,23 @@ test_that("labels produces the correct errors", {
                  "Two prefixes were given for a homogenous model")
 })
 
-# Test for tskrrTune objects
-test_that("getters produce correct errors", {
+# Test for tskrrTune objects ---------------------------
+test_that("getters tskrrTune produce correct errors", {
   expect_error(get_grid(1),
                "x should be a tuned model")
   expect_error(get_loss_values(1),
                "x should be a tuned model")
+})
+
+# Test for tskrrImpute objects --------------------------------
+test_that("getters tskrrImpute produce correct errors", {
+  expect_error(has_imputed_values(1),
+               "x should be a tskrr model")
+  expect_false(has_imputed_values(mod))
+  expect_error(which_imputed(mod),
+               "x should be a tskrr model .* imputed")
+  expect_error(is_imputed(mod),
+               "x should be a tskrr model .* imputed")
 })
 
 # Conversions -----------------------------------

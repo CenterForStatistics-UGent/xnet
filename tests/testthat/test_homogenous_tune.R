@@ -19,6 +19,8 @@ test_that("input of tune is correctly processed",{
                "lim .* single series of numeric values")
   expect_error(tune(mod, ngrid = list(12,12)),
                "ngrid .* single series of numeric values")
+  expect_warning(tune(mod, onedim = FALSE),
+                 "one-dimensional search .* homogenous networks")
 
 })
 

@@ -64,3 +64,12 @@ get_loss_values <- function(x){
   if(!inherits(x, "tskrrTune")) stop("x should be a tuned model.")
   x@loss_values
 }
+
+#' @return for \code{is_onedim} a single logical value telling whether the
+#' grid search in the object was onedimensional.
+#' @rdname getters-tskrrTune
+#' @aliases has_onedim
+has_onedim <- function(x){
+  if(!inherits(x, "tskrrTune")) stop("x should be a tuned model.")
+  x@onedim
+}

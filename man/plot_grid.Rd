@@ -10,7 +10,7 @@ plot_grid(x, ...)
 \item{x}{an object that inherits from
 \code{\link[xnet:tskrrTune-class]{tskrrTune}}}
 
-\item{...}{arguments passed to image}
+\item{...}{arguments passed to other functions}
 }
 \value{
 \code{NULL} invisibly

@@ -73,6 +73,21 @@ test_that("Output of tuned model is correct", {
 
 })
 
+# Test one dimensional search ---------------------------------
+tune1d <- tune(mod, lim = c(0.01,1), ngrid = 10, onedim = TRUE)
+tune2d <- tune(mod, lim = c(0.01,1), ngrid = 10)
+
+test_that("one dimensional search gives correct result",{
+  expect_equal(as.vector(get_loss_values(tune1d)),
+               diag(get_loss_values(tune2d)))
+  expect_true(has_onedim(tune1d))
+  expect_false(has_onedim(tune2d))
+  expect_null(get_grid(tune1d)$g)
+  expect_equal(get_grid(tune1d)$k, get_grid(tune2d)$k)
+
+})
+
+
 # loss --------------------------
 
 test_that("loss is calculated correctly",{

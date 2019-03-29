@@ -6,6 +6,8 @@
 
 * `tune` now allows for a one-dimensional grid search for heterogenous
 networks. Set `onedim = TRUE` to avoid a full grid search.
+* `has_onedim` tells whether the grid search was one dimensional or not.
+This is a getter for the appropriate slote in the tskrrTune class.
 
 ### Bug fixes and minor improvements
 

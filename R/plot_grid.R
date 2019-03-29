@@ -9,14 +9,13 @@
 #' @param x an object that inherits from
 #' \code{\link[xnet:tskrrTune-class]{tskrrTune}}
 #'
-#' @param ... arguments passed to image
+#' @param ... arguments passed to other functions
 #'
 #' @return \code{NULL} invisibly
 #'
+#' @include Class_tskrrTune.R
 #' @rdname plot_grid
 #' @export
 plot_grid <- function(x, ...){
-
-
 
 }

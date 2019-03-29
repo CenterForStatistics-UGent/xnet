@@ -235,13 +235,15 @@ setMethod("tune",
                    testlabels = TRUE,
                    symmetry = c("auto","symmetric","skewed"),
                    keep = FALSE,
+                   onedim = is.null(g),
                    ...){
 
             homogenous <- is.null(g)
             fun <- match.fun(fun)
             # get initial lambdas
             lambda <- .prepare_lambdas(lim, ngrid, lambda,
-                                       homogenous = homogenous)
+                                       homogenous = homogenous,
+                                       onedim = onedim)
             if(homogenous){
               init_lambda <- lambda$k[1]
             } else {
@@ -261,6 +263,7 @@ setMethod("tune",
                         fun = fun,
                         exclusion = exclusion,
                         replaceby0 = replaceby0,
+                        onedim = onedim,
                         ...)
           })
 

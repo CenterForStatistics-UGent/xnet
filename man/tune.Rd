@@ -20,7 +20,7 @@
   ngrid = 10, lambda = NULL, fun = loss_mse,
   exclusion = "interaction", replaceby0 = FALSE, testdim = TRUE,
   testlabels = TRUE, symmetry = c("auto", "symmetric", "skewed"),
-  keep = FALSE, ...)
+  keep = FALSE, onedim = is.null(g), ...)
 }
 \arguments{
 \item{x}{a \code{\link{tskrr}} object representing a two step

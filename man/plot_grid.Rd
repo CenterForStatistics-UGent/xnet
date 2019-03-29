@@ -4,13 +4,33 @@
 \alias{plot_grid}
 \title{Plot the grid of a tuned tskrr model}
 \usage{
-plot_grid(x, ...)
+plot_grid(x, addlambda = TRUE, lambdapars = list(col = "red"),
+  log = TRUE, opts.contour = list(nlevels = 10), ...)
 }
 \arguments{
 \item{x}{an object that inherits from
 \code{\link[xnet:tskrrTune-class]{tskrrTune}}}
 
-\item{...}{arguments passed to other functions}
+\item{addlambda}{a logical value indicating whether the
+lambda with the minimum loss should be added to the plot.
+In case of a one dimensional plot, this adds a colored
+vertical line. In the case of a two dimensional plot, this
+adds a colored point at the minimum.}
+
+\item{lambdapars}{a list with named \code{\link{par}} values
+passed to the function \code{\link{abline}} or
+\code{\link{points}} for plotting the best lambda value when
+\code{addmin = TRUE}.}
+
+\item{log}{a logical value indicating whether the lambdas should be
+plotted at a log scale (the default) or not.}
+
+\item{opts.contour}{options passed to the function
+\code{\link{contour}} for 2D grid plots. Ignored for 1D
+grid plots.}
+
+\item{...}{arguments passed to other functions. For a one
+dimensional plot, this will be the function \code{\link{plot}}}
 }
 \value{
 \code{NULL} invisibly
@@ -18,7 +38,30 @@ plot_grid(x, ...)
 \description{
 With this function you can visualize the grid search for optimal
 lambdas from a \code{\link[xnet:tskrrTune-class]{tskrrTune}} object.
-In the case of a heterogenous network, this function will plot a
+In the case of two dimensional grid search, this function will plot a
 contour plot on a grid, based on the functions \code{\link{image}}
-and \code{\link{contour}}
+and \code{\link{contour}}. For one dimensional grid search the function
+creates a single line plot.
+}
+\examples{
+
+data(drugtarget)
+
+## One dimensional tuning
+tuned1d <- tune(drugTargetInteraction, targetSim, drugSim,
+                lim = c(1e-4,2), ngrid = 40,
+                fun = loss_auc, onedim = TRUE)
+
+plot_grid(tuned1d)
+plot_grid(tuned1d, lambdapars = list(col = "green",
+                                     lty = 1, lwd = 2),
+          log = FALSE, las = 2, main = "1D tuning")
+
+## Two dimensional tuning
+tuned2d <- tune(drugTargetInteraction, targetSim, drugSim,
+                lim = c(1e-4,10), ngrid = 20,
+                fun = loss_auc)
+
+plot_grid(tuned2d)
+
 }

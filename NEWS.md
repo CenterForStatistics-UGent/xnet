@@ -8,6 +8,10 @@
 networks. Set `onedim = TRUE` to avoid a full grid search.
 * `has_onedim` tells whether the grid search was one dimensional or not.
 This is a getter for the appropriate slote in the tskrrTune class.
+* `plot_grid` allows you to plot the loss in function of the
+searched grid after tuning a model. It deals with both 1D and
+2D grids and can be used for quick evaluation of the optimal
+lambda values.
 
 ### Bug fixes and minor improvements
 

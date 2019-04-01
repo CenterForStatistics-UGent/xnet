@@ -12,6 +12,8 @@ This is a getter for the appropriate slote in the tskrrTune class.
 searched grid after tuning a model. It deals with both 1D and
 2D grids and can be used for quick evaluation of the optimal
 lambda values.
+* `residuals` allows you to calculate the residuals based on
+the predictions or on the loo values of choice.
 
 ### Bug fixes and minor improvements
 

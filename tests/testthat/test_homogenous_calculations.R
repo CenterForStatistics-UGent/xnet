@@ -150,3 +150,23 @@ test_that("loss is calculated correctly",{
   expect_equal(loss(modh, predictions = TRUE),
                loss_mse(response(modh), fitted(modh)))
 })
+
+# predict ------------------------
+predh <- Khnew %*% weights(modh) %*% Kh
+colnames(predh) <- paste0("row",1:5)
+
+predall <- Khnew %*% weights(modh) %*% t(Khnew)
+
+preds <- Khnew %*% weights(mods) %*% Kh
+colnames(preds) <- paste0("row",1:5)
+
+test_that("predict works as intended",{
+  expect_equal(predh,
+               predict(modh, Khnew))
+  expect_equal(preds,
+               predict(mods, Khnew))
+  expect_equal(predict(modh, g = t(Khnew)),
+               t(predh))
+  expect_equal(predict(modh, Khnew, t(Khnew)),
+               predall)
+})

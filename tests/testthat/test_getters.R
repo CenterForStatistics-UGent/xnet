@@ -71,7 +71,8 @@ test_that("dim works correctly",{
 
 test_that("fitted and predict give same result",{
   expect_equal(fitted(mod2), predict(mod2))
-  expect_equal(fitted(mod3, labels = FALSE), predict(mod3, Kh))
+  expect_equal(fitted(mod3, labels = FALSE),
+               unname(predict(mod3, Kh)))
 })
 
 ## Test the rownames colnames functions ----------------------------

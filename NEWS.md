@@ -2,6 +2,9 @@
 
 ### Breaking changes
 
+* For consistency, the arguments `K` and `G` for the function `predict()`
+have been renamed `k` and `g` (lower case).
+
 ### New features
 
 * `tune` now allows for a one-dimensional grid search for heterogenous

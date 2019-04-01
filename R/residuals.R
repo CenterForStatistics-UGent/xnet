@@ -8,6 +8,7 @@
 #' residuals should be based on the predictions or on a
 #' leave-one-out crossvalidation.
 #' @inheritParams loo
+#' @param ... arguments passed from/to other methods.
 #'
 #' @inherit loo details
 #'
@@ -29,7 +30,8 @@ residuals.tskrr <- function(object,
                             method = c("predictions","loo"),
                             exclusion = c("interaction","row",
                                           "column", "both"),
-                            replaceby0 = FALSE){
+                            replaceby0 = FALSE,
+                            ...){
 
   method <- match.arg(method)
   exclusion <- match.arg(exclusion)

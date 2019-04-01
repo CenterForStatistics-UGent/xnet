@@ -11,17 +11,16 @@ residuals(object, ...)
 
 \method{residuals}{tskrr}(object, method = c("predictions", "loo"),
   exclusion = c("interaction", "row", "column", "both"),
-  replaceby0 = FALSE)
+  replaceby0 = FALSE, ...)
 
 \S4method{residuals}{tskrr}(object, method = c("predictions", "loo"),
   exclusion = c("interaction", "row", "column", "both"),
-  replaceby0 = FALSE)
+  replaceby0 = FALSE, ...)
 }
 \arguments{
 \item{object}{a tskrr model}
 
-\item{...}{arguments passed to methods.
-See Details.}
+\item{...}{arguments passed from/to other methods.}
 
 \item{method}{a character value indicating whether the
 residuals should be based on the predictions or on a

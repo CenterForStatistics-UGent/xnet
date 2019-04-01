@@ -183,3 +183,14 @@ test_that("getters tskrrImpute produce correct errors", {
 test_that("Conversions happen correctly",{
   expect_true(is_tskrr(as_tskrr(mod)))
 })
+
+# Test residuals function -----------------------
+test_that("Residuals are calculated correctly",{
+  expect_equal(residuals(mod), response(mod) - fitted(mod))
+  expect_equal(residuals(tunedmod),
+               response(tunedmod) - fitted(tunedmod))
+  expect_equal(residuals(mod, method = "loo",
+                         replaceby0 = TRUE),
+               response(mod) - loo(mod, replaceby0 = TRUE))
+
+})

@@ -17,46 +17,76 @@ knitr::opts_chunk$set(
 suppressMessages(library(xnet))
 ```
 
-Networks exist in all forms and shapes. The package `xnet` 
-provides a few methods for analysis of networks that describe
-the interaction between one or two sets of entities. For example:
+## Description of the data on which the methods work
+
+Networks exist in all forms and shapes. With `xnet` you can analyse
+bipartite networks, i.e. networks that describe the link between two
+sets of nodes. For example:
 
  * which proteins interact with eachother?
  * which goods are bought by which clients?
  * How many likes give twitter users to eachother's tweets?
- 
-These interactions can on a continuous scale giving a measure
+
+These two sets can contain the same nodes (eg protein interaction) or
+different nodes (eg goods bought by clients). When the two sets are 
+the same, we call this a *homogenous* network. A network between two
+different sets of nodes is called a *heterogenous* network.
+
+The interactions can on a continuous scale giving a measure
 of how strong the interaction is, or they can be binary (1 for
 interaction, 0 for no interaction and possibly -1 for an inverse
 interaction). The interactions are presented in a 
-**adjacency matrix** called $\mathbf{Y}$.
+*adjacency matrix*, noted **Y**. The rows of **Y** represent
+one set of nodes, the columns the second.
 
-The methods provided by `xnet` will try to evaluate and predict
-these interactions based on some form of similarity between the
-studied entities. These similarities are presented in a **kernel matrix**. These matrices are called $\mathbf{K}$ for the rows
-and - if applicable - $\mathbf{G}$ for the columns. If the network
-is homogenous (i.e. the interactions exist between entities of
-the same set), only a $\mathbf{K}$ matrix is needed.
+two-step kernel ridge regression ( function `tskrr()` ) predicts the values
+in  the adjacency matrix based on similarities within the node sets,
+calculated by using some form of a *kernel function*. 
+The resulting *kernel matrix* has to be positive definite for the method 
+to work. In the package, these matrices are called **K** for the rows
+and - if applicable - **G** for the columns of **Y**. 
 
-## Heterogenous networks
+### Data in the package
 
-The package has a dataset called "drugtarget" that consists of
-three objects:
+In the remainder of this document, we'll show how to use the different 
+functions in this package to apply two-step kernel ridge regression on 
+your data. For that, the package includes two datasets.
+
+#### Homogenous networks
+
+The example dataset `proteinInteraction` originates from a publication
+by [Yamanishi et al (2004)](https://doi.org/10.1093/bioinformatics/bth910).
+It contains data on interaction between a subset of 769 proteins, and
+consists of two objects:
+
+ * the adjacency matrix `proteinInteraction` where 1 indicates an interaction between proteins
+ * the kernel matrix `Kmat_y2h_sc` describing the similarity between
+ the proteins.
+
+#### Heterogenous networks
+
+The dataset `drugtarget` serves as an example of a heterogenous network
+and comes from a publication of [Yamanishi et al (2008)](https://doi.org/10.1093/bioinformatics/btn162). In order to get
+a correct kernel matrix, we recalculated the kernel matrices as explained
+in the vignette [Preparation of the example data](../doc/Preparation_example_data.html). 
+
+The dataset exists of three objects
 
  * the adjacency matrix `drugTargetInteraction`
- * the kernel matrix for the rows `targetSim`
- * the kernel matrix for the columns `drugSim`
+ * the kernel matrix for the targets `targetSim`
+ * the kernel matrix for the drugs `drugSim`
  
-The adjacency matrix indicates which drugs interact with which
-protein targets, and the purpose of that dataset is to predict
-new targets for known drugs. 
+The adjacency matrix indicates which protein targets interact with which
+drugs, and the purpose is to predict new drug-target interactions.
 
-### Fitting a two-step kernel ridge regression
+## Fitting a two-step kernel ridge regression
+
+### Heterogenous network
 
 To fit a two-step kernel ridge regression, you use the function `tskrr()`. This function needs to get some tuning parameter(s)
-`lambda`. You can choose to set 1 lambda for tuning $\mathbf{K}$
-and $\mathbf{G}$ using the same lambda value, or you can specify
-a different lambda for $\mathbf{K}$ and $\mathbf{G}$.
+`lambda`. You can choose to set 1 lambda for tuning **K**
+and **G** using the same lambda value, or you can specify
+a different lambda for **K** and **G**.
 
 ```{r fit a heterogenous model}
 
@@ -70,4 +100,51 @@ drugmodel <- tskrr(y = drugTargetInteraction,
 drugmodel
 ```
 
-## Homogenous networks
+### Homogenous networks
+
+For homogenous networks you use the same function, but you don't specify
+the **G** matrix. You also need only a single lambda:
+
+```{r fit a homogenous model}
+data(proteinInteraction)
+
+proteinmodel <- tskrr(proteinInteraction,
+                      k = Kmat_y2h_sc,
+                      lambda = 0.01)
+
+proteinmodel
+```
+
+### Extracting information from a model.
+
+The model output itself tells you only little, apart from the dimensions,
+the lambdas used and the labels found in the data. That information
+can be extracted using a number of convenience functions.
+
+```{r extract info from a model}
+lambda(drugmodel)  # extract lambda values
+lambda(proteinmodel)
+dim(drugmodel) # extract the dimensions
+
+protlabels <- labels(proteinmodel)
+str(protlabels)
+```
+
+ * `lambda` returns a vector with the lambda values used.
+ * `dim` returns the dimensions.
+ * `labels` returns a list with two elements, `k` and `g`, containing
+ the labels for the rows resp. the columns.
+ 
+You can also use the functions `rownames()` and `colnames()` to extract
+the labels.
+
+### Fitted values and predictions
+
+The functions `fitted()` and `predict()` can be used to extract the
+fitted values. The latter also allows you to specify new kernel matrices
+to predict for new nodes in the network. 
+ 
+## Tuning a model to find the best lambda.
+
+In most cases you don't know how to set the `lambda` values for optimal
+predictions. In order to find the best `lambda` values, you can 

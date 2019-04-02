@@ -3,11 +3,10 @@
 #' These functions allow you to extract the labels from a
 #' \code{\link{tskrr}} object. The function \code{labels} and the
 #' function \code{dimnames} are aliases and do the exact same
-#' thing.
-#'
-#' The functions \code{colnames} and \code{rownames} work like you would
-#' expect, with one difference: the rownames or colnames for a \code{tskrr}
-#' object can never be \code{NULL}.
+#' thing. The functions \code{rownames} and \code{colnames} work like
+#' you would expect. Note that contrary to the latter two, \code{labels}
+#' will never return \code{NULL}. If no labels are found, it will construct
+#' labels using the prefixes defined in the argument \code{prefix}.
 #'
 #' @param x a \code{\link{tskrr}} object
 #' @param object a \code{\link{tskrr}} object

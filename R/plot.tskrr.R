@@ -25,8 +25,8 @@
 #' @param dendro a character value indicating whether a dendrogram
 #' should be constructed.
 #' @param which a character value indicating whether the fitted values,
-#' the leave-one-out values or the original response values should be
-#' fitted.
+#' the leave-one-out values, the original response values  or the
+#' residuals should be plotted.
 #' @param exclusion if \code{which = "loo"}, this argument is passed to
 #' \code{\link{loo}} for the exclusion settings
 #' @param replaceby0 if \code{which = "loo"}, this argument is passed to
@@ -38,6 +38,10 @@
 #' @param cols a numeric or character vector indicating which columns should be
 #' selected from the model.
 #' @param col a vector with colors to be used for plotting
+#' @param breaks a single value specifying the number of
+#' breaks (must be 1 more than number of colors), or a numeric
+#' vector with the breaks used for the color code. If \code{NULL},
+#' the function tries to find evenly spaced breaks.
 #' @param legend a logical value indicating whether or not the legend should
 #' be added to the plot.
 #' @param main a character value with a title for the plot
@@ -45,13 +49,33 @@
 #' @param ylab a character label for the Y axis
 #' @param labRow a character vector with labels to be used on the rows.
 #' Note that these labels are used as is (possibly reordered to match
-#' the dendrogram). They can replace the labels from the model.
+#' the dendrogram). They can replace the labels from the model. Set to
+#' \code{NA} to remove the row labels.
 #' @param labCol the same as \code{labRow} but then for the columns.
 #' @param margins a numeric vector with 2 values indicating the margins to
 #' be used for the row and column labels (cfr \code{par("mar")})
 #' @param ... currently ignored
 #'
-#' @return \code{NULL} invisibly.
+#' @return an invisible list with the following elements:
+#'  * \code{val}: the values plotted
+#'  * \code{ddK}: if a row dendrogram was requested, the row dendrogram
+#'  * \code{ddG}: if a column dendrogram was requested,
+#'  the column dendrogram
+#'  * \code{breaks}: the breaks used for the color codes
+#'  * \code{col}: the colors used
+#' @md
+#'
+#' @seealso \code{\link{tskrr}}, \code{\link{tune}} and
+#' \code{link{impute_tskrr}} to construct tskrr models.
+#'
+#' @examples
+#' data(drugtarget)
+#' mod <- tskrr(drugTargetInteraction, targetSim, drugSim)
+#'
+#' plot(mod)
+#' plot(mod, dendro = "row", legend = FALSE)
+#' plot(mod, col = rainbow(20), dendro = "none", which = "residuals")
+#' plot(mod, labCol = NA, labRow = NA, margins = c(0.2,0.2))
 #'
 #' @importFrom stats as.dendrogram as.dist hclust order.dendrogram
 #' @importFrom graphics par layout plot image axis mtext
@@ -61,10 +85,12 @@
 #' @method plot tskrr
 #' @export
 plot.tskrr <- function(x, dendro = c("both","row","col","none"),
-                       which = c("fitted", "loo", "response"),
-                       exclusion = c("interaction", "row", "column", "both"), replaceby0 = FALSE,
+                       which = c("fitted", "loo", "response","residuals"),
+                       exclusion = c("interaction", "row", "column", "both"),
+                       replaceby0 = FALSE,
                        nbest = 0, rows, cols,
                        col = rev(heat.colors(20)),
+                       breaks = NULL,
                        legend = TRUE,
                        main = NULL,
                        xlab = NULL,
@@ -88,7 +114,8 @@ plot.tskrr <- function(x, dendro = c("both","row","col","none"),
   # process input which
   which <- match.arg(which)
   if(which != "loo"){
-    val <- if(which == "fitted") fitted(x) else response(x)
+    fun <- match.fun(which)
+    val <- fun(x)
   } else {
     exclusion <- match.arg(exclusion)
     val <- loo(x, exclusion, replaceby0)
@@ -120,7 +147,9 @@ plot.tskrr <- function(x, dendro = c("both","row","col","none"),
     if(dendroK) K <- K[rows, rows]
     if(dendroG) G <- G[cols, cols]
 
-  } else if(!missing(rows) && !missing(cols)){
+  } else if(!missing(rows) || !missing(cols)){
+    if(missing(rows)) rows <- seq_len(nrow(val))
+    if(missing(cols)) cols <- seq_len(ncol(val))
     # process the rows and cols
     if(is.numeric(rows) && any((rows %% 1) != 0))
       stop("rows contains non-integer values.")
@@ -129,13 +158,14 @@ plot.tskrr <- function(x, dendro = c("both","row","col","none"),
 
     if(is.character(rows)){
       rows <- match(rows, labs$k, nomatch = 0L)
+
       if(any(rows == 0))
         stop("Not all row labels were found in the model.")
     }
     if(is.character(cols)){
       cols <- match(cols, labs$g, nomatch = 0L)
       if(any(cols == 0))
-        stop("not all column labels were found in the model.")
+        stop("Not all column labels were found in the model.")
     }
 
     # Select values
@@ -169,9 +199,39 @@ plot.tskrr <- function(x, dendro = c("both","row","col","none"),
 
 
   ## PROCESS THE COLORS
+  nocol <- missing(col)
   ncolor <- length(col)
-  minmax <- range(pretty(val, ncolor))
-  breaks <- seq(minmax[1], minmax[2], length.out = ncolor + 1)
+  if(is.null(breaks)){
+    minmax <- range(pretty(val, ncolor))
+    breaks <- seq(minmax[1], minmax[2], length.out = ncolor + 1)
+  } else if(length(breaks) == 1 && is.numeric(breaks)){
+    if(breaks < 2)
+      stop("You need at least 2 breaks.")
+    if(nocol){
+      ncolor <- breaks - 1
+      col <- rev(heat.colors(ncolor))
+    }
+    minmax <- range(pretty(val, ncolor))
+    if(ncolor < (breaks - 1)){
+      stop(paste("Not enough colors for",breaks,"breaks."))
+    } else if(ncolor > (breaks - 1)){
+      warning(paste("Too many colors for the number of breaks.",
+                    "The last",ncolor - breaks + 1,"colors",
+                    "are ignored."))
+      col <- col[seq_len(breaks - 1)]
+    }
+    breaks <- seq(minmax[1], minmax[2], length.out = breaks)
+  } else if(is.numeric(breaks)){
+    if(nocol){
+      ncolor <- length(breaks) - 1
+      col <- rev(heat.colors(ncolor))
+    }
+    if(length(breaks) != ncolor + 1)
+      stop("breaks should be 1 value longer than colors.")
+  } else {
+    stop("breaks should be numeric.")
+  }
+
 
   ## CREATE THE PLOT LAYOUT
   lmat <- matrix(c(0,2,3,1), ncol = 2)
@@ -255,7 +315,16 @@ plot.tskrr <- function(x, dendro = c("both","row","col","none"),
     axis(1, las = 1)
     box()
   }
-  return(invisible(NULL))
+
+  if(!dendroK) ddK <- NULL
+  if(!dendroG) ddG <- NULL
+  return(invisible(
+    list(val = val,
+         ddK = ddK,
+         ddG = ddG,
+         breaks = breaks,
+         col = col)
+  ))
 
 }
 

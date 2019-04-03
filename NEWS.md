@@ -17,6 +17,10 @@ searched grid after tuning a model. It deals with both 1D and
 lambda values.
 * `residuals` allows you to calculate the residuals based on
 the predictions or on the loo values of choice.
+* There's a `plot` method available now for `tskrr` objects. It
+allows to plot fitted values, residuals, original response and
+the results of different loo settings, together with dendrograms
+based on the kernel matrices.
 
 ### Bug fixes and minor improvements
 

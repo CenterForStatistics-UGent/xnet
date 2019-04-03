@@ -5,11 +5,12 @@
 \title{plot a heatmap of the predictions from a tskrr model}
 \usage{
 \method{plot}{tskrr}(x, dendro = c("both", "row", "col", "none"),
-  which = c("fitted", "loo", "response"), exclusion = c("interaction",
-  "row", "column", "both"), replaceby0 = FALSE, nbest = 0, rows, cols,
-  col = rev(heat.colors(20)), legend = TRUE, main = NULL,
-  xlab = NULL, ylab = NULL, labRow = NULL, labCol = NULL,
-  margins = c(5, 5), ...)
+  which = c("fitted", "loo", "response", "residuals"),
+  exclusion = c("interaction", "row", "column", "both"),
+  replaceby0 = FALSE, nbest = 0, rows, cols,
+  col = rev(heat.colors(20)), breaks = NULL, legend = TRUE,
+  main = NULL, xlab = NULL, ylab = NULL, labRow = NULL,
+  labCol = NULL, margins = c(5, 5), ...)
 }
 \arguments{
 \item{x}{a tskrr model}
@@ -18,8 +19,8 @@
 should be constructed.}
 
 \item{which}{a character value indicating whether the fitted values,
-the leave-one-out values or the original response values should be
-fitted.}
+the leave-one-out values, the original response values  or the
+residuals should be plotted.}
 
 \item{exclusion}{if \code{which = "loo"}, this argument is passed to
 \code{\link{loo}} for the exclusion settings}
@@ -38,6 +39,11 @@ selected from the model.}
 
 \item{col}{a vector with colors to be used for plotting}
 
+\item{breaks}{a single value specifying the number of
+breaks (must be 1 more than number of colors), or a numeric
+vector with the breaks used for the color code. If \code{NULL},
+the function tries to find evenly spaced breaks.}
+
 \item{legend}{a logical value indicating whether or not the legend should
 be added to the plot.}
 
@@ -49,7 +55,8 @@ be added to the plot.}
 
 \item{labRow}{a character vector with labels to be used on the rows.
 Note that these labels are used as is (possibly reordered to match
-the dendrogram). They can replace the labels from the model.}
+the dendrogram). They can replace the labels from the model. Set to
+\code{NA} to remove the row labels.}
 
 \item{labCol}{the same as \code{labRow} but then for the columns.}
 
@@ -59,7 +66,15 @@ be used for the row and column labels (cfr \code{par("mar")})}
 \item{...}{currently ignored}
 }
 \value{
-\code{NULL} invisibly.
+an invisible list with the following elements:
+\itemize{
+\item \code{val}: the values plotted
+\item \code{ddK}: if a row dendrogram was requested, the row dendrogram
+\item \code{ddG}: if a column dendrogram was requested,
+the column dendrogram
+\item \code{breaks}: the breaks used for the color codes
+\item \code{col}: the colors used
+}
 }
 \description{
 This function plots a heatmap of the fitted values in a
@@ -83,4 +98,18 @@ d(x,y) = K(x,x)^2 + K(y,y)^2 - 2*K(x,y)
 with K being the kernel function. The resulting distances are
 clustered using \code{\link{hclust}} and converted to a
 dendrogram using \code{\link{as.dendrogram}}.
+}
+\examples{
+data(drugtarget)
+mod <- tskrr(drugTargetInteraction, targetSim, drugSim)
+
+plot(mod)
+plot(mod, dendro = "row", legend = FALSE)
+plot(mod, col = rainbow(20), dendro = "none", which = "residuals")
+plot(mod, labCol = NA, labRow = NA, margins = c(0.2,0.2))
+
+}
+\seealso{
+\code{\link{tskrr}}, \code{\link{tune}} and
+\code{link{impute_tskrr}} to construct tskrr models.
 }

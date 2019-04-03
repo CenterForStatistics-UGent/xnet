@@ -107,7 +107,7 @@ setMethod("rownames",
 setMethod("colnames",
           "tskrr",
           function(x, do.NULL = TRUE, prefix = "col"){
-            rn <- x@labels$g
+            rn <- if(is_homogenous(x)) x@labels$k else  x@labels$g
 
             nolabels <- length(rn) == 1 && is.na(rn)
 

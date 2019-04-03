@@ -25,6 +25,11 @@ based on the kernel matrices.
 
 ### Bug fixes and minor improvements
 
+* `predict` didn't give correct output when only `g` was passed.
+fixed.
+* `colnames` didn't get the correct labels for homogenous networks
+
+
 ## xnet 0.1.7
 
 ### Breaking changes

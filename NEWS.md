@@ -4,6 +4,7 @@
 
 * For consistency, the arguments `K` and `G` for the function `predict()`
 have been renamed `k` and `g` (lower case).
+* `loo` now adds the labels to the output (except for linear filters)
 
 ### New features
 

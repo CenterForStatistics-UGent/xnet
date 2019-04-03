@@ -8,6 +8,13 @@
 #' will never return \code{NULL}. If no labels are found, it will construct
 #' labels using the prefixes defined in the argument \code{prefix}.
 #'
+#' @section Warning:
+#' If the original data didn't contain row- or column names for the
+#' adjacency matrix, \code{rownames} and \code{colnames} will return
+#' \code{NULL}. Other functions will extract the automatically generated
+#' labels, so don't count on \code{rownames} and \code{colnames} if you
+#' want to predict output from other functions!
+#'
 #' @param x a \code{\link{tskrr}} object
 #' @param object a \code{\link{tskrr}} object
 #' @param do.NULL logical. If \code{FALSE} and labels are \code{NULL},

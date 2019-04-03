@@ -58,10 +58,10 @@ test_that("Values are correctly processed",{
   expect_equal(fitted(mod)[, labels(plotfit$ddG)],
                plotfit$val)
   # Check output loo and ordering row dendro
-  idr <- match(labels(plotloo$ddK), labels(mod)$k, nomatch = 0L)
-  idc <- match(labels(plotloo$ddG), labels(mod)$g, nomatch = 0L)
+  idr <- labels(plotloo$ddK)
+  idc <- labels(plotloo$ddG)
   expect_identical(loo(mod, exclusion = "row")[idr,idc],
-                   unname(plotloo$val))
+                   plotloo$val)
 })
 
 plotbr <- plot(mod, breaks = 6)

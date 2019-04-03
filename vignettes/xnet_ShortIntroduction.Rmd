@@ -11,13 +11,16 @@ vignette: >
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
+  fig.width = 6, fig.height = 4,out.width = '49%',fig.align = 'center',
   collapse = TRUE,
   comment = "#>"
 )
 suppressMessages(library(xnet))
 ```
 
-## Description of the data on which the methods work
+## Concepts and terms used in the package.
+
+### Notation and naming of networks in the package
 
 Networks exist in all forms and shapes. With `xnet` you can analyse
 bipartite networks, i.e. networks that describe the link between two
@@ -32,12 +35,12 @@ different nodes (eg goods bought by clients). When the two sets are
 the same, we call this a *homogenous* network. A network between two
 different sets of nodes is called a *heterogenous* network.
 
-The interactions can on a continuous scale giving a measure
-of how strong the interaction is, or they can be binary (1 for
-interaction, 0 for no interaction and possibly -1 for an inverse
-interaction). The interactions are presented in a 
-*adjacency matrix*, noted **Y**. The rows of **Y** represent
-one set of nodes, the columns the second.
+The interactions are presented in a *adjacency matrix*, noted **Y**. 
+The rows of **Y** represent one set of nodes, the columns the second.
+Interactions can be measured on a continuous scale, indicating
+how strong each interaction is. Often the adjacency matrix only contains
+a few values: 1 for interaction, 0 for no interaction and possibly -1 
+for an inverse interaction.
 
 two-step kernel ridge regression ( function `tskrr()` ) predicts the values
 in  the adjacency matrix based on similarities within the node sets,
@@ -48,9 +51,7 @@ and - if applicable - **G** for the columns of **Y**.
 
 ### Data in the package
 
-In the remainder of this document, we'll show how to use the different 
-functions in this package to apply two-step kernel ridge regression on 
-your data. For that, the package includes two datasets.
+For the illustrations, we use two different datasets.
 
 #### Homogenous networks
 
@@ -100,7 +101,7 @@ drugmodel <- tskrr(y = drugTargetInteraction,
 drugmodel
 ```
 
-### Homogenous networks
+### Homogenous network
 
 For homogenous networks you use the same function, but you don't specify
 the **G** matrix. You also need only a single lambda:
@@ -138,13 +139,144 @@ str(protlabels)
 You can also use the functions `rownames()` and `colnames()` to extract
 the labels.
 
-### Fitted values and predictions
+
+### Information on the fit of the model
 
 The functions `fitted()` and `predict()` can be used to extract the
 fitted values. The latter also allows you to specify new kernel matrices
-to predict for new nodes in the network. 
+to predict for new nodes in the network. To get the residuals, you can
+use the function `residuals()`. 
+
+## Performing leave-one-out crossvalidation
+
+### Settings for LOO
+
+The most significant contribution of this package, are the various
+shortcuts for leave-one-out crossvalidation (LOO-CV) described in 
+[the paper by Stock et al, 2018](https://doi.org/10.1093/bib/bby095).
+Generally LOO-CV removes a value, refits the model and predicts the
+removed value based on this refit model. In this package you do this 
+using the function `loo()`. The paper describes a number 
+of different settings, which can be passed to the argument `exclusion`:
+
+ * *interaction*: in this setting only the interaction between two nodes
+ is removed from the adjacency matrix.
+ * *row*: in this setting the entire row for that node is removed
+ from the adjacency matrix. This boils down to removing a node from
+ the **K** set.
+ * *column*: in this setting the entire column for that node is removed
+ from the adjacency matrix. This boils down to removing a node from the
+ **G** set.
+ * *both*: in this setting both rows and columns are removed, i.e. for
+ every loo value the respective nodes are removed from both the **K**
+ and the **G** set.
  
+In some networks only information of interactions is available, so a 0
+doesn't necessarily indicate "no interaction". It just indicates
+"no knowledge" for an interaction. In those cases it makes more sense
+to calculate the LOO values by replacing the interaction by 0 instead
+of removing it. This is done by setting `replaceby0 = TRUE`.
+
+```{r calculate loo values}
+loo_drugs_interaction <- loo(drugmodel, exclusion = "interaction",
+                       replaceby0 = TRUE)
+loo_protein_both <- loo(proteinmodel, exclusion = "both")
+```
+
+In both cases the result is a matrix with the LOO values.
+
+### Use LOO in other functions
+
+There's quite a few functions that allow you to use LOO values instead
+of predictions for calculations and optimizations. For example, you can
+calculate residuals based on LOO values directly using the 
+function `residuals()`:
+
+```{r calculate loo residuals}
+loo_resid <- residuals(drugmodel, method = "loo",
+                       exclusion = "interaction",
+                       replaceby0 = TRUE)
+all.equal(loo_resid, 
+          response(drugmodel) - loo_drugs_interaction )
+```
+
+Every other function that can use LOO values instead of predictions will
+have the same two arguments `exclusion` and `replaceby0`
+
+## Looking at model output
+
+The function provides a `plot()` function for looking at the model output.
+This function can show you the fitted values, LOO values or the 
+residuals. It also lets you construct dendrograms based on the **K** and
+**G** matrices, so you have both the predictions and the similarity
+information on the nodes in one plot. 
+
+```{r plot a model, fig.show = 'hold'}
+plot(drugmodel, main = "Drug Target interaction")
+```
+
+To plot LOO values, you set the argument `which`. As the protein model
+is pretty extensive, we can remove the dendrogram and select a number
+of proteins we want to inspect closer.
+
+```{r plot the loo values}
+plot(proteinmodel, dendro = "none", main = "Protein interaction - LOO",
+     which = "loo", exclusion = "both",
+     rows = rownames(proteinmodel)[10:20],
+     cols = colnames(proteinmodel)[30:35])
+
+```
+
+If the colors don't suit you, you can set both the breaks used for
+the color code and the color code itself. 
+
+```{r plot different color code}
+plot(drugmodel, which = "residuals", 
+     col = rainbow(20),
+     breaks = seq(-1,1,by=0.1))
+```
+
 ## Tuning a model to find the best lambda.
 
 In most cases you don't know how to set the `lambda` values for optimal
-predictions. In order to find the best `lambda` values, you can 
+predictions. In order to find the best `lambda` values, the function
+`tune()` allows you to do a grid search. This grid search can be
+done in a number of ways:
+
+ * by specifying actual values to be tested
+ * by specifying the minimum and maximum lambda together with the
+ number of values needed in every dimension. The function will create
+ a grid that's even spaced on a log scale.
+
+Tuning minimizes a loss function. Two loss functions are provided, i.e.
+one based on mean squared error (`loss_mse`) and one based on the area
+under the curve (`loss_auc`). But you can provide your own loss function
+too if needed.
+
+### Homogenous networks
+
+Homogenous networks have a single lambda value, and should hence only
+search in a single dimension. The following code tests 20 lambda values
+between 0.001 and 10.
+
+```{r tune a homogenous network}
+proteintuned <- tune(proteinmodel,
+                     lim = c(0.001,10),
+                     ngrid = 20,
+                     fun = loss_auc)
+proteintuned
+```
+
+The returned object is a again a model object with the model fitted using
+the best lambda value. It also contains extra information on the settings
+of the tuning. You can extract the grid values as follows:
+```{r get the grid values}
+get_grid(proteintuned)
+```
+This returns a list with one or two elements, each element containing
+the grid values for the respective kernel matrix.
+
+You can also create a plot to visually inspect the tuning:
+```{r plot grid}
+plot_grid(proteintuned)
+```

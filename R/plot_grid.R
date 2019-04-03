@@ -68,7 +68,7 @@ plot_grid <- function(x,
 
   if(!inherits(x, "tskrrTune"))
     stop("x has to be a tskrrTune object")
-  if(!is.logical(addlambda) && length(addlambda) != 1)
+  if(!is.logical(addlambda) || length(addlambda) != 1)
     stop("addlambda should be a single logical value.")
   if(addlambda && !is.list(lambdapars))
     stop("lambdapars should be a named list.")

@@ -110,3 +110,13 @@ test_that("find_best_pos works",{
 
 # plot_grid ----------------------------------------
 # Currently not tested as there's no output there.
+tuned <- tune(mod)
+test_that("plot_grid returns sensible errors",{
+  expect_error(plot_grid(mod,
+                         "x has to be a tskrrTune object"))
+  expect_error(plot_grid(tuned, addlambda = 2),
+               "single logical value")
+  expect_error(plot_grid(tuned, addlambda = c(TRUE,TRUE)),
+               "single logical value")
+  expect_error(plot_grid(tuned, lambdapars = c(col = "red")))
+})

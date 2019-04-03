@@ -129,10 +129,12 @@ plot.tskrr <- function(x, dendro = c("both","row","col","none"),
   if(dendroK){
     K <- get_eigen(x, "row")
     K <- eigen2matrix(K$vectors, K$values)
+    rownames(K) <- colnames(K) <- labs$k
   }
   if(dendroG){
     G <- get_eigen(x, "column")
     G <- eigen2matrix(G$vectors, G$values)
+    rownames(G) <- colnames(G) <- labs$g
   }
 
   ## PROCESS INPUT SELECTION

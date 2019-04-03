@@ -34,6 +34,8 @@ test_that("Errors are generated correctly for plot",{
                  "The last 6 colors are ignored")
   expect_error(plot(mod, breaks = 1),
                 "at least 2 breaks")
+  expect_error(plot(mod, breaks = "hello", main = "Nah"),
+               "breaks should be numeric")
 })
 
 plotres <- plot(mod, which = "residuals",
@@ -51,13 +53,13 @@ test_that("Values are correctly processed",{
   expect_null(plotres$ddK)
   expect_null(plotres$ddG)
   # Check output fitted and ordering col dendro
-  expect_identical(labels(mod)$g[labels(plotfit$ddG)],
-                   colnames(plotfit$val))
+  expect_identical(labels(mod)$g,
+                   colnames(plotfit$val)[order(labels(plotfit$ddG))])
   expect_equal(fitted(mod)[, labels(plotfit$ddG)],
                plotfit$val)
   # Check output loo and ordering row dendro
-  idr <- labels(plotloo$ddK)
-  idc <- labels(plotloo$ddG)
+  idr <- match(labels(plotloo$ddK), labels(mod)$k, nomatch = 0L)
+  idc <- match(labels(plotloo$ddG), labels(mod)$g, nomatch = 0L)
   expect_identical(loo(mod, exclusion = "row")[idr,idc],
                    unname(plotloo$val))
 })
@@ -77,3 +79,34 @@ test_that("Breaks and colors are correctly processed",{
                    seq(0,1,by=0.1))
 
 })
+
+plotr <- plot(mod, rows = c("row4","row1","row3"))
+plotrn <- plot(mod, rows = c(4,1,3))
+
+plotc <- plot(mod, cols = c("col4","col1","col2","col3"))
+plotcn <- plot(mod, cols = c(4,1,2,3))
+
+
+test_that("Selection of values works",{
+  expect_equal(sort(rownames(plotr$val)),
+               c("row1","row3","row4"))
+  expect_equal(plotr,
+               plotrn)
+  expect_equal(plotc,
+               plotcn)
+})
+
+plotbest <- plot(mod, nbest = 4, dendro = "none")
+thefits <- fitted(mod)
+bestpos <- find_best_pos(thefits, 4)
+test_that("find_best_pos works",{
+  expect_equal(sort(thefits, decreasing = TRUE)[1:5],
+               thefits[find_best_pos(thefits,5)])
+  expect_equal(plotbest$val,
+               thefits[unique(bestpos[,1]),
+                       unique(bestpos[,2])])
+
+})
+
+# plot_grid ----------------------------------------
+# Currently not tested as there's no output there.

@@ -44,10 +44,14 @@ for an inverse interaction.
 
 two-step kernel ridge regression ( function `tskrr()` ) predicts the values
 in  the adjacency matrix based on similarities within the node sets,
-calculated by using some form of a *kernel function*. 
-The resulting *kernel matrix* has to be positive definite for the method 
-to work. In the package, these matrices are called **K** for the rows
-and - if applicable - **G** for the columns of **Y**. 
+calculated by using some form of a *kernel function*. This function takes
+two nodes as input, and outputs a measure of similarity with specific
+mathematical properties. The resulting *kernel matrix* has to be positive
+definite for the method to work. In the package, these matrices are noted
+**K** for the rows and - if applicable - **G** for the columns of **Y**. 
+
+We'd like to refer to the [kernlab](https://cloud.r-project.org/package=kernlab) for a collection
+of different kernel functions.
 
 ### Data in the package
 
@@ -145,7 +149,7 @@ the labels.
 The functions `fitted()` and `predict()` can be used to extract the
 fitted values. The latter also allows you to specify new kernel matrices
 to predict for new nodes in the network. To get the residuals, you can
-use the function `residuals()`. 
+use the function `residuals()`. This is shown further in the document.
 
 ## Performing leave-one-out crossvalidation
 
@@ -201,7 +205,7 @@ all.equal(loo_resid,
 ```
 
 Every other function that can use LOO values instead of predictions will
-have the same two arguments `exclusion` and `replaceby0`
+have the same two arguments `exclusion` and `replaceby0`.
 
 ## Looking at model output
 
@@ -279,4 +283,209 @@ the grid values for the respective kernel matrix.
 You can also create a plot to visually inspect the tuning:
 ```{r plot grid}
 plot_grid(proteintuned)
+```
+
+This object is also a tskrr model, so all the functions used above can
+be used here as well. For example, we can use the same code as before
+to inspect the LOO values of this tuned model:
+
+```{r residuals tuned model}
+plot(proteintuned, dendro = "none", main = "Protein interaction - LOO",
+     which = "loo", exclusion = "both",
+     rows = rownames(proteinmodel)[10:20],
+     cols = colnames(proteinmodel)[30:35])
+```
+
+### Heterogenous networks
+
+For heterogenous networks, the tuning works the same way. Standard, the
+function `tune()` performs a two-dimensional grid search. To do a
+one-dimensional grid search (i.e. use the same lambda for **K** and 
+**G**), you set the argument `onedim = TRUE`.
+
+```{r}
+drugtuned1d <- tune(drugmodel,
+                    lim = c(0.001,10),
+                    ngrid = 20,
+                    fun = loss_auc,
+                    onedim = TRUE)
+plot_grid(drugtuned1d, main = "1D search")
+```
+
+When performing a two-dimensional grid search, you can specify different
+limits and grid values or lambda values for both dimensions. You do this
+by passing a list with 2 elements for the respective arguments.
+
+```{r tune 2d model}
+drugtuned2d <- tune(drugmodel,
+                     lim = list(k = c(0.001,10), g = c(0.0001,10)),
+                     ngrid = list(k = 20, g = 10),
+                     fun = loss_auc)
+```
+
+the `plot_grid()` function
+will give you a heatmap indicating where the optimal lambda values are
+found:
+
+```{r plot grid 2d model}
+plot_grid(drugtuned2d, main = "2D search")
+```
+
+As before, you can use the function `lambda()` to get to the best
+lambda values. 
+
+```{r}
+lambda(drugtuned1d)
+lambda(drugtuned2d)
+```
+
+It seems like a one-dimensional grid search gives quite different optimal
+lambda values. To get more information on the loss values, you can use
+the function `get_loss_values()`. This allows you to examine the actual
+improvement for every lambda value. The output is always a matrix, and
+in the case of a 1D search it's a matrix with one column. Combining
+these values with the lambda grid, shows that the the difference between
+a lambda value of around 0.20 and around 0.34 is very small. This is
+also obvious from the grid plots shown above.
+
+```{r}
+cbind(
+  loss = get_loss_values(drugtuned1d)[,1],
+  lambda = get_grid(drugtuned1d)$k
+)[10:15,]
+
+```
+
+## Predicting new values 
+
+In order to predict new values, you need information on the outcome of
+the kernel functions for the combination of the new values and those
+used to train the model. Depending on which information you have, you can
+do different predictions. To illustrate this, let's split up the data
+for the drugsmodel.
+
+```{r reorder the data}
+idk_test <- c(5,10,15,20,25)
+idg_test <- c(2,4,6,8,10)
+
+drugInteraction_train <- drugTargetInteraction[-idk_test, -idg_test]
+target_train <- targetSim[-idk_test, -idk_test]
+drug_train <- drugSim[-idg_test, -idg_test]
+
+target_test <- targetSim[idk_test, -idk_test]
+drug_test <- drugSim[-idg_test, idg_test]
+```
+
+So the following drugs and targets are removed from the training data
+and will be used for predictions later:
+```{r}
+rownames(target_test)
+colnames(drug_test)
+```
+
+We can now train the data using `tune()` just like we would use `tskrr()`
+
+```{r train the model}
+trained <- tune(drugInteraction_train,
+                k = target_train,
+                g = drug_train,
+                ngrid = 30)
+```
+
+### Predict for new K-nodes
+
+In order to predict the interaction between new targets and the drugs
+in the model, we need to pass the kernel values for the similarities
+between the new targets and the ones in the model. The `predict()`
+function will select the correct **G** matrix for calculating the 
+predictions.
+
+```{r}
+Newtargets <- predict(trained, k = target_test)
+Newtargets[, 1:5]
+```
+
+### Predict for new G-nodes
+
+If you want to predict for new drugs, you need the kernel values for
+the similarities between new drugs and the drugs trained in the model.
+
+```{r}
+Newdrugs <- predict(trained, g = drug_test)
+Newdrugs[1:5, ]
+```
+
+### Predict for new K and G nodes
+
+You can combine both kernel matrices used above to get predictions about
+the interaction between new drugs and new targets:
+
+```{r}
+Newdrugtarget <- predict(trained, k=target_test, g=drug_test)
+Newdrugtarget
+```
+
+## Impute new values based on a tskrr model
+
+Sometimes you have missing values in a adjacency matrix. These missing
+values can be imputed based on a simple algorithm:
+
+ 1. replace the missing values by a start value
+ 2. fit a tskrr model with the added values
+ 3. replace the missing values with the predictions of that model
+ 4. repeat until the imputed values converge (i.e. the difference with
+ the previous run falls below a tolerance value)
+ 
+Apart from the usual arguments of `tskrr`, you can give additional
+parameters to the function `impute_tskrr`. The most important ones are
+
+ * `niter`: the maximum number of iterations
+ * `tol`: the tolerance, i.e. the minimal sum of squared differences 
+ between iteration steps to keep the algorithm going
+ * `verbose`: setting this to 1 or 2 gives additional info on the
+ algorithm performance.
+ 
+So let's construct a dataset with missing values:
+
+```{r create missing values}
+drugTargetMissing <- drugTargetInteraction
+idmissing <- c(10,20,30,40,50,60)
+drugTargetMissing[idmissing] <- NA
+```
+
+Now we can try to impute these values. The outcome is again a
+tskrr model.
+
+```{r}
+imputed <- impute_tskrr(drugTargetMissing,
+                        k = targetSim,
+                        g = drugSim,
+                        verbose = TRUE)
+plot(imputed, dendro = "none")
+```
+To extract information on the imputation, you have a few convenience
+functions to your disposal:
+
+ * `has_imputed_values()` tells you whether the model contains imputed values
+ * `is_imputed()` returns a logical matrix where `TRUE` indicates an
+ imputed value
+ * `which_imputed()` returns an integer vector with the positions of the
+ imputed values. Note that these positions are vector positions, i.e.
+ they give the position in a single dimension (according to how a 
+ matrix is stored internally in R.)
+ 
+```{r}
+has_imputed_values(imputed)
+which_imputed(imputed)
+
+# Extract only the imputed values
+id <- is_imputed(imputed)
+predict(imputed)[id]
+```
+
+You can use this information to plot the imputed values in context:
+```{r}
+rowid <- rowSums(id) > 0
+colid <- colSums(id) > 0
+plot(imputed, rows = rowid, cols = colid)
 ```

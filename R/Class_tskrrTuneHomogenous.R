@@ -30,6 +30,11 @@ validTskrrTuneHomogenous <- function(object){
   if(exclmatch == 0)
     return("exclusion should be either 'interaction' or 'both' for homogenous networks.")
 
+  else if(!object@onedim)
+    return("grid search can only be done in one dimension for a homogenous network.")
+  else
+    return(TRUE)
+
 }
 
 setValidity("tskrrTuneHomogenous", validTskrrTuneHomogenous)

@@ -1,3 +1,35 @@
+## xnet 0.1.8
+
+### Breaking changes
+
+* For consistency, the arguments `K` and `G` for the function `predict()`
+have been renamed `k` and `g` (lower case).
+* `loo` now adds the labels to the output (except for linear filters)
+
+### New features
+
+* `tune` now allows for a one-dimensional grid search for heterogenous
+networks. Set `onedim = TRUE` to avoid a full grid search.
+* `has_onedim` tells whether the grid search was one dimensional or not.
+This is a getter for the appropriate slote in the tskrrTune class.
+* `plot_grid` allows you to plot the loss in function of the
+searched grid after tuning a model. It deals with both 1D and
+2D grids and can be used for quick evaluation of the optimal
+lambda values.
+* `residuals` allows you to calculate the residuals based on
+the predictions or on the loo values of choice.
+* There's a `plot` method available now for `tskrr` objects. It
+allows to plot fitted values, residuals, original response and
+the results of different loo settings, together with dendrograms
+based on the kernel matrices.
+
+### Bug fixes and minor improvements
+
+* `predict` didn't give correct output when only `g` was passed.
+fixed.
+* `colnames` didn't get the correct labels for homogenous networks
+
+
 ## xnet 0.1.7
 
 ### Breaking changes

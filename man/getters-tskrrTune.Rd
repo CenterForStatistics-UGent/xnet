@@ -4,6 +4,7 @@
 \alias{is_tuned}
 \alias{get_grid}
 \alias{get_loss_values}
+\alias{has_onedim}
 \title{Getters for tskrrTune objects}
 \usage{
 is_tuned(x)
@@ -11,6 +12,8 @@ is_tuned(x)
 get_grid(x)
 
 get_loss_values(x)
+
+has_onedim(x)
 }
 \arguments{
 \item{x}{a \code{\link[xnet:tskrrTune-class]{tskrrTune}} object or an
@@ -31,6 +34,9 @@ loss values. Note that the each row represents the result for one
 lambda value related to the row kernel matrix K. For heterogenous
 models, every column represents the result for one lambda related
 to the column kernel matrix G.
+
+for \code{is_onedim} a single logical value telling whether the
+grid search in the object was onedimensional.
 }
 \description{
 The functions described here are convenience functions to get

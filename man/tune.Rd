@@ -10,17 +10,17 @@
 \usage{
 \S4method{tune}{tskrrHomogenous}(x, lim = c(1e-04, 1), ngrid = 10,
   lambda = NULL, fun = loss_mse, exclusion = "interaction",
-  replaceby0 = FALSE, ...)
+  replaceby0 = FALSE, onedim = TRUE, ...)
 
 \S4method{tune}{tskrrHeterogenous}(x, lim = c(1e-04, 1), ngrid = 10,
   lambda = NULL, fun = loss_mse, exclusion = "interaction",
-  replaceby0 = FALSE, ...)
+  replaceby0 = FALSE, onedim = FALSE, ...)
 
 \S4method{tune}{matrix}(x, k, g = NULL, lim = c(1e-04, 1),
   ngrid = 10, lambda = NULL, fun = loss_mse,
   exclusion = "interaction", replaceby0 = FALSE, testdim = TRUE,
   testlabels = TRUE, symmetry = c("auto", "symmetric", "skewed"),
-  keep = FALSE, ...)
+  keep = FALSE, onedim = is.null(g), ...)
 }
 \arguments{
 \item{x}{a \code{\link{tskrr}} object representing a two step
@@ -48,6 +48,9 @@ be passed as a character string as well.}
 
 \item{replaceby0}{a logical value indicating whether the interaction
 should be simply removed (\code{FALSE}) or replaced by 0 (\code{TRUE}).}
+
+\item{onedim}{a logical value indicating whether the search should be
+done in a single dimension. See details.}
 
 \item{...}{arguments to be passed to the loss function}
 
@@ -96,6 +99,11 @@ for the two parameters that need tuning. In order to do so, you need to
 provide a list with the settings for every parameter to the arguments
 \code{lim}, \code{ngrid} and/or \code{lambda}. If you
 try this for a homogenous network, the function will return an error.
+
+Alternatively, you can speed up the grid search by searching in a
+single dimension. When \code{onedim = TRUE}, the search for a
+heterogenous network will only consider cases where both lambda values
+are equal.
 
 The arguments \code{exclusion} and \code{replaceby0} are used by
 the function \code{\link{get_loo_fun}} to find the correct

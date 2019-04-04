@@ -81,7 +81,7 @@ setMethod("loo",
 
               out <- loo.b(x@y, Hk, Hg)
             }
-
+          dimnames(out) <- unname(labels(x))
           return(out)
           })
 
@@ -116,6 +116,7 @@ setMethod("loo",
             } else {
               out <- loo.v(x@y, Hk)
             }
+            dimnames(out) <- unname(labels(x))
             return(out)
           })
 

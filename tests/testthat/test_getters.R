@@ -71,7 +71,8 @@ test_that("dim works correctly",{
 
 test_that("fitted and predict give same result",{
   expect_equal(fitted(mod2), predict(mod2))
-  expect_equal(fitted(mod3, labels = FALSE), predict(mod3, Kh))
+  expect_equal(fitted(mod3, labels = FALSE),
+               unname(predict(mod3, Kh)))
 })
 
 ## Test the rownames colnames functions ----------------------------
@@ -160,15 +161,37 @@ test_that("labels produces the correct errors", {
                  "Two prefixes were given for a homogenous model")
 })
 
-# Test for tskrrTune objects
-test_that("getters produce correct errors", {
+# Test for tskrrTune objects ---------------------------
+test_that("getters tskrrTune produce correct errors", {
   expect_error(get_grid(1),
                "x should be a tuned model")
   expect_error(get_loss_values(1),
                "x should be a tuned model")
 })
 
+# Test for tskrrImpute objects --------------------------------
+test_that("getters tskrrImpute produce correct errors", {
+  expect_error(has_imputed_values(1),
+               "x should be a tskrr model")
+  expect_false(has_imputed_values(mod))
+  expect_error(which_imputed(mod),
+               "x should be a tskrr model .* imputed")
+  expect_error(is_imputed(mod),
+               "x should be a tskrr model .* imputed")
+})
+
 # Conversions -----------------------------------
 test_that("Conversions happen correctly",{
   expect_true(is_tskrr(as_tskrr(mod)))
+})
+
+# Test residuals function -----------------------
+test_that("Residuals are calculated correctly",{
+  expect_equal(residuals(mod), response(mod) - fitted(mod))
+  expect_equal(residuals(tunedmod),
+               response(tunedmod) - fitted(tunedmod))
+  expect_equal(residuals(mod, method = "loo",
+                         replaceby0 = TRUE),
+               response(mod) - loo(mod, replaceby0 = TRUE))
+
 })

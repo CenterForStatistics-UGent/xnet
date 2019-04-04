@@ -46,7 +46,7 @@ test_that("impute constructs the correct heterogenous objects",{
   expect_equal(mod, as_tskrr(impY))
   expect_equal(fitted(mod), fitted(impY))
   expect_equal(impY@tol,  sqrt(.Machine$double.eps))
-  expect_equal(85, impY@niter) # This should be 85 based on previous tests
+  expect_equal(117, impY@niter) # This should be 85 based on previous tests
   expect_true(has_imputed_values(impY))
   expect_identical(is_imputed(impY), is.na(Yna))
   expect_identical(which_imputed(impY),as.integer(napos))
@@ -87,7 +87,7 @@ test_that("impute constructs the correct homogenous objects",{
   expect_equal(modh, as_tskrr(impYh))
   expect_equal(fitted(modh), fitted(impYh))
   expect_equal(impYh@tol,  sqrt(.Machine$double.eps))
-  expect_equal(72, impYh@niter) # This should be 72 based on previous tests
+  expect_equal(83, impYh@niter) # This should be 72 based on previous tests
   expect_true(has_imputed_values(impYh))
   expect_identical(is_imputed(impYh), is.na(Yhna))
   expect_identical(which_imputed(impYh),as.integer(naposh))

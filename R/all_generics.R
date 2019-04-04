@@ -63,3 +63,7 @@ setGeneric("as_tskrr", function(x, ...) standardGeneric("as_tskrr"))
 #' @rdname loss
 #' @export
 setGeneric("loss", function(x, ...) standardGeneric("loss"))
+
+#' @rdname residuals.tskrr
+#' @export
+setGeneric("residuals")

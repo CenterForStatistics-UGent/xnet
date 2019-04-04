@@ -17,6 +17,11 @@
 #' \code{lim}, \code{ngrid} and/or \code{lambda}. If you
 #' try this for a homogenous network, the function will return an error.
 #'
+#' Alternatively, you can speed up the grid search by searching in a
+#' single dimension. When \code{onedim = TRUE}, the search for a
+#' heterogenous network will only consider cases where both lambda values
+#' are equal.
+#'
 #' The arguments \code{exclusion} and \code{replaceby0} are used by
 #' the function \code{\link{get_loo_fun}} to find the correct
 #' leave-one-out function.
@@ -42,6 +47,8 @@
 #' @param fun a loss function that takes the adjacency matrix Y and the
 #' result of the crossvalidation LOO as input. The function name can
 #' be passed as a character string as well.
+#' @param onedim a logical value indicating whether the search should be
+#' done in a single dimension. See details.
 #' @inheritParams get_loo_fun
 #' @inheritParams tskrr
 #' @param ... arguments to be passed to the loss function
@@ -90,8 +97,11 @@ setMethod("tune",
                    fun = loss_mse,
                    exclusion = 'interaction',
                    replaceby0 = FALSE,
+                   onedim = TRUE,
                    ...){
 
+            if(!onedim)
+              warning("Only one-dimensional search is possible for homogenous networks.")
             fun <- match.fun(fun)
             lambda <- .prepare_lambdas(lim, ngrid, lambda, homogenous = TRUE)
 
@@ -124,7 +134,8 @@ setMethod("tune",
                 loss_values = matrix(lval, ncol = 1),
                 loss_function = fun,
                 exclusion = exclusion,
-                replaceby0 = replaceby0
+                replaceby0 = replaceby0,
+                onedim = TRUE
                 )
 
           })
@@ -140,10 +151,13 @@ setMethod("tune",
                    fun = loss_mse,
                    exclusion = 'interaction',
                    replaceby0 = FALSE,
+                   onedim = FALSE,
                    ...){
 
             fun <- match.fun(fun)
-            lambda <- .prepare_lambdas(lim, ngrid, lambda, homogenous = FALSE)
+            lambda <- .prepare_lambdas(lim, ngrid, lambda,
+                                       homogenous = FALSE,
+                                       onedim = onedim)
 
             # Prepare objects
             decompr <- get_eigen(x, 'row')
@@ -163,19 +177,31 @@ setMethod("tune",
               fun(x@y, loofun(x@y, Hr, Hc, pred), ...)
             }
 
-            lval <- vapply(lambda$g,
-                           function(l2){
-                             vapply(lambda$k,
-                                    loss,
-                                    numeric(1),
-                                    l2)
-                           },
-                           numeric(length(lambda$k)))
+            if(onedim){
+              lval <- vapply(lambda$k,
+                             function(i) loss(i,i), numeric(1))
+              best <- which.min(lval)
 
-            best <- find_min_pos(lval)
+              best_loss <- lval[best]
+              best_lambda <- rep(lambda$k[best],2)
 
-            best_lambda <- c(lambda$k[best[1]], lambda$g[best[2]])
-            best_loss <- lval[best[1],best[2]]
+              # Add correct data for heterogenous
+              lval <- matrix(lval, ncol = 1) # must be a matrix
+            } else {
+              lval <- vapply(lambda$g,
+                             function(l2){
+                               vapply(lambda$k,
+                                      loss,
+                                      numeric(1),
+                                      l2)
+                             },
+                             numeric(length(lambda$k)))
+
+              best <- find_min_pos(lval)
+
+              best_lambda <- c(lambda$k[best[1]], lambda$g[best[2]])
+              best_loss <- lval[best[1],best[2]]
+            }
 
             newx <- update(x, best_lambda)
 
@@ -187,7 +213,8 @@ setMethod("tune",
                 loss_values = lval,
                 loss_function = fun,
                 exclusion = exclusion,
-                replaceby0 = replaceby0
+                replaceby0 = replaceby0,
+                onedim = onedim
             )
           })
 
@@ -208,13 +235,15 @@ setMethod("tune",
                    testlabels = TRUE,
                    symmetry = c("auto","symmetric","skewed"),
                    keep = FALSE,
+                   onedim = is.null(g),
                    ...){
 
             homogenous <- is.null(g)
             fun <- match.fun(fun)
             # get initial lambdas
             lambda <- .prepare_lambdas(lim, ngrid, lambda,
-                                       homogenous = homogenous)
+                                       homogenous = homogenous,
+                                       onedim = onedim)
             if(homogenous){
               init_lambda <- lambda$k[1]
             } else {
@@ -234,6 +263,7 @@ setMethod("tune",
                         fun = fun,
                         exclusion = exclusion,
                         replaceby0 = replaceby0,
+                        onedim = onedim,
                         ...)
           })
 

@@ -149,7 +149,7 @@ test_that("shortcuts bipartite networks work",{
                      )
 
 
-  expect_equal(looI,looItest)
+  expect_equal(unname(looI),looItest)
 
   # Setting I0
   looI0 <- loo(mod, replaceby0 = TRUE)
@@ -160,7 +160,7 @@ test_that("shortcuts bipartite networks work",{
                                         predict_ij(Ytilde, Hk, Hg, x, y) }
                      ))
 
-  expect_equal(looI0, looI0test)
+  expect_equal(unname(looI0), looI0test)
 
   # Setting Row
   looR <- loo(mod, exclusion = "row")
@@ -170,7 +170,7 @@ test_that("shortcuts bipartite networks work",{
 
   })
   # sapply gives the matrix in a different way.
-  expect_equal(looR, t(looRtest))
+  expect_equal(unname(looR), t(looRtest))
 
   # Setting Col
   looC <- loo(mod, exclusion = "column")
@@ -179,7 +179,7 @@ test_that("shortcuts bipartite networks work",{
     predict(modx, K, G[-j, j])
   })
 
-  expect_equal(looC, looCtest)
+  expect_equal(unname(looC), looCtest)
 
   # Setting both
   i <- 3
@@ -187,7 +187,7 @@ test_that("shortcuts bipartite networks work",{
   looB <- loo(mod, exclusion = "both")[i,j, drop = FALSE]
   modx <- tskrr(Y[-i, -j], K[-i,-i], G[-j,-j], lambda = c(lambdak,lambdag))
   looBtest <- predict(modx, K[i, -i], G[-j, j])
-  expect_equal(looB, looBtest)
+  expect_equal(unname(looB), looBtest)
 
 })
 
@@ -209,7 +209,7 @@ test_that("shortcuts homogenous networks work", {
   )
   diag(looEtest) <- diag(looE)
 
-  expect_equal(looE,looEtest)
+  expect_equal(unname(looE),looEtest)
 
   # setting E0
   looE0 <- loo(modh, replaceby0 = TRUE)
@@ -223,7 +223,7 @@ test_that("shortcuts homogenous networks work", {
                      )
   )
 
-  expect_equal(looE0, looE0test)
+  expect_equal(unname(looE0), looE0test)
 
   # Setting both
 
@@ -234,7 +234,7 @@ test_that("shortcuts homogenous networks work", {
     predict(modx, Kh[i, -i, drop = FALSE], Kh[-i,,drop = FALSE])
   })
 
-  expect_equal(looV, t(looVtest))
+  expect_equal(unname(looV), t(looVtest))
 
 })
 
@@ -257,7 +257,7 @@ test_that("shortcuts skewed homogenous networks work", {
   )
 
 
-  expect_equal(looE,looEtest)
+  expect_equal(unname(looE),looEtest)
 
   # setting E0
   looE0 <- loo(mods, replaceby0 = TRUE)
@@ -271,7 +271,7 @@ test_that("shortcuts skewed homogenous networks work", {
                       )
   )
 
-  expect_equal(looE0, looE0test)
+  expect_equal(unname(looE0), looE0test)
 
   # Setting both
 
@@ -282,7 +282,7 @@ test_that("shortcuts skewed homogenous networks work", {
     predict(modx, Kh[i, -i, drop = FALSE], Kh[-i,,drop = FALSE])
   })
 
-  expect_equal(looV, t(looVtest))
+  expect_equal(unname(looV), t(looVtest))
 
 })
 

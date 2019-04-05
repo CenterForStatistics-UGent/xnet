@@ -127,9 +127,9 @@ test_that("loss is calculated correctly",{
 predk <- Knew %*% weights(mod) %*% G
 colnames(predk) <- paste0("col",1:5)
 
-predall <- Knew %*% weights(mod) %*% Gnew
+predall <- Knew %*% weights(mod) %*% t(Gnew)
 
-predg <- K %*% weights(mod) %*% Gnew
+predg <- K %*% weights(mod) %*% t(Gnew)
 rownames(predg) <- paste0("row",1:4)
 
 test_that("predict works as intended",{
@@ -139,4 +139,8 @@ test_that("predict works as intended",{
                predg)
   expect_equal(predict(mod, Knew, Gnew),
                predall)
+  expect_error(predict(mod, Knew, t(Gnew)),
+               "The g matrix needs 5 columns")
+  expect_error(predict(mod, t(Knew), Gnew),
+               "The k matrix needs 4 columns")
 })

@@ -6,9 +6,11 @@
 \alias{predict,tskrr-method}
 \title{predict method for tskrr fits}
 \usage{
-\method{predict}{tskrr}(object, k = NULL, g = NULL, ...)
+\method{predict}{tskrr}(object, k = NULL, g = NULL, testdim = TRUE,
+  ...)
 
-\S4method{predict}{tskrr}(object, k = NULL, g = NULL, ...)
+\S4method{predict}{tskrr}(object, k = NULL, g = NULL, testdim = TRUE,
+  ...)
 }
 \arguments{
 \item{object}{an object of class \code{\link[xnet:tskrr-class]{tskrr}}.}
@@ -18,6 +20,10 @@ values on the training data are returned.}
 
 \item{g}{a new G matrix or \code{NULL}. If \code{NULL}, K is used
 for both.}
+
+\item{testdim}{a logical value indicating whether the dimensions should
+be checked prior to the calculation. You can set this to \code{FALSE} but
+you might get more obscure errors if dimensions don't match.}
 
 \item{...}{arguments passed to or from other methods}
 }
@@ -31,15 +37,15 @@ function \code{\link[xnet:fitted]{fitted}} or set both \code{k}
 to \code{NULL}.
 }
 \details{
-Predictions can be calculated between new vertices and the vertices
-used to train the model, between new sets of vertices, or both. Which
+Predictions can be calculated between new nodes and the nodes
+used to train the model, between new sets of nodes, or both. Which
 predictions are given, depends on the kernel matrices passed to the
 function.
 
-In any case, both the K and G matrix need the kernel values for
-every combination of the new vertices and the vertices used to
-train the model. This is illustrated for both homogenous and
-heterogenous networks in the examples.
+The kernel matrices should contain the kernel values between the
+new nodes and the nodes used to train the model. The new nodes
+should be on the rows, the nodes used to train the model on the columns.
+This is also illustrated in the examples.
 }
 \examples{
 
@@ -56,11 +62,11 @@ testK <- Kmat_y2h_sc[idnew, - idnew]
 
 mod <- tskrr(trainY, trainK, lambda = 0.1)
 # Predict interaction between test vertices
-predict(mod, testK, t(testK))
+predict(mod, testK, testK)
 
 # Predict interaction between test and train vertices
 predict(mod, testK)
-predict(mod, g = t(testK))
+predict(mod, g = testK)
 
 ## Predictions for heterogenous networks
 data("drugtarget")
@@ -73,7 +79,7 @@ trainK <- targetSim[-idnewK, -idnewK]
 trainG <- drugSim[-idnewG, -idnewG]
 
 testK <- targetSim[idnewK, -idnewK]
-testG <- drugSim[-idnewG, idnewG]
+testG <- drugSim[idnewG, -idnewG]
 
 mod <- tskrr(trainY, trainK, trainG, lambda = 0.01)
 

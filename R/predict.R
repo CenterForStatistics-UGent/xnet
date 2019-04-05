@@ -5,15 +5,16 @@
 #' function \code{\link[xnet:fitted]{fitted}} or set both \code{k}
 #' to \code{NULL}.
 #'
-#' Predictions can be calculated between new vertices and the vertices
-#' used to train the model, between new sets of vertices, or both. Which
+#' Predictions can be calculated between new nodes and the nodes
+#' used to train the model, between new sets of nodes, or both. Which
 #' predictions are given, depends on the kernel matrices passed to the
 #' function.
 #'
-#' In any case, both the K and G matrix need the kernel values for
-#' every combination of the new vertices and the vertices used to
-#' train the model. This is illustrated for both homogenous and
-#' heterogenous networks in the examples.
+#' The kernel matrices should contain the kernel values between the
+#' new nodes and the nodes used to train the model. The new nodes
+#' should be on the rows, the nodes used to train the model on the columns.
+#' This is also illustrated in the examples.
+#'
 #'
 #'
 #' @param object an object of class \code{\link[xnet:tskrr-class]{tskrr}}.
@@ -21,6 +22,9 @@
 #' values on the training data are returned.
 #' @param g a new G matrix or \code{NULL}. If \code{NULL}, K is used
 #' for both.
+#' @param testdim a logical value indicating whether the dimensions should
+#' be checked prior to the calculation. You can set this to \code{FALSE} but
+#' you might get more obscure errors if dimensions don't match.
 #' @param ... arguments passed to or from other methods
 #'
 #' @return a matrix with predicted values.
@@ -43,11 +47,11 @@
 #'
 #' mod <- tskrr(trainY, trainK, lambda = 0.1)
 #' # Predict interaction between test vertices
-#' predict(mod, testK, t(testK))
+#' predict(mod, testK, testK)
 #'
 #' # Predict interaction between test and train vertices
 #' predict(mod, testK)
-#' predict(mod, g = t(testK))
+#' predict(mod, g = testK)
 #'
 #' ## Predictions for heterogenous networks
 #' data("drugtarget")
@@ -60,7 +64,7 @@
 #' trainG <- drugSim[-idnewG, -idnewG]
 #'
 #' testK <- targetSim[idnewK, -idnewK]
-#' testG <- drugSim[-idnewG, idnewG]
+#' testG <- drugSim[idnewG, -idnewG]
 #'
 #' mod <- tskrr(trainY, trainK, trainG, lambda = 0.01)
 #'
@@ -78,9 +82,26 @@
 predict.tskrr <- function(object,
                           k = NULL,
                           g = NULL,
+                          testdim = TRUE,
                           ...){
+
   gnull <- is.null(g)
   knull <- is.null(k)
+
+  if(testdim){
+    dims <- dim(object)
+
+    if(!knull && ncol(k) != dims[1])
+      stop(paste("The k matrix needs",dims[1],
+                 "columns. The new nodes should be on the rows.",
+                 "Did you transpose the matrix by accident?"))
+
+    if(!gnull && ncol(g) != dims[2])
+      stop(paste("The g matrix needs",dims[2],
+                 "columns. The new nodes should be on the rows.",
+                 "Did you transpose the matrix by accident?"))
+  }
+
   if(knull && gnull)
     return(fitted(object))
   if(gnull && is_homogenous(object)){
@@ -94,7 +115,7 @@ predict.tskrr <- function(object,
     k <- eigen2matrix(Keig$vectors, Keig$values)
   }
 
-  out <- k %*% weights(object) %*% g
+  out <- k %*% tcrossprod(weights(object), g)
 
   if(knull){
     rownames(out) <- labels(object)$k

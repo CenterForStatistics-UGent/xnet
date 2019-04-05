@@ -165,8 +165,8 @@ test_that("predict works as intended",{
                predict(modh, Khnew))
   expect_equal(preds,
                predict(mods, Khnew))
-  expect_equal(predict(modh, g = t(Khnew)),
+  expect_equal(predict(modh, g = Khnew),
                t(predh))
-  expect_equal(predict(modh, Khnew, t(Khnew)),
+  expect_equal(predict(modh, Khnew, Khnew),
                predall)
 })

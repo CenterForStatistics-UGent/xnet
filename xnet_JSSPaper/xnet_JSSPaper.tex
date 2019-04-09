@@ -1,0 +1,95 @@
+\documentclass[jss]{jss}
+\usepackage[utf8]{inputenc}
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+\author{
+FirstName LastName\\University/Company \And Joris Meys\\Ghent University
+}
+\title{Analysing Bipartite Networks With Two-Step Kernel Ridge Regression: The
+R Package \pkg{xnet}}
+
+\Plainauthor{FirstName LastName, Joris Meys}
+\Plaintitle{Analysing Bipartite Networks With Two-Step Kernel Ridge Regression: The
+R Package xnet}
+\Shorttitle{\pkg{xnet}: Crossvalidating Two-Step Kernel Ridge Regression}
+
+\Abstract{
+This paper presents the R package \pkg{xnet} for cross-network analysis
+of bipartite networks, using two-step kernel ridge regression. It uses
+the crossvalidation shortcuts proposed by \citet{stock2018} to allow for
+computationally efficient evaluation of the models based on a variety of
+leave-one-out methods. The package provides functions for easy tuning,
+fitting and evaluation of two-step kernel ridge regression in the
+context of cross-network analysis. We illustrate the use of the
+\pkg{xnet} package with datasets from different areas of research.
+}
+
+\Keywords{keywords, not capitalized, \proglang{R}}
+\Plainkeywords{keywords, not capitalized, R}
+
+%% publication information
+%% \Volume{50}
+%% \Issue{9}
+%% \Month{June}
+%% \Year{2012}
+%% \Submitdate{}
+%% \Acceptdate{2012-06-04}
+
+\Address{
+    FirstName LastName\\
+  University/Company\\
+  First line Second line\\
+  E-mail: \email{name@company.com}\\
+  URL: \url{http://rstudio.com}\\~\\
+    }
+
+% Pandoc header
+
+\usepackage{amsmath}
+
+\begin{document}
+
+\hypertarget{introduction}{%
+\section{Introduction}\label{introduction}}
+
+This template demonstrates some of the basic latex you'll need to know
+to create a JSS article.
+
+\hypertarget{code-formatting}{%
+\subsection{Code formatting}\label{code-formatting}}
+
+Don't use markdown, instead use the more precise latex commands:
+
+\begin{itemize}
+\item
+  \proglang{Java}
+\item
+  \pkg{plyr}
+\item
+  \code{print("abc")}
+\end{itemize}
+
+\hypertarget{r-code}{%
+\section{R code}\label{r-code}}
+
+Can be inserted in regular R markdown blocks.
+
+\begin{CodeChunk}
+
+\begin{CodeInput}
+R> x <- 1:10
+R> x
+\end{CodeInput}
+
+\begin{CodeOutput}
+ [1]  1  2  3  4  5  6  7  8  9 10
+\end{CodeOutput}
+\end{CodeChunk}
+
+\bibliography{refs.bib}
+
+
+\end{document}
+

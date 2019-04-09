@@ -1,0 +1,50 @@
+---
+author:
+  - name: FirstName LastName
+    affiliation: University/Company
+    address: >
+      First line
+      Second line
+    email: \email{name@company.com}
+    url: http://rstudio.com
+  - name: Joris Meys
+    affiliation: Ghent University
+    email: Joris.Meys@UGent.be
+title:
+  formatted: "Analysing Bipartite Networks With Two-Step Kernel Ridge Regression: The R Package \\pkg{xnet}"
+  # If you use tex in the formatted title, also supply version without
+  plain:     "Analysing Bipartite Networks With Two-Step Kernel Ridge Regression: The R Package xnet"
+  # For running headers, if needed
+  short:     "\\pkg{xnet}: Crossvalidating Two-Step Kernel Ridge Regression"
+abstract: >
+  This paper presents the R package \pkg{xnet} for cross-network analysis of bipartite networks, using two-step kernel ridge regression. It uses the crossvalidation shortcuts proposed by @stock2018 to allow for computationally efficient evaluation of the models based on a variety of leave-one-out methods. The package provides functions for easy tuning, fitting and evaluation of two-step kernel ridge regression in the context of cross-network analysis. We illustrate the use of the \pkg{xnet} package with datasets from different areas of research.
+keywords:
+  # at least one keyword must be supplied
+  formatted: [keywords, not capitalized, "\\proglang{R}"]
+  plain:     [keywords, not capitalized, R]
+preamble: >
+  \usepackage{amsmath}
+output: rticles::jss_article
+bibliography: refs.bib
+---
+
+# Introduction
+
+This template demonstrates some of the basic latex you'll need to know to create a JSS article.
+
+## Code formatting
+
+Don't use markdown, instead use the more precise latex commands:
+
+* \proglang{Java}
+* \pkg{plyr}
+* \code{print("abc")}
+
+# R code
+
+Can be inserted in regular R markdown blocks.
+
+```{r}
+x <- 1:10
+x
+```

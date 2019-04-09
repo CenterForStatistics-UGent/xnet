@@ -4,3 +4,6 @@
 .Ruserdata
 inst/doc
 *.html
+*.log
+xnet_JSSPaper/xnet_JSSPaper.pdf
+/xnet_JSSPaper/xnet_JSSPaper.tex

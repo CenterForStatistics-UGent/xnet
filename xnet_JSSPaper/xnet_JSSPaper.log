@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6630 64-bit) (preloaded format=pdflatex 2018.4.19)  9 APR 2019 12:05
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6630 64-bit) (preloaded format=pdflatex 2018.4.19)  9 APR 2019 16:54
 entering extended mode
 **./xnet_JSSPaper.tex
 (xnet_JSSPaper.tex
@@ -730,26 +730,26 @@ LaTeX Warning: Unused global option(s):
 (xnet_JSSPaper.aux)
 \openout1 = `xnet_JSSPaper.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 52.
-LaTeX Font Info:    ... okay on input line 52.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 52.
-LaTeX Font Info:    ... okay on input line 52.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 52.
-LaTeX Font Info:    ... okay on input line 52.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 52.
-LaTeX Font Info:    ... okay on input line 52.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 52.
-LaTeX Font Info:    ... okay on input line 52.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 52.
-LaTeX Font Info:    ... okay on input line 52.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 52.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 52.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 58.
+LaTeX Font Info:    ... okay on input line 58.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 58.
+LaTeX Font Info:    ... okay on input line 58.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 58.
+LaTeX Font Info:    ... okay on input line 58.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 58.
+LaTeX Font Info:    ... okay on input line 58.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 58.
+LaTeX Font Info:    ... okay on input line 58.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 58.
+LaTeX Font Info:    ... okay on input line 58.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 58.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 58.
 ("D:\MiKTeX 2.9\tex\latex\base\ts1cmr.fd"
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 52.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 52.
-LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    ... okay on input line 58.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 58.
+LaTeX Font Info:    ... okay on input line 58.
 (C:\Users\Joris\AppData\Roaming\MiKTeX\2.9\tex\context\base\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count113
@@ -776,7 +776,7 @@ G,.JBIG2,.JB2,.eps]
 (grfext)             \AppendGraphicsExtensions on input line 456.
 )
 \AtBeginShipoutBox=\box30
-Package hyperref Info: Link coloring ON on input line 52.
+Package hyperref Info: Link coloring ON on input line 58.
 ("D:\MiKTeX 2.9\tex\latex\hyperref\nameref.sty"
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 ("D:\MiKTeX 2.9\tex\generic\oberdiek\gettitlestring.sty"
@@ -784,9 +784,9 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
 \c@section@level=\count119
 )
-LaTeX Info: Redefining \ref on input line 52.
-LaTeX Info: Redefining \pageref on input line 52.
-LaTeX Info: Redefining \nameref on input line 52.
+LaTeX Info: Redefining \ref on input line 58.
+LaTeX Info: Redefining \pageref on input line 58.
+LaTeX Info: Redefining \nameref on input line 58.
 (xnet_JSSPaper.out) (xnet_JSSPaper.out)
 \@outlinefile=\write4
 \openout4 = `xnet_JSSPaper.out'.
@@ -794,62 +794,67 @@ LaTeX Info: Redefining \nameref on input line 52.
 <jsslogo.jpg, id=15, 540.0175pt x 393.47pt>
 File: jsslogo.jpg Graphic file (type jpg)
 <use jsslogo.jpg>
-Package pdftex.def Info: jsslogo.jpg  used on input line 52.
+Package pdftex.def Info: jsslogo.jpg  used on input line 58.
 (pdftex.def)             Requested size: 89.80768pt x 65.43607pt.
-LaTeX Font Info:    Try loading font information for T1+pzc on input line 52.
+LaTeX Font Info:    Try loading font information for T1+pzc on input line 58.
 ("D:\MiKTeX 2.9\tex\latex\psnfss\t1pzc.fd"
 File: t1pzc.fd 2001/06/04 font definitions for T1/pzc.
 )
 LaTeX Font Info:    Font shape `T1/pzc/m/n' in size <28> not available
-(Font)              Font shape `T1/pzc/mb/it' tried instead on input line 52.
-LaTeX Font Info:    Try loading font information for T1+aess on input line 52.
+(Font)              Font shape `T1/pzc/mb/it' tried instead on input line 58.
+LaTeX Font Info:    Try loading font information for T1+aess on input line 58.
 ("D:\MiKTeX 2.9\tex\latex\ae\t1aess.fd"
 File: t1aess.fd 1997/11/16 Font definitions for T1/aess.
 )
-LaTeX Font Info:    Try loading font information for TS1+aer on input line 67.
-LaTeX Font Info:    No file TS1aer.fd. on input line 67.
+LaTeX Font Info:    Try loading font information for TS1+aer on input line 73.
+LaTeX Font Info:    No file TS1aer.fd. on input line 73.
 
 LaTeX Font Warning: Font shape `TS1/aer/m/n' undefined
 (Font)              using `TS1/cmr/m/n' instead
-(Font)              for symbol `textbullet' on input line 67.
+(Font)              for symbol `textbullet' on input line 73.
 
-LaTeX Font Info:    Try loading font information for T1+aett on input line 71.
+LaTeX Font Info:    Try loading font information for T1+aett on input line 77.
 ("D:\MiKTeX 2.9\tex\latex\ae\t1aett.fd"
 File: t1aett.fd 1997/11/16 Font definitions for T1/aett.
 ) [1
 
 {C:/Users/Joris/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map} <./jsslogo.j
 pg>] (xnet_JSSPaper.bbl)
-Underfull \hbox (badness 10000) in paragraph at lines 94--94
+Underfull \hbox (badness 10000) in paragraph at lines 100--100
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 100--100
 
  []
 
 LaTeX Font Info:    Font shape `T1/pzc/m/n' in size <13> not available
-(Font)              Font shape `T1/pzc/mb/it' tried instead on input line 94.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 94.
+(Font)              Font shape `T1/pzc/mb/it' tried instead on input line 100.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 100.
 LaTeX Font Info:    Font shape `T1/aer/b/sl' in size <10.95> not available
-(Font)              Font shape `T1/aer/bx/sl' tried instead on input line 94.
+(Font)              Font shape `T1/aer/bx/sl' tried instead on input line 100.
 
 Overfull \hbox (5.47499pt too wide) has occurred while \output is active
 \T1/aer/m/n/10.95 2 []
  []
 
 [2]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 94.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 100.
 (xnet_JSSPaper.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 94.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 94.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 100.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 100.
 Package rerunfilecheck Info: File `xnet_JSSPaper.out' has not changed.
 (rerunfilecheck)             Checksum: 5D368F7E248916CD5342C2166C45809F;212.
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 94.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 100.
  ) 
 Here is how much of TeX's memory you used:
  7706 strings out of 493305
  106482 string characters out of 3144922
- 192698 words of memory out of 3000000
+ 192928 words of memory out of 3000000
  11090 multiletter control sequences out of 15000+200000
  51187 words of font info for 90 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -864,9 +869,9 @@ b><D:/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsltt10.pfb><D:/MiKTeX 2.9/fon
 ts/type1/public/amsfonts/cm/cmss10.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfon
 ts/cm/cmti10.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt10.pfb><D:/M
 iKTeX 2.9/fonts/type1/urw/zapfchan/uzcmi8a.pfb>
-Output written on xnet_JSSPaper.pdf (2 pages, 169905 bytes).
+Output written on xnet_JSSPaper.pdf (2 pages, 172115 bytes).
 PDF statistics:
- 98 PDF objects out of 1000 (max. 8388607)
+ 100 PDF objects out of 1000 (max. 8388607)
  13 named destinations out of 1000 (max. 500000)
  30 words of extra memory for PDF output out of 10000 (max. 10000000)
 

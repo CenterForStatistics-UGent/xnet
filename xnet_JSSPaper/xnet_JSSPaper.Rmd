@@ -1,4 +1,5 @@
 ---
+documentclass: jss
 author:
   - name: Michiel Stock
     affiliation: Ghent University

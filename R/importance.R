@@ -20,7 +20,6 @@ setMethod("importance","tskrr",
 
 #' @rdname importance
 #' @export
-#' setMethod("importance","tskrr",
 setMethod("importance",
           "tskrrTune",
           function(x,

@@ -17,6 +17,8 @@ setGeneric("lambda",
            function(x, ...) standardGeneric("lambda"))
 setGeneric("tune",
            function(x, ...) standardGeneric("tune"))
+setGeneric("importance",
+           function(x, ...) standardGeneric("importance"))
 
 #' @rdname update
 #' @export

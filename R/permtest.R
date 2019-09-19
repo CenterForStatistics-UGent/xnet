@@ -8,9 +8,9 @@
 #'
 #' @return a matrix with the differences in loss
 #'
-#' @rdname importance
+#' @rdname permtest
 #' @export
-setMethod("importance","tskrr",
+setMethod("permtest","tskrr",
           function(x,
                    permutation = c("both","row","column"),
                    n = 100,
@@ -20,10 +20,17 @@ setMethod("importance","tskrr",
 
 #' @rdname importance
 #' @export
-setMethod("importance",
+setMethod("permtest",
           "tskrrTune",
           function(x,
                    permutation = c("both","row","column"),
                    n = 100){
             NULL
           })
+
+# Internal permtest function.
+
+.permtest <- function(Y,K,G,n,lossmod,lossfun, loofun,
+                      permutation,exclusion,lambda){
+  NULL
+}

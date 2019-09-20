@@ -107,8 +107,8 @@ get_eigen <- function(x, which = c('row', 'column')){
 }
 
 #' @rdname getters-tskrr
-#' @aliases get_kernelmatrix
-#' @return For \code{get_kernelmatrix} the original kernel matrix
+#' @aliases get_kernel
+#' @return For \code{get_kernel} the original kernel matrix
 #' for the rows or columns.
 get_kernel <- function(x, which = c('row','column')){
 

@@ -17,6 +17,9 @@ setGeneric("lambda",
            function(x, ...) standardGeneric("lambda"))
 setGeneric("tune",
            function(x, ...) standardGeneric("tune"))
+
+#' @rdname permtest
+#' @export
 setGeneric("permtest",
            function(x, ...) standardGeneric("permtest"))
 

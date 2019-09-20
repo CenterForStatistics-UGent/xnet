@@ -110,6 +110,7 @@ get_eigen <- function(x, which = c('row', 'column')){
 #' @aliases get_kernel
 #' @return For \code{get_kernel} the original kernel matrix
 #' for the rows or columns.
+#' @export
 get_kernel <- function(x, which = c('row','column')){
 
   which <- match.arg(which)

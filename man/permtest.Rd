@@ -9,13 +9,14 @@
 \usage{
 permtest(x, ...)
 
-\S4method{permtest}{tskrrHeterogenous}(x, permutation = c("both", "row",
-  "column"), n = 100, exclusion = c("interaction", "row", "column",
-  "both"), replaceby0 = FALSE, fun = loss_mse)
+\S4method{permtest}{tskrrHeterogenous}(x, n = 100,
+  permutation = c("both", "row", "column"),
+  exclusion = c("interaction", "row", "column", "both"),
+  replaceby0 = FALSE, fun = loss_mse)
 
-\S4method{permtest}{tskrrHomogenous}(x, permutation = c("both"),
-  n = 100, exclusion = c("interaction", "both"), replaceby0 = FALSE,
-  fun = loss_mse)
+\S4method{permtest}{tskrrHomogenous}(x, n = 100,
+  permutation = c("both"), exclusion = c("interaction", "both"),
+  replaceby0 = FALSE, fun = loss_mse)
 
 \S4method{permtest}{tskrrTune}(x, permutation = c("both", "row",
   "column"), n = 100)
@@ -24,11 +25,11 @@ permtest(x, ...)
 \item{x}{either a \code{\link{tskrr-class}} or a
 \code{\link{tskrrTune-class}} object}
 
+\item{n}{the number of permutations for every kernel matrix}
+
 \item{permutation}{a character string that defines whether the row,
 column or both kernel matrices should be permuted. Ignored in case of
 a homogenous network}
-
-\item{n}{the number of permutations for every kernel matrix}
 
 \item{exclusion}{the exclusion to be used in the \code{\link{loo}} function. See also \code{\link{get_loo_fun}}}
 
@@ -41,7 +42,8 @@ function) that calculates the loss. See also \code{\link{tune}} and
 \code{\link{loss_functions}}}
 }
 \value{
-a matrix with the differences in loss
+Currently a vector with the loss values for the permutations.
+This needs updating to return a proper test object!
 }
 \description{
 This function does a permutation-based evaluation of the impact of

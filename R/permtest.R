@@ -17,15 +17,16 @@
 #' function) that calculates the loss. See also \code{\link{tune}} and
 #' \code{\link{loss_functions}}
 #'
-#' @return a matrix with the differences in loss
+#' @return Currently a vector with the loss values for the permutations.
+#' This needs updating to return a proper test object!
 #'
 #' @rdname permtest
 #' @name permtest
 #' @export
 setMethod("permtest","tskrrHeterogenous",
           function(x,
-                   permutation = c("both","row","column"),
                    n = 100,
+                   permutation = c("both","row","column"),
                    exclusion = c("interaction","row","column","both"),
                    replaceby0 = FALSE,
                    fun = loss_mse){
@@ -63,15 +64,18 @@ setMethod("permtest","tskrrHeterogenous",
 #' @export
 setMethod("permtest","tskrrHomogenous",
           function(x,
-                   permutation = c("both"),
                    n = 100,
+                   permutation = c("both"),
                    exclusion = c("interaction","both"),
                    replaceby0 = FALSE,
                    fun = loss_mse){
             # Process arguments
             exclusion <- match.arg(exclusion)
             lossfun <- match.fun(fun)
-            permutation <- match.arg(permutation)
+
+            if(permutation != "both")
+              stop("For a homogenous model setting the permutation to anything else but 'both' doesn't make sense.")
+
             if(n <= 0 || !is_whole_positive(n))
               stop("n should be a positive integer value.")
 

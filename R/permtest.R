@@ -1,7 +1,20 @@
 #' Calculate the relative importance of the edges
 #'
 #' This function does a permutation-based evaluation of the impact of
-#' different edges on the final result.
+#' different edges on the final result. It does so by permuting the kernel
+#' matrices, refitting the model and calculating a loss function.
+#'
+#' The test involved uses a normal approximation. It assumes that under the
+#' null hypothesis, the loss values are approximately normally distributed.
+#' The cumulative probability of a loss as small or smaller than
+#' the one found in the original model, is calculated based on a normal
+#' distribution from which the mean and sd are calculated from the permutations.
+#'
+#' It should be noted that this normal approximation is an ad-hoc approach.
+#' There's no guarantee that the actual distribution of the loss under the
+#' null hypothesis is normal. Depending on the loss function, a significant
+#' deviation from the theoretic distribution can exist. Hence it should only
+#' be used as a rough guidance in model evaluation.
 #'
 #' @param x either a \code{\link{tskrr-class}} or a
 #' \code{\link{tskrrTune-class}} object
@@ -17,8 +30,7 @@
 #' function) that calculates the loss. See also \code{\link{tune}} and
 #' \code{\link{loss_functions}}
 #'
-#' @return Currently a vector with the loss values for the permutations.
-#' This needs updating to return a proper test object!
+#' @return An object of the class permtest.
 #'
 #' @rdname permtest
 #' @name permtest
@@ -54,9 +66,22 @@ setMethod("permtest","tskrrHeterogenous",
                                 fitted(x)))
 
   # Do the permutation test
-  .permtest_hetero(y,k,g,lambdas,
+  perms <- .permtest_hetero(y,k,g,lambdas,
             n, permutation,
-            orig_loss, lossfun, loofun)
+            lossfun, loofun)
+  pval <- pnorm(orig_loss,
+                mean = mean(perms),
+                sd = sd(perms))
+
+  new("permtest",
+      orig_loss = orig_loss,
+      perm_losses = perms,
+      n = n,
+      loss_function = lossfun,
+      exclusion = exclusion,
+      replaceby0 = replaceby0,
+      permutation = permutation,
+      pval = pval)
 
 }) # END setMethod tskrrHeterogenous
 
@@ -94,9 +119,21 @@ setMethod("permtest","tskrrHomogenous",
                                           pred = fitted(x)))
 
             # Do the permutation test
-            .permtest_homo(y,k,lambdas,
-                             n,
-                             orig_loss, lossfun, loofun)
+            perms <- .permtest_homo(y,k,lambdas,
+                             n, lossfun, loofun)
+            pval <- pnorm(orig_loss,
+                          mean = mean(perms),
+                          sd = sd(perms))
+
+            new("permtest",
+                orig_loss = orig_loss,
+                perm_losses = perms,
+                n = n,
+                loss_function = lossfun,
+                exclusion = exclusion,
+                replaceby0 = replaceby0,
+                permutation = permutation,
+                pval = pval)
 
 }) # END setMethod tskrrHomogenous
 
@@ -134,13 +171,12 @@ setMethod("permtest",
 # lambda : the lambdas
 # n: number of permutations
 # permutation: which permutations need to happen
-# origloss: the original loss
 # lossfun: the function for calculating the loss
 # loofun: the function for the loo
 
 .permtest_hetero <- function(y,k,g,lambda,
                       n,permutation,
-                      origloss,lossfun, loofun){
+                      lossfun, loofun){
 
   pk <- permutation == "row" || permutation == "both"
   pg <- permutation == "column" || permutation == "both"
@@ -217,13 +253,12 @@ setMethod("permtest",
 # k: the k kernel
 # lambda : the lambda
 # n: number of permutations
-# origloss: the original loss
 # lossfun: the function for calculating the loss
 # loofun: the function for the loo
 
 .permtest_homo <- function(y,k,lambda,
                              n,
-                             origloss,lossfun, loofun){
+                           lossfun, loofun){
 
   nk <- dim(k)[1]
   lambda.k <- lambda

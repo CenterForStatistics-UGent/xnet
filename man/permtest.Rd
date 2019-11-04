@@ -42,10 +42,23 @@ function) that calculates the loss. See also \code{\link{tune}} and
 \code{\link{loss_functions}}}
 }
 \value{
-Currently a vector with the loss values for the permutations.
-This needs updating to return a proper test object!
+An object of the class permtest.
 }
 \description{
 This function does a permutation-based evaluation of the impact of
-different edges on the final result.
+different edges on the final result. It does so by permuting the kernel
+matrices, refitting the model and calculating a loss function.
+}
+\details{
+The test involved uses a normal approximation. It assumes that under the
+null hypothesis, the loss values are approximately normally distributed.
+The cumulative probability of a loss as small or smaller than
+the one found in the original model, is calculated based on a normal
+distribution from which the mean and sd are calculated from the permutations.
+
+It should be noted that this normal approximation is an ad-hoc approach.
+There's no guarantee that the actual distribution of the loss under the
+null hypothesis is normal. Depending on the loss function, a significant
+deviation from the theoretic distribution can exist. Hence it should only
+be used as a rough guidance in model evaluation.
 }

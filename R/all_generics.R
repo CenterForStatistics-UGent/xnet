@@ -1,3 +1,6 @@
+# Classes needed for generics
+setOldClass("htest")
+
 # All Generics
 
 #' @rdname get_loo_fun

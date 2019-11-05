@@ -370,7 +370,7 @@ target_train <- targetSim[-idk_test, -idk_test]
 drug_train <- drugSim[-idg_test, -idg_test]
 
 target_test <- targetSim[idk_test, -idk_test]
-drug_test <- drugSim[-idg_test, idg_test]
+drug_test <- drugSim[idg_test, -idg_test]
 ```
 
 So the following drugs and targets are removed from the training data

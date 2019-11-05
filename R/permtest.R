@@ -29,11 +29,13 @@
 #' @param fun a function (or a character string with the name of a
 #' function) that calculates the loss. See also \code{\link{tune}} and
 #' \code{\link{loss_functions}}
+#' @param ... arguments passed to other methods
 #'
 #' @return An object of the class permtest.
 #'
+#' @importFrom stats pnorm printCoefmat sd
 #' @rdname permtest
-#' @name permtest
+#' @aliases permtest
 #' @export
 setMethod("permtest","tskrrHeterogenous",
           function(x,

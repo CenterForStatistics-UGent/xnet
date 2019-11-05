@@ -3,6 +3,7 @@
 \docType{methods}
 \name{permtest}
 \alias{permtest}
+\alias{permtest,tskrrHeterogenous-method}
 \alias{permtest,tskrrHomogenous-method}
 \alias{permtest,tskrrTune-method}
 \title{Calculate the relative importance of the edges}
@@ -24,6 +25,8 @@ permtest(x, ...)
 \arguments{
 \item{x}{either a \code{\link{tskrr-class}} or a
 \code{\link{tskrrTune-class}} object}
+
+\item{...}{arguments passed to other methods}
 
 \item{n}{the number of permutations for every kernel matrix}
 

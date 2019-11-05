@@ -10,7 +10,7 @@
 #' the one found in the original model, is calculated based on a normal
 #' distribution from which the mean and sd are calculated from the permutations.
 #'
-#' It should be noted that this normal approximation is an ad-hoc approach.
+#' @section Warning: It should be noted that this normal approximation is an ad-hoc approach.
 #' There's no guarantee that the actual distribution of the loss under the
 #' null hypothesis is normal. Depending on the loss function, a significant
 #' deviation from the theoretic distribution can exist. Hence it should only

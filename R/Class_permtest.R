@@ -56,10 +56,48 @@ validPermtest <- function(object){
 setValidity("permtest", validPermtest)
 
 # Show method
-print.permtest <- function(x){
+print.permtest <- function(x, digits = max(3L, getOption("digits") - 3)){
+
+  if(identical(x@loss_function, loss_mse))
+    loss_name <- "Mean Squared Error (loss_mse)"
+  else if(identical(x@loss_function, loss_auc))
+    loss_name <- "Area under curve (loss_auc)"
+  else
+    loss_name <- "custom function by user"
+
+  excl <- x@exclusion
+  if(x@replaceby0) excl <- paste(excl,"(values replaced by 0)")
+
+  loss_name <- paste("  Loss function:",loss_name,"\n")
+  excl <- paste("  Exclusion:", excl, "\n")
+  perm <- paste("  Permutation:", x@permutation,"\n")
+
+  avg <- mean(x@perm_losses)
+  sd <- sd(x@perm_losses)
+  # results
+  res <- matrix(
+    c(x@orig_loss, avg, sd, x@pval),
+    nrow = 1,
+    dimnames = list(
+      " ",
+      c("Loss", "Average loss", "sd", "Pr(X < Loss)")
+    )
+  )
+
+
+
   cat("\n")
   cat(strwrap("Permutation test for a tskrr model", prefix = "\t"))
   cat("\n")
+  cat("Using:\n")
+  cat(loss_name)
+  cat(excl)
+  cat(perm)
+  cat("\n")
+  printCoefmat(res, digits = digits)
+  cat("\n")
+  cat("P value is approximated based on a normal distribution.\n")
+
 }
 
 setMethod("show",

@@ -35,7 +35,7 @@ title:
   # For running headers, if needed
   short:     "\\pkg{xnet}: Cross-validating Two-Step Kernel Ridge Regression"
 abstract: >
-  This paper presents the R package \pkg{xnet} for cross-network analysis of bipartite networks, using two-step kernel ridge regression. It uses the cross-validation shortcuts proposed by @stock2018 to allow for computationally efficient evaluation of the models based on a variety of leave-one-out methods. The package provides functions for easy tuning, fitting, and evaluation of two-step kernel ridge regression in the context of cross-network analysis. We illustrate the use of the \pkg{xnet} package with datasets from different areas of research.
+  This paper presents the R package \pkg{xnet} for supervised network prediction, using two-step kernel ridge regression. It uses the cross-validation shortcuts proposed by @Stock2018cvshortcuts to allow for computationally efficient validation of the models based on a variety of leave-one-out cross-validation methods. The package provides functions for easy tuning, fitting, and evaluation of two-step kernel ridge regression in the supervised network prediction. We illustrate the use of the \pkg{xnet} package with datasets from different areas of research.
 keywords:
   # at least one keyword must be supplied
   formatted: [networks, pairwise learning, cross-validation, kernel methods]
@@ -53,26 +53,27 @@ bibliography: refs.bib
 
 # Introduction
 
-Networks or graphs[^graphs] are one of the most powerful tools to represent complex, structured information. It is no wonder that nearly all sciences ubiquitously use networks; from chemistry (e.g., molecular graphs), to molecular biology (e.g., protein-interaction networks), to ecology (e.g., plant-pollinator networks), to sociology (e.g., social networks). On the one hand, graphs can be seen as minimalistic mathematical models, conveying how individual components in a system are connected. On the other hand, graphs are also data structures; they can be constructed by performing experiments or gathering observational data.
+Networks or graphs[^graphs] are one of the most powerful tools to represent and analyze complex, structured information. It is no wonder that nearly all sciences ubiquitously use networks; from chemistry (e.g., molecular graphs), to molecular biology (e.g., protein-interaction networks), to ecology (e.g., plant-pollinator networks), to sociology (e.g., social networks). The success of networks and graphs can be explained because they are both models as well as data. On the one hand, graphs can be seen as minimalistic mathematical models, conveying how individual components in a system are connected. On the other hand, graphs are also data structures; they can be constructed by performing experiments or gathering observational data.
 
 [^graphs]: The term 'network' is prevalent in sciences, whereas 'graph' is a term predominantly used in mathematics and formal computer science. In this work, we will use both interchangeably.
 
-Given the general importance of graphs, a plethora of machine learning methods has been developed to predict networks based on data. We can divide network prediction methods into two groups: unsupervised and supervised. Unsupervised network inference, also called *de novo* inference [@Vert2008], do not use a dataset of known interactions to predict the network. These methods are often based on the guilt-by-association principle: components that occur together in space or time are assumed to interact. Such approaches are commonly used in computational biology, in particular for inferring gene regulatory networks (e.g., @Huynh-Thu2010; @Marbach2012; @Maetschke2014) or to infer species interaction networks from co-occurrence data (e.g., @Basnou2015; @Cazelles2016). Recently, however, a study found that correlation-based methods perform poorly to uncover the underlying network, at least for virus-bacteria networks [@Coenen2018]. Furthermore, a significant limitation of the unsupervised methods is that they are unable to generalize beyond the original data: they are not capable of prediction interactions for previously unobserved nodes.
+Given the general importance of graphs, a plethora of machine learning methods have been developed to predict networks based on data. We can divide network prediction methods into two groups: unsupervised and supervised. Unsupervised network inference, also called *de novo* inference [@Vert2008], do not use a dataset of known interactions to predict the network. These methods are often based on the guilt-by-association principle: components that occur together in space or time are assumed to interact. Such approaches are commonly used in computational biology, in particular for inferring gene regulatory networks (e.g., @Huynh-Thu2010; @Marbach2012; @Maetschke2014) or to infer species interaction networks from co-occurrence data (e.g., @Basnou2015; @Cazelles2016). Recently, however, studies found that correlation-based methods perform poorly to uncover the underlying network, at least for microbial networks [@Weiss2016;@Coenen2018]. Furthermore, a significant limitation of the unsupervised methods is that they are unable to generalize beyond the original data: they are not capable of prediction interactions for previously unobserved nodes.
 
-Supervised network prediction methods depart from an initial network that is used for training a machine learning model. This model then can predict interactions for nodes within or outside the training network. For even a small number of example interactions, supervised methods are observed to outcompete their unsupervised counterparts [@Cazelles2016]. Supervised network prediction methods are particularly popular in molecular network prediction -- see @Vert2008 and @Ding2013 for an overview. In this work, we will often refer to supervised network prediction using the more general term *pairwise learning*: predicting properties of pairs of objects using machine learning. *In casu*, predicting the edge between two nodes.
+Supervised network prediction methods depart from an initial network to train a machine learning model. This model then can predict interactions for nodes within or outside the training network. For even a small number of example interactions, supervised methods are observed to outcompete their unsupervised counterparts [@Cazelles2016]. Supervised network prediction methods are particularly popular in molecular network prediction -- see @Vert2008 and @Ding2013 for an overview. In this work, we will often refer to supervised network prediction using the more general term *pairwise learning*: predicting properties of pairs of objects using machine learning. *In casu*, predicting the edge between two nodes.
 
-We present our R-package **xnet**, a simple, but flexible toolbox for performing pairwise learning using two-step kernel ridge regression [@Jung2013;@Pahikkala2014a;@Romera-paredes2015]. Two-step kernel ridge regression is a straightforward combination of two standard kernel ridge regression methods to extend these to pairwise learning. This method yields a bilinear prediction model, capable of learning arbitrarily complex relations between two objects. Such models have been used excessively in molecular network prediction, e.g., @Vert2007;@VanLaarhoven2011a;@Pahikkala2015;@Pelossof2015 as well as for more general problems [@Brunner2012;@Pahikkala2013a;@Liu2015a].
+We present our R-package **xnet**, a toolbox for performing pairwise learning using two-step kernel ridge regression [@Jung2013;@Pahikkala2014;@Romera-paredes2015]. Two-step kernel ridge regression is a straightforward combination of two standard kernel ridge regression methods to extend these to pairwise learning. This method yields a bilinear prediction model, capable of learning arbitrarily complex relations between two objects. Such models have been used excessively in molecular network prediction, e.g., @Vert2007;@VanLaarhoven2011a;@Pahikkala2015;@Pelossof2015 as well as for more general problems [@Brunner2012;@Pahikkala2013a;@Liu2015a].
 
 Due to its simplicity, the two-step kernel ridge regression method has many computational advantages compared to other methods. It can be fitted exceptionally efficiently for large datasets, and the regularization parameters can be changed at no additional cost [@Stock2017tskrr]. Furthermore, performing leave-one-out cross-validation for the different prediction settings that arise in pairwise learning can also be done at constant time complexity provided that a model is pretrained [@Stock2017tskrr]. Finally, we provide the functionality to assess variable importance, impute missing values, and visualize the model. The connection with other packages for computing kernel matrices ensures that **xnet** can cope with a wide variety of complex and possibly structured data.
 
-The remainder of this work is structured as follows. In Section \ref{sec:snp}, we give a short, self-contained background to kernel-based pairwise learning and two-step kernel ridge regression. The API of the package is demonstrated in \ref{sec:useofpackage} while Section \ref{sec:relatedsoftware} provides some pointers to related software. Finally, some small case studies are presented in \ref{sec:casestudy}.
+The remainder of this work is structured as follows. In Section \ref{sec:snp}, we give a short, self-contained background to kernel-based pairwise learning and two-step kernel ridge regression. The API of the package is demonstrated in Section \ref{sec:useofpackage} while Section \ref{sec:relatedsoftware} provides some pointers to related software. Finally, some small case studies are presented in \ref{sec:casestudy}.
 
 # Supervised network prediction
 \label{sec:snp}
 
-In this section, we will give an overview of the methods provided by `xnet`. First, we explain how two-step kernel ridge regression for pairwise learning can be motivated from standard kernel ridge regression. The next section discusses how two-step kernel ridge regression can be used when the data is not complete, i.e., there is not exactly one training pair for each possible combination. The final section handles model selection and validation. We discuss cross-validation schemes and permutation methods tailored to the pairwise prediction setting to correctly assess the performance of the models. This section is meant to be introductive. We refer to standard works and original publications for in-depth motivations, derivations, and discussion of the various methods.
+In this section, we will give a concise overview of the methods provided by `xnet`. First, in Section \ref{sec:pwl} we explain how two-step kernel ridge regression for pairwise learning can be motivated by standard kernel ridge regression. Section \ref{sec:imputation} discusses how two-step kernel ridge regression can be used when the data is not complete, i.e., there is not precisely one training pair for each possible combination. Finally, Section \ref{sec:cvshortcuts} handles model selection and validation. We discuss cross-validation schemes and permutation methods tailored to the pairwise prediction setting to correctly assess the performance of the models. This section is meant to be introductive. We refer to standard works and original publications for in-depth motivations, derivations, and discussion of the various methods.
 
 ## Pairwise learning with kernels
+\label{sec:pwl}
 
 ### Kernel ridge regression
 
@@ -80,7 +81,7 @@ Classical supervised machine learning methods depart from a *labeled training se
 
 The goal of supervised learning if to find a suitable *prediction function*  $f : \mathcal{X}\rightarrow\mathcal{Y}$ such that $f(x_k) \approx y_k$ for all $k$. A vital step in designing prediction function is choosing a suitable feature mapping $\phi:\mathcal{X}\rightarrow \mathcal{H}$ of the instances. This function links the abstract space of the instances to a concrete Hilbert space $\mathcal{H}$ in which the supervised learning problem is easy to solve. Depending on the data, $\phi(\cdot)$ might be a nonlinear function, and $\mathcal{H}$ could be of very large or even infinite dimension.
 
-Rather than designing a feature map explicitly, *kernel methods* construct a Hilbert space by implication [@Scholkopf2002]. A *kernel function* is a symmetric and positive-definite function $\Gamma : \mathcal{X} \times \mathcal{X} \rightarrow \mathbb{R}$ which can be interpreted as a similarity between two instances. The *kernel trick* states that any valid kernel function corresponds to some to a *dot product* in some Hilbert space $\mathcal{H}$, i.e.
+Rather than designing a feature map explicitly, *kernel methods* construct a Hilbert space by implication [@Scholkopf2002]. A *kernel function* is a symmetric and positive-definite function $\Gamma : \mathcal{X} \times \mathcal{X} \rightarrow \mathbb{R}$, which can be interpreted as a similarity between two instances. The *kernel trick* states that any valid kernel function corresponds to some to a *dot product* in some Hilbert space $\mathcal{H}$, i.e.
 
 $$
 \Gamma(x,x') = \langle \phi(x),\phi(x')\rangle_\mathcal{H}\,.
@@ -99,7 +100,7 @@ $$
 \mathbf{w} = (\mathbf{\Gamma}+\lambda_\Gamma I)^{-1}\mathbf{y}\,,
 $$
 
-with $\mathbf{\Gamma}=[\Gamma(x_i,x_j)]$ the $l\times l$ *Gram matrix* containing the kernel function value of all pairwise combinations of the training set instances and $\lambda_\Gamma$ a *regularization hyperparameter* preventing overfitting. An attractive property of KRR is that if one computes the eigenvalue decomposition of the Gram matrix $\mathbf{\Gamma}$ ( which can be done with a time complexity of $\mathcal{O}(l^3)$), the weights for any value of $\lambda_\Gamma$ can be obtained efficiently. This preprocessing makes it easy to tune the model. The *hat matrix* of kernel ridge regression is defined as $H_\Gamma=\mathbf{\Gamma}(\mathbf{\Gamma}+\lambda_\Gamma I)^{-1}$ and can be used to transform the vector of labels into a vector of predictions:
+with $\mathbf{\Gamma}=[\Gamma(x_i,x_j)]$ the $l\times l$ *Gram matrix* containing the kernel function value of all pairwise combinations of the training set instances and $\lambda_\Gamma$ a *regularization hyperparameter* preventing overfitting. An attractive property of KRR is that if one computes the eigenvalue decomposition of the Gram matrix $\mathbf{\Gamma}$ (which can be done with a time complexity of $\mathcal{O}(l^3)$), the weights for any value of $\lambda_\Gamma$ can be obtained efficiently, e.g. see @Stock2017tskrr. This preprocessing makes it easy to tune the model. The *hat matrix* of kernel ridge regression is defined as $H_\Gamma=\mathbf{\Gamma}(\mathbf{\Gamma}+\lambda_\Gamma I)^{-1}$ and can be used to transform the vector of labels into a vector of predictions:
 
 $$
 \mathbf{f} =(f(x_1),\ldots, f(x_l))^T =\mathbf{\Gamma}(\mathbf{\Gamma}+\lambda_\Gamma I)^{-1}\mathbf{y}= H_\Gamma\mathbf{y}\,.
@@ -121,7 +122,7 @@ This prediction function arises when using the so-called Kronecker kernel is use
 $$
 \text{vec}(W) =(G\otimes K + \lambda I)^{-1} \text{vec}(Y)\,,
 $$
-with $\text{vec}(\cdot)$ the vectorization operator and $\otimes$ the Kronecker product. Though computing the above solution might be infeasible naively for problems of even moderate size due to the $nm\times nm$ Gram matrix, in practice this can be solved efficiently using algebraic tricks, see e.g. @pahikkala2013conditional.
+with $\text{vec}(\cdot)$ the vectorization operator and $\otimes$ the Kronecker product. Though computing the above solution might be infeasible naively for problems of even moderate size due to the $nm\times nm$ Gram matrix. In practice, this can be solved efficiently using algebraic tricks, see e.g. @pahikkala2013conditional.
 
 Two-step kernel ridge regression (TSKRR) computes the weights differently:
 
@@ -134,12 +135,18 @@ Given the respective hat matrices $H_k = K(K+\lambda_k I )^{-1}$ and $H_g = G(G+
 $$
 F = [f(u_i, v_j)] = KWG =H_kYH_g\,.
 $$
+The above derivation focusses on the bipartite case, i.e., where $\mathcal{U}\neq\mathcal{V}$. In the homogeneous case, the two objects are in the same space (e.g., predicting protein-protein interactions). In this setting $Y$ is usually a square adjacency matrix and one typically uses the kernel function $k(\cdot,\cdot)$ for both objects:
+$$
+f(u, u) = \sum_{i=1}^n\sum_{j=1}^n w_{ij} k(u_i,u)k(u_j, u) \,.
+$$
+All methodology for the bipartite case can be adapted for the homogeneous case by just replacing $g(\cdot,\cdot)$ by $k(\cdot,\cdot)$.
 
 ## Missing value imputation
+\label{sec:imputation}
 
 In the previous section, we assumed that there is a label for every pair of $(u_i,v_j)\in U \times V$. In many cases, we only possess a subset of these labels. Since the matrix $Y$ cannot be formed, it not possible to directly use the closed-form solutions for the parameters as given above. @Airola2017genvectric recommend using gradient-based methods together with a specialized algebraic trick to fit the pairwise model. In `xnet`, a more simple iterative method is provided to process incomplete data.
 
-Suppose that $\mathcal{O}\in 1,\ldots, n \times 1,\ldots, m$ is the subset of indices for which a label is available. We define an imputed label matrix $\tilde{Y}^{(t)}$ at iteration $t$ as follows:
+Suppose that $\mathcal{O}\subset 1,\ldots, n \times 1,\ldots, m$ is the subset of indices for which a label is available. We define an imputed label matrix $\tilde{Y}^{(t)}$ at iteration $t$ as follows:
 $$
 \tilde{Y}_{ij}^{(t)}={\begin{cases} Y_{ij} & \text{if } (i,j)\in \mathcal{O}\,,\\ \tilde{F}_{ij}^{(t-1)} & \text{elsewise}\,.\end{cases}}
 $$
@@ -149,21 +156,28 @@ $$
 $$
 This process is repeated untill the predictions and imputed labels have converged. Concretely, one can show that when $\lambda_k$ and $\lambda_g$ are greater than zero, $\lim_{t\rightarrow \infty}\tilde{F}^{(t)}$ are the predictions obtained by a transductive model on the observed labels, irregardless of the initial guesses [@Stock2017phd].
 
+![Illustration of the iterative algorithm for missing value imputation. 1) Initialize the missing values. 2) Use the completed label matrix to fit a TSKRR model and make the prediction matrix. 3) Replace the missing values in the label matrix with the predictions. 4) Repeat until this has converged.](imputation.pdf)
 
 ## Cross-validation for networks
+\label{{sec:cvshortcuts}}
 
-A vital aspect of building data-driven models is to perform a correct validation and testing of the model. This both ensures that the best model is selected (w.r.t the feature descriptors and hyperparameter values) and the reported performance is representative for new real-world data. It is well established that for supervised network prediction validation is more complicated than in traditional supervised settings [@Park2012;@Schrynemackers2013;@Pahikkala2015]. This is because in matrix-valued network data, the assumption of independence is violated: the individual objects occur in multiple pairs.
+A vital aspect of building data-driven models is to perform a correct validation and testing of the model. This both ensures that the best model is selected (w.r.t the feature descriptors and hyperparameter values) and the reported performance is representative for new real-world data. It is well established that for supervised network prediction validation is more complicated than in traditional supervised settings [@Park2012;@Schrynemackers2013;@Pahikkala2015]. This is because, in matrix-valued network data, the assumption of independence is violated: the individual objects occur in multiple pairs.
 
-In earlier work, we have defined several specialized leave-one-out cross-validation schemes tailored for the pairwise prediction problem [@Stock2018cvshortcuts]. We distinguish between bipartite networks (where $U\ne V$, e.g., protein-ligand or plant-pollinator networks) and homogenous networks (where $U = V$, e.g., protein-protein networks and food webs). For bipartite networks, we can leave out one element at a time (I), one row (R), one column (C) or both (B). For the homogeneous networks, we can leave out edges (E) or vertices (V). For validation settings I and E, we can set the interaction values to zero, rather than discarding the pairs altogether. We refer to these cases as setting I0 and E0, respectively. These different cross-validation setting are shown in Figure \ref{fig:CV}. `xnet` provides efficient computational shortcuts for performing all network cross-validations. These allow for both selecting the best possible model for each setting, as well as exploring for which prediction settings the model performs well and in which prediction setting it does not.
+In earlier work, we have defined several specialized leave-one-out cross-validation schemes tailored for the pairwise prediction problem [@Stock2018cvshortcuts]. We distinguish between bipartite networks (where $U\ne V$, e.g., protein-ligand or plant-pollinator networks) and homogenous networks (where $U = V$, e.g., protein-protein networks and food webs). For bipartite networks, we can leave out one element at a time (I), one row (R), one column (C) or both (B). For the homogeneous networks, we can leave out edges (E) or vertices (Vinstall.packages("ggplot2")
+). For validation settings I and E, we can set the interaction values to zero, rather than discarding the pairs altogether. We refer to these cases as setting I0 and E0, respectively. These different cross-validation setting are shown in Figure \ref{fig:CV}. `xnet` provides efficient computational shortcuts for performing all network cross-validations. These allow for both selecting the best possible model for each setting, as well as exploring for which prediction settings the model performs well and in which prediction setting it does not.
 
-![Illustration of the different leave-one-out cross-validation settings provided in `xnet` Figure lifted from @Stock2018cvshortcuts. .\label{fig:CV}](Fig_settings.png)
+![Illustration of the different leave-one-out cross-validation settings provided in `xnet` illustrated on a small hypothetical recommender system bipartite network and a small hypothetical species interaction network. Both examples show label matrices with binary values for simplicity, in practice these values can be real-valued.\label{fig:CV}](CVsettings.pdf)
 
-In addition to the cross-validation schemes, `xnet` also provides permutation-based methods to analyze the models. Here, the Gram matrices $K$, $G$ or both are randomly permutated, i.e., the row and corresponding columns of the Gram matrices are re-arranged in an arbitrary order. This destroys the link between the objects and their kernel-function. The decrease in model performance in leave-one-out cross-validation can be recorded. The average decrease in performance over several repetitions is an indication for which kernel is most relevant for which prediction setting.
+In addition to the cross-validation schemes, `xnet` also provides permutation-based methods to analyze the models. Here, the Gram matrices $K$, $G$ or both are randomly permutated, i.e., the rows and corresponding columns of the Gram matrices are re-arranged in an arbitrary order. This destroys the link between the objects and their kernel-function. The decrease in model performance in leave-one-out cross-validation can be recorded. The average decrease in performance over several repetitions is an indication for which kernel is most relevant for which prediction setting.
+
+![Illustration of the permuation to assess for the importance of the different Gram matrices for the different cross-validation settings. The performance, such as mean squared error or AUC can be computed on the prediction matrix, using a leave-one-out cross-validation shortcut. Shuffling the rows and the corresponding columns of one or both of the Gram matrices (here, only of $K$) destroys the association between the labels and this or these kernels. The distribution of the performance on the prediction matrices trained with such permuted data gives an indication how important this information is for accurate predictions.  \label{fig:perm}](permute.pdf)
 
 # Use of the package
 \label{sec:useofpackage}
 
-For the illustrations, we use two different datasets.
+In this section, we will illustrate the main API of **xnet**. The functions are demonstrated on two datasets relating to molecular biology: a drug-target dataset as an example of a bipartite network and a protein-protein interaction dataset as an example of a homogeneous dataset.
+
+## Data overview
 
 The dataset `drugtarget`, first presented by @Yamanishi2008, serves as an example of a bipartite network. It is a small dataset containing all binary interactions between 26 nuclear receptor protein targets and 54 drug-like compounds. To get a suitable kernel matrix, we recomputed the kernel matrices as explained in the vignette `[Preparation of the example data](../doc/Preparation_example_data.html)`.
 
@@ -173,9 +187,7 @@ The processed dataset consists of three matrices:
  * the kernel matrix for the targets `targetSim`;
  * the kernel matrix for the drugs `drugSim`.
 
-
-The example dataset `proteinInteraction` originates from a publication by @Yamanishi2004.
-It contains data on the interactions between a subset of 769 proteins, and consists of two objects:
+The example dataset `proteinInteraction` originates from a publication by @Yamanishi2004. It contains an interaction network between a set of 769 proteins, and consists of two matrices:
 
  * the adjacency matrix `proteinInteraction` where 1 indicates an interaction between proteins;
  * the kernel matrix `Kmat_y2h_sc` describing the similarity between the proteins, based on the two-hybrid method.
@@ -184,16 +196,15 @@ It contains data on the interactions between a subset of 769 proteins, and consi
 
 ### Bipartite networks
 
-One can fit a two-step kernel ridge regression using the function `tskrr()`. This function requires the tuning parameters `lambda`, as explained earlier. The user can choose to set one lambda for tuning $K$
-and $G$ using the same lambda value, or she can specify
-a different lambda for $K$ and $G$.
+One can fit a two-step kernel ridge regression using the function `tskrr()`. In addition to the interaction matrix and the kernel matrices, this function accepts the tuning parameters `lambda`, as explained earlier.  The user can choose to set one lambda for tuning $K$ and $G$ using the same lambda value, or they can specify a different lambda for $K$ and $G$. If none are provided, the function uses default values of $10^{-4}$ for $\lambda_k$ and $\lambda_g$[^defaulthp].
+
+[^defaulthp]: These default values ensure nearly unbiased estimation of the regression parameters. They are strictly greater than zero to ensure numerical stability.
 
 ```{r call xnet}
 library(xnet)
 ```
 
 ```{r fit a heterogeneous model}
-
 data(drugtarget)
 
 drugmodel <- tskrr(y = drugTargetInteraction,
@@ -206,7 +217,7 @@ drugmodel
 
 ### Homogenous network
 
-For homogenous networks, the same function as for bipartite networks can be used. When no matrix $G$ is provided, and the matrix $Y$ is square, TSKRR for homogeneous networks will be fitted automatically. In this case, a single regularization parameter is provided:
+For homogenous networks, one can use the same function as for bipartite networks. When no matrix $G$ is provided, and the matrix $Y$ is square, TSKRR for homogeneous networks will be fitted automatically. In this case, the user only needs to provide a single regularization parameter.
 
 ```{r fit a homogenous model}
 data(proteinInteraction)
@@ -220,10 +231,10 @@ proteinmodel
 
 ### Extracting information from a model.
 
-The relevant information of a TSKRR model can be extracted using various specific functions:
+Various specific functions allow to extract the relevant information of a TSKRR model: 
 
  * `lambda` returns a vector with the lambda values used;
- * `dim` returns the dimensions;
+ * `dim` returns the dimensions of the interaction matrix;
  * `labels` returns a list with two elements, `k` and `g`, containing the labels for the rows resp. the columns;
  * the functions `rownames()` and `colnames()` extract the labels.
 
@@ -236,31 +247,20 @@ protlabels <- labels(proteinmodel)
 str(protlabels)
 ```
 
-The functions `fitted()` and `predict()` can be used to extract the
-fitted values. The latter also allows specifying new kernel matrices
-to predict for new objects in the network. To get the residuals, one can
-use the function `residuals()`.
+The functions `fitted()` and `predict()` extract the fitted values. The latter also allows specifying new kernel matrices to predict for new objects in the network. To get the residuals, one can use the function `residuals()`.
 
 ## Performing leave-one-out cross-validation
 
-### Settings for LOO
+### Settings for leave-one-out cross-validation
 
-The most significant contribution of this package, are the various
-shortcuts for leave-one-out cross-validation (LOO-CV) described by @Stock2018cvshortcuts.
-Generally, LOO-CV removes a value, refits the model, and predicts the
-removed value based on this refit model. In this package, you do this using the function `loo()`.
-A user can specify the cross-validation scheme using the argument `exclusion`:
+The various shortcuts for leave-one-out cross-validation (LOO-CV), as described by @Stock2018cvshortcuts, form the most significant contribution of **xnet**. These where described in Section~\ref{section:cv}. In our package, the function `loo()` allows to perform all available LOO-CV schemes. The user can specify the desired scheme using the argument `exclusion`:
 
- * *interaction*: in this setting, only the interaction between two nodes is removed from the adjacency matrix.
- * *row*: in this setting, the entire row for that node is removed from the adjacency matrix. This boils down to removing a node from the set $\mathcal{U}$.
- * *column*: in this setting, the entire column for that node is removed from the adjacency matrix. This boils down to removing a node from the set $\mathcal{V}$.
- * *both*: in this setting, both rows and columns are removed, i.e., for every loo value the respective nodes are removed from both the $\mathcal{U}$
- and the $\mathcal{V}$ set.
+ * *interaction*: **xnet** removes only the interaction between two objects, and repeats this for every interaction;
+ * *row*: **xnet** removes entire rows from the interaction matrix, one at a time;
+ * *column*: **xnet** removes entire columns from the interaction matrix, one at a time;
+ * *both*: **xnet** removes *both* rows and columns and repeats this for every interaction.
 
-In the case of observational data, not observing an interaction (a zero in the adjacency matrix) is no proof of the absence of the interaction in practice. In those cases, it is more sensible
-to compute the LOO values by replacing the interaction by 0 instead
-of removing it. This is done by setting `replaceby0 = TRUE` and it will use the I0 and E0 cross-validation
-schemes for bipartite and homogeneous networks, respectively.
+In the case of observational data, not observing an interaction (a zero in the adjacency matrix) is no proof of the absence of the interaction in practice. In those cases, it is more sensible to compute the LOO-CV values by replacing the interaction by 0 instead of removing it. This is done by setting `replaceby0 = TRUE` and it will use the I0 and E0 cross-validation schemes for bipartite and homogeneous networks, respectively.
 
 ```{r calculate loo values}
 loo_drugs_interaction <- loo(drugmodel, exclusion = "interaction",
@@ -268,13 +268,11 @@ loo_drugs_interaction <- loo(drugmodel, exclusion = "interaction",
 loo_protein_both <- loo(proteinmodel, exclusion = "both")
 ```
 
-In both cases, the result is a matrix with the LOO values.
+In both cases, the result is a matrix with the LOO-CV values.
 
-### Use LOO in other functions
+### Use of leave-one-out cross-validation in other functions
 
-Several functions use the predictions obtained by cross-validation.
-For example, the residuals based on LOO values can be directly
-computed using the function `residuals()`:
+Several functions use the predictions obtained by cross-validation. For example, the function `residuals()` directly computes the residuals based on LOO-CV values.
 
 ```{r calculate loo residuals}
 loo_resid <- residuals(drugmodel, method = "loo",
@@ -284,20 +282,17 @@ all.equal(loo_resid,
           response(drugmodel) - loo_drugs_interaction )
 ```
 
-Every other function that can use LOO values instead of predictions will
-have the same two arguments `exclusion` and `replaceby0`.
+Every other function that can use LOO values instead of predictions has the same two arguments `exclusion` and `replaceby0`.
 
 ## A look at the model output
 
-The function provides a `plot()` function for looking at the model output.
-This function can show you the fitted values, the LOO values, or the residuals. It also lets you construct dendrograms based on the $K$ and $G$ matrices, so you have both the predictions and the similarity
-information on the nodes in one plot.
+The function provides a `plot()` function for looking at the model output. This function plots the fitted values, the LOO values, or the residuals. It also the user to construct dendrograms based on the $K$ and $G$ Gram matrices, aggregating both the predictions and the similarity information on the objects in a single plot.
 
 ```{r plot-model, fig.show = 'hold'}
 plot(drugmodel, main = "Drug Target interaction")
 ```
 
-To plot LOO values, the user set the argument `which`. As fitting the protein model is pretty expensive, one can remove the dendrogram and select a number of objects for closer inspection.
+To plot LOO values, the user sets the argument `which`. As fitting a model might be expensive, one can remove the dendrogram and select any number of objects for closer inspection.
 
 ```{r plot-loo-values}
 plot(proteinmodel, dendro = "none", main = "Protein interaction - LOO",
@@ -307,31 +302,20 @@ plot(proteinmodel, dendro = "none", main = "Protein interaction - LOO",
 
 ```
 
-Both the breaks used for the color code and the color code itself can also be specified.
+It is possible to specify both the breaks used for the color code and the color code itself.
 
 ## Tuning a model to find the best hyperparameters
 
 ### Bipartite networks
 
-In most cases, the user does not know how to the regularization hyperparameter values for
-$\lambda_u$ and $\lambda_v$ for optimal
-predictions. To find the best `lambda` values, the function
-`tune()` allows one to perform a grid search. This grid search can be
-specified in several ways:
+In most cases, the user does not know how to the regularization hyperparameter values for $\lambda_u$ and $\lambda_v$ for optimal predictions. To find the best `lambda` values, the function `tune()` allows one to perform a grid search. This grid search can be specified in several ways:
 
  * by specifying actual values to be tested;
- * by specifying the minimum and maximum lambda together with the number of values needed in every dimension. The function will create a grid that is evenly spaced on a logarithmic scale.
+ * by specifying the minimum and maximum lambda together with the number of values needed in every dimension. The function will create a grid evenly spaced on a logarithmic scale.
 
-Tuning minimizes a loss function. Two standard loss functions are provided, i.e.,
-one based on mean squared error (`loss_mse`) and one based on the area
-under the ROC curve (`loss_auc`). Any arbitrary loss function can be specified, as long
-as lower values correspond to a better model.
+Tuning minimizes a loss function for which **xnet** provides two standard loss functions: one based on mean squared error (`loss_mse`) and one based on the area under the ROC curve (`loss_auc`). Any arbitrary loss function can be specified, as long as lower values correspond to better models.
 
-For heterogeneous networks, the tuning works as follows. The
-function `tune()` performs a two-dimensional grid search. To do a
-one-dimensional grid search (i.e., use the same value for $\lambda_u$ and $\lambda_v$),
-you set the argument `onedim = TRUE`. We found that this led to only a slight decrease in performance
-in practice.
+For bipartite networks, the function `tune()` performs a two-dimensional grid search. To do a one-dimensional grid search (i.e., use the same value for $\lambda_u$ and $\lambda_v$), one has to set the argument `onedim = TRUE`. We found that this led to only a slight decrease in performance in practice while reducing the time for tuning from quadratic to linear in terms of the grid size.
 
 ```{r}
 drugtuned1d <- tune(drugmodel,
@@ -342,9 +326,7 @@ drugtuned1d <- tune(drugmodel,
 plot_grid(drugtuned1d, main = "1D search")
 ```
 
-When performing a two-dimensional grid search, you can specify different
-limits and grid values or lambda values for both dimensions. You do this
-by passing a list with two elements for the respective arguments.
+When performing a two-dimensional grid search, the user can specify different limits and grid values or lambda values for both dimensions by passing a list with two elements for the respective arguments.
 
 ```{r tune 2d model}
 drugtuned2d <- tune(drugmodel,
@@ -353,30 +335,20 @@ drugtuned2d <- tune(drugmodel,
                      fun = loss_auc)
 ```
 
-the `plot_grid()` function
-will give you a heatmap indicating where the optimal lambda values are
-found:
+The `plot_grid()` function returns a heatmap indicating the optimal values of the hyperparameters.
 
 ```{r plot-grid-2d-model}
 plot_grid(drugtuned2d, main = "2D search")
 ```
 
-The function `lambda()` returns the best
-lambda values found by the grid search.
+The function `lambda()` returns the best lambda values found by the grid search.
 
 ```{r}
 lambda(drugtuned1d)
 lambda(drugtuned2d)
 ```
 
-In this case, a one-dimensional grid search gives relatively different optimal
-lambda values. To get more information on the loss values, one can use
-the function `get_loss_values()`. This allows one to examine the actual
-improvement for every lambda value. The output is always a matrix, and
-in the case of a 1D search, it is a matrix with one column. Combining
-these values with the lambda grid shows that the difference between
-a lambda value of around 0.20 and around 0.34 is minimal. This is
-also obvious from the grid plots shown above.
+In this case, a one-dimensional grid search yields relatively different optimal lambda values. To get more information on the loss values, one can use the function `get_loss_values()`. This allows one to examine the actual improvement for every lambda value. The output is always a matrix, and in the case of a one-dimensional search, it is a matrix with a single column. Combining these values with the lambda grid shows that the difference between a lambda value of around 0.20 and around 0.34 is minimal. This is also obvious from the grid plots shown above.
 
 ```{r}
 cbind(
@@ -386,12 +358,9 @@ cbind(
 
 ```
 
-
 ### Homogenous networks
 
-Homogenous networks have a single lambda value, and should hence only
-search in a single dimension. The following code tests 20 lambda values
-between 0.001 and 10.
+Homogenous networks have a single lambda value, and hence require only searching in a single dimension. The following code tests 20 lambda values, logarithmically spaced between 0.001 and 10.
 
 ```{r tune-homogenous-network}
 proteintuned <- tune(proteinmodel,
@@ -402,20 +371,20 @@ proteintuned
 ```
 
 The returned object is again a model object with the model fitted using the best lambda value. It also contains extra information on the settings of the tuning. The user can extract the grid values as follows:
+
 ```{r get the grid values}
 get_grid(proteintuned)
 ```
-This returns a list with one or two elements, each element containing
-the grid values for the respective kernel matrix.
 
-It is easy to create a plot to inspect the tuning visually:
+The function `get_grid` returns a list with one or two elements, each element containing the grid values for the respective kernel matrix.
+
+It is again easy to create a plot to inspect the tuning visually:
+
 ```{r plot-grid}
 plot_grid(proteintuned)
 ```
 
-This object is also a `tskrr` model, so all the functions used above can
-be used here as well. For example, we can use the same code as before
-to inspect the LOO values of this tuned model:
+This object is also a `tskrr` model, so all the functions used above can be used here as well. For example, we can use the same code as before to inspect the LOO values of this tuned model:
 
 ```{r residuals-tuned-model}
 plot(proteintuned, dendro = "none", main = "Protein interaction - LOO",
@@ -426,9 +395,7 @@ plot(proteintuned, dendro = "none", main = "Protein interaction - LOO",
 
 ## Making predictions
 
-The main reason for building a pairwise model is to make predictions for new objects.
-To make predictions using a `tskrr` model, the values of the two kernel functions between the
-objects in the training data and the new objects need to be computed.
+The main reason for building a pairwise model is to make predictions. To make predictions using a `tskrr` model, the values of the two kernel functions between the objects in the training data and the new objects need to be computed. We remove some drugs and targets to from an independent test set.
 
 ```{r reorder the data}
 idk_test <- c(5,10,15,20,25)
@@ -442,14 +409,14 @@ target_test <- targetSim[idk_test, -idk_test]
 drug_test <- drugSim[idg_test, -idg_test]
 ```
 
-The following drugs and targets are removed from the training data
-and will be used for predictions later:
+The names of the drugs and targets that where removed are given below.
+
 ```{r}
 rownames(target_test)
 colnames(drug_test)
 ```
 
-We can now train the data using `tune()` just like we would use `tskrr()`
+We can now train the TKRR model using `tune()` just like we would use `tskrr()`
 
 ```{r train the model}
 trained <- tune(drugInteraction_train,
@@ -460,8 +427,7 @@ trained <- tune(drugInteraction_train,
 
 ### Predicting new rows
 
-To predict the interaction between new targets and the drugs
-in the model, we need to pass the kernel values for the similarities between the new targets and the ones in the model. The `predict()` function will select the correct **G** matrix for calculating the predictions.
+To predict the interaction between new targets and the drugs, we need to pass the kernel values for the similarities between the new targets and the ones in the model. The `predict()` function will select the correct gram matrix $G$ matrix for calculating the predictions.
 
 ```{r}
 Newtargets <- predict(trained, k = target_test)
@@ -470,8 +436,7 @@ Newtargets[, 1:5]
 
 ### Predicting new columns
 
-If one wants to predict for new rows (e.g., drugs), you need the kernel values for
-the similarities between new drugs and the drugs trained in the model.
+If one wants to predict for new rows (e.g., drugs), one needs the kernel values for the similarities between new drugs and the drugs trained in the model.
 
 ```{r}
 Newdrugs <- predict(trained, g = drug_test)
@@ -480,8 +445,7 @@ Newdrugs[1:5, ]
 
 ### Predict for new rows and columns
 
-You can combine both kernel matrices used above to get predictions about
-the interaction between new drugs and new targets:
+One can combine both kernel matrices used above to get predictions about the interaction between new drugs and new targets:
 
 ```{r}
 Newdrugtarget <- predict(trained, k=target_test, g=drug_test)
@@ -490,15 +454,13 @@ Newdrugtarget
 
 ## Impute new values based on a tskrr model
 
-Sometimes you have missing values in an adjacency matrix. These missing
-values can be imputed based on the simple iterative algorithm described earlier.
+Sometimes the interaction matrix contains missing values. These missing values can be imputed based on the simple iterative algorithm described in Section\ref{sec:imputation}.
 
-Apart from the usual arguments of `tskrr`, you can give additional
-parameters to the function `impute_tskrr`. The most important ones are
+Apart from the usual arguments of `tskrr`, one can suggest additional parameters to the function `impute_tskrr`. The most important ones are
 
  * `niter`: the maximum number of iterations;
  * `tol`: the tolerance, i.e., the minimal sum of squared differences
- between iteration steps to keep the algorithm going;
+ between iteration determining the convergence;
  * `verbose`: setting this to 1 or 2 gives additional info on the
  algorithm performance.
 
@@ -510,8 +472,7 @@ idmissing <- c(10,20,30,40,50,60)
 drugTargetMissing[idmissing] <- NA
 ```
 
-We can now try to impute these values. The outcome is again a
-tskrr model.
+We can now try to impute these values. The outcome is, again a TSKRR model.
 
 ```{r}
 imputed <- impute_tskrr(drugTargetMissing,
@@ -520,15 +481,11 @@ imputed <- impute_tskrr(drugTargetMissing,
                         verbose = TRUE)
 plot(imputed, dendro = "none")
 ```
-To extract information on the imputation, several functions are available:
+Several functions can be used to extract information on the imputation:
 
- * `has_imputed_values()` tells you whether the model contains imputed values;
- * `is_imputed()` returns a logical matrix where `TRUE` indicates an
- imputed value;
- * `which_imputed()` returns an integer vector with the positions of the
- imputed values. Note that these positions are vector positions, i.e.,
- they give the position in a single dimension (according to how a
- matrix is stored internally in R).
+ * `has_imputed_values()` tells whether the model contains imputed values;
+ * `is_imputed()` returns a logical matrix where `TRUE` indicates an imputed value;
+ * `which_imputed()` returns an integer vector with the positions of the imputed values. Note that these positions are vector positions, i.e., they give the position in a single dimension (according to how a matrix is stored internally in R).
 
 ```{r}
 has_imputed_values(imputed)
@@ -542,21 +499,23 @@ predict(imputed)[id]
 # Related software
 \label{sec:relatedsoftware}
 
-Pairwise learning is a viable approach for various machine learning problems, including network inference, missing value imputation, collaborative filtering, multi-task learning, transfer learning, zero-shot learning, etc. These problems can all be posed as a supervised network prediction problem, or, equivalently, predicting values, rows, and columns in a matrix. As such, the TSKRR model, as provided by our **xnet** package provides similar functionality to numerous packages.
+Pairwise learning is a viable approach for various machine learning problems, including network inference, missing value imputation, collaborative filtering, multi-task learning, transfer learning and zero-shot learning. These problems can all be posed as a supervised network prediction problem, or, equivalently, predicting values, rows, and columns in a matrix. As such, the TSKRR model, as provided by our **xnet** package provides similar functionality to numerous packages.
 
-The most conceptually similar package is **RLScore** [@Pahikkala2016], a Python library implementing many least-squares-based kernel learning algorithms, including Kronecker-kernel ridge regression and two-step kernel ridge regression. Although the R programming language has several packages implementing kernel methods, our package is the first to offer this pairwise learning framework. Since **xnet** only provides the functions for training, validating and visualization the TSKKR method, we recommend using other packages for computing the kernel matrices. For example, **kernlab** [@Karatzoglou2004] provides the most popular kernels for vectorial data, **graphkernels** https://cran.r-project.org/web/packages/graphkernels/index.html provides kernel functions to compare graphs while the **SHOGUN** toolbox [@Sonnenburg2010] provides, among other functionality, string kernels.
+The most conceptually similar package is **RLScore** [@Pahikkala2016], a Python library implementing many least-squares-based kernel learning algorithms, including Kronecker-kernel ridge regression and two-step kernel ridge regression. Although the R programming language has several packages implementing kernel methods, our package is the first to offer this pairwise learning framework. Since **xnet** only provides the functions for training, validating and visualization of the TSKKR method, we recommend using other packages for computing the kernel matrices. For example, **kernlab** [@Karatzoglou2004] provides the most popular kernels for vectorial data, **graphkernels**[^graphkernels] provides kernel functions to compare graphs while the **SHOGUN** toolbox [@Sonnenburg2010] provides, among other functionality, string kernels.
 
-Given R's large ecosystem of packages for analyzing biological data, there exist many packages for network prediction. For example, for gene regulatory network prediction, **SIRENE** [@Mordelet2008], **minet** [@Meyer2008] and **Parmigene** [@Sales2011] provide unsupervised methods for gene-gene interaction prediction. The importance of correct validation is illustrated by packages such as **NetBenchmark** [@Bellot2015a], which provide tools to test the robustness of different network inference methods using simulators. **xnet** is a comprehensive package that adds a supervised network prediction method to this pool of unsupervised algorithms.
+[^graphkernels]: https://cran.r-project.org/web/packages/graphkernels/index.html
+
+Given R's large ecosystem of packages for analyzing biological data, there exist many packages for network prediction. For example, for gene regulatory network prediction, **SIRENE** [@Mordelet2008], **minet** [@Meyer2008] and **Parmigene** [@Sales2011] provide unsupervised methods for gene-gene interaction prediction. The importance of correct validation is illustrated by packages such as **NetBenchmark** [@Bellot2015a], which provide tools to test the robustness of different network inference methods using simulators. **xnet** is a comprehensive package that adds a supervised network prediction method to this pool of unsupervised approaches
 
 R also has packages for missing value imputation, of which **MICE** (Multivariate Imputation by Chained Equations) [@VanBuuren2011] and **MissForest** [@Stekhoven2012] are well-known examples. Our package does not have the ambition to replace these. Most specialized methods for problems such as missing value imputation will likely outperform it, if only by a small margin. The goal of **xnet** is to provide a single method that can handle various machine learning problems, including missing value imputation, but also supervised network prediction, multi-task learning, and zero-shot learning.
 
-
-
 # Conclusions
+
+We have presented the **xnet** package, an easy-to-use software tool for supervised network prediction using two-step kernel ridge regression. As a kernel-based method, it allows one to work with complex, structured objects and learn general nonlinear assosiations. We provide advanced cross-validation shortcuts, visualization methods and a test to correctly tune, validate and analyze the models. It is our hope that **xnet** can be of usein a variety of disciplines.
 
 **Acknowledgements**
 
-TBD
+MS is supported by the Research Foundation - Flanders (FWO17/PDO/067).
 
 **Author contributions**
 

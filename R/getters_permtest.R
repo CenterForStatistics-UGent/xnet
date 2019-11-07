@@ -23,8 +23,8 @@
 #' ptest[c(2,3)]
 #' permutations(ptest)
 #'
-#' @rdname getters-tskrr
-#' @aliases Extract-tskrr permutations
+#' @rdname getters-permtest
+#' @aliases Extract-permtest permutations
 #' @export
 permutations <- function(x){
   if(!inherits(x, "permtest"))
@@ -32,7 +32,7 @@ permutations <- function(x){
   x@perm_losses
 }
 
-#' @rdname getters-tskrr
+#' @rdname getters-permtest
 #' @export
 setMethod("[",
           c("permtest","ANY"),

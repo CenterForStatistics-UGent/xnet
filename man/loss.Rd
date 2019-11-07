@@ -5,6 +5,7 @@
 \alias{loss}
 \alias{loss,tskrr-method}
 \alias{loss,tskrrTune-method}
+\alias{loss,permtest-method}
 \title{Calculate or extract the loss of a tskrr model}
 \usage{
 loss(x, ...)
@@ -16,6 +17,8 @@ loss(x, ...)
 \S4method{loss}{tskrrTune}(x, fun = loss_mse,
   exclusion = c("interaction", "row", "column", "both"),
   replaceby0 = FALSE, predictions = FALSE, ...)
+
+\S4method{loss}{permtest}(x, ...)
 }
 \arguments{
 \item{x}{a model that inherits from class
@@ -47,6 +50,8 @@ either one of the functions defined in \code{\link{loss_functions}}
 or a custom user function.If the model inherits from class
 \code{\link[xnet:tskrrTune-class]{tskrrTune}} and no additional arguments
 are given, the loss is returned for the settings used when tuning.
+The function can also be used to extract the original loss from a
+\code{\link[xnet:permtest-class]{permtest}} object.
 }
 \examples{
 data(drugtarget)

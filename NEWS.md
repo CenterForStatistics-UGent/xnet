@@ -1,3 +1,14 @@
+## xnet devel (to become 0.2.0 CRAN release)
+
+### Breaking changes
+
+* For consistency, the `g` matrix in `predict()` now expects the new
+nodes to be on the rows.
+
+### New features
+
+### Bug fixes and minor improvements
+
 ## xnet 0.1.8
 
 ### Breaking changes

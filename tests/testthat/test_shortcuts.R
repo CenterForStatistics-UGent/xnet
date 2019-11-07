@@ -166,7 +166,7 @@ test_that("shortcuts bipartite networks work",{
   looR <- loo(mod, exclusion = "row")
   looRtest <- sapply(seq_len(nrow(Y)), function(i){
     modx <- tskrr(Y[-i,],K[-i,-i],G, lambda = c(lambdak, lambdag))
-    predict(modx, K[i,-i],G)
+    predict(modx, K[i,-i, drop = FALSE],G)
 
   })
   # sapply gives the matrix in a different way.
@@ -176,7 +176,7 @@ test_that("shortcuts bipartite networks work",{
   looC <- loo(mod, exclusion = "column")
   looCtest <- sapply(seq_len(ncol(Y)), function(j){
     modx <- tskrr(Y[, -j], K, G[-j, -j], lambda = c(lambdak,lambdag))
-    predict(modx, K, G[-j, j])
+    predict(modx, K, G[j, -j, drop = FALSE])
   })
 
   expect_equal(unname(looC), looCtest)
@@ -186,7 +186,8 @@ test_that("shortcuts bipartite networks work",{
   j <- 4
   looB <- loo(mod, exclusion = "both")[i,j, drop = FALSE]
   modx <- tskrr(Y[-i, -j], K[-i,-i], G[-j,-j], lambda = c(lambdak,lambdag))
-  looBtest <- predict(modx, K[i, -i], G[-j, j])
+  looBtest <- predict(modx, K[i, -i, drop = FALSE],
+                      G[j, -j, drop = FALSE])
   expect_equal(unname(looB), looBtest)
 
 })
@@ -231,7 +232,7 @@ test_that("shortcuts homogenous networks work", {
   looVtest <- sapply(seq_len(nrow(Yh)), function(i){
 
     modx <- tskrr(Yh[-i, -i], Kh[-i, -i], lambda = lambdak)
-    predict(modx, Kh[i, -i, drop = FALSE], Kh[-i,,drop = FALSE])
+    predict(modx, Kh[i, -i, drop = FALSE], Kh[,-i,drop = FALSE])
   })
 
   expect_equal(unname(looV), t(looVtest))
@@ -279,7 +280,7 @@ test_that("shortcuts skewed homogenous networks work", {
   looVtest <- sapply(seq_len(nrow(Ys)), function(i){
 
     modx <- tskrr(Ys[-i, -i], Kh[-i, -i], lambda = lambdak)
-    predict(modx, Kh[i, -i, drop = FALSE], Kh[-i,,drop = FALSE])
+    predict(modx, Kh[i, -i, drop = FALSE], Kh[,-i,drop = FALSE])
   })
 
   expect_equal(unname(looV), t(looVtest))

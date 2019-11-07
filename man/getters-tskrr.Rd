@@ -13,7 +13,6 @@
 \alias{symmetry}
 \alias{get_eigen}
 \alias{get_kernel}
-\alias{get_kernelmatrix}
 \alias{has_hat}
 \title{Getters for tskrr objects}
 \usage{
@@ -68,7 +67,7 @@ the model is not homogenous, \code{NA} is returned.
 For \code{get_eigen} the eigen decomposition of the requested
 kernel matrix.
 
-For \code{get_kernelmatrix} the original kernel matrix
+For \code{get_kernel} the original kernel matrix
 for the rows or columns.
 
 For \code{has_hat} a logical value indicating whether

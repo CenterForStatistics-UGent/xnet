@@ -22,35 +22,33 @@ suppressMessages(library(xnet))
 
 ### Notation and naming of networks in the package
 
-Networks exist in all forms and shapes. With `xnet` you can analyse
-bipartite networks, i.e. networks that describe the link between two
-sets of nodes. For example:
+Networks exist in all forms and shapes. `xnet` is a simple, but powerful package to predict edges in networks in a supervised fashion. For example:
 
  * which proteins interact with eachother?
  * which goods are bought by which clients?
- * How many likes give twitter users to eachother's tweets?
+ * how many likes give Twitter users to each other's tweets?
 
-These two sets can contain the same nodes (eg protein interaction) or
-different nodes (eg goods bought by clients). When the two sets are 
-the same, we call this a *homogenous* network. A network between two
-different sets of nodes is called a *heterogenous* network.
+The two sets can contain the same types nodes (e.g. protein interaction
+networks) or different nodes (e.g. goods bought by clients in a recommender
+system). When the two sets are the same, we call this a *homogenous* network.
+A network between two different sets of nodes is called a *heterogenous* network.
 
-The interactions are presented in a *adjacency matrix*, noted **Y**. 
+The interactions are presented in a *adjacency matrix*, noted **Y**.
 The rows of **Y** represent one set of nodes, the columns the second.
 Interactions can be measured on a continuous scale, indicating
 how strong each interaction is. Often the adjacency matrix only contains
-a few values: 1 for interaction, 0 for no interaction and possibly -1 
+a few values: 1 for interaction, 0 for no interaction and possibly -1
 for an inverse interaction.
 
-two-step kernel ridge regression ( function `tskrr()` ) predicts the values
+Two-step kernel ridge regression ( function `tskrr()` ) predicts the values
 in  the adjacency matrix based on similarities within the node sets,
 calculated by using some form of a *kernel function*. This function takes
 two nodes as input, and outputs a measure of similarity with specific
 mathematical properties. The resulting *kernel matrix* has to be positive
 definite for the method to work. In the package, these matrices are noted
-**K** for the rows and - if applicable - **G** for the columns of **Y**. 
+**K** for the rows and - if applicable - **G** for the columns of **Y**.
 
-We'd like to refer to the [kernlab](https://cloud.r-project.org/package=kernlab) for a collection
+We refer to the [kernlab](https://cloud.r-project.org/package=kernlab) for a collection
 of different kernel functions.
 
 ### Data in the package
@@ -73,14 +71,14 @@ consists of two objects:
 The dataset `drugtarget` serves as an example of a heterogenous network
 and comes from a publication of [Yamanishi et al (2008)](https://doi.org/10.1093/bioinformatics/btn162). In order to get
 a correct kernel matrix, we recalculated the kernel matrices as explained
-in the vignette [Preparation of the example data](../doc/Preparation_example_data.html). 
+in the vignette [Preparation of the example data](../doc/Preparation_example_data.html).
 
 The dataset exists of three objects
 
  * the adjacency matrix `drugTargetInteraction`
  * the kernel matrix for the targets `targetSim`
  * the kernel matrix for the drugs `drugSim`
- 
+
 The adjacency matrix indicates which protein targets interact with which
 drugs, and the purpose is to predict new drug-target interactions.
 
@@ -99,7 +97,7 @@ data(drugtarget)
 
 drugmodel <- tskrr(y = drugTargetInteraction,
                    k = targetSim,
-                   g = drugSim, 
+                   g = drugSim,
                    lambda = c(0.01,0.1))
 
 drugmodel
@@ -120,11 +118,11 @@ proteinmodel <- tskrr(proteinInteraction,
 proteinmodel
 ```
 
-### Extracting information from a model.
+### Extracting parameters from a trained model.
 
 The model output itself tells you only little, apart from the dimensions,
 the lambdas used and the labels found in the data. That information
-can be extracted using a number of convenience functions.
+can be extracted using a number of convenient functions.
 
 ```{r extract info from a model}
 lambda(drugmodel)  # extract lambda values
@@ -139,7 +137,7 @@ str(protlabels)
  * `dim` returns the dimensions.
  * `labels` returns a list with two elements, `k` and `g`, containing
  the labels for the rows resp. the columns.
- 
+
 You can also use the functions `rownames()` and `colnames()` to extract
 the labels.
 
@@ -148,38 +146,37 @@ the labels.
 
 The functions `fitted()` and `predict()` can be used to extract the
 fitted values. The latter also allows you to specify new kernel matrices
-to predict for new nodes in the network. To get the residuals, you can
+to predict for new nodes in the network. To obtain the residuals, you can
 use the function `residuals()`. This is shown further in the document.
 
-## Performing leave-one-out crossvalidation
+## Performing leave-one-out cross-validation
 
 ### Settings for LOO
 
 The most significant contribution of this package, are the various
-shortcuts for leave-one-out crossvalidation (LOO-CV) described in 
+shortcuts for leave-one-out cross-validation (LOO-CV) described in
 [the paper by Stock et al, 2018](https://doi.org/10.1093/bib/bby095).
 Generally LOO-CV removes a value, refits the model and predicts the
-removed value based on this refit model. In this package you do this 
-using the function `loo()`. The paper describes a number 
+removed value based on this refit model. In this package you do this
+using the function `loo()`. The paper describes a number
 of different settings, which can be passed to the argument `exclusion`:
 
  * *interaction*: in this setting only the interaction between two nodes
  is removed from the adjacency matrix.
  * *row*: in this setting the entire row for that node is removed
  from the adjacency matrix. This boils down to removing a node from
- the **K** set.
+ the set described by **K**.
  * *column*: in this setting the entire column for that node is removed
  from the adjacency matrix. This boils down to removing a node from the
- **G** set.
+ set decribed by **G**.
  * *both*: in this setting both rows and columns are removed, i.e. for
- every loo value the respective nodes are removed from both the **K**
- and the **G** set.
- 
-In some networks only information of interactions is available, so a 0
-doesn't necessarily indicate "no interaction". It just indicates
+ every loo value the respective nodes are removed from both sets.
+
+For some networks, only information of interactions is available, so a 0
+does not necessarily indicate "no interaction". It just indicates
 "no knowledge" for an interaction. In those cases it makes more sense
 to calculate the LOO values by replacing the interaction by 0 instead
-of removing it. This is done by setting `replaceby0 = TRUE`.
+of removing it. This can be done by setting `replaceby0 = TRUE`.
 
 ```{r calculate loo values}
 loo_drugs_interaction <- loo(drugmodel, exclusion = "interaction",
@@ -191,16 +188,16 @@ In both cases the result is a matrix with the LOO values.
 
 ### Use LOO in other functions
 
-There's quite a few functions that allow you to use LOO values instead
-of predictions for calculations and optimizations. For example, you can
-calculate residuals based on LOO values directly using the 
+There are several functions that allow to use the LOO values instead
+of predictions for model tuning and validation. For example, you can
+calculate residuals based on LOO values directly using the
 function `residuals()`:
 
 ```{r calculate loo residuals}
 loo_resid <- residuals(drugmodel, method = "loo",
                        exclusion = "interaction",
                        replaceby0 = TRUE)
-all.equal(loo_resid, 
+all.equal(loo_resid,
           response(drugmodel) - loo_drugs_interaction )
 ```
 
@@ -210,10 +207,10 @@ have the same two arguments `exclusion` and `replaceby0`.
 ## Looking at model output
 
 The function provides a `plot()` function for looking at the model output.
-This function can show you the fitted values, LOO values or the 
-residuals. It also lets you construct dendrograms based on the **K** and
-**G** matrices, so you have both the predictions and the similarity
-information on the nodes in one plot. 
+This function can show you the fitted values, LOO values or the
+residuals. It also lets you construct dendrograms based on distances
+computed using the **K** and **G** matrices, so you have both the predictions
+and the similarity information on the nodes in one plot.
 
 ```{r plot a model, fig.show = 'hold'}
 plot(drugmodel, main = "Drug Target interaction")
@@ -232,10 +229,10 @@ plot(proteinmodel, dendro = "none", main = "Protein interaction - LOO",
 ```
 
 If the colors don't suit you, you can set both the breaks used for
-the color code and the color code itself. 
+the color code and the color code itself.
 
 ```{r plot different color code}
-plot(drugmodel, which = "residuals", 
+plot(drugmodel, which = "residuals",
      col = rainbow(20),
      breaks = seq(-1,1,by=0.1))
 ```
@@ -255,7 +252,7 @@ done in a number of ways:
 Tuning minimizes a loss function. Two loss functions are provided, i.e.
 one based on mean squared error (`loss_mse`) and one based on the area
 under the curve (`loss_auc`). But you can provide your own loss function
-too if needed.
+too, if needed.
 
 ### Homogenous networks
 
@@ -300,7 +297,7 @@ plot(proteintuned, dendro = "none", main = "Protein interaction - LOO",
 
 For heterogenous networks, the tuning works the same way. Standard, the
 function `tune()` performs a two-dimensional grid search. To do a
-one-dimensional grid search (i.e. use the same lambda for **K** and 
+one-dimensional grid search (i.e. use the same lambda for **K** and
 **G**), you set the argument `onedim = TRUE`.
 
 ```{r}
@@ -314,7 +311,7 @@ plot_grid(drugtuned1d, main = "1D search")
 
 When performing a two-dimensional grid search, you can specify different
 limits and grid values or lambda values for both dimensions. You do this
-by passing a list with 2 elements for the respective arguments.
+by passing a list with two elements for the respective arguments.
 
 ```{r tune 2d model}
 drugtuned2d <- tune(drugmodel,
@@ -332,16 +329,16 @@ plot_grid(drugtuned2d, main = "2D search")
 ```
 
 As before, you can use the function `lambda()` to get to the best
-lambda values. 
+lambda values.
 
 ```{r}
 lambda(drugtuned1d)
 lambda(drugtuned2d)
 ```
 
-It seems like a one-dimensional grid search gives quite different optimal
-lambda values. To get more information on the loss values, you can use
-the function `get_loss_values()`. This allows you to examine the actual
+A one-dimensional grid search give might yield quite different optimal
+lambda values. To get more information on the loss values,
+the function `get_loss_values()` can be used. This allows you to examine the actual
 improvement for every lambda value. The output is always a matrix, and
 in the case of a 1D search it's a matrix with one column. Combining
 these values with the lambda grid, shows that the the difference between
@@ -356,12 +353,12 @@ cbind(
 
 ```
 
-## Predicting new values 
+## Predicting new values
 
 In order to predict new values, you need information on the outcome of
 the kernel functions for the combination of the new values and those
 used to train the model. Depending on which information you have, you can
-do different predictions. To illustrate this, let's split up the data
+do different predictions. To illustrate this, we split up the data
 for the drugsmodel.
 
 ```{r reorder the data}
@@ -373,7 +370,7 @@ target_train <- targetSim[-idk_test, -idk_test]
 drug_train <- drugSim[-idg_test, -idg_test]
 
 target_test <- targetSim[idk_test, -idk_test]
-drug_test <- drugSim[-idg_test, idg_test]
+drug_test <- drugSim[idg_test, -idg_test]
 ```
 
 So the following drugs and targets are removed from the training data
@@ -397,7 +394,7 @@ trained <- tune(drugInteraction_train,
 In order to predict the interaction between new targets and the drugs
 in the model, we need to pass the kernel values for the similarities
 between the new targets and the ones in the model. The `predict()`
-function will select the correct **G** matrix for calculating the 
+function will select the correct **G** matrix for calculating the
 predictions.
 
 ```{r}
@@ -435,16 +432,16 @@ values can be imputed based on a simple algorithm:
  3. replace the missing values with the predictions of that model
  4. repeat until the imputed values converge (i.e. the difference with
  the previous run falls below a tolerance value)
- 
+
 Apart from the usual arguments of `tskrr`, you can give additional
 parameters to the function `impute_tskrr`. The most important ones are
 
  * `niter`: the maximum number of iterations
- * `tol`: the tolerance, i.e. the minimal sum of squared differences 
+ * `tol`: the tolerance, i.e. the minimal sum of squared differences
  between iteration steps to keep the algorithm going
  * `verbose`: setting this to 1 or 2 gives additional info on the
  algorithm performance.
- 
+
 So let's construct a dataset with missing values:
 
 ```{r create missing values}
@@ -471,9 +468,9 @@ functions to your disposal:
  imputed value
  * `which_imputed()` returns an integer vector with the positions of the
  imputed values. Note that these positions are vector positions, i.e.
- they give the position in a single dimension (according to how a 
+ they give the position in a single dimension (according to how a
  matrix is stored internally in R.)
- 
+
 ```{r}
 has_imputed_values(imputed)
 which_imputed(imputed)

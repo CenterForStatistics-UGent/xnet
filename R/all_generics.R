@@ -1,3 +1,6 @@
+# Classes needed for generics
+setOldClass("htest")
+
 # All Generics
 
 #' @rdname get_loo_fun
@@ -17,6 +20,11 @@ setGeneric("lambda",
            function(x, ...) standardGeneric("lambda"))
 setGeneric("tune",
            function(x, ...) standardGeneric("tune"))
+
+#' @rdname permtest
+#' @export
+setGeneric("permtest",
+           function(x, ...) standardGeneric("permtest"))
 
 #' @rdname update
 #' @export

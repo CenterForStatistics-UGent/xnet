@@ -6,9 +6,11 @@
 \alias{predict,tskrr-method}
 \title{predict method for tskrr fits}
 \usage{
-\method{predict}{tskrr}(object, k = NULL, g = NULL, ...)
+\method{predict}{tskrr}(object, k = NULL, g = NULL, testdim = TRUE,
+  ...)
 
-\S4method{predict}{tskrr}(object, k = NULL, g = NULL, ...)
+\S4method{predict}{tskrr}(object, k = NULL, g = NULL, testdim = TRUE,
+  ...)
 }
 \arguments{
 \item{object}{an object of class \code{\link[xnet:tskrr-class]{tskrr}}.}
@@ -19,28 +21,56 @@ values on the training data are returned.}
 \item{g}{a new G matrix or \code{NULL}. If \code{NULL}, K is used
 for both.}
 
+\item{testdim}{a logical value indicating whether the dimensions should
+be checked prior to the calculation. You can set this to \code{FALSE} but
+you might get more obscure errors if dimensions don't match.}
+
 \item{...}{arguments passed to or from other methods}
 }
 \value{
 a matrix with predicted values.
 }
 \description{
-Obtains predictions from a \code{\link{tskrr}} model for new
-data. To get the predictions on the training data, use the
-function \code{\link[xnet:fitted]{fitted}} or set both \code{k}
-to \code{NULL}.
+Obtains predictions from a \code{\link{tskrr}} model for new data.
+Predictions can be calculated between new nodes and the nodes
+used to train the model and/or between new sets of nodes. Which
+predictions are given, depends on the kernel matrices passed to the
+function. See also the Details section and examples.
 }
 \details{
-Predictions can be calculated between new vertices and the vertices
-used to train the model, between new sets of vertices, or both. Which
-predictions are given, depends on the kernel matrices passed to the
-function.
+The kernel matrices used for the \code{k} and \code{g} arguments,
+should contain the values of the kernel function between the nodes
+for which the links need to be predicted, and the nodes used for
+training the model. The rows represent the prediction nodes,
+the columns represent the training nodes.
 
-In any case, both the K and G matrix need the kernel values for
-every combination of the new vertices and the vertices used to
-train the model. This is illustrated for both homogenous and
-heterogenous networks in the examples.
+To predict the links between a new set of nodes and the training
+nodes, you need to provide the kernel matrix for either the K
+or the G set of nodes. If you want to predict the mutual links
+between two new sets of nodes, you have to provide both the
+K and the G matrix. This is particularly important for homogenous
+networks: if you only supply the \code{k} argument, you will get
+predictions for the links between the new nodes and the nodes
+on which the model is trained. So in order to get the
+mutual links between the new nodes, you need to provide the kernel
+matrix as the value for both the \code{k} and the \code{g} argument.
+
+To get the predictions on the training data,
+use the function \code{\link[xnet:fitted]{fitted}}
+or set both \code{k} and \code{g} to \code{NULL}.
 }
+\section{Warning}{
+
+This function is changed in version 0.1.9 so it's more consistent
+in how it expects the K and G matrices to be ordered. Up to version
+0.1.8 the new nodes should be on the rows for the K matrix and on
+the columns for the G matrix. This lead to confusion.
+
+If you're using old code, you'll get an error pointing this out.
+You need to transpose the G matrix in the old code to make it work
+with the new version.
+}
+
 \examples{
 
 ## Predictions for homogenous networks
@@ -56,11 +86,11 @@ testK <- Kmat_y2h_sc[idnew, - idnew]
 
 mod <- tskrr(trainY, trainK, lambda = 0.1)
 # Predict interaction between test vertices
-predict(mod, testK, t(testK))
+predict(mod, testK, testK)
 
 # Predict interaction between test and train vertices
 predict(mod, testK)
-predict(mod, g = t(testK))
+predict(mod, g = testK)
 
 ## Predictions for heterogenous networks
 data("drugtarget")
@@ -73,7 +103,7 @@ trainK <- targetSim[-idnewK, -idnewK]
 trainG <- drugSim[-idnewG, -idnewG]
 
 testK <- targetSim[idnewK, -idnewK]
-testG <- drugSim[-idnewG, idnewG]
+testG <- drugSim[idnewG, -idnewG]
 
 mod <- tskrr(trainY, trainK, trainG, lambda = 0.01)
 

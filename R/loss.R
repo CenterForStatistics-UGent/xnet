@@ -5,6 +5,8 @@
 #' or a custom user function.If the model inherits from class
 #' \code{\link[xnet:tskrrTune-class]{tskrrTune}} and no additional arguments
 #' are given, the loss is returned for the settings used when tuning.
+#' The function can also be used to extract the original loss from a
+#' \code{\link[xnet:permtest-class]{permtest}} object.
 #'
 #' @param x a model that inherits from class
 #' \code{\link[xnet:tskrr-class]{tskrr}}
@@ -85,4 +87,13 @@ setMethod("loss",
                           predictions,
                           ...)
 
+          })
+
+#' @rdname loss
+#' @export
+setMethod("loss",
+          "permtest",
+          function(x,
+                   ...){
+            x@orig_loss
           })

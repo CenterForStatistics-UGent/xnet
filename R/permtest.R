@@ -33,6 +33,15 @@
 #'
 #' @return An object of the class permtest.
 #'
+#' @examples
+#'
+#' # Heterogenous network
+#'
+#' data(drugtarget)
+#'
+#' mod <- tskrr(drugTargetInteraction, targetSim, drugSim)
+#' permtest(mod, fun = loss_auc)
+#'
 #' @importFrom stats pnorm printCoefmat sd
 #' @rdname permtest
 #' @aliases permtest

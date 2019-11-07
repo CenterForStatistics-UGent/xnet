@@ -55,7 +55,25 @@ validPermtest <- function(object){
 
 setValidity("permtest", validPermtest)
 
+# internal
+
+.make_res_table <- function(perm_losses, orig_loss, pval){
+  avg <- mean(perm_losses)
+  sd <- sd(perm_losses)
+  # results
+  res <- matrix(
+    c(orig_loss, avg, sd, pval),
+    nrow = 1,
+    dimnames = list(
+      " ",
+      c("Loss", "Avg. loss", "St.dev", "Pr(X < loss)")
+    )
+  )
+}
+
 # Show method
+#' @rdname permtest
+#' @export
 print.permtest <- function(x, digits = max(3L, getOption("digits") - 3)){
 
   if(identical(x@loss_function, loss_mse))
@@ -70,21 +88,11 @@ print.permtest <- function(x, digits = max(3L, getOption("digits") - 3)){
 
   loss_name <- paste("  Loss function:",loss_name,"\n")
   excl <- paste("  Exclusion:", excl, "\n")
-  perm <- paste("  Permutation:", x@permutation,"\n")
+  perm <- paste0("  Permutations: ", x@n," (direction: ",x@permutation,")\n")
 
-  avg <- mean(x@perm_losses)
-  sd <- sd(x@perm_losses)
-  # results
-  res <- matrix(
-    c(x@orig_loss, avg, sd, x@pval),
-    nrow = 1,
-    dimnames = list(
-      " ",
-      c("Loss", "Average loss", "sd", "Pr(X < Loss)")
-    )
-  )
-
-
+  res <- .make_res_table(x@perm_losses,
+                         x@orig_loss,
+                         x@pval)
 
   cat("\n")
   cat(strwrap("Permutation test for a tskrr model", prefix = "\t"))
@@ -97,6 +105,7 @@ print.permtest <- function(x, digits = max(3L, getOption("digits") - 3)){
   printCoefmat(res, digits = digits)
   cat("\n")
   cat("P value is approximated based on a normal distribution.\n")
+  invisible(res)
 
 }
 

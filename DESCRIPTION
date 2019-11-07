@@ -1,7 +1,7 @@
 Package: xnet
 Type: Package
 Title: Two-Step Kernel Ridge Regression for Network Predictions
-Version: 0.1.9-1
+Version: 0.1.9-2
 Authors@R: c(person("Joris","Meys", email = "Joris.Meys@UGent.be", role
         = c("cre","aut")), person("Michiel", "Stock", email =
         "Michiel.Stock@UGent.be", role = "aut"))
@@ -9,7 +9,7 @@ Description: Fit a two-step kernel ridge regression for predicting
         edges in networks, and carry out cross-validation using
         shortcuts for swift and accurate performance assessment
         <doi:10.1093/bib/bby095>.
-Date: 2019-11-05
+Date: 2019-11-07
 BugReports: https://github.com/CenterForStatistics-UGent/xnet/issues
 URL: https://github.com/CenterForStatistics-UGent/xnet
 Depends: R(>= 3.4.0)
@@ -28,7 +28,7 @@ Collate: 'Class_linearFilter.R' 'all_generics.R' 'Class_permtest.R'
         'Class_tskrrTuneHomogenous.R' 'as_tuned.R' 'create_grid.R'
         'data_drugtarget.R' 'data_proteinInteraction.R' 'dim.R'
         'eigen2hat.R' 'fitted.R' 'get_loo_fun.R' 'getlooInternal.R'
-        'getters_linearFilter.R' 'getters_tskrr.R'
+        'getters_linearFilter.R' 'getters_permtest.R' 'getters_tskrr.R'
         'getters_tskrrImpute.R' 'getters_tskrrTune.R' 'hat.R'
         'impute_tskrr.R' 'impute_tskrr.fit.R' 'internal_helpers.R'
         'is_symmetric.R' 'labels.R' 'linear_filter.R' 'loo.R'

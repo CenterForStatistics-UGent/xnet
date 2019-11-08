@@ -1,10 +1,10 @@
 #' Plot the grid of a tuned tskrr model
 #'
-#' With this function you can visualize the grid search for optimal
+#' With this function, you can visualize the grid search for optimal
 #' lambdas from a \code{\link[xnet:tskrrTune-class]{tskrrTune}} object.
-#' In the case of two dimensional grid search, this function will plot a
+#' In the case of two-dimensional grid search, this function plots a
 #' contour plot on a grid, based on the functions \code{\link{image}}
-#' and \code{\link{contour}}. For one dimensional grid search the function
+#' and \code{\link{contour}}. For one-dimensional grid search, the function
 #' creates a single line plot.
 #'
 #' @param x an object that inherits from

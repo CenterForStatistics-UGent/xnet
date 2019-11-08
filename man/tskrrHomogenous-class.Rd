@@ -7,7 +7,7 @@
 \title{Class tskrrHomogenous}
 \description{
 The class tskrrHomogenous is a subclass of the superclass
-\code{\link[xnet:tskrr-class]{tskrr}} class specifically for
+\code{\link[xnet:tskrr-class]{tskrr}} specifically for
 homogenous networks.
 }
 \section{Slots}{

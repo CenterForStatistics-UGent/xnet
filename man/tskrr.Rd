@@ -9,7 +9,7 @@ tskrr(y, k, g = NULL, lambda = 1e-04, testdim = TRUE,
   keep = FALSE)
 }
 \arguments{
-\item{y}{a response matrix}
+\item{y}{a label matrix}
 
 \item{k}{a kernel matrix for the rows}
 
@@ -31,7 +31,7 @@ speed up the function.}
 
 \item{symmetry}{a character value with the possibilities
 "auto", "symmetric" or "skewed". In case of a homogenous fit, you
-can either specify whether the adjacency matrix is symmetric or
+can either specify whether the label matrix is symmetric or
 skewed, or you can let the function decide (option "auto").}
 
 \item{keep}{a logical value indicating whether the kernel hat
@@ -43,8 +43,8 @@ some cases. Defaults to \code{FALSE}.}
 a \code{\link[xnet:tskrr-class]{tskrr}} object
 }
 \description{
-\code{tskrr} is the main function for fitting a two step kernel
-ridge regression. It can be used for both homogenous and heterogenous
+\code{tskrr} is the primary function for fitting a two-step kernel
+ridge regression model. It can be used for both homogenous and heterogeneous
 networks.
 }
 \examples{

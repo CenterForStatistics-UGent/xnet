@@ -1,12 +1,10 @@
 #' Protein interaction for yeast
 #'
 #' A dataset for examining the interaction between proteins of
-#' yeast. The dataset contains two matrices.
-#'
-#' The dataset consists of the following objects:
+#' yeast. The dataset consists of the following objects:
 #'
 #' \itemize{
-#'   \item proteinInteraction: the adjacency matrix based on the protein
+#'   \item proteinInteraction: the label matrix based on the protein
 #'   network taken from the KEGG/PATHWAY database
 #'   \item Kmat_y2h_sc: a kernel matrix indicating similarity of proteins.
 #' }

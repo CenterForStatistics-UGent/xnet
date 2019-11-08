@@ -12,7 +12,8 @@
 \usage{
 permtest(x, ...)
 
-\method{print}{permtest}(x, digits = max(3L, getOption("digits") - 3))
+\method{print}{permtest}(x, digits = max(3L, getOption("digits") - 3),
+  ...)
 
 \S4method{permtest}{tskrrHeterogenous}(x, n = 100,
   permutation = c("both", "row", "column"),
@@ -31,6 +32,8 @@ permtest(x, ...)
 \code{\link{tskrrTune-class}} object}
 
 \item{...}{arguments passed to other methods}
+
+\item{digits}{the number of digits shown in the output}
 
 \item{n}{the number of permutations for every kernel matrix}
 

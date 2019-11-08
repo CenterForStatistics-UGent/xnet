@@ -83,7 +83,7 @@ This function plots a heatmap of the fitted values in a
 a legend by default.
 }
 \details{
-The function can select part of the model for plotting. Either you
+The function can select a part of the model for plotting. Either you
 specify \code{rows} and \code{cols}, or you specify \code{nbest}.
 If \code{nbest} is specified, \code{rows} and \code{cols} are ignored.
 The n highest values are looked up in the plotted values, and only

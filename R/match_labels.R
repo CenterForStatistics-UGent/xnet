@@ -1,11 +1,11 @@
-#' Reorder the adjacency matrix
+#' Reorder the label matrix
 #'
-#' Reorders the adjacency matrix based on the labels of the kernel matrices.
-#' In case there are no labels, the original adjacency matrix is returned,
+#' Reorders the label matrix based on the labels of the kernel matrices.
+#' In case there are no labels, the original label matrix is returned,
 #' but with the labels in \code{rows} and \code{cols} as rownames and
 #' column names respectively.
 #'
-#' @param y a matrix representing the adjacency matrix.
+#' @param y a matrix representing the label matrix.
 #' @param rows a character vector with the labels for the rows or a matrix
 #' with rownames that will be used as labels.
 #' @param cols a character vector with the labels for the cols or a matrix

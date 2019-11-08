@@ -17,7 +17,7 @@
 #' \code{\link{tskrrHeterogenous}} for more details.
 #'
 #' @seealso the classes \code{\link{tskrrHomogenous}} and
-#' \code{\link{tskrrHeterogenous}} for the actual classes
+#' \code{\link{tskrrHeterogenous}} for the actual classes.
 #'
 #' @importFrom utils str
 #'

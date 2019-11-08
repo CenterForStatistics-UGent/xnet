@@ -6,9 +6,9 @@
 \alias{xnet-package}
 \title{Two-step kernel ridge regression for network analysis}
 \description{
-This package implements two-step kernel ridge regression, a technique
-that can be used for all kinds of cross-network analysis. Examples are
-protein-protein interaction, foodwebs, ...
+This package implements the two-step kernel ridge regression model, a
+supervised network prediction method that can be used for all kinds of network
+analyses. Examples are protein-protein interaction, foodwebs, ...
 }
 \seealso{
 Send your bug reports to:

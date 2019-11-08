@@ -24,7 +24,7 @@
 #' @rdname getters-tskrr
 #' @aliases response
 #' @export
-#' @return For \code{response}: the original response matrix
+#' @return For \code{response}: the original label matrix
 setMethod("response",
           "tskrr",
           function(x, ...){

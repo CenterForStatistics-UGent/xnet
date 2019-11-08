@@ -49,7 +49,7 @@ missing values were removed prior to the fitting of the filter.
 }
 \description{
 These functions allow you to extract slots from objects of the
-class \code{\link{linearFilter}}
+class \code{\link{linearFilter}}.
 }
 \examples{
 data(drugtarget)

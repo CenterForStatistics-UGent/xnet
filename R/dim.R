@@ -2,7 +2,7 @@
 #'
 #' These functions allow you to extract the dimensions of a tskrr
 #' object. These dimensions are essentially the dimensions of the
-#' adjacency matrix y.
+#' label matrix y.
 #'
 #' @param x a \code{\link[=tskrr-class]{tskrr}} object.
 #'
@@ -16,6 +16,7 @@
 #' nrow(mod)
 #' ncol(mod)
 #'
+#' @aliases dim.tskrr
 #' @export
 setMethod("dim",
           "tskrr",

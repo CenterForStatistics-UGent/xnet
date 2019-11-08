@@ -17,9 +17,9 @@ a character value with the possible values "symmetric",
 }
 \description{
 This function tells you whether a matrix is symmetric,
-skewed symmetric or not symmetric. It's used by \code{\link{tskrr}}
+skewed symmetric, or not symmetric. It's used by \code{\link{tskrr}}
 to determine which kind of homologous network is represented by
-the adjacency matrix.
+the label matrix.
 }
 \examples{
 mat1 <- matrix(c(1,0,0,1),ncol = 2)

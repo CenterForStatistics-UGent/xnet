@@ -1,8 +1,9 @@
 #' Create a grid of values for tuning tskrr
 #'
-#' This function creates an grid of values for
+#' This function creates a grid of values for
 #' tuning a \code{\link{tskrr}} model. The grid is equally spaced on
-#' a logarithmic scale.
+#' a logarithmic scale. Normally it's not needed to call this method
+#' directly, it's usually called from \code{\link{tune}}.
 #'
 #' The \code{lim} argument sets the boundaries of the domain in which
 #' the lambdas are sought. The lambda values at which the function is
@@ -19,6 +20,11 @@
 #'
 #' @return a numeric vector with values evenly spaced on a
 #' logarithmic scale.
+#'
+#' @seealso \code{\link{tune}} for tuning a tskrr model.
+#'
+#' @examples
+#' create_grid(lim = c(1e-4, 1), ngrid = 5)
 #'
 #' @export
 create_grid <- function(lim = c(1e-4, 1e4),

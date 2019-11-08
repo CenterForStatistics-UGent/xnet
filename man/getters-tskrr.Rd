@@ -49,7 +49,7 @@ object inheriting from \code{tskrr}.}
 for the row kernel matrix or the column kernel matrix should be returned.}
 }
 \value{
-For \code{response}: the original response matrix
+For \code{response}: the original label matrix
 
 For \code{lambda}: a named numeric vector with one resp both lambda
 values used in the model. The names are "k" and "g" respectively.

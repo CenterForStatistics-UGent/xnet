@@ -1,7 +1,7 @@
-#' Impute missing values in a adjacency matrix
+#' Impute missing values in a label matrix
 #'
-#' This function implements an optimization algorithm that allows to
-#' impute missing values in the adjacency matrix while fitting a
+#' This function implements an optimization algorithm that allows
+#' imputing missing values in the label matrix while fitting a
 #' \code{tskrr} model.
 #'
 #' @inheritParams tskrr

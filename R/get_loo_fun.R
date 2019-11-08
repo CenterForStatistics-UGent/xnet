@@ -1,23 +1,24 @@
 #' Retrieve a loo function
 #'
 #' This function returns the correct function needed to perform
-#' one of the leave one out crossvalidations. It primarily meant
-#' for internal use but can be handy when doing simulations.
+#' one of the leave-one-out cross-validations. It's primarily meant
+#' for internal use but can be useful when doing simulations.
 #'
 #' This function can be used to select the correct loo function in
 #' a simulation or tuning algorithm, based on the model object you
 #' created. Depending on its class, the returned functions will have
 #' different arguments, so you should only use this if you know
-#' what you're doing and after you checked the actual possibly returned
+#' what you're doing and after you checked the actual returned
 #' functions in \code{\link{loo_internal}}.
 #'
 #' Using \code{replaceby0} only makes sense if you only remove the interaction.
 #' In all other cases, this argument is ignored.
 #'
-#' For the class \code{tskrrHomogenous}, it doesn't make sense to only
-#' remove rows or columns. If you try it anyway, you'll be met with an error.
+#' For the class \code{tskrrHomogenous}, it doesn't make sense opnly to
+#' remove rows or columns. If you chose this option, the function will
+#' throw an error.
 #' For the class \code{linearFilter} it only makes sense to exclude the
-#' interaction (i.e. a single cell). Therefor you do not have an argument
+#' interaction (i.e., a single cell). Therefore you do not have an argument
 #' \code{exclusion} for that method.
 #'
 #' For the classes \code{tskrrTune} and \code{tskrrImpute},
@@ -32,7 +33,7 @@
 #' @param ... arguments passed to or from other methods.
 #'
 #' @return a function taking the arguments y, and possibly pred
-#' for calculating the leave one out crossvalidation. For class
+#' for calculating the leave-one-out cross-validation. For class
 #' \code{tskrrHeterogenous}, the returned function also
 #' has an argument Hk and Hg, representing the hat matrix for the rows
 #' and the columns respectively. For class \code{tskrrHomogenous},

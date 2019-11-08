@@ -1,14 +1,14 @@
 #' convert tskrr models
 #'
-#' These functions allow to convert models that inherit from the
+#' These functions allow converting models that inherit from the
 #' \code{\link[xnet:tskrr-class]{tskrr}} and
-#' \code{\link[xnet:tskrrTune-class]{tskrrTune}} class into eachother,
-#' keeping track of whether the model is homogenous or heterogenous.
-#' The dots argument allows to specify values for possible extra slots
+#' \code{\link[xnet:tskrrTune-class]{tskrrTune}} class into each other,
+#' keeping track of whether the model is homogenous or heterogeneous.
+#' The dots argument allows specifying values for possible extra slots
 #' when converting from \code{tskrr} to \code{tskrrTune}.
 #' More information on these slots can be found
-#' at the help page of \code{\link[xnet:tskrrTune-class]{tskrrTune}}.
-#' These functions are not exported.
+#' on the help page of \code{\link[xnet:tskrrTune-class]{tskrrTune}}.
+#' **These functions are not exported.**
 #'
 #' @section \bold{Warning}:
 #' This functions do NOT tune a model. they are used internally to

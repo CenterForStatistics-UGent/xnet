@@ -28,8 +28,8 @@ fitted with the new lambdas.
 }
 \description{
 This function allows you to refit a \code{\link{tskrr}} with a
-new lambda. It can be used to do manual tuning/crossvalidation.
-If the object has the hat matrices stored, these will be updated
+new lambda. It can be used to do manual tuning/cross-validation.
+If the object has the hat matrices stored, these are updated
 as well.
 }
 \examples{

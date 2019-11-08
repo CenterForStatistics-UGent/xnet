@@ -15,7 +15,7 @@ eigen2matrix(eigen, val)
 \arguments{
 \item{eigen}{a matrix with the eigenvectors.}
 
-\item{val}{an numeric vector with the eigen values.}
+\item{val}{an numeric vector with the eigenvalues.}
 
 \item{lambda}{a single numeric value for the hyperparameter lambda}
 }
@@ -25,9 +25,9 @@ a numeric matrix representing either the hat matrix
 the original matrix (\code{eigen2matrix})
 }
 \description{
-This functions calculate either the hat matrix, the mapping matrix or
+These functions calculate either the hat matrix, the mapping matrix or
 the original (kernel) matrix for a two-step kernel ridge regression,
-based on the eigen decomposition of the kernel matrix.
+based on the eigendecomposition of the kernel matrix.
 }
 \details{
 For the hat matrix, this boils down to:
@@ -39,7 +39,7 @@ For the map matrix, this is :
 \deqn{U(\Sigma + \lambda I)^{-1} U^{T}}
 
 with \eqn{U} the matrix with eigenvectors, \eqn{\Sigma} a diagonal matrix
-with the eigen values on the diagonal, \eqn{I} the identity matrix and
+with the eigenvalues on the diagonal, \eqn{I} the identity matrix and
 \eqn{\lambda} the hyperparameter linked to this kernel.
 The internal calculation is optimized to avoid having to invert
 a matrix. This is done using the fact that \eqn{\Sigma} is a

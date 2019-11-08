@@ -6,7 +6,7 @@
 #'
 #' @param x a \code{\link[xnet:tskrrImpute-class]{tskrrImpute}} object or
 #' an object inheriting from \code{tskrrImpute}.
-#' @param ... arguments passed to other methods/
+#' @param ... arguments passed to other methods.
 #'
 #' @return For \code{has_imputed_values}: a logical value indicating whether
 #' the model has imputed values. If \code{x} is not some form of a
@@ -19,7 +19,17 @@
 #'
 #' mod <- tskrr(drugTargetInteraction, targetSim, drugSim)
 #'
-#' # NEED MORE EXAMPLES!
+#' naid <- sample(length(drugTargetInteraction), 30)
+#' drugTargetInteraction[naid] <- NA
+#'
+#' impmod <- impute_tskrr(drugTargetInteraction, targetSim, drugSim)
+#'
+#' has_imputed_values(mod)
+#' has_imputed_values(impmod)
+#'
+#' # For illustration: extract imputed values
+#' id <- is_imputed(impmod)
+#' fitted(impmod)[id]
 #'
 #' @include all_generics.R
 #' @rdname getters-tskrrImpute
@@ -42,7 +52,7 @@ which_imputed <- function(x){
 
 #' @rdname getters-tskrrImpute
 #' @return for \code{is_imputed}: a matrix of the same dimensions as the
-#' adjacency matrix. It contains the value \code{FALSE} at positions that
+#' label matrix. It contains the value \code{FALSE} at positions that
 #' were not imputed, and \code{TRUE} at positions that were.
 #' @export
 is_imputed <- function(x){

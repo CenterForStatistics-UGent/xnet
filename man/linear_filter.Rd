@@ -2,12 +2,12 @@
 % Please edit documentation in R/linear_filter.R
 \name{linear_filter}
 \alias{linear_filter}
-\title{Fit a linear filter over an adjacency matrix}
+\title{Fit a linear filter over a label matrix}
 \usage{
 linear_filter(y, alpha = 0.25, na.rm = FALSE)
 }
 \arguments{
-\item{y}{an adjacency matrix}
+\item{y}{a label matrix}
 
 \item{alpha}{a vector with 4 alpha values, or a single alpha value
 which then is used for all 4 alphas.}
@@ -19,14 +19,14 @@ be removed before calculating the row-, column- and total means.}
 an object of class \code{\link[=linearFilter-class]{linearFilter}}
 }
 \description{
-This function fits a linear filter over an adjacency matrix. It calculates
+This function fits a linear filter over a label matrix. It calculates
 the row, column and total means, and uses those to construct the linear
 filter.
 }
 \details{
 If there are missing values and they are removed before calculating the
 means, a warning is issued. If \code{na.rm = FALSE} and there are
-missing values present, the outcome is by definition a matrix filled
+missing values present, the outcome is, by definition, a matrix filled
 with NA values.
 }
 \examples{

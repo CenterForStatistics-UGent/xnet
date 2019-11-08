@@ -10,7 +10,7 @@ valid_dimensions(y, k, g = NULL)
 is_square(x)
 }
 \arguments{
-\item{y}{a response matrix}
+\item{y}{a label matrix}
 
 \item{k}{a kernel matrix}
 
@@ -23,11 +23,11 @@ a logical value indicating whether the dimensions of the
 matrices are compatible for a two step kernel ridge regression.
 }
 \description{
-This functions allow you to check whether the dimensions of the
-response matrix and the kernel matrix (matrices) are compatible.
+These functions allow you to check whether the dimensions of the
+label matrix and the kernel matrix (matrices) are compatible.
 \code{valid_dimensions} checks whether both k and g are square matrices,
 whether y has as many rows as k and whether y has as many columns as g.
-\code{is_square} just checks whether both dimensions are the same.
+\code{is_square} checks whether both dimensions are the same.
 }
 \note{
 The function \code{is_square} is not exported

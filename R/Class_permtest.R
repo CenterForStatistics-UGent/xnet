@@ -72,9 +72,12 @@ setValidity("permtest", validPermtest)
 }
 
 # Show method
+#' @param digits the number of digits shown in the output
 #' @rdname permtest
 #' @export
-print.permtest <- function(x, digits = max(3L, getOption("digits") - 3)){
+print.permtest <- function(x,
+                           digits = max(3L, getOption("digits") - 3),
+                           ...){
 
   if(identical(x@loss_function, loss_mse))
     loss_name <- "Mean Squared Error (loss_mse)"

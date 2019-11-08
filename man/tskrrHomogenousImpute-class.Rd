@@ -10,7 +10,8 @@ The class \code{tskrrHomogenousImpute} is a subclass of the
 class \code{\link[xnet:tskrrHomogenous-class]{tskrrHomogenous}} and
 \code{\link[xnet:tskrrImpute-class]{tskrrImpute}}
 specifically for homogenous networks with imputed values. It is
-the result of the function \code{\link{impute_tskrr}}.
+the result of the function \code{\link{impute_tskrr}} on a
+homogenous network model.
 }
 \section{Slots}{
 

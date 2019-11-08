@@ -2,7 +2,7 @@
 % Please edit documentation in R/impute_tskrr.R
 \name{impute_tskrr}
 \alias{impute_tskrr}
-\title{Impute missing values in a adjacency matrix}
+\title{Impute missing values in a label matrix}
 \usage{
 impute_tskrr(y, k, g = NULL, lambda = 0.01, testdim = TRUE,
   testlabels = TRUE, symmetry = c("auto", "symmetric", "skewed"),
@@ -10,7 +10,7 @@ impute_tskrr(y, k, g = NULL, lambda = 0.01, testdim = TRUE,
   start = mean(y, na.rm = TRUE), verbose = FALSE)
 }
 \arguments{
-\item{y}{a response matrix}
+\item{y}{a label matrix}
 
 \item{k}{a kernel matrix for the rows}
 
@@ -32,7 +32,7 @@ speed up the function.}
 
 \item{symmetry}{a character value with the possibilities
 "auto", "symmetric" or "skewed". In case of a homogenous fit, you
-can either specify whether the adjacency matrix is symmetric or
+can either specify whether the label matrix is symmetric or
 skewed, or you can let the function decide (option "auto").}
 
 \item{keep}{a logical value indicating whether the kernel hat
@@ -58,8 +58,8 @@ A \code{tskrr} model of the class \code{\link{tskrrHeterogenousImpute}} or \code
 not \code{g} has a value.
 }
 \description{
-This function implements an optimization algorithm that allows to
-impute missing values in the adjacency matrix while fitting a
+This function implements an optimization algorithm that allows
+imputing missing values in the label matrix while fitting a
 \code{tskrr} model.
 }
 \examples{

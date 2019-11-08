@@ -61,8 +61,8 @@ setMethod("permtest","tskrrHeterogenous",
     stop("n should be a positive integer value.")
 
   # extract information
-  k <- get_kernel(x, "row")
-  g <- get_kernel(x, "column")
+  k <- get_kernelmatrix(x, "row")
+  g <- get_kernelmatrix(x, "column")
   y <- response(x)
   lambdas <- lambda(x)
 
@@ -116,7 +116,7 @@ setMethod("permtest","tskrrHomogenous",
               stop("n should be a positive integer value.")
 
             # extract information
-            k <- get_kernel(x, "row")
+            k <- get_kernelmatrix(x, "row")
             y <- response(x)
             lambdas <- lambda(x)
 

@@ -2,12 +2,12 @@
 #'
 #' This function provides an interface for two-step kernel ridge regression.
 #' To use this function, you need at least one kernel matrix and one
-#' interaction matrix. It's the internal engine used by the function
+#' label matrix. It's the internal engine used by the function
 #' \code{\link{tskrr}}.
 #'
-#' This function is mostly available for internal use. In most cases it
+#' This function is mostly available for internal use. In most cases, it
 #' makes much more sense to use \code{\link{tskrr}}, as that function
-#' returns an object one can actually work with. The function
+#' returns an object one can work with. The function
 #' \code{tskrr.fit} could be useful when doing simulations or
 #' fitting algorithms, as the information returned from this function
 #' is enough to use the functions returned by \code{\link{get_loo_fun}}.

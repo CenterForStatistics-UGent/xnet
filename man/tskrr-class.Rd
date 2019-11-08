@@ -32,5 +32,5 @@ are stored in the object.}
 
 \seealso{
 the classes \code{\link{tskrrHomogenous}} and
-\code{\link{tskrrHeterogenous}} for the actual classes
+\code{\link{tskrrHeterogenous}} for the actual classes.
 }

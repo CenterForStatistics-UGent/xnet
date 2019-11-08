@@ -36,13 +36,13 @@ should be simply removed (\code{FALSE}) or replaced by 0 (\code{TRUE}).}
 a matrix(!) with the requested residuals
 }
 \description{
-This function allows you to calculate the residuals for
+This function returns the residuals for
 an object inheriting from class \code{\link[xnet:tskrr-class]{tskrr}}
 }
 \details{
-The parameter \code{exclusion} defines what exactly is left out.
+The parameter \code{exclusion} defines what is left out.
 The value "interaction" means that a single interaction is removed.
-In the case of a homogenous model this can be interpreted as the
+In the case of a homogenous model, this can be interpreted as the
 removal of the interaction between two edges. The values "row" and
 "column" mean that all interactions for a row edge resp. a column
 edge are removed. The value "both" removes all interactions for
@@ -51,10 +51,10 @@ a row and a column edge.
 In the case of a homogenous model, "row" and "column" don't make sense
 and will be replaced by "both" with a warning. This can be interpreted
 as removing vertices, i.e. all interactions between one edge and
-all other edges. For more information, see Stock et al(2018).
+all other edges. For more information, see Stock et al. (2018).
 
-Replacying by 0 only makes sense when \code{exclusion = "interaction"} and the
-response matrix contains only 0 and 1 values. The function checks whether
+Replacing by 0 only makes sense when \code{exclusion = "interaction"} and the
+label matrix contains only 0 and 1 values. The function checks whether
 the conditions are fulfilled and if not, returns an error.
 }
 \examples{

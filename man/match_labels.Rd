@@ -2,12 +2,12 @@
 % Please edit documentation in R/match_labels.R
 \name{match_labels}
 \alias{match_labels}
-\title{Reorder the adjacency matrix}
+\title{Reorder the label matrix}
 \usage{
 match_labels(y, rows, cols = NULL)
 }
 \arguments{
-\item{y}{a matrix representing the adjacency matrix.}
+\item{y}{a matrix representing the label matrix.}
 
 \item{rows}{a character vector with the labels for the rows or a matrix
 with rownames that will be used as labels.}
@@ -20,8 +20,8 @@ used for both row and column labels.}
 a matrix with the rows and columns reordered.
 }
 \description{
-Reorders the adjacency matrix based on the labels of the kernel matrices.
-In case there are no labels, the original adjacency matrix is returned,
+Reorders the label matrix based on the labels of the kernel matrices.
+In case there are no labels, the original label matrix is returned,
 but with the labels in \code{rows} and \code{cols} as rownames and
 column names respectively.
 }

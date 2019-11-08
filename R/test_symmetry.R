@@ -1,9 +1,9 @@
 #' test the symmetry of a matrix
 #'
 #' This function tells you whether a matrix is symmetric,
-#' skewed symmetric or not symmetric. It's used by \code{\link{tskrr}}
+#' skewed symmetric, or not symmetric. It's used by \code{\link{tskrr}}
 #' to determine which kind of homologous network is represented by
-#' the adjacency matrix.
+#' the label matrix.
 #'
 #' @param x a matrix
 #' @param tol a single numeric value with the tolerance for comparison

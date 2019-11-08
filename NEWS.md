@@ -6,6 +6,8 @@
 
 ### New features
 
+* the `permtest` class now has getters that allow to extract the information from the test.
+
 ### Bug fixes and minor improvements
 
 * All help pages are checked and corrected.

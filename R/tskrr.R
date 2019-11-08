@@ -1,10 +1,10 @@
 #' Fitting a two step kernel ridge regression
 #'
-#' \code{tskrr} is the main function for fitting a two step kernel
-#' ridge regression. It can be used for both homogenous and heterogenous
+#' \code{tskrr} is the primary function for fitting a two-step kernel
+#' ridge regression model. It can be used for both homogenous and heterogeneous
 #' networks.
 #'
-#' @param y a response matrix
+#' @param y a label matrix
 #' @param k a kernel matrix for the rows
 #' @param g an optional kernel matrix for the columns
 #' @param lambda a numeric vector with one or two values for the
@@ -20,7 +20,7 @@
 #' speed up the function.
 #' @param symmetry a character value with the possibilities
 #' "auto", "symmetric" or "skewed". In case of a homogenous fit, you
-#' can either specify whether the adjacency matrix is symmetric or
+#' can either specify whether the label matrix is symmetric or
 #' skewed, or you can let the function decide (option "auto").
 #' @param keep a logical value indicating whether the kernel hat
 #' matrices should be stored in the model object. Doing so makes the
@@ -135,4 +135,3 @@ tskrr <- function(y,k,g = NULL,
   }
   return(out)
 }
-

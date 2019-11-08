@@ -1,9 +1,9 @@
 #' Test symmetry of a matrix
 #'
-#' The function \code{\link[base]{isSymmetric}} tests symmetry but also
-#' takes row and column names into account. This function is a toned
-#' down (and slightly faster) version that ignores row and column names.
-#' Currently the function only works for real matrices, not complex ones.
+#' The function \code{\link[base]{isSymmetric}} tests for symmetry of a matrix but also
+#' takes row and column names into account. This function is a toned-down
+#' (and slightly faster) version that ignores row and column names.
+#' Currently, the function only works for real matrices, not complex ones.
 #'
 #' @param x a matrix to be tested.
 #' @param tol the tolerance for comparing the numbers.

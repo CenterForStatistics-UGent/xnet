@@ -1,36 +1,35 @@
 #' predict method for tskrr fits
 #'
-#' Obtains predictions from a \code{\link{tskrr}} model for new data.
-#' Predictions can be calculated between new nodes and the nodes
-#' used to train the model and/or between new sets of nodes. Which
-#' predictions are given, depends on the kernel matrices passed to the
-#' function. See also the Details section and examples.
-#'
-#' The kernel matrices used for the \code{k} and \code{g} arguments,
-#' should contain the values of the kernel function between the nodes
-#' for which the links need to be predicted, and the nodes used for
-#' training the model. The rows represent the prediction nodes,
-#' the columns represent the training nodes.
-#'
-#' To predict the links between a new set of nodes and the training
-#' nodes, you need to provide the kernel matrix for either the K
-#' or the G set of nodes. If you want to predict the mutual links
-#' between two new sets of nodes, you have to provide both the
-#' K and the G matrix. This is particularly important for homogenous
-#' networks: if you only supply the \code{k} argument, you will get
-#' predictions for the links between the new nodes and the nodes
-#' on which the model is trained. So in order to get the
-#' mutual links between the new nodes, you need to provide the kernel
-#' matrix as the value for both the \code{k} and the \code{g} argument.
-#'
+#' Obtains the predictions from a \code{\link{tskrr}} model for new data.
 #' To get the predictions on the training data,
 #' use the function \code{\link[xnet:fitted]{fitted}}
 #' or set both \code{k} and \code{g} to \code{NULL}.
 #'
+#' Predictions can be calculated between new vertices and the vertices
+#' used to train the model, between new sets of vertices, or both. Which
+#' predictions are given, depends on the kernel matrices passed to the
+#' function.
+#'
+#' In any case, both the K and G matrix need the kernel values for
+#' every combination of the new vertices and the vertices used to
+#' train the model. This is illustrated for both homogenous and
+#' heterogenous networks in the examples.
+#'
+#' To predict the links between a new set of vertices and the training
+#' vertices, you need to provide the kernel matrix for either the K
+#' or the G set of vertices. If you want to predict the mutual links
+#' between two new sets of vertices, you have to provide both the
+#' K and the G matrix. This is particularly important for homogenous
+#' networks: if you only supply the \code{k} argument, you will get
+#' predictions for the links between the new vertices and the vertices
+#' on which the model is trained. So in order to get the
+#' mutual links between the new vertices, you need to provide the kernel
+#' matrix as the value for both the \code{k} and the \code{g} argument.
+#'
 #' @section Warning:
 #' This function is changed in version 0.1.9 so it's more consistent
 #' in how it expects the K and G matrices to be ordered. Up to version
-#' 0.1.8 the new nodes should be on the rows for the K matrix and on
+#' 0.1.8 the new vertices should be on the rows for the K matrix and on
 #' the columns for the G matrix. This lead to confusion.
 #'
 #' If you're using old code, you'll get an error pointing this out.
@@ -113,7 +112,7 @@ predict.tskrr <- function(object,
 
     if(!knull && ncol(k) != dims[1]){
       stopmsg <- paste("The k matrix needs",dims[1],
-                       "columns. The new nodes should be on the rows.")
+                       "columns. The new vertices should be on the rows.")
       if(nrow(k) == dims[1])
         stopmsg <- paste(stopmsg,
                          "/nYou might have transposed the K matrix.",
@@ -124,7 +123,7 @@ predict.tskrr <- function(object,
 
     if(!gnull && ncol(g) != dims[2]){
       stopmsg <- paste("The g matrix needs",dims[2],
-                       "columns. The new nodes should be on the rows.")
+                       "columns. The new vertices should be on the rows.")
 
       if(nrow(g) == dims[2]){
         stopmsg <- paste(stopmsg,

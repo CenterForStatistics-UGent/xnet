@@ -3,6 +3,7 @@
 \docType{methods}
 \name{dim,tskrr-method}
 \alias{dim,tskrr-method}
+\alias{dim.tskrr}
 \title{Get the dimensions of a tskrr object}
 \usage{
 \S4method{dim}{tskrr}(x)
@@ -17,7 +18,7 @@ and the number of columns.
 \description{
 These functions allow you to extract the dimensions of a tskrr
 object. These dimensions are essentially the dimensions of the
-adjacency matrix y.
+label matrix y.
 }
 \examples{
 data(drugtarget)

@@ -15,7 +15,7 @@ decomposition of the first kernel matrix.}
 
 \item{g}{an optional object of class \code{\link{eigen}} containing
 the eigen decomposition of the second kernel matrix. If \code{NULL},
-the network is considered to be homogenous.}
+the network is considered to be homogeneous.}
 
 \item{lambda.k}{a numeric value for the lambda parameter tied
 to the first kernel.}
@@ -31,7 +31,7 @@ a list with three elements:
 \itemize{
    \item k : the hat matrix for the rows
    \item g : the hat matrix for the columns (or \code{NULL})
-   for homogenous networks.
+   for homogeneous networks.
    \item pred : the predictions
 }
 }

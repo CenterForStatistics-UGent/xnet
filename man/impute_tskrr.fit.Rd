@@ -12,7 +12,7 @@ impute_tskrr.fit(y, Hk, Hg, naid = NULL, niter, tol, start, verbose)
 \item{Hk}{a hat matrix for the rows (see also \code{\link{eigen2hat}}
 on how to calculate them from an eigen decomposition)}
 
-\item{Hg}{a hat matrix for the columns. For homogenous networks, this
+\item{Hg}{a hat matrix for the columns. For homogeneous networks, this
 should be Hk again.}
 
 \item{naid}{an optional index with the values that have to be imputed,

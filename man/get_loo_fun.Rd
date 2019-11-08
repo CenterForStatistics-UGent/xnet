@@ -3,8 +3,8 @@
 \docType{methods}
 \name{get_loo_fun}
 \alias{get_loo_fun}
-\alias{get_loo_fun,tskrrHeterogenous-method}
-\alias{get_loo_fun,tskrrHomogenous-method}
+\alias{get_loo_fun,tskrrHeterogeneous-method}
+\alias{get_loo_fun,tskrrHomogeneous-method}
 \alias{get_loo_fun,linearFilter-method}
 \alias{get_loo_fun,character-method}
 \alias{get_loo_fun,tskrrTune-method}
@@ -12,16 +12,17 @@
 \usage{
 get_loo_fun(x, ...)
 
-\S4method{get_loo_fun}{tskrrHeterogenous}(x, exclusion = c("interaction",
-  "row", "column", "both"), replaceby0 = FALSE)
+\S4method{get_loo_fun}{tskrrHeterogeneous}(x,
+  exclusion = c("interaction", "row", "column", "both"),
+  replaceby0 = FALSE)
 
-\S4method{get_loo_fun}{tskrrHomogenous}(x, exclusion = c("interaction",
+\S4method{get_loo_fun}{tskrrHomogeneous}(x, exclusion = c("interaction",
   "both"), replaceby0 = FALSE)
 
 \S4method{get_loo_fun}{linearFilter}(x, replaceby0 = FALSE)
 
-\S4method{get_loo_fun}{character}(x = c("tskrrHeterogenous",
-  "tskrrHomogenous", "linearFilter"), ...)
+\S4method{get_loo_fun}{character}(x = c("tskrrHeterogeneous",
+  "tskrrHomogeneous", "linearFilter"), ...)
 
 \S4method{get_loo_fun}{tskrrTune}(x, ...)
 }
@@ -40,9 +41,9 @@ should be simply removed (\code{FALSE}) or replaced by 0 (\code{TRUE}).}
 \value{
 a function taking the arguments y, and possibly pred
 for calculating the leave-one-out cross-validation. For class
-\code{tskrrHeterogenous}, the returned function also
+\code{tskrrHeterogeneous}, the returned function also
 has an argument Hk and Hg, representing the hat matrix for the rows
-and the columns respectively. For class \code{tskrrHomogenous},
+and the columns respectively. For class \code{tskrrHomogeneous},
 only the extra argument Hk is available. For class \code{linearFilter},
 the extra argument is called \code{alpha} and takes the alpha vector
 of that model.
@@ -63,7 +64,7 @@ functions in \code{\link{loo_internal}}.
 Using \code{replaceby0} only makes sense if you only remove the interaction.
 In all other cases, this argument is ignored.
 
-For the class \code{tskrrHomogenous}, it doesn't make sense opnly to
+For the class \code{tskrrHomogeneous}, it doesn't make sense opnly to
 remove rows or columns. If you chose this option, the function will
 throw an error.
 For the class \code{linearFilter} it only makes sense to exclude the

@@ -1,8 +1,8 @@
-#' Class tskrrHeterogenous
+#' Class tskrrHeterogeneous
 #'
-#' The class tskrrHeterogenous is a subclass of the superclass
+#' The class tskrrHeterogeneous is a subclass of the superclass
 #' \code{\link[xnet:tskrr-class]{tskrr}} specifically for
-#' heterogenous networks.
+#' heterogeneous networks.
 #'
 #' @slot y the matrix with responses
 #' @slot k the eigen decomposition of the kernel matrix for the rows
@@ -20,11 +20,11 @@
 #' are integers indicating the row resp column number.
 #'
 #' @include Class_tskrr.R
-#' @rdname tskrrHeterogenous-class
-#' @name tskrrHeterogenous-class
-#' @aliases tskrrHeterogenous
-#' @exportClass tskrrHeterogenous
-setClass("tskrrHeterogenous",
+#' @rdname tskrrHeterogeneous-class
+#' @name tskrrHeterogeneous-class
+#' @aliases tskrrHeterogeneous
+#' @exportClass tskrrHeterogeneous
+setClass("tskrrHeterogeneous",
          contains = "tskrr",
          slots = c(g = "eigen",
                    lambda.g = "numeric",
@@ -37,7 +37,7 @@ setClass("tskrrHeterogenous",
                           )
          )
 
-validTskrrHeterogenous <- function(object){
+validTskrrHeterogeneous <- function(object){
 
   if(length(object@lambda.g) != 1)
     return("lambda.g should be a single value")
@@ -61,4 +61,4 @@ validTskrrHeterogenous <- function(object){
     return(TRUE)
 }
 
-setValidity("tskrrHeterogenous", validTskrrHeterogenous)
+setValidity("tskrrHeterogeneous", validTskrrHeterogeneous)

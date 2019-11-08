@@ -1,4 +1,4 @@
-context("tuning heterogenous models")
+context("tuning heterogeneous models")
 
 dfile <- system.file("testdata","testdata.rda", package = "xnet")
 

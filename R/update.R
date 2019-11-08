@@ -40,12 +40,12 @@
 #' @rdname update
 #' @export
 setMethod("update",
-          "tskrrHomogenous",
+          "tskrrHomogeneous",
           function(object, lambda){
 
             if(missing(lambda) || !is.numeric(lambda) || length(lambda) != 1){
               stop(paste("lambda should be a single numeric value",
-                         "for homogenous networks."))
+                         "for homogeneous networks."))
             }
 
             decomp <- get_eigen(object)
@@ -66,7 +66,7 @@ setMethod("update",
 #' @rdname update
 #' @export
 setMethod("update",
-          "tskrrHeterogenous",
+          "tskrrHeterogeneous",
           function(object, lambda){
 
             if(missing(lambda) ||

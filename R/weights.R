@@ -20,7 +20,7 @@
 #' @aliases weights
 #' @export
 setMethod("weights",
-          "tskrrHeterogenous",
+          "tskrrHeterogeneous",
           function(object){
             eigK <- get_eigen(object, 'row')
             eigG <- get_eigen(object, 'column')
@@ -35,7 +35,7 @@ setMethod("weights",
 #' @rdname weights
 #' @export
 setMethod("weights",
-          "tskrrHomogenous",
+          "tskrrHomogeneous",
           function(object){
             eigK <- get_eigen(object)
             l <- lambda(object)

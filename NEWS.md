@@ -3,6 +3,7 @@
 ### Breaking changes
 
 * `get_kernel` is renamed `get_kernelmatrix`. the function `get_kernel` is deprecated.
+* `tskrrHomogenous` and dependent classes are now called `tskrrHomogeneous`. The same correction is done for `tskrrHeterogenous` to `tskrrHeterogeneous`. This might affect code that uses `get_loo_fun` based on the class name.
 
 ### New features
 

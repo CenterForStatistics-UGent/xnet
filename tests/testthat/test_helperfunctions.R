@@ -60,7 +60,7 @@ test_that("Input is checked correctly", {
                            testdim = TRUE, testlabels = TRUE),
                list(lambda.k = 1e-4,
                     lambda.g = 1e-4,
-                    homogenous = FALSE)
+                    homogeneous = FALSE)
   )
   expect_error(.test_input(1:10,K,G), "y should be a matrix")
   expect_error(.test_input(Y,1:10,G), "k should be a matrix")
@@ -78,7 +78,7 @@ test_that("Input is checked correctly", {
   expect_equal(.test_input(Yna,K,G, checkna = FALSE),
                list(lambda.k = 1e-4,
                     lambda.g = 1e-4,
-                    homogenous = FALSE))
+                    homogeneous = FALSE))
 
   # Test dimensions
   expect_error(.test_input(Y,K, g=NULL),

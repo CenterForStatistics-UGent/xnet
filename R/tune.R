@@ -15,7 +15,7 @@
 #' for the two parameters that need tuning. To do so, you need to
 #' provide a list with the settings for every parameter to the arguments
 #' \code{lim}, \code{ngrid} and/or \code{lambda}. If you
-#' try this for a homogenous network, the function will return an error.
+#' try this for a homogeneous network, the function will return an error.
 #'
 #' Alternatively, you can speed up the grid search by searching in a
 #' single dimension. When \code{onedim = TRUE}, the search for a
@@ -40,8 +40,8 @@
 #' in a single dimension of the grid, or possibly a list with 2 elements.
 #' See details.
 #' @param lambda a vector with the lambdas that need checking for
-#' homogenous networks, or possibly a list with two elements for
-#' heterogenous networks. See Details. Defaults to
+#' homogeneous networks, or possibly a list with two elements for
+#' heterogeneous networks. See Details. Defaults to
 #' \code{NULL}, which means that the function constructs the search grid
 #' from the other arguments.
 #' @param fun a loss function that takes the label matrix Y and the
@@ -89,7 +89,7 @@ NULL
 #' @rdname tune
 #' @export
 setMethod("tune",
-          "tskrrHomogenous",
+          "tskrrHomogeneous",
           function(x,
                    lim = c(1e-4,1),
                    ngrid = 10,
@@ -101,11 +101,11 @@ setMethod("tune",
                    ...){
 
             if(!onedim)
-              warning("Only one-dimensional search is possible for homogenous networks.")
+              warning("Only one-dimensional search is possible for homogeneous networks.")
             fun <- match.fun(fun)
-            lambda <- .prepare_lambdas(lim, ngrid, lambda, homogenous = TRUE)
+            lambda <- .prepare_lambdas(lim, ngrid, lambda, homogeneous = TRUE)
 
-            loofun <- .getloo_homogenous(exclusion = exclusion,
+            loofun <- .getloo_homogeneous(exclusion = exclusion,
                                          symmetry = symmetry(x),
                                          replaceby0 = replaceby0)
 
@@ -143,7 +143,7 @@ setMethod("tune",
 #' @rdname tune
 #' @export
 setMethod("tune",
-          "tskrrHeterogenous",
+          "tskrrHeterogeneous",
           function(x,
                    lim = c(1e-4,1),
                    ngrid = 10,
@@ -156,14 +156,14 @@ setMethod("tune",
 
             fun <- match.fun(fun)
             lambda <- .prepare_lambdas(lim, ngrid, lambda,
-                                       homogenous = FALSE,
+                                       homogeneous = FALSE,
                                        onedim = onedim)
 
             # Prepare objects
             decompr <- get_eigen(x, 'row')
             decompc <- get_eigen(x, 'column')
 
-            loofun <- .getloo_heterogenous(exclusion = exclusion,
+            loofun <- .getloo_heterogeneous(exclusion = exclusion,
                                            replaceby0 = replaceby0)
 
             loss <- function(l1, l2){
@@ -185,7 +185,7 @@ setMethod("tune",
               best_loss <- lval[best]
               best_lambda <- rep(lambda$k[best],2)
 
-              # Add correct data for heterogenous
+              # Add correct data for heterogeneous
               lval <- matrix(lval, ncol = 1) # must be a matrix
             } else {
               lval <- vapply(lambda$g,
@@ -238,13 +238,13 @@ setMethod("tune",
                    onedim = is.null(g),
                    ...){
 
-            homogenous <- is.null(g)
+            homogeneous <- is.null(g)
             fun <- match.fun(fun)
             # get initial lambdas
             lambda <- .prepare_lambdas(lim, ngrid, lambda,
-                                       homogenous = homogenous,
+                                       homogeneous = homogeneous,
                                        onedim = onedim)
-            if(homogenous){
+            if(homogeneous){
               init_lambda <- lambda$k[1]
             } else {
               init_lambda <- c(lambda$k[1], lambda$g[1])

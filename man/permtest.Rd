@@ -5,8 +5,8 @@
 \name{permtest}
 \alias{permtest}
 \alias{print.permtest}
-\alias{permtest,tskrrHeterogenous-method}
-\alias{permtest,tskrrHomogenous-method}
+\alias{permtest,tskrrHeterogeneous-method}
+\alias{permtest,tskrrHomogeneous-method}
 \alias{permtest,tskrrTune-method}
 \title{Calculate the relative importance of the edges}
 \usage{
@@ -15,12 +15,12 @@ permtest(x, ...)
 \method{print}{permtest}(x, digits = max(3L, getOption("digits") - 3),
   ...)
 
-\S4method{permtest}{tskrrHeterogenous}(x, n = 100,
+\S4method{permtest}{tskrrHeterogeneous}(x, n = 100,
   permutation = c("both", "row", "column"),
   exclusion = c("interaction", "row", "column", "both"),
   replaceby0 = FALSE, fun = loss_mse)
 
-\S4method{permtest}{tskrrHomogenous}(x, n = 100,
+\S4method{permtest}{tskrrHomogeneous}(x, n = 100,
   permutation = c("both"), exclusion = c("interaction", "both"),
   replaceby0 = FALSE, fun = loss_mse)
 
@@ -39,7 +39,7 @@ permtest(x, ...)
 
 \item{permutation}{a character string that defines whether the row,
 column or both kernel matrices should be permuted. Ignored in case of
-a homogenous network}
+a homogeneous network}
 
 \item{exclusion}{the exclusion to be used in the \code{\link{loo}} function. See also \code{\link{get_loo_fun}}}
 
@@ -76,7 +76,7 @@ be used as a rough guidance in model evaluation.
 
 \examples{
 
-# Heterogenous network
+# Heterogeneous network
 
 data(drugtarget)
 

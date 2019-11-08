@@ -50,10 +50,10 @@ classes.
 After using the function `tskrr()`, one of the following classes is
 returned:
 
-  * `tskrrHomogenous` : for homogenous networks
-  * `tskrrHeterogenous` : for heterogenous networks
+  * `tskrrHomogeneous` : for homogeneous networks
+  * `tskrrHeterogeneous` : for heterogeneous networks
      
-These classes have similar slots, but the homogenous models don't need
+These classes have similar slots, but the homogeneous models don't need
 information on the column kernel matrix. The slots are listed below. In
 general the following design principles hold:
 
@@ -71,16 +71,16 @@ general the following design principles hold:
  the single element `k` will have one `NA` value. The function `labels()`
  will still construct default labels when required.
 
-### Slots defined by tskrrHomogenous
+### Slots defined by tskrrHomogeneous
 
-```{r Create slots tskrrHomogenous, results='asis', echo = FALSE}
-slotsToRmd("tskrrHomogenous")
+```{r Create slots tskrrHomogeneous, results='asis', echo = FALSE}
+slotsToRmd("tskrrHomogeneous")
 ```
 
-### Slots defined by tskrrHeterogenous
+### Slots defined by tskrrHeterogeneous
 
-```{r Create slots tskrrHeterogenous, results='asis', echo = FALSE}
-slotsToRmd("tskrrHeterogenous")
+```{r Create slots tskrrHeterogeneous, results='asis', echo = FALSE}
+slotsToRmd("tskrrHeterogeneous")
 ```
 
 Both classes inherit directly from the class `tskrr`. But these 
@@ -91,8 +91,8 @@ and `impute()` related classes inherit.
 
 When using the function `tune()`, you get one of the following classes:
 
-  * `tskrrTuneHomogenous` : for tuned homogenous networks. Inherits also from `tskrrHomogenous`.
-  * `tskrrTuneHeterogenous` : for tuned heterogenous networks. Inherits also from `tskrrHeterogenous`.
+  * `tskrrTuneHomogeneous` : for tuned homogeneous networks. Inherits also from `tskrrHomogeneous`.
+  * `tskrrTuneHeterogeneous` : for tuned heterogeneous networks. Inherits also from `tskrrHeterogeneous`.
      
 Apart from the slots of the respective `tskrr` class, the inheritance
 from `tskrrTune` adds the following slots:
@@ -120,8 +120,8 @@ These slots use the following design principles:
 When using the function `impute()`, you get one of the following 
 classes:
 
-  * `tskrrHomogenousImpute` : for homogenous networks with imputed data.
-  * `tskrrHeterogenousImpute` : for heterogenous networks with imputed data.
+  * `tskrrHomogeneousImpute` : for homogeneous networks with imputed data.
+  * `tskrrHeterogeneousImpute` : for heterogeneous networks with imputed data.
 
 Apart from the slots of the respective `tskrr` class, the inheritance
 from `tskrrImpute` adds the following slots:

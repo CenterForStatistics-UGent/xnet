@@ -3,15 +3,15 @@
 \docType{methods}
 \name{update}
 \alias{update}
-\alias{update,tskrrHomogenous-method}
-\alias{update,tskrrHeterogenous-method}
+\alias{update,tskrrHomogeneous-method}
+\alias{update,tskrrHeterogeneous-method}
 \title{Update a tskrr object with a new lambda}
 \usage{
 update(object, ...)
 
-\S4method{update}{tskrrHomogenous}(object, lambda)
+\S4method{update}{tskrrHomogeneous}(object, lambda)
 
-\S4method{update}{tskrrHeterogenous}(object, lambda)
+\S4method{update}{tskrrHeterogeneous}(object, lambda)
 }
 \arguments{
 \item{object}{a \code{\link[xnet:tskrr-class]{tskrr}} object}

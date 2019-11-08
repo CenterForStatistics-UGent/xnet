@@ -13,7 +13,7 @@
 #' @param y a label matrix
 #' @param Hk a hat matrix for the rows (see also \code{\link{eigen2hat}}
 #' on how to calculate them from an eigen decomposition)
-#' @param Hg a hat matrix for the columns. For homogenous networks, this
+#' @param Hg a hat matrix for the columns. For homogeneous networks, this
 #' should be Hk again.
 #' @param naid an optional index with the values that have to be imputed,
 #' i.e. at which positions you find a \code{NA} value. It can be a vector

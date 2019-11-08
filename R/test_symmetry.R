@@ -11,7 +11,7 @@
 #' @return a character value with the possible values "symmetric",
 #' "skewed" or "none".
 #'
-#' @seealso \code{\link{tskrrHomogenous}} for
+#' @seealso \code{\link{tskrrHomogeneous}} for
 #' more information on the values for the slot \code{symmetry}
 #'
 #' @examples

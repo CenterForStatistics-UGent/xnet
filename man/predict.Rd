@@ -44,14 +44,14 @@ function.
 
 In any case, both the K and G matrix need the kernel values for
 every combination of the new vertices and the vertices used to
-train the model. This is illustrated for both homogenous and
-heterogenous networks in the examples.
+train the model. This is illustrated for both homogeneous and
+heterogeneous networks in the examples.
 
 To predict the links between a new set of vertices and the training
 vertices, you need to provide the kernel matrix for either the K
 or the G set of vertices. If you want to predict the mutual links
 between two new sets of vertices, you have to provide both the
-K and the G matrix. This is particularly important for homogenous
+K and the G matrix. This is particularly important for homogeneous
 networks: if you only supply the \code{k} argument, you will get
 predictions for the links between the new vertices and the vertices
 on which the model is trained. So in order to get the
@@ -72,7 +72,7 @@ with the new version.
 
 \examples{
 
-## Predictions for homogenous networks
+## Predictions for homogeneous networks
 
 data(proteinInteraction)
 
@@ -91,7 +91,7 @@ predict(mod, testK, testK)
 predict(mod, testK)
 predict(mod, g = testK)
 
-## Predictions for heterogenous networks
+## Predictions for heterogeneous networks
 data("drugtarget")
 
 idnewK <- sample(nrow(targetSim), 10)

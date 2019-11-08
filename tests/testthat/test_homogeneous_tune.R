@@ -1,4 +1,4 @@
-context("tuning homogenous models")
+context("tuning homogeneous models")
 
 dfile <- system.file("testdata","testdataH.rda", package = "xnet")
 
@@ -20,7 +20,7 @@ test_that("input of tune is correctly processed",{
   expect_error(tune(mod, ngrid = list(12,12)),
                "ngrid .* single series of numeric values")
   expect_warning(tune(mod, onedim = FALSE),
-                 "one-dimensional search .* homogenous networks")
+                 "one-dimensional search .* homogeneous networks")
 
 })
 
@@ -85,7 +85,7 @@ test_that("loss is calculated correctly",{
 
 
 # Test behaviour as tskrr ---------------------------------
-test_that("get_loo_fun works correctly on tuned homogenous models",{
+test_that("get_loo_fun works correctly on tuned homogeneous models",{
   expect_identical(get_loo_fun(tuned,
                                exclusion = "interaction",
                                replaceby0 = TRUE),

@@ -55,7 +55,7 @@ setMethod("loss",
 
             fun <- match.fun(fun)
             exclusion <- match.arg(exclusion)
-                # needed to make this work for homogenous models!
+                # needed to make this work for homogeneous models!
             loo <- if(predictions){
               fitted(x)
             } else {

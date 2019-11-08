@@ -4,12 +4,12 @@
 \name{response,tskrr-method}
 \alias{response,tskrr-method}
 \alias{response}
-\alias{lambda,tskrrHomogenous-method}
-\alias{lambda,tskrrHeterogenous-method}
+\alias{lambda,tskrrHomogeneous-method}
+\alias{lambda,tskrrHeterogeneous-method}
 \alias{lambda}
 \alias{is_tskrr}
-\alias{is_homogenous}
-\alias{is_heterogenous}
+\alias{is_homogeneous}
+\alias{is_heterogeneous}
 \alias{symmetry}
 \alias{get_eigen}
 \alias{get_kernelmatrix}
@@ -19,15 +19,15 @@
 \usage{
 \S4method{response}{tskrr}(x, ...)
 
-\S4method{lambda}{tskrrHomogenous}(x)
+\S4method{lambda}{tskrrHomogeneous}(x)
 
-\S4method{lambda}{tskrrHeterogenous}(x)
+\S4method{lambda}{tskrrHeterogeneous}(x)
 
 is_tskrr(x)
 
-is_homogenous(x)
+is_homogeneous(x)
 
-is_heterogenous(x)
+is_heterogeneous(x)
 
 symmetry(x)
 
@@ -57,15 +57,15 @@ values used in the model. The names are "k" and "g" respectively.
 For \code{is_tskrr} a logical value indicating whether the
 object is a \code{tskrr} object
 
-For \code{is_homogenous} a logical value indicating whether the
-tskrr model is a homogenous one.
+For \code{is_homogeneous} a logical value indicating whether the
+tskrr model is a homogeneous one.
 
-For \code{is_heterogenous} a logical value indicating whether the
-tskrr model is a heterogenous one.
+For \code{is_heterogeneous} a logical value indicating whether the
+tskrr model is a heterogeneous one.
 
 For \code{symmetry} a character value indicating the symmetry
-for a \code{\link[xnet:tskrrHomogenous-class]{homogenous model}}. If
-the model is not homogenous, \code{NA} is returned.
+for a \code{\link[xnet:tskrrHomogeneous-class]{homogeneous model}}. If
+the model is not homogeneous, \code{NA} is returned.
 
 For \code{get_eigen} the eigen decomposition of the requested
 kernel matrix.
@@ -89,7 +89,7 @@ Use \code{get_kernelmatrix} instead.
 data(drugtarget)
 
 mod <- tskrr(drugTargetInteraction, targetSim, drugSim)
-is_homogenous(mod)
+is_homogeneous(mod)
 
 EigR <- get_eigen(mod)
 EigC <- get_eigen(mod, which = 'column')

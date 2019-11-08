@@ -31,6 +31,6 @@ test_symmetry(mat3)
 
 }
 \seealso{
-\code{\link{tskrrHomogenous}} for
+\code{\link{tskrrHomogeneous}} for
 more information on the values for the slot \code{symmetry}
 }

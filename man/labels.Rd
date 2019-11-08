@@ -10,10 +10,10 @@
 \alias{colnames,tskrr-method}
 \title{Extract labels from a tskrr object}
 \usage{
-\method{labels}{tskrr}(object, prefix = if (is_homogenous(object)) "row"
+\method{labels}{tskrr}(object, prefix = if (is_homogeneous(object)) "row"
   else c("row", "col"), ...)
 
-\S4method{labels}{tskrr}(object, prefix = if (is_homogenous(object))
+\S4method{labels}{tskrr}(object, prefix = if (is_homogeneous(object))
   "row" else c("row", "col"), ...)
 
 \S4method{dimnames}{tskrr}(x)
@@ -27,7 +27,7 @@
 
 \item{prefix}{a prefix used for construction of the labels in case
 none are available. For \code{label}, a character vector of length 1 for
-homogenous networks or of length 2 for heterogenous networks.
+homogeneous networks or of length 2 for heterogeneous networks.
 In case two values are given, the first is used for the rows and the second
 for the columns. Otherwise the only value is used for both. In the case of
 \code{rownames} and \code{colnames}, a single value.

@@ -1,18 +1,18 @@
-#' Class tskrrTuneHeterogenous
+#' Class tskrrTuneHeterogeneous
 #'
-#' The class tskrrTuneHeterogenous represents a tuned Heterogenous
+#' The class tskrrTuneHeterogeneous represents a tuned Heterogeneous
 #' \code{\link[xnet:tskrr-class]{tskrr}} model. It inherits from
-#' the classes \code{\link[xnet:tskrrHeterogenous-class]{tskrrHeterogenous}}
+#' the classes \code{\link[xnet:tskrrHeterogeneous-class]{tskrrHeterogeneous}}
 #' and \code{\link[xnet:tskrrTune-class]{tskrrTune}}.
 #'
-#' @rdname tskrrTuneHeterogenous-class
-#' @name tskrrTuneHeterogenous-class
-#' @aliases tskrrTuneHeterogenous
-#' @exportClass tskrrTuneHeterogenous
-setClass("tskrrTuneHeterogenous",
-         contains = c("tskrrTune", "tskrrHeterogenous"))
+#' @rdname tskrrTuneHeterogeneous-class
+#' @name tskrrTuneHeterogeneous-class
+#' @aliases tskrrTuneHeterogeneous
+#' @exportClass tskrrTuneHeterogeneous
+setClass("tskrrTuneHeterogeneous",
+         contains = c("tskrrTune", "tskrrHeterogeneous"))
 
-validTskrrTuneHeterogenous <- function(object){
+validTskrrTuneHeterogeneous <- function(object){
 
   lossval <- object@loss_values
   lgrid <- object@lambda_grid
@@ -20,7 +20,7 @@ validTskrrTuneHeterogenous <- function(object){
   onedim <- object@onedim
 
   if(!onedim && any(names(lgrid) != c("k","g")))
-    return("lambda grid should be a list with two elements named k and g (in that order) for heterogenous networks")
+    return("lambda grid should be a list with two elements named k and g (in that order) for heterogeneous networks")
   else if(onedim && any(names(lgrid) != "k") && length(lgrid) > 1)
     return("in a one-dimensional search there should only be a single element named k in the lambda grid.")
 
@@ -41,4 +41,4 @@ validTskrrTuneHeterogenous <- function(object){
 
 }
 
-setValidity("tskrrTuneHeterogenous", validTskrrTuneHeterogenous)
+setValidity("tskrrTuneHeterogeneous", validTskrrTuneHeterogeneous)

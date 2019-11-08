@@ -30,7 +30,7 @@ names of the matrices have to be checked for consistency. Defaults to
 speed up the function.}
 
 \item{symmetry}{a character value with the possibilities
-"auto", "symmetric" or "skewed". In case of a homogenous fit, you
+"auto", "symmetric" or "skewed". In case of a homogeneous fit, you
 can either specify whether the label matrix is symmetric or
 skewed, or you can let the function decide (option "auto").}
 
@@ -44,12 +44,12 @@ a \code{\link[xnet:tskrr-class]{tskrr}} object
 }
 \description{
 \code{tskrr} is the primary function for fitting a two-step kernel
-ridge regression model. It can be used for both homogenous and heterogeneous
+ridge regression model. It can be used for both homogeneous and heterogeneous
 networks.
 }
 \examples{
 
-# Heterogenous network
+# Heterogeneous network
 
 data(drugtarget)
 
@@ -58,7 +58,7 @@ mod <- tskrr(drugTargetInteraction, targetSim, drugSim)
 Y <- response(mod)
 pred <- fitted(mod)
 
-# Homogenous network
+# Homogeneous network
 
 data(proteinInteraction)
 

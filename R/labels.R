@@ -22,7 +22,7 @@
 #' the absence of labels.
 #' @param prefix a prefix used for construction of the labels in case
 #' none are available. For \code{label}, a character vector of length 1 for
-#' homogenous networks or of length 2 for heterogenous networks.
+#' homogeneous networks or of length 2 for heterogeneous networks.
 #' In case two values are given, the first is used for the rows and the second
 #' for the columns. Otherwise the only value is used for both. In the case of
 #' \code{rownames} and \code{colnames}, a single value.
@@ -36,23 +36,23 @@
 #' @method labels tskrr
 #' @export
 labels.tskrr <- function(object,
-                         prefix = if(is_homogenous(object)) "row" else c("row","col"), ...){
+                         prefix = if(is_homogeneous(object)) "row" else c("row","col"), ...){
 
   labs <- object@labels
 
-  homogenous <- is_homogenous(object)
+  homogeneous <- is_homogeneous(object)
 
 
   # Process the prefixes
   if(!is.character(prefix) || !is.vector(prefix))
     stop("prefix should be a character vector with maximum 2 values.")
   nref <- length(prefix)
-  if(nref == 1 && !homogenous)
-    stop("A heterogenous network needs 2 values for prefix.")
+  if(nref == 1 && !homogeneous)
+    stop("A heterogeneous network needs 2 values for prefix.")
   else if(nref > 2 || nref < 1)
     stop("prefix should contain 1 or 2 values. See also ?labels.")
-  else if(nref == 2 && homogenous)
-    warning(paste("Two prefixes were given for a homogenous model.",
+  else if(nref == 2 && homogeneous)
+    warning(paste("Two prefixes were given for a homogeneous model.",
                   "The second value", prefix[2],"is ignored."))
 
   # Generate the labels if no are available
@@ -60,7 +60,7 @@ labels.tskrr <- function(object,
     labs$k <- paste0(prefix[1], seq_len(nrow(object@y)))
   }
 
-  if(homogenous)
+  if(homogeneous)
     labs$g <- labs$k
   else if(length(labs$g) == 1 && is.na(labs$g))
     labs$g <- paste0(prefix[2], seq_len(ncol(object@y)))
@@ -107,7 +107,7 @@ setMethod("rownames",
 setMethod("colnames",
           "tskrr",
           function(x, do.NULL = TRUE, prefix = "col"){
-            rn <- if(is_homogenous(x)) x@labels$k else  x@labels$g
+            rn <- if(is_homogeneous(x)) x@labels$k else  x@labels$g
 
             nolabels <- length(rn) == 1 && is.na(rn)
 

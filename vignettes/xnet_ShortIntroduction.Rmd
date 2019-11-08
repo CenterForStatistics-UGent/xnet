@@ -30,8 +30,8 @@ Networks exist in all forms and shapes. `xnet` is a simple, but powerful package
 
 The two sets can contain the same types nodes (e.g. protein interaction
 networks) or different nodes (e.g. goods bought by clients in a recommender
-system). When the two sets are the same, we call this a *homogenous* network.
-A network between two different sets of nodes is called a *heterogenous* network.
+system). When the two sets are the same, we call this a *homogeneous* network.
+A network between two different sets of nodes is called a *heterogeneous* network.
 
 The interactions are presented in a *adjacency matrix*, noted **Y**.
 The rows of **Y** represent one set of nodes, the columns the second.
@@ -55,7 +55,7 @@ of different kernel functions.
 
 For the illustrations, we use two different datasets.
 
-#### Homogenous networks
+#### Homogeneous networks
 
 The example dataset `proteinInteraction` originates from a publication
 by [Yamanishi et al (2004)](https://doi.org/10.1093/bioinformatics/bth910).
@@ -66,9 +66,9 @@ consists of two objects:
  * the kernel matrix `Kmat_y2h_sc` describing the similarity between
  the proteins.
 
-#### Heterogenous networks
+#### Heterogeneous networks
 
-The dataset `drugtarget` serves as an example of a heterogenous network
+The dataset `drugtarget` serves as an example of a heterogeneous network
 and comes from a publication of [Yamanishi et al (2008)](https://doi.org/10.1093/bioinformatics/btn162). In order to get
 a correct kernel matrix, we recalculated the kernel matrices as explained
 in the vignette [Preparation of the example data](../doc/Preparation_example_data.html).
@@ -84,14 +84,14 @@ drugs, and the purpose is to predict new drug-target interactions.
 
 ## Fitting a two-step kernel ridge regression
 
-### Heterogenous network
+### Heterogeneous network
 
 To fit a two-step kernel ridge regression, you use the function `tskrr()`. This function needs to get some tuning parameter(s)
 `lambda`. You can choose to set 1 lambda for tuning **K**
 and **G** using the same lambda value, or you can specify
 a different lambda for **K** and **G**.
 
-```{r fit a heterogenous model}
+```{r fit a heterogeneous model}
 
 data(drugtarget)
 
@@ -103,12 +103,12 @@ drugmodel <- tskrr(y = drugTargetInteraction,
 drugmodel
 ```
 
-### Homogenous network
+### Homogeneous network
 
-For homogenous networks you use the same function, but you don't specify
+For homogeneous networks you use the same function, but you don't specify
 the **G** matrix. You also need only a single lambda:
 
-```{r fit a homogenous model}
+```{r fit a homogeneous model}
 data(proteinInteraction)
 
 proteinmodel <- tskrr(proteinInteraction,
@@ -254,13 +254,13 @@ one based on mean squared error (`loss_mse`) and one based on the area
 under the curve (`loss_auc`). But you can provide your own loss function
 too, if needed.
 
-### Homogenous networks
+### Homogeneous networks
 
-Homogenous networks have a single lambda value, and should hence only
+Homogeneous networks have a single lambda value, and should hence only
 search in a single dimension. The following code tests 20 lambda values
 between 0.001 and 10.
 
-```{r tune a homogenous network}
+```{r tune a homogeneous network}
 proteintuned <- tune(proteinmodel,
                      lim = c(0.001,10),
                      ngrid = 20,
@@ -293,9 +293,9 @@ plot(proteintuned, dendro = "none", main = "Protein interaction - LOO",
      cols = colnames(proteinmodel)[30:35])
 ```
 
-### Heterogenous networks
+### Heterogeneous networks
 
-For heterogenous networks, the tuning works the same way. Standard, the
+For heterogeneous networks, the tuning works the same way. Standard, the
 function `tune()` performs a two-dimensional grid search. To do a
 one-dimensional grid search (i.e. use the same lambda for **K** and
 **G**), you set the argument `onedim = TRUE`.

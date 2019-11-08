@@ -15,7 +15,7 @@
 #' of iterations and the final deviation", \code{2} means "show the deviation
 #' every 10 iterations". A value \code{TRUE} is read as \code{1}.
 #'
-#' @return A \code{tskrr} model of the class \code{\link{tskrrHeterogenousImpute}} or \code{\link{tskrrHomogenousImpute}} depending on whether or
+#' @return A \code{tskrr} model of the class \code{\link{tskrrHeterogeneousImpute}} or \code{\link{tskrrHomogeneousImpute}} depending on whether or
 #' not \code{g} has a value.
 #'
 #' @examples
@@ -47,7 +47,7 @@ impute_tskrr <- function(y,
 
   iptest <- .test_input(y,k,g,lambda,testdim,testlabels,
                         checkna = FALSE)
-  homogenous <- iptest$homogenous
+  homogeneous <- iptest$homogeneous
   lambda.k <- iptest$lambda.k
   lambda.g <- iptest$lambda.g
 
@@ -61,7 +61,7 @@ impute_tskrr <- function(y,
       y <- match_labels(y,rk,cg)
     if(!all(rk == ck))
       k <- match_labels(k,rk,rk)
-    if(!homogenous){
+    if(!homogeneous){
       rg <- rownames(g)
       if(!all(cg == rg))
         g <- match_labels(g,cg,cg)
@@ -72,19 +72,19 @@ impute_tskrr <- function(y,
 
   # CALCULATE EIGEN DECOMPOSITION
   k.eigen <- eigen(k, symmetric = TRUE)
-  g.eigen <- if(!homogenous) eigen(g, symmetric = TRUE) else NULL
+  g.eigen <- if(!homogeneous) eigen(g, symmetric = TRUE) else NULL
 
   # CALCULATE HAT MATRICES
   Hk <- eigen2hat(k.eigen$vectors, k.eigen$values, lambda.k)
 
-  Hg <- if(!homogenous)
+  Hg <- if(!homogeneous)
     eigen2hat(g.eigen$vectors, g.eigen$values, lambda.g)
   else
     Hk
 
   naid <- is.na(y)
 
-  if(homogenous){
+  if(homogeneous){
     # Test symmetry if required.
     symmetry <- match.arg(symmetry)
     if(symmetry == "auto"){
@@ -108,9 +108,9 @@ impute_tskrr <- function(y,
   if(is.null(cn)) cn <- NA_character_
 
   # CREATE OUTPUT
-  if(homogenous){
+  if(homogeneous){
 
-    out <- new("tskrrHomogenousImpute",
+    out <- new("tskrrHomogeneousImpute",
                y = imp$y,
                k = k.eigen,
                lambda.k = lambda.k,
@@ -124,7 +124,7 @@ impute_tskrr <- function(y,
                tol = tol
                )
   } else {
-    out <- new("tskrrHeterogenousImpute",
+    out <- new("tskrrHeterogeneousImpute",
                y = imp$y,
                k = k.eigen,
                g = g.eigen,

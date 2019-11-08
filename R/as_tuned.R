@@ -3,7 +3,7 @@
 #' These functions allow converting models that inherit from the
 #' \code{\link[xnet:tskrr-class]{tskrr}} and
 #' \code{\link[xnet:tskrrTune-class]{tskrrTune}} class into each other,
-#' keeping track of whether the model is homogenous or heterogeneous.
+#' keeping track of whether the model is homogeneous or heterogeneous.
 #' The dots argument allows specifying values for possible extra slots
 #' when converting from \code{tskrr} to \code{tskrrTune}.
 #' More information on these slots can be found
@@ -27,43 +27,43 @@
 #'
 #' @return For \code{as_tuned}:
 #' a \code{\link[xnet:tskrrTune-class]{tskrrTune}} object of
-#' the proper class (homogenous or heterogenous)
+#' the proper class (homogeneous or heterogeneous)
 #'
 #' @include all_generics.R
 #' @rdname as_tuned
-#' @method as_tuned tskrrHomogenous
+#' @method as_tuned tskrrHomogeneous
 setMethod("as_tuned",
-          "tskrrHomogenous",
+          "tskrrHomogeneous",
           function(x, ...){
 
-            x <- as(x, "tskrrTuneHomogenous")
+            x <- as(x, "tskrrTuneHomogeneous")
             initialize(x, ...)
           })
 
 #' @rdname as_tuned
-#' @method as_tuned tskrrHeterogenous
+#' @method as_tuned tskrrHeterogeneous
 setMethod("as_tuned",
-          "tskrrHeterogenous",
+          "tskrrHeterogeneous",
           function(x, ...){
 
-            x <- as(x, "tskrrTuneHeterogenous")
+            x <- as(x, "tskrrTuneHeterogeneous")
             initialize(x, ...)
           })
 
 #' @rdname as_tuned
 #' @return For \code{as_tskrr}: an object of class
-#' \code{\link[xnet:tskrrHomogenous-class]{tskrrHomogenous}} or
-#' \code{\link[xnet:tskrrHeterogenous-class]{tskrrHeterogenous}} depending
-#' on whether the original object was homogenous or heterogenous.
+#' \code{\link[xnet:tskrrHomogeneous-class]{tskrrHomogeneous}} or
+#' \code{\link[xnet:tskrrHeterogeneous-class]{tskrrHeterogeneous}} depending
+#' on whether the original object was homogeneous or heterogeneous.
 #'
 #' @method as_tskrr tskrrTune
 setMethod("as_tskrr",
           "tskrrTune",
           function(x){
-            if(is_homogenous(x))
-              as(x, "tskrrHomogenous")
+            if(is_homogeneous(x))
+              as(x, "tskrrHomogeneous")
             else
-              as(x, "tskrrHeterogenous")
+              as(x, "tskrrHeterogeneous")
           })
 
 #' @rdname as_tuned
@@ -71,10 +71,10 @@ setMethod("as_tskrr",
 setMethod("as_tskrr",
           "tskrrImpute",
           function(x){
-            if(is_homogenous(x))
-              as(x, "tskrrHomogenous")
+            if(is_homogeneous(x))
+              as(x, "tskrrHomogeneous")
             else
-              as(x, "tskrrHeterogenous")
+              as(x, "tskrrHeterogeneous")
           })
 
 #' @rdname as_tuned

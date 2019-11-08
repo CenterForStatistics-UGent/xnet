@@ -31,7 +31,7 @@ names of the matrices have to be checked for consistency. Defaults to
 speed up the function.}
 
 \item{symmetry}{a character value with the possibilities
-"auto", "symmetric" or "skewed". In case of a homogenous fit, you
+"auto", "symmetric" or "skewed". In case of a homogeneous fit, you
 can either specify whether the label matrix is symmetric or
 skewed, or you can let the function decide (option "auto").}
 
@@ -54,7 +54,7 @@ of iterations and the final deviation", \code{2} means "show the deviation
 every 10 iterations". A value \code{TRUE} is read as \code{1}.}
 }
 \value{
-A \code{tskrr} model of the class \code{\link{tskrrHeterogenousImpute}} or \code{\link{tskrrHomogenousImpute}} depending on whether or
+A \code{tskrr} model of the class \code{\link{tskrrHeterogeneousImpute}} or \code{\link{tskrrHomogeneousImpute}} depending on whether or
 not \code{g} has a value.
 }
 \description{

@@ -1,4 +1,4 @@
-context("heterogenous tskrr calculations")
+context("heterogeneous tskrr calculations")
 
 # Create the structures needed. Was saved in a .rdata file
 
@@ -45,17 +45,17 @@ test_that("weights are calculated correctly",{
   expect_equal(naivewts, weights(mod))
 })
 
-test_that("Heterogenous model is fitted correctly",{
+test_that("Heterogeneous model is fitted correctly",{
   expect_equal(fitted(mod, labels = FALSE),fits)
 })
 
-test_that("Heterogenous model object is constructed correctly",{
+test_that("Heterogeneous model object is constructed correctly",{
   expect_equal(response(mod), Y)
   expect_equal(lambda(mod), c(k = lambdak, g = lambdag))
   expect_true(is.na(symmetry(mod)))
   expect_equal(get_eigen(mod, "row"), Keig)
   expect_equal(get_eigen(mod, "column"), Geig)
-  expect_false(is_homogenous(mod))
+  expect_false(is_homogeneous(mod))
   expect_equal(hat(mod, 'row'), Hk)
   expect_equal(hat(mod, 'column'), Hg)
   expect_false(has_hat(mod))
@@ -104,7 +104,7 @@ mod3 <- tskrr(Y, K, G, lambda = c(lambdak, lambdag), keep = TRUE)
 modnew3 <- tskrr(Y, K, G, lambda = lambdanew, keep = TRUE)
 modnew4 <- tskrr(Y, K, G, lambda = 0.5, keep = TRUE)
 
-test_that("Heterogenous model gets updated correctly",{
+test_that("Heterogeneous model gets updated correctly",{
   expect_error(update(mod, lambda = numeric(0)))
   expect_error(update(mod, lambda = c(1,2,3)))
   expect_equal(update(mod, lambdanew), modnew)

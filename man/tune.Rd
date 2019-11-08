@@ -3,16 +3,16 @@
 \docType{methods}
 \name{tune}
 \alias{tune}
-\alias{tune,tskrrHomogenous-method}
-\alias{tune,tskrrHeterogenous-method}
+\alias{tune,tskrrHomogeneous-method}
+\alias{tune,tskrrHeterogeneous-method}
 \alias{tune,matrix-method}
 \title{tune the lambda parameters for a tskrr}
 \usage{
-\S4method{tune}{tskrrHomogenous}(x, lim = c(1e-04, 1), ngrid = 10,
+\S4method{tune}{tskrrHomogeneous}(x, lim = c(1e-04, 1), ngrid = 10,
   lambda = NULL, fun = loss_mse, exclusion = "interaction",
   replaceby0 = FALSE, onedim = TRUE, ...)
 
-\S4method{tune}{tskrrHeterogenous}(x, lim = c(1e-04, 1), ngrid = 10,
+\S4method{tune}{tskrrHeterogeneous}(x, lim = c(1e-04, 1), ngrid = 10,
   lambda = NULL, fun = loss_mse, exclusion = "interaction",
   replaceby0 = FALSE, onedim = FALSE, ...)
 
@@ -34,8 +34,8 @@ in a single dimension of the grid, or possibly a list with 2 elements.
 See details.}
 
 \item{lambda}{a vector with the lambdas that need checking for
-homogenous networks, or possibly a list with two elements for
-heterogenous networks. See Details. Defaults to
+homogeneous networks, or possibly a list with two elements for
+heterogeneous networks. See Details. Defaults to
 \code{NULL}, which means that the function constructs the search grid
 from the other arguments.}
 
@@ -69,7 +69,7 @@ names of the matrices have to be checked for consistency. Defaults to
 speed up the function.}
 
 \item{symmetry}{a character value with the possibilities
-"auto", "symmetric" or "skewed". In case of a homogenous fit, you
+"auto", "symmetric" or "skewed". In case of a homogeneous fit, you
 can either specify whether the label matrix is symmetric or
 skewed, or you can let the function decide (option "auto").}
 
@@ -98,7 +98,7 @@ In the case of a heterogeneous network, you can specify different values
 for the two parameters that need tuning. To do so, you need to
 provide a list with the settings for every parameter to the arguments
 \code{lim}, \code{ngrid} and/or \code{lambda}. If you
-try this for a homogenous network, the function will return an error.
+try this for a homogeneous network, the function will return an error.
 
 Alternatively, you can speed up the grid search by searching in a
 single dimension. When \code{onedim = TRUE}, the search for a

@@ -14,7 +14,7 @@
 #' data(drugtarget)
 #'
 #' mod <- tskrr(drugTargetInteraction, targetSim, drugSim)
-#' is_homogenous(mod)
+#' is_homogeneous(mod)
 #'
 #' EigR <- get_eigen(mod)
 #' EigC <- get_eigen(mod, which = 'column')
@@ -36,7 +36,7 @@ setMethod("response",
 #' values used in the model. The names are "k" and "g" respectively.
 #' @export
 setMethod("lambda",
-          "tskrrHomogenous",
+          "tskrrHomogeneous",
           function(x){
             c(k = x@lambda.k)
           })
@@ -45,7 +45,7 @@ setMethod("lambda",
 #' @aliases lambda
 #' @export
 setMethod("lambda",
-          "tskrrHeterogenous",
+          "tskrrHeterogeneous",
           function(x){
             c(k = x@lambda.k, g = x@lambda.g)
           })
@@ -59,33 +59,33 @@ is_tskrr <- function(x){
 }
 
 #' @rdname getters-tskrr
-#' @aliases is_homogenous
-#' @return For \code{is_homogenous} a logical value indicating whether the
-#' tskrr model is a homogenous one.
+#' @aliases is_homogeneous
+#' @return For \code{is_homogeneous} a logical value indicating whether the
+#' tskrr model is a homogeneous one.
 #' @export
-is_homogenous <- function(x){
+is_homogeneous <- function(x){
   if(!inherits(x, "tskrr")) stop("x should be a tskrr model.")
-  inherits(x, "tskrrHomogenous")
+  inherits(x, "tskrrHomogeneous")
 }
 
 #' @rdname getters-tskrr
-#' @aliases is_heterogenous
-#' @return For \code{is_heterogenous} a logical value indicating whether the
-#' tskrr model is a heterogenous one.
+#' @aliases is_heterogeneous
+#' @return For \code{is_heterogeneous} a logical value indicating whether the
+#' tskrr model is a heterogeneous one.
 #' @export
-is_heterogenous <- function(x){
+is_heterogeneous <- function(x){
   if(!inherits(x, "tskrr")) stop("x should be a tskrr model.")
-  inherits(x, "tskrrHeterogenous")
+  inherits(x, "tskrrHeterogeneous")
 }
 
 #' @rdname getters-tskrr
 #' @aliases symmetry
 #' @return For \code{symmetry} a character value indicating the symmetry
-#' for a \code{\link[xnet:tskrrHomogenous-class]{homogenous model}}. If
-#' the model is not homogenous, \code{NA} is returned.
+#' for a \code{\link[xnet:tskrrHomogeneous-class]{homogeneous model}}. If
+#' the model is not homogeneous, \code{NA} is returned.
 #' @export
 symmetry <- function(x){
-  if(!is_homogenous(x))
+  if(!is_homogeneous(x))
     NA else
   x@symmetry
 }
@@ -98,7 +98,7 @@ symmetry <- function(x){
 #' kernel matrix.
 #' @export
 get_eigen <- function(x, which = c('row', 'column')){
-  if(is_homogenous(x)){
+  if(is_homogeneous(x)){
     x@k
   } else {
     which <- match.arg(which)
@@ -118,7 +118,7 @@ get_kernelmatrix <- function(x, which = c('row','column')){
 
   which <- match.arg(which)
 
-  if(is_homogenous(x) || which == 'row'){
+  if(is_homogeneous(x) || which == 'row'){
 
     eigen2matrix(x@k$vectors, x@k$values)
 

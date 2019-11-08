@@ -1,9 +1,9 @@
-#' Class tskrrHeterogenousImpute
+#' Class tskrrHeterogeneousImpute
 #'
-#' The class \code{tskrrHeterogenousImpute} is a subclass of the
-#' class \code{\link[xnet:tskrrHeterogenous-class]{tskrrHeterogenous}} and
+#' The class \code{tskrrHeterogeneousImpute} is a subclass of the
+#' class \code{\link[xnet:tskrrHeterogeneous-class]{tskrrHeterogeneous}} and
 #' \code{\link[xnet:tskrrImpute-class]{tskrrImpute}}
-#' specifically for heterogenous networks with imputed values. It is
+#' specifically for heterogeneous networks with imputed values. It is
 #' the result of the function \code{\link{impute_tskrr}}.
 #'
 #' @slot y the matrix with responses
@@ -25,10 +25,10 @@
 #' @slot niter an integer value gving the number of iterations used
 #' @slot tol a numeric value with the tolerance used
 #'
-#' @include Class_tskrrHeterogenous.R Class_tskrrImpute.R
-#' @rdname tskrrHeterogenousImpute-class
-#' @aliases tskrrHeterogenousImpute
-#' @exportClass tskrrHeterogenousImpute
-setClass("tskrrHeterogenousImpute",
-         contains = c("tskrrImpute", "tskrrHeterogenous")
+#' @include Class_tskrrHeterogeneous.R Class_tskrrImpute.R
+#' @rdname tskrrHeterogeneousImpute-class
+#' @aliases tskrrHeterogeneousImpute
+#' @exportClass tskrrHeterogeneousImpute
+setClass("tskrrHeterogeneousImpute",
+         contains = c("tskrrImpute", "tskrrHeterogeneous")
          )

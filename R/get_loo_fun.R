@@ -14,7 +14,7 @@
 #' Using \code{replaceby0} only makes sense if you only remove the interaction.
 #' In all other cases, this argument is ignored.
 #'
-#' For the class \code{tskrrHomogenous}, it doesn't make sense opnly to
+#' For the class \code{tskrrHomogeneous}, it doesn't make sense opnly to
 #' remove rows or columns. If you chose this option, the function will
 #' throw an error.
 #' For the class \code{linearFilter} it only makes sense to exclude the
@@ -34,9 +34,9 @@
 #'
 #' @return a function taking the arguments y, and possibly pred
 #' for calculating the leave-one-out cross-validation. For class
-#' \code{tskrrHeterogenous}, the returned function also
+#' \code{tskrrHeterogeneous}, the returned function also
 #' has an argument Hk and Hg, representing the hat matrix for the rows
-#' and the columns respectively. For class \code{tskrrHomogenous},
+#' and the columns respectively. For class \code{tskrrHomogeneous},
 #' only the extra argument Hk is available. For class \code{linearFilter},
 #' the extra argument is called \code{alpha} and takes the alpha vector
 #' of that model.
@@ -48,27 +48,27 @@
 #' @rdname get_loo_fun
 #' @export
 setMethod("get_loo_fun",
-          "tskrrHeterogenous",
+          "tskrrHeterogeneous",
           function(x,
                    exclusion = c("interaction","row","column","both"),
                    replaceby0 = FALSE
                    ){
 
             exclusion <- match.arg(exclusion)
-            .getloo_heterogenous(exclusion, replaceby0)
+            .getloo_heterogeneous(exclusion, replaceby0)
           })
 
 #' @rdname get_loo_fun
 #' @export
 setMethod("get_loo_fun",
-          "tskrrHomogenous",
+          "tskrrHomogeneous",
           function(x,
                    exclusion = c("interaction","both"),
                    replaceby0 = FALSE
                    ){
             exclusion <- match.arg(exclusion)
             symmetry <- symmetry(x)
-            .getloo_homogenous(exclusion,replaceby0, symmetry)
+            .getloo_homogeneous(exclusion,replaceby0, symmetry)
 
           })
 
@@ -85,13 +85,13 @@ setMethod("get_loo_fun",
 #' @export
 setMethod("get_loo_fun",
           "character",
-          function(x = c("tskrrHeterogenous","tskrrHomogenous","linearFilter"),
+          function(x = c("tskrrHeterogeneous","tskrrHomogeneous","linearFilter"),
                    ...){
             x <- match.arg(x)
 
             fun <- switch(x,
-                          tskrrHeterogenous = .getloo_heterogenous,
-                          tskrrHomogenous = .getloo_homogenous,
+                          tskrrHeterogeneous = .getloo_heterogeneous,
+                          tskrrHomogeneous = .getloo_homogeneous,
                           linearFilter = .getloo_linearfilter)
             fun(...)
           })
@@ -102,7 +102,7 @@ setMethod("get_loo_fun",
           "tskrrTune",
           function(x, ... ){
             dots <- list(...)
-            class <- if(is_homogenous(x)) "tskrrHomogenous" else "tskrrHeterogenous"
+            class <- if(is_homogeneous(x)) "tskrrHomogeneous" else "tskrrHeterogeneous"
             if(length(dots))
               do.call(get_loo_fun,
                       c(as(x, class), dots))

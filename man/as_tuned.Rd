@@ -4,8 +4,8 @@
 \name{as_tuned}
 \alias{as_tuned}
 \alias{as_tskrr}
-\alias{as_tuned,tskrrHomogenous-method}
-\alias{as_tuned,tskrrHeterogenous-method}
+\alias{as_tuned,tskrrHomogeneous-method}
+\alias{as_tuned,tskrrHeterogeneous-method}
 \alias{as_tskrr,tskrrTune-method}
 \alias{as_tskrr,tskrrImpute-method}
 \alias{as_tskrr,tskrr-method}
@@ -15,9 +15,9 @@ as_tuned(x, ...)
 
 as_tskrr(x, ...)
 
-\S4method{as_tuned}{tskrrHomogenous}(x, ...)
+\S4method{as_tuned}{tskrrHomogeneous}(x, ...)
 
-\S4method{as_tuned}{tskrrHeterogenous}(x, ...)
+\S4method{as_tuned}{tskrrHeterogeneous}(x, ...)
 
 \S4method{as_tskrr}{tskrrTune}(x)
 
@@ -34,18 +34,18 @@ the class \code{\link[xnet:tskrrTune-class]{tskrrTune}}}
 \value{
 For \code{as_tuned}:
 a \code{\link[xnet:tskrrTune-class]{tskrrTune}} object of
-the proper class (homogenous or heterogenous)
+the proper class (homogeneous or heterogeneous)
 
 For \code{as_tskrr}: an object of class
-\code{\link[xnet:tskrrHomogenous-class]{tskrrHomogenous}} or
-\code{\link[xnet:tskrrHeterogenous-class]{tskrrHeterogenous}} depending
-on whether the original object was homogenous or heterogenous.
+\code{\link[xnet:tskrrHomogeneous-class]{tskrrHomogeneous}} or
+\code{\link[xnet:tskrrHeterogeneous-class]{tskrrHeterogeneous}} depending
+on whether the original object was homogeneous or heterogeneous.
 }
 \description{
 These functions allow converting models that inherit from the
 \code{\link[xnet:tskrr-class]{tskrr}} and
 \code{\link[xnet:tskrrTune-class]{tskrrTune}} class into each other,
-keeping track of whether the model is homogenous or heterogeneous.
+keeping track of whether the model is homogeneous or heterogeneous.
 The dots argument allows specifying values for possible extra slots
 when converting from \code{tskrr} to \code{tskrrTune}.
 More information on these slots can be found

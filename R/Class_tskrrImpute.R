@@ -36,8 +36,8 @@ setMethod("show",
           "tskrrImpute",
           function(object){
 
-            ishomog <- is_homogenous(object)
-            type <- ifelse(ishomog,"Homogenous","Heterogenous")
+            ishomog <- is_homogeneous(object)
+            type <- ifelse(ishomog,"Homogeneous","Heterogeneous")
             tl   <- ifelse(ishomog,"----------","------------")
             cat(paste(type,"two-step kernel ridge regression with imputation"),
                 paste(tl,"------------------------------------------------",sep="-"),

@@ -18,7 +18,7 @@
 #' decomposition of the first kernel matrix.
 #' @param g an optional object of class \code{\link{eigen}} containing
 #' the eigen decomposition of the second kernel matrix. If \code{NULL},
-#' the network is considered to be homogenous.
+#' the network is considered to be homogeneous.
 #' @param lambda.k a numeric value for the lambda parameter tied
 #' to the first kernel.
 #' @param lambda.g a numeric value for the lambda parameter tied
@@ -30,7 +30,7 @@
 #' \itemize{
 #'    \item k : the hat matrix for the rows
 #'    \item g : the hat matrix for the columns (or \code{NULL})
-#'    for homogenous networks.
+#'    for homogeneous networks.
 #'    \item pred : the predictions
 #' }
 #'
@@ -49,17 +49,17 @@ tskrr.fit <- function(y, k, g = NULL, lambda.k = NULL, lambda.g = NULL,
                       ...){
 
   # Set flags
-  homogenous <- is.null(g)
+  homogeneous <- is.null(g)
 
   # process input
   if(is.null(lambda.g)) lambda.g <- lambda.k
 
   # get hat matrics
   Hk <- eigen2hat(k$vectors, k$values, lambda.k)
-  Hg <- if(!homogenous) eigen2hat(g$vectors, g$values, lambda.g) else NULL
+  Hg <- if(!homogeneous) eigen2hat(g$vectors, g$values, lambda.g) else NULL
 
   # Create predictions
-  pred <- if(!homogenous)
+  pred <- if(!homogeneous)
     Hk %*% y %*% Hg
   else
     Hk %*% y %*% Hk

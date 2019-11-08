@@ -20,7 +20,7 @@
 #' \code{\link{tskrrTune-class}} object
 #' @param permutation a character string that defines whether the row,
 #' column or both kernel matrices should be permuted. Ignored in case of
-#' a homogenous network
+#' a homogeneous network
 #' @param n the number of permutations for every kernel matrix
 #' @param exclusion the exclusion to be used in the \code{\link{loo}} function. See also \code{\link{get_loo_fun}}
 #' @param replaceby0 a logical value indicating whether \code{\link{loo}}
@@ -35,7 +35,7 @@
 #'
 #' @examples
 #'
-#' # Heterogenous network
+#' # Heterogeneous network
 #'
 #' data(drugtarget)
 #'
@@ -46,7 +46,7 @@
 #' @rdname permtest
 #' @aliases permtest
 #' @export
-setMethod("permtest","tskrrHeterogenous",
+setMethod("permtest","tskrrHeterogeneous",
           function(x,
                    n = 100,
                    permutation = c("both","row","column"),
@@ -66,7 +66,7 @@ setMethod("permtest","tskrrHeterogenous",
   y <- response(x)
   lambdas <- lambda(x)
 
-  loofun <- get_loo_fun("tskrrHeterogenous",
+  loofun <- get_loo_fun("tskrrHeterogeneous",
                         exclusion = exclusion,
                         replaceby0 = replaceby0)
 
@@ -94,11 +94,11 @@ setMethod("permtest","tskrrHeterogenous",
       permutation = permutation,
       pval = pval)
 
-}) # END setMethod tskrrHeterogenous
+}) # END setMethod tskrrHeterogeneous
 
 #' @rdname permtest
 #' @export
-setMethod("permtest","tskrrHomogenous",
+setMethod("permtest","tskrrHomogeneous",
           function(x,
                    n = 100,
                    permutation = c("both"),
@@ -110,7 +110,7 @@ setMethod("permtest","tskrrHomogenous",
             lossfun <- match.fun(fun)
 
             if(permutation != "both")
-              stop("For a homogenous model setting the permutation to anything else but 'both' doesn't make sense.")
+              stop("For a homogeneous model setting the permutation to anything else but 'both' doesn't make sense.")
 
             if(n <= 0 || !is_whole_positive(n))
               stop("n should be a positive integer value.")
@@ -120,7 +120,7 @@ setMethod("permtest","tskrrHomogenous",
             y <- response(x)
             lambdas <- lambda(x)
 
-            loofun <- get_loo_fun("tskrrHomogenous",
+            loofun <- get_loo_fun("tskrrHomogeneous",
                                   exclusion = exclusion,
                                   replaceby0 = replaceby0)
 
@@ -146,7 +146,7 @@ setMethod("permtest","tskrrHomogenous",
                 permutation = permutation,
                 pval = pval)
 
-}) # END setMethod tskrrHomogenous
+}) # END setMethod tskrrHomogeneous
 
 
 #' @rdname permtest
@@ -158,7 +158,7 @@ setMethod("permtest",
                    n = 100){
 
             permutation <- match.arg(permutation)
-            hetero <- is_heterogenous(x)
+            hetero <- is_heterogeneous(x)
 
             # Extract info. No getters available!
             exclusion <- slot(x, "exclusion")
@@ -259,7 +259,7 @@ setMethod("permtest",
 
 }
 
-# Internal permtest function for homogenous networks.
+# Internal permtest function for homogeneous networks.
 # y: the response matrix
 # k: the k kernel
 # lambda : the lambda

@@ -19,13 +19,13 @@
 #' @slot replaceby0 a logical value indicating whether or not the cross
 #' validation replaced the excluded values by zero
 #' @slot onedim a logical value indicating whether the grid search
-#' was done in one dimension. For homogenous networks, this is
+#' was done in one dimension. For homogeneous networks, this is
 #' true by default.
 #'
 #' @seealso
 #'  * the function \code{tune} for the tuning itself
-#'  * the class \code{\link{tskrrTuneHomogenous}} and
-#'  \code{tskrrTuneHeterogenous} for the actual classes.
+#'  * the class \code{\link{tskrrTuneHomogeneous}} and
+#'  \code{tskrrTuneHeterogeneous} for the actual classes.
 #' @md
 #'
 #' @rdname tskrrTune-class
@@ -74,8 +74,8 @@ setMethod("show",
 
             # HEADER
 
-            ishomog <- is_homogenous(object)
-            type <- ifelse(ishomog,"homogenous","heterogenous")
+            ishomog <- is_homogeneous(object)
+            type <- ifelse(ishomog,"homogeneous","heterogeneous")
             tl   <- ifelse(ishomog,"----------","------------")
             cat(paste("Tuned",type,"two-step kernel ridge regression"),
                   paste("-----",tl,"--------------------------------",sep="-"),
@@ -98,7 +98,7 @@ setMethod("show",
             cat("exclusion setting:",object@exclusion,"\n")
             cat("loss value:", object@best_loss,"\n")
             cat("loss function:", loss_name,"\n")
-            if(object@onedim && is_heterogenous(object))
+            if(object@onedim && is_heterogeneous(object))
               cat("Grid search done in one dimension.\n")
 
           })

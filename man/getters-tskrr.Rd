@@ -12,8 +12,9 @@
 \alias{is_heterogenous}
 \alias{symmetry}
 \alias{get_eigen}
-\alias{get_kernel}
+\alias{get_kernelmatrix}
 \alias{has_hat}
+\alias{get_kernel}
 \title{Getters for tskrr objects}
 \usage{
 \S4method{response}{tskrr}(x, ...)
@@ -32,9 +33,11 @@ symmetry(x)
 
 get_eigen(x, which = c("row", "column"))
 
-get_kernel(x, which = c("row", "column"))
+get_kernelmatrix(x, which = c("row", "column"))
 
 has_hat(x)
+
+get_kernel(x, which = c("row", "column"))
 }
 \arguments{
 \item{x}{a \code{\link[xnet:tskrr-class]{tskrr}} object or an
@@ -67,7 +70,7 @@ the model is not homogenous, \code{NA} is returned.
 For \code{get_eigen} the eigen decomposition of the requested
 kernel matrix.
 
-For \code{get_kernel} the original kernel matrix
+For \code{get_kernelmatrix} the original kernel matrix
 for the rows or columns.
 
 For \code{has_hat} a logical value indicating whether
@@ -77,6 +80,11 @@ the tskrr model contains the kernel hat matrices.
 The functions described here are convenience functions to get
 information out of a \code{\link[xnet:tskrr-class]{tskrr}} object.
 }
+\section{Warning}{
+ The function \code{get_kernel} is deprecated.
+Use \code{get_kernelmatrix} instead.
+}
+
 \examples{
 data(drugtarget)
 

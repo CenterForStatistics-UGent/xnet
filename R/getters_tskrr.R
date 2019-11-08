@@ -3,6 +3,9 @@
 #' The functions described here are convenience functions to get
 #' information out of a \code{\link[xnet:tskrr-class]{tskrr}} object.
 #'
+#' @section Warning: The function \code{get_kernel} is deprecated.
+#' Use \code{get_kernelmatrix} instead.
+#'
 #' @param x a \code{\link[xnet:tskrr-class]{tskrr}} object or an
 #' object inheriting from \code{tskrr}.
 #' @param ... arguments passed to other methods.
@@ -107,11 +110,11 @@ get_eigen <- function(x, which = c('row', 'column')){
 }
 
 #' @rdname getters-tskrr
-#' @aliases get_kernel
-#' @return For \code{get_kernel} the original kernel matrix
+#' @aliases get_kernelmatrix
+#' @return For \code{get_kernelmatrix} the original kernel matrix
 #' for the rows or columns.
 #' @export
-get_kernel <- function(x, which = c('row','column')){
+get_kernelmatrix <- function(x, which = c('row','column')){
 
   which <- match.arg(which)
 
@@ -137,3 +140,10 @@ has_hat <- function(x){
   x@has.hat
 }
 
+#' @rdname getters-tskrr
+#' @export
+get_kernel <- function(x, which = c('row','column')){
+  which <- match.arg(which)
+  warning("This function is deprecated. Use get_kernelmatrix instead.")
+  get_kernelmatrix(x, which)
+}

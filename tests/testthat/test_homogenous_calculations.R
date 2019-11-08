@@ -45,8 +45,8 @@ test_that("Symmetric model object is constructed correctly",{
 })
 
 test_that("Kernel matrices are extracted correctly", {
-  expect_equal(Kh, get_kernel(modh, 'row'))
-  expect_equal(Kh, get_kernel(modh, 'column'))
+  expect_equal(Kh, get_kernelmatrix(modh, 'row'))
+  expect_equal(Kh, get_kernelmatrix(modh, 'column'))
 })
 
 # Skewed networks ----------------------------------------------

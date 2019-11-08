@@ -2,10 +2,24 @@
 
 ### Breaking changes
 
+* `get_kernel` is renamed `get_kernelmatrix`. the function `get_kernel` is deprecated.
+
+### New features
+
+### Bug fixes and minor improvements
+
+* All help pages are checked and corrected.
+
+## xnet 0.1.9
+
+### Breaking changes
+
 * For consistency, the `g` matrix in `predict()` now expects the new
 nodes to be on the rows.
 
 ### New features
+
+* the `permtest` function is added.
 
 ### Bug fixes and minor improvements
 

@@ -19,6 +19,8 @@
 #' @slot pval a p value indicating how likely it is to find a
 #' smaller loss than the one of the model based on a normal
 #' approximation.
+#' @slot exact a logical value indicating whether the P value was
+#' calculated exactly or approximated by the normal distribution.
 #'
 #' @seealso
 #'  * the function \code{\link{permtest}} for the actual test.
@@ -40,7 +42,8 @@ setClass("permtest",
                    exclusion = "character",
                    replaceby0 = "logical",
                    permutation = "character",
-                   pval = "numeric"))
+                   pval = "numeric",
+                   exact = "logical"))
 
 # Validity testing
 validPermtest <- function(object){
@@ -50,6 +53,8 @@ validPermtest <- function(object){
     return("pval should be a single value.")
   if(length(object@perm_losses) != object@n)
     return("perm_losses doesn't have a length of n.")
+  if(length(object@exact)!= 1)
+    return("exact should be a single value.")
 
 }
 
@@ -107,7 +112,8 @@ print.permtest <- function(x,
   cat("\n")
   printCoefmat(res, digits = digits)
   cat("\n")
-  cat("P value is approximated based on a normal distribution.\n")
+  if(!x@exact)
+    cat("P value is approximated based on a normal distribution.\n\n")
   invisible(res)
 
 }

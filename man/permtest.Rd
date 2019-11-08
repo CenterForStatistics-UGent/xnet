@@ -18,11 +18,11 @@ permtest(x, ...)
 \S4method{permtest}{tskrrHeterogeneous}(x, n = 100,
   permutation = c("both", "row", "column"),
   exclusion = c("interaction", "row", "column", "both"),
-  replaceby0 = FALSE, fun = loss_mse)
+  replaceby0 = FALSE, fun = loss_mse, exact = FALSE)
 
 \S4method{permtest}{tskrrHomogeneous}(x, n = 100,
   permutation = c("both"), exclusion = c("interaction", "both"),
-  replaceby0 = FALSE, fun = loss_mse)
+  replaceby0 = FALSE, fun = loss_mse, exact = FALSE)
 
 \S4method{permtest}{tskrrTune}(x, permutation = c("both", "row",
   "column"), n = 100)
@@ -50,6 +50,10 @@ See also \code{\link{get_loo_fun}}.}
 \item{fun}{a function (or a character string with the name of a
 function) that calculates the loss. See also \code{\link{tune}} and
 \code{\link{loss_functions}}}
+
+\item{exact}{a logical value that indicates whether or not an
+exact p-value should be calculated, or be approximated based on
+a normal distribution.}
 }
 \value{
 An object of the class permtest.
@@ -70,7 +74,7 @@ distribution from which the mean and sd are calculated from the permutations.
  It should be noted that this normal approximation is an ad-hoc approach.
 There's no guarantee that the actual distribution of the loss under the
 null hypothesis is normal. Depending on the loss function, a significant
-deviation from the theoretic distribution can exist. Hence it should only
+deviation from the theoretic distribution can exist. Hence this functions should only
 be used as a rough guidance in model evaluation.
 }
 

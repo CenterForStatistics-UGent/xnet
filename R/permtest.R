@@ -13,7 +13,7 @@
 #' @section Warning: It should be noted that this normal approximation is an ad-hoc approach.
 #' There's no guarantee that the actual distribution of the loss under the
 #' null hypothesis is normal. Depending on the loss function, a significant
-#' deviation from the theoretic distribution can exist. Hence it should only
+#' deviation from the theoretic distribution can exist. Hence this functions should only
 #' be used as a rough guidance in model evaluation.
 #'
 #' @param x either a \code{\link{tskrr-class}} or a
@@ -29,6 +29,9 @@
 #' @param fun a function (or a character string with the name of a
 #' function) that calculates the loss. See also \code{\link{tune}} and
 #' \code{\link{loss_functions}}
+#' @param exact a logical value that indicates whether or not an
+#' exact p-value should be calculated, or be approximated based on
+#' a normal distribution.
 #' @param ... arguments passed to other methods
 #'
 #' @return An object of the class permtest.
@@ -52,7 +55,8 @@ setMethod("permtest","tskrrHeterogeneous",
                    permutation = c("both","row","column"),
                    exclusion = c("interaction","row","column","both"),
                    replaceby0 = FALSE,
-                   fun = loss_mse){
+                   fun = loss_mse,
+                   exact = FALSE){
   # Process arguments
   exclusion <- match.arg(exclusion)
   lossfun <- match.fun(fun)
@@ -80,9 +84,13 @@ setMethod("permtest","tskrrHeterogeneous",
   perms <- .permtest_hetero(y,k,g,lambdas,
             n, permutation,
             lossfun, loofun)
+  if(exact){
+    pval <- mean(orig_loss > perms)
+  } else {
   pval <- pnorm(orig_loss,
                 mean = mean(perms),
                 sd = sd(perms))
+  }
 
   new("permtest",
       orig_loss = orig_loss,
@@ -92,7 +100,8 @@ setMethod("permtest","tskrrHeterogeneous",
       exclusion = exclusion,
       replaceby0 = replaceby0,
       permutation = permutation,
-      pval = pval)
+      pval = pval,
+      exact = exact)
 
 }) # END setMethod tskrrHeterogeneous
 
@@ -104,7 +113,8 @@ setMethod("permtest","tskrrHomogeneous",
                    permutation = c("both"),
                    exclusion = c("interaction","both"),
                    replaceby0 = FALSE,
-                   fun = loss_mse){
+                   fun = loss_mse,
+                   exact = FALSE){
             # Process arguments
             exclusion <- match.arg(exclusion)
             lossfun <- match.fun(fun)
@@ -132,10 +142,13 @@ setMethod("permtest","tskrrHomogeneous",
             # Do the permutation test
             perms <- .permtest_homo(y,k,lambdas,
                              n, lossfun, loofun)
-            pval <- pnorm(orig_loss,
-                          mean = mean(perms),
-                          sd = sd(perms))
-
+            if(exact){
+              pval <- mean(orig_loss > perms)
+            } else {
+              pval <- pnorm(orig_loss,
+                            mean = mean(perms),
+                            sd = sd(perms))
+            }
             new("permtest",
                 orig_loss = orig_loss,
                 perm_losses = perms,
@@ -144,7 +157,8 @@ setMethod("permtest","tskrrHomogeneous",
                 exclusion = exclusion,
                 replaceby0 = replaceby0,
                 permutation = permutation,
-                pval = pval)
+                pval = pval,
+                exact = exact)
 
 }) # END setMethod tskrrHomogeneous
 

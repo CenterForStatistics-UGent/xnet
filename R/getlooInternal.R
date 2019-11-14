@@ -15,7 +15,13 @@
 }
 
 .getloo_homogeneous <- function(exclusion, replaceby0, symmetry){
-  if(exclusion == "interaction"){
+  # Translate edges and vertices
+  if(exclusion %in% c("interaction","both"))
+    exclusion <- switch(exclusion,
+                        interaction = "edges",
+                        both = "vertices")
+
+  if(exclusion == "edges"){
     if(symmetry == "symmetric"){
       if(replaceby0) loo.e0.sym else loo.e.sym
     } else if(symmetry == "skewed"){
@@ -23,10 +29,10 @@
     } else {
       stop("No loo optimization for homogeneous networks that aren't symmetric or skewed.")
     }
-  } else if(exclusion == c("both")) { # exclusion is not interaction
+  } else if(exclusion == c("vertices")) { # exclusion is not interaction
     loo.v
   } else {
-    stop("Exclusion should be one of interaction or both")
+    stop("Exclusion should be one of edges or vertices")
   }
 }
 

@@ -16,8 +16,8 @@ get_loo_fun(x, ...)
   exclusion = c("interaction", "row", "column", "both"),
   replaceby0 = FALSE)
 
-\S4method{get_loo_fun}{tskrrHomogeneous}(x, exclusion = c("interaction",
-  "both"), replaceby0 = FALSE)
+\S4method{get_loo_fun}{tskrrHomogeneous}(x, exclusion = c("edges",
+  "vertices", "interaction", "both"), replaceby0 = FALSE)
 
 \S4method{get_loo_fun}{linearFilter}(x, replaceby0 = FALSE)
 
@@ -33,7 +33,9 @@ or \code{\link{linearFilter}} object.}
 \item{...}{arguments passed to or from other methods.}
 
 \item{exclusion}{a character value with possible values "interaction",
-"row", "column" or "both". Defaults to "interaction". See details.}
+"row", "column", "both" for heterogeneous models, and "edges", "vertices",
+"interaction" or "both" for homogeneous models.
+Defaults to "interaction". See details.}
 
 \item{replaceby0}{a logical value indicating whether the interaction
 should be simply removed (\code{FALSE}) or replaced by 0 (\code{TRUE}).}
@@ -64,9 +66,12 @@ functions in \code{\link{loo_internal}}.
 Using \code{replaceby0} only makes sense if you only remove the interaction.
 In all other cases, this argument is ignored.
 
-For the class \code{tskrrHomogeneous}, it doesn't make sense opnly to
+For the class \code{tskrrHomogeneous}, it doesn't make sense to
 remove rows or columns. If you chose this option, the function will
-throw an error.
+throw an error. Removing edges corresponds to the setting "edges" or
+"interaction". Removing vertices corresponds to the setting "vertices" or
+"both". These terms can be used interchangeably.
+
 For the class \code{linearFilter} it only makes sense to exclude the
 interaction (i.e., a single cell). Therefore you do not have an argument
 \code{exclusion} for that method.

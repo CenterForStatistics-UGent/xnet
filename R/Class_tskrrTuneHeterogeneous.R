@@ -36,6 +36,9 @@ validTskrrTuneHeterogeneous <- function(object){
                      nomatch = 0L)
   if(exclmatch == 0)
     return("exclusion should be one of 'interaction', 'row', 'column' or 'both'")
+
+  if(object@replaceby0 && excl != "interaction")
+    return("replaceby0 can only be used with interaction exclusion")
   else
     return(TRUE)
 

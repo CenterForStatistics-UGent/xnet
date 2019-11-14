@@ -57,9 +57,6 @@ validTskrrTune <- function(object){
   if(length(excl) != 1)
     return("exclusion should be a single character value.")
 
-  if(object@replaceby0 && excl != "interaction")
-    return("replaceby0 can only be used with interaction exclusion")
-
   if(length(object@onedim) != 1)
     return("onedim should be a single logical value.")
   else

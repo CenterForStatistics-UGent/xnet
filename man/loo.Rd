@@ -13,8 +13,8 @@ loo(x, ...)
 \S4method{loo}{tskrrHeterogeneous}(x, exclusion = c("interaction", "row",
   "column", "both"), replaceby0 = FALSE)
 
-\S4method{loo}{tskrrHomogeneous}(x, exclusion = c("interaction", "both"),
-  replaceby0 = FALSE)
+\S4method{loo}{tskrrHomogeneous}(x, exclusion = c("edges", "vertices",
+  "interaction", "both"), replaceby0 = FALSE)
 
 \S4method{loo}{linearFilter}(x, replaceby0 = FALSE)
 }
@@ -26,7 +26,9 @@ loo(x, ...)
 See Details.}
 
 \item{exclusion}{a character value with possible values "interaction",
-"row", "column" or "both". Defaults to "interaction". See details.}
+"row", "column", "both" for heterogeneous models, and "edges", "vertices",
+"interaction" or "both" for homogeneous models.
+Defaults to "interaction". See details.}
 
 \item{replaceby0}{a logical value indicating whether the interaction
 should be simply removed (\code{FALSE}) or replaced by 0 (\code{TRUE}).}
@@ -52,7 +54,10 @@ a row and a column edge.
 In the case of a homogeneous model, "row" and "column" don't make sense
 and will be replaced by "both" with a warning. This can be interpreted
 as removing vertices, i.e. all interactions between one edge and
-all other edges. For more information, see Stock et al. (2018).
+all other edges. Alternatively one can use "edges" to remove edges and
+"vertices" to remove vertices. In the case of a homogeneous model,
+the setting "edges" translates to "interaction", and "vertices"
+translates to "both". For more information, see Stock et al. (2018).
 
 Replacing by 0 only makes sense when \code{exclusion = "interaction"} and the
 label matrix contains only 0 and 1 values. The function checks whether

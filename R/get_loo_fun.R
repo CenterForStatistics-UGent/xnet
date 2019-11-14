@@ -14,9 +14,12 @@
 #' Using \code{replaceby0} only makes sense if you only remove the interaction.
 #' In all other cases, this argument is ignored.
 #'
-#' For the class \code{tskrrHomogeneous}, it doesn't make sense opnly to
+#' For the class \code{tskrrHomogeneous}, it doesn't make sense to
 #' remove rows or columns. If you chose this option, the function will
-#' throw an error.
+#' throw an error. Removing edges corresponds to the setting "edges" or
+#' "interaction". Removing vertices corresponds to the setting "vertices" or
+#' "both". These terms can be used interchangeably.
+#'
 #' For the class \code{linearFilter} it only makes sense to exclude the
 #' interaction (i.e., a single cell). Therefore you do not have an argument
 #' \code{exclusion} for that method.
@@ -63,10 +66,11 @@ setMethod("get_loo_fun",
 setMethod("get_loo_fun",
           "tskrrHomogeneous",
           function(x,
-                   exclusion = c("interaction","both"),
+                   exclusion = c("edges","vertices","interaction","both"),
                    replaceby0 = FALSE
                    ){
             exclusion <- match.arg(exclusion)
+
             symmetry <- symmetry(x)
             .getloo_homogeneous(exclusion,replaceby0, symmetry)
 

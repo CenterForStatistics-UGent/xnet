@@ -15,7 +15,10 @@
 #' In the case of a homogeneous model, "row" and "column" don't make sense
 #' and will be replaced by "both" with a warning. This can be interpreted
 #' as removing vertices, i.e. all interactions between one edge and
-#' all other edges. For more information, see Stock et al. (2018).
+#' all other edges. Alternatively one can use "edges" to remove edges and
+#' "vertices" to remove vertices. In the case of a homogeneous model,
+#' the setting "edges" translates to "interaction", and "vertices"
+#' translates to "both". For more information, see Stock et al. (2018).
 #'
 #' Replacing by 0 only makes sense when \code{exclusion = "interaction"} and the
 #' label matrix contains only 0 and 1 values. The function checks whether
@@ -24,7 +27,9 @@
 #' @param x an object of class \code{\link[xnet:tskrr-class]{tskrr}} or
 #' \code{\link{linearFilter}}.
 #' @param exclusion a character value with possible values "interaction",
-#' "row", "column" or "both". Defaults to "interaction". See details.
+#' "row", "column", "both" for heterogeneous models, and "edges", "vertices",
+#' "interaction" or "both" for homogeneous models.
+#' Defaults to "interaction". See details.
 #' @param replaceby0 a logical value indicating whether the interaction
 #' should be simply removed (\code{FALSE}) or replaced by 0 (\code{TRUE}).
 #' @param ... arguments passed to methods.
@@ -51,6 +56,8 @@ setMethod("loo",
                    replaceby0 = FALSE){
 
             exclusion <- match.arg(exclusion)
+
+
             if(replaceby0){
               if(exclusion != "interaction")
                 stop("replaceby0 only makes sense when exclusion is set to 'interaction'.")
@@ -90,14 +97,21 @@ setMethod("loo",
 setMethod("loo",
           "tskrrHomogeneous",
           function(x,
-                   exclusion = c("interaction","both"),
+                   exclusion = c("edges","vertices","interaction","both"),
                    replaceby0 = FALSE){
 
             exclusion <- match.arg(exclusion)
+
+            # Translate edges and vertices
+            if(exclusion %in% c("interaction","both"))
+              exclusion <- switch(exclusion,
+                                  interaction = "edges",
+                                  both = "vertices")
+
             symm <- symmetry(x)
             if(replaceby0){
-              if(exclusion != "interaction")
-                stop("replaceby0 only makes sense when exclusion is set to 'interaction'.")
+              if(exclusion != "edges")
+                stop("replaceby0 only makes sense when exclusion is set to 'edges'.")
 
 
               if(symm == "symmetric" && any(match(x@y, c(0,1), 0L ) == 0))
@@ -108,8 +122,8 @@ setMethod("loo",
 
             Hk <- hat(x)
 
-            if(exclusion == "interaction"){
-              loofun <- .getloo_homogeneous("interaction",
+            if(exclusion == "edges"){
+              loofun <- .getloo_homogeneous("edges",
                                            replaceby0,
                                            symm)
               out <- loofun(x@y, Hk, x@pred)

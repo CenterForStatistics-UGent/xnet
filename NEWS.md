@@ -8,10 +8,11 @@
 ### New features
 
 * the `permtest` class now has getters that allow to extract the information from the test.
+* For LOO-CV, you can use the alternatives `"edges"` and `"vertices"` for the settings `"interaction"` and `"both"` respectively. These give the same results, and make it more clear what actually happens. This is adapted in functions `loo()`, `get_loo_fun()`, `tune()` and those dependent on it.
 
 ### Bug fixes and minor improvements
 
-* All help pages are checked and corrected.
+* All help pages are checked and corrected where necessary.
 
 ## xnet 0.1.9
 

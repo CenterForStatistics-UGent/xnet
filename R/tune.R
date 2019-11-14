@@ -95,10 +95,16 @@ setMethod("tune",
                    ngrid = 10,
                    lambda = NULL,
                    fun = loss_mse,
-                   exclusion = 'interaction',
+                   exclusion = 'edges',
                    replaceby0 = FALSE,
                    onedim = TRUE,
                    ...){
+
+            # Translate edges and vertices
+            if(exclusion %in% c("interaction","both"))
+              exclusion <- switch(exclusion,
+                                  interaction = "edges",
+                                  both = "vertices")
 
             if(!onedim)
               warning("Only one-dimensional search is possible for homogeneous networks.")

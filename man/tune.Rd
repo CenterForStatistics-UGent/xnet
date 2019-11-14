@@ -9,7 +9,7 @@
 \title{tune the lambda parameters for a tskrr}
 \usage{
 \S4method{tune}{tskrrHomogeneous}(x, lim = c(1e-04, 1), ngrid = 10,
-  lambda = NULL, fun = loss_mse, exclusion = "interaction",
+  lambda = NULL, fun = loss_mse, exclusion = "edges",
   replaceby0 = FALSE, onedim = TRUE, ...)
 
 \S4method{tune}{tskrrHeterogeneous}(x, lim = c(1e-04, 1), ngrid = 10,
@@ -44,7 +44,9 @@ result of the crossvalidation LOO as input. The function name can
 be passed as a character string as well.}
 
 \item{exclusion}{a character value with possible values "interaction",
-"row", "column" or "both". Defaults to "interaction". See details.}
+"row", "column", "both" for heterogeneous models, and "edges", "vertices",
+"interaction" or "both" for homogeneous models.
+Defaults to "interaction". See details.}
 
 \item{replaceby0}{a logical value indicating whether the interaction
 should be simply removed (\code{FALSE}) or replaced by 0 (\code{TRUE}).}

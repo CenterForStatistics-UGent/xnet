@@ -25,15 +25,19 @@ validTskrrTuneHomogeneous <- function(object){
      nrow(lossval) != length(lgrid$k))
     return(paste("Loss values should have 1 row and",length(lgrid$k),"columns to match the lambda grid."))
 
-  exclmatch <- match(excl, c("interaction","both"),
+  exclmatch <- match(excl, c("edges","vertices"),
                      nomatch = 0L)
   if(exclmatch == 0)
     return("exclusion should be either 'interaction' or 'both' for homogeneous networks.")
 
   else if(!object@onedim)
     return("grid search can only be done in one dimension for a homogeneous network.")
+
+  if(object@replaceby0 && excl != "edges")
+    return("replaceby0 can only be used with edges exclusion")
   else
     return(TRUE)
+
 
 }
 

@@ -49,6 +49,11 @@ test_that("get_loo_fun returns the correct function",{
   expect_equal(get_loo_fun(mods, 'interaction'), loo.e.skew)
   expect_equal(get_loo_fun(modh,'both'), loo.v)
   expect_equal(get_loo_fun(mods,'both'), loo.v)
+  expect_equal(get_loo_fun(modh,'edge',
+                           replaceby0 = FALSE), loo.e.sym)
+  expect_equal(get_loo_fun(mods, 'edge'), loo.e.skew)
+  expect_equal(get_loo_fun(modh,'vertices'), loo.v)
+  expect_equal(get_loo_fun(mods,'vertices'), loo.v)
   expect_error(get_loo_fun(modh,'row'))
   expect_error(get_loo_fun(mods,'column',replaceby0 = TRUE))
   # Linear filters
@@ -90,6 +95,32 @@ test_that("get_loo_fun returns the correct function",{
                            symmetry = "symmetric"),
                loo.e.sym)
 
+  # Test alternative shortcuts
+  expect_equal(get_loo_fun("tskrrHomogeneous","vertices",
+                           symmetry = "skewed"),
+               loo.v)
+  expect_equal(get_loo_fun("tskrrHomogeneous","vertices",
+                           symmetry = "symmetric"),
+               loo.v)
+  expect_equal(get_loo_fun("tskrrHomogeneous","edges",
+                           replaceby0 = TRUE,
+                           symmetry = "skewed"),
+               loo.e0.skew)
+  expect_equal(get_loo_fun("tskrrHomogeneous","edges",
+                           replaceby0 = FALSE,
+                           symmetry = "skewed"),
+               loo.e.skew)
+  expect_equal(get_loo_fun("tskrrHomogeneous","edges",
+                           replaceby0 = TRUE,
+                           symmetry = "symmetric"),
+               loo.e0.sym)
+  expect_equal(get_loo_fun("tskrrHomogeneous","edges",
+                           replaceby0 = FALSE,
+                           symmetry = "symmetric"),
+               loo.e.sym)
+
+
+
   expect_equal(get_loo_fun("linearFilter",replaceby0 = FALSE),
                loo.i.lf)
   expect_equal(get_loo_fun("linearFilter", replaceby0 = TRUE),
@@ -103,7 +134,7 @@ test_that("loo processes arguments correctly",{
   expect_error(loo(mod, exclusion = "row", replaceby0 = TRUE),
                regexp = "only makes sense .* 'interaction'")
   expect_error(loo(modh, exclusion = "both", replaceby0 = TRUE),
-               regexp = "only makes sense .* 'interaction'")
+               regexp = "only makes sense .* 'edges'")
 })
 
 Ycont <- Y

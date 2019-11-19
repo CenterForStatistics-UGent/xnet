@@ -172,14 +172,19 @@ In addition to the cross-validation schemes, `xnet` also provides permutation-ba
 
 ![Illustration of the permuation to assess for the importance of the different Gram matrices for the different cross-validation settings. The performance, such as mean squared error or AUC can be computed on the prediction matrix, using a leave-one-out cross-validation shortcut. Shuffling the rows and the corresponding columns of one or both of the Gram matrices (here, only of $K$) destroys the association between the labels and this or these kernels. The distribution of the performance on the prediction matrices trained with such permuted data gives an indication how important this information is for accurate predictions.  \label{fig:perm}](permute.pdf)
 
-# Use of the package
+# Design and use of the package
 \label{sec:useofpackage}
 
-In this section, we will illustrate the main API of **xnet**. The functions are demonstrated on two datasets relating to molecular biology: a drug-target dataset as an example of a bipartite network and a protein-protein interaction dataset as an example of a homogeneous dataset.
+In this section, we briefly describe the reasoning behind the design and illustrate the main API of \pkg{xnet}. The functions are demonstrated on two datasets relating to molecular biology: a drug-target dataset as an example of a bipartite network and a protein-protein interaction dataset as an example of a homogeneous dataset. Both datasets are included in the \pkg{xnet} package.
+
+## Design choices
+
+Even though computational speed is important, much attention was given to the intuitivity of the API design. Using 
+
 
 ## Data overview
 
-The dataset `drugtarget`, first presented by @Yamanishi2008, serves as an example of a bipartite network. It is a small dataset containing all binary interactions between 26 nuclear receptor protein targets and 54 drug-like compounds. To get a suitable kernel matrix, we recomputed the kernel matrices as explained in the vignette `[Preparation of the example data](../doc/Preparation_example_data.html)`.
+The dataset `drugtarget`, first presented by @Yamanishi2008, serves as an example of a bipartite network. It is a small dataset containing all binary interactions between 26 nuclear receptor protein targets and 54 drug-like compounds. As the SIMCOMP algorithm used by @Yamanishi2008 doesn't necessarily return a symmetric matrix, the similarities between the chemical compounds were recalculated based on the Tanimoto coefficient, using the \pkg{fmcsR} package. **INCLUDE REFERENCES**
 
 The processed dataset consists of three matrices:
 

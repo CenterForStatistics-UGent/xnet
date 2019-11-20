@@ -163,8 +163,7 @@ This process is repeated untill the predictions and imputed labels have converge
 
 A vital aspect of building data-driven models is to perform a correct validation and testing of the model. This both ensures that the best model is selected (w.r.t the feature descriptors and hyperparameter values) and the reported performance is representative for new real-world data. It is well established that for supervised network prediction validation is more complicated than in traditional supervised settings [@Park2012;@Schrynemackers2013;@Pahikkala2015]. This is because, in matrix-valued network data, the assumption of independence is violated: the individual objects occur in multiple pairs.
 
-In earlier work, we have defined several specialized leave-one-out cross-validation schemes tailored for the pairwise prediction problem [@Stock2018cvshortcuts]. We distinguish between bipartite networks (where $U\ne V$, e.g., protein-ligand or plant-pollinator networks) and homogenous networks (where $U = V$, e.g., protein-protein networks and food webs). For bipartite networks, we can leave out one element at a time (I), one row (R), one column (C) or both (B). For the homogeneous networks, we can leave out edges (E) or vertices (Vinstall.packages("ggplot2")
-). For validation settings I and E, we can set the interaction values to zero, rather than discarding the pairs altogether. We refer to these cases as setting I0 and E0, respectively. These different cross-validation setting are shown in Figure \ref{fig:CV}. `xnet` provides efficient computational shortcuts for performing all network cross-validations. These allow for both selecting the best possible model for each setting, as well as exploring for which prediction settings the model performs well and in which prediction setting it does not.
+In earlier work, we have defined several specialized leave-one-out cross-validation schemes tailored for the pairwise prediction problem [@Stock2018cvshortcuts]. We distinguish between bipartite networks (where $U\ne V$, e.g., protein-ligand or plant-pollinator networks) and homogenous networks (where $U = V$, e.g., protein-protein networks and food webs). For bipartite networks, we can leave out one element at a time (I), one row (R), one column (C) or both (B). For the homogeneous networks, we can leave out edges (E) or vertices (V). For validation settings I and E, we can set the interaction values to zero, rather than discarding the pairs altogether. We refer to these cases as setting I0 and E0, respectively. These different cross-validation setting are shown in Figure \ref{fig:CV}. `xnet` provides efficient computational shortcuts for performing all network cross-validations. These allow for both selecting the best possible model for each setting, as well as exploring for which prediction settings the model performs well and in which prediction setting it does not.
 
 ![Illustration of the different leave-one-out cross-validation settings provided in `xnet` illustrated on a small hypothetical recommender system bipartite network and a small hypothetical species interaction network. Both examples show label matrices with binary values for simplicity, in practice these values can be real-valued.\label{fig:CV}](CVsettings.pdf)
 
@@ -172,15 +171,16 @@ In addition to the cross-validation schemes, `xnet` also provides permutation-ba
 
 ![Illustration of the permuation to assess for the importance of the different Gram matrices for the different cross-validation settings. The performance, such as mean squared error or AUC can be computed on the prediction matrix, using a leave-one-out cross-validation shortcut. Shuffling the rows and the corresponding columns of one or both of the Gram matrices (here, only of $K$) destroys the association between the labels and this or these kernels. The distribution of the performance on the prediction matrices trained with such permuted data gives an indication how important this information is for accurate predictions.  \label{fig:perm}](permute.pdf)
 
-# Design and use of the package
+# The xnet package
 \label{sec:useofpackage}
 
 In this section, we briefly describe the reasoning behind the design and illustrate the main API of \pkg{xnet}. The functions are demonstrated on two datasets relating to molecular biology: a drug-target dataset as an example of a bipartite network and a protein-protein interaction dataset as an example of a homogeneous dataset. Both datasets are included in the \pkg{xnet} package.
 
-## Design choices
+## The package design
 
-Even though computational speed is important, much attention was given to the intuitivity of the API design. Using 
+Even though the package \pkg{xnet} was developed with performance in mind, all functions were written entirely in R. We traced and where possible remedied all bottlenecks to obtain acceptable performance for larger networks without adding extra complexity to the code base. Adding compiled code to an R package also comes with extra dependencies, and possibly makes maintenance of the package more complex than necessary [@Claes2014]. As an extra benefit, the decision also gives the user the possibility to optimize performance of the core matrix calculations by combining R with a BLAS library optimal for their own system [@RInstallAdmin]. 
 
+The package uses the S4 system of classes  **HERE I NEED MORE**
 
 ## Data overview
 

@@ -4,10 +4,20 @@
 \alias{impute_tskrr}
 \title{Impute missing values in a label matrix}
 \usage{
-impute_tskrr(y, k, g = NULL, lambda = 0.01, testdim = TRUE,
-  testlabels = TRUE, symmetry = c("auto", "symmetric", "skewed"),
-  keep = FALSE, niter = 10000, tol = sqrt(.Machine$double.eps),
-  start = mean(y, na.rm = TRUE), verbose = FALSE)
+impute_tskrr(
+  y,
+  k,
+  g = NULL,
+  lambda = 0.01,
+  testdim = TRUE,
+  testlabels = TRUE,
+  symmetry = c("auto", "symmetric", "skewed"),
+  keep = FALSE,
+  niter = 10000,
+  tol = sqrt(.Machine$double.eps),
+  start = mean(y, na.rm = TRUE),
+  verbose = FALSE
+)
 }
 \arguments{
 \item{y}{a label matrix}

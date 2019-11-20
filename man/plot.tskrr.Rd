@@ -4,13 +4,26 @@
 \alias{plot.tskrr}
 \title{plot a heatmap of the predictions from a tskrr model}
 \usage{
-\method{plot}{tskrr}(x, dendro = c("both", "row", "col", "none"),
+\method{plot}{tskrr}(
+  x,
+  dendro = c("both", "row", "col", "none"),
   which = c("fitted", "loo", "response", "residuals"),
   exclusion = c("interaction", "row", "column", "both"),
-  replaceby0 = FALSE, nbest = 0, rows, cols,
-  col = rev(heat.colors(20)), breaks = NULL, legend = TRUE,
-  main = NULL, xlab = NULL, ylab = NULL, labRow = NULL,
-  labCol = NULL, margins = c(5, 5), ...)
+  replaceby0 = FALSE,
+  nbest = 0,
+  rows,
+  cols,
+  col = rev(heat.colors(20)),
+  breaks = NULL,
+  legend = TRUE,
+  main = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  labRow = NULL,
+  labCol = NULL,
+  margins = c(5, 5),
+  ...
+)
 }
 \arguments{
 \item{x}{a tskrr model}

@@ -4,8 +4,14 @@
 \alias{plot_grid}
 \title{Plot the grid of a tuned tskrr model}
 \usage{
-plot_grid(x, addlambda = TRUE, lambdapars = list(col = "red"),
-  log = TRUE, opts.contour = list(nlevels = 10), ...)
+plot_grid(
+  x,
+  addlambda = TRUE,
+  lambdapars = list(col = "red"),
+  log = TRUE,
+  opts.contour = list(nlevels = 10),
+  ...
+)
 }
 \arguments{
 \item{x}{an object that inherits from

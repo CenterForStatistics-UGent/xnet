@@ -4,9 +4,16 @@
 \alias{tskrr}
 \title{Fitting a two step kernel ridge regression}
 \usage{
-tskrr(y, k, g = NULL, lambda = 1e-04, testdim = TRUE,
-  testlabels = TRUE, symmetry = c("auto", "symmetric", "skewed"),
-  keep = FALSE)
+tskrr(
+  y,
+  k,
+  g = NULL,
+  lambda = 1e-04,
+  testdim = TRUE,
+  testlabels = TRUE,
+  symmetry = c("auto", "symmetric", "skewed"),
+  keep = FALSE
+)
 }
 \arguments{
 \item{y}{a label matrix}

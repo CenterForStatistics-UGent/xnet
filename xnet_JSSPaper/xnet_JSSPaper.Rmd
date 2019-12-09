@@ -182,11 +182,11 @@ Even though the package \pkg{xnet} was developed with performance in mind, all f
 
 The package uses the S4 system of class inheritance. We provided three virtual classes named `tskrr` for general models, `tskrrTune` for models that were tuned automatically and `tskrrImpute` for models with imputed data. Real classes for homogeneous and heterogeneous networks inherit from these three virtual classes. This setup allows to mimimize the amount of specific methods for accessing, summarizing and plotting the different flavors of models. The class structure is explained in more detail in the vignette "Class structure" contained within the package. 
 
-Care has been taken to embed the user interface in the standard workflows of R. We provide methods for the generics `dim`, `fitted`, `predict`, `update`, `plot`, `labels`, `dimnames`, `colnames` and `rownames`. This allows for a more intuitive use of the package.
+Care has been taken to embed the user interface in the standard workflows of R. We provide methods for the generics `dim`, `fitted`, `predict`, `update`, `plot`, `labels`, `dimnames`, `colnames` and `rownames`. The provided methods for 
 
 ## Data overview
 
-The dataset `drugtarget`, first presented by @Yamanishi2008, serves as an example of a bipartite network. It is a small dataset containing all binary interactions between 26 nuclear receptor protein targets and 54 drug-like compounds. As the SIMCOMP algorithm used by @Yamanishi2008 doesn't necessarily return a symmetric matrix, the similarities between the chemical compounds were recalculated based on the Tanimoto coefficient, using the \pkg{fmcsR} package [@Wang_2013]. **INCLUDE REFERENCES**
+The dataset `drugtarget`, first presented by @Yamanishi2008, serves as an example of a bipartite network. It is a small dataset containing all binary interactions between 26 nuclear receptor protein targets and 54 drug-like compounds. The adjacency matrix as well as the similarity matrix for the targets were taken from the supplementary materials of the paper. The similarities between the chemical compounds were calculated based on the SIMCOMP algorithm by @Yamanishi2008. As this algorithm doesn't necessarily return a symmetric matrix, we recalculated these similarities. The chemical compound structure was first downloaded from the KEGG database [@KEGG2019] using the \pkg{ChemmineR} package [@Cao2008]. The similarities between the chemical compounds were then recalculated based on the Tanimoto coefficient, using the \pkg{fmcsR} package [@Wang_2013]. More details, including the code used, can be found in the vignette "Preparation of the example data" contained within the package.
 
 The processed dataset consists of three matrices:
 
@@ -194,16 +194,18 @@ The processed dataset consists of three matrices:
  * the kernel matrix for the targets `targetSim`;
  * the kernel matrix for the drugs `drugSim`.
 
-The example dataset `proteinInteraction` originates from a publication by @Yamanishi2004. It contains an interaction network between a set of 769 proteins, and consists of two matrices:
+The example dataset `proteinInteraction` originates from a paper by @Yamanishi2004. The data describes the interactions between a subset of 150 proteins and consists of two matrices:
 
  * the adjacency matrix `proteinInteraction` where 1 indicates an interaction between proteins;
- * the kernel matrix `Kmat_y2h_sc` describing the similarity between the proteins, based on the two-hybrid method.
+ * the kernel matrix `Kmat_y2h_sc` describing the similarity between the proteins, based on the two-hybrid method. 
+ 
+For details on how the matrices were obtained, we refer to @Yamanishi2004.
 
 ## Fitting a two-step kernel ridge regression
 
 ### Bipartite networks
 
-One can fit a two-step kernel ridge regression using the function `tskrr()`. In addition to the interaction matrix and the kernel matrices, this function accepts the tuning parameters `lambda`, as explained earlier.  The user can choose to set one lambda for tuning $K$ and $G$ using the same lambda value, or they can specify a different lambda for $K$ and $G$. If none are provided, the function uses default values of $10^{-4}$ for $\lambda_k$ and $\lambda_g$[^defaulthp].
+One can fit a two-step kernel ridge regression using the function `tskrr()`. In addition to the interaction matrix and the kernel matrices, this function accepts the tuning parameters `lambda`.  The user can choose to set one lambda for tuning $K$ and $G$ using the same lambda value, or they can specify a different lambda for $K$ and $G$. If none are provided, the function uses default values of $10^{-4}$ for $\lambda_k$ and $\lambda_g$[^defaulthp]. The function returns in this case an object of the class `tskrrHeterogeneous`.
 
 [^defaulthp]: These default values ensure nearly unbiased estimation of the regression parameters. They are strictly greater than zero to ensure numerical stability.
 
@@ -218,8 +220,6 @@ drugmodel <- tskrr(y = drugTargetInteraction,
                    k = targetSim,
                    g = drugSim,
                    lambda = c(0.01,0.1))
-
-drugmodel
 ```
 
 ### Homogenous network

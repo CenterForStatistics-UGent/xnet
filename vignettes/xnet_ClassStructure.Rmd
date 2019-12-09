@@ -120,8 +120,8 @@ These slots use the following design principles:
 When using the function `impute()`, you get one of the following 
 classes:
 
-  * `tskrrHomogeneousImpute` : for homogeneous networks with imputed data.
-  * `tskrrHeterogeneousImpute` : for heterogeneous networks with imputed data.
+  * `tskrrImputeHomogeneous` : for homogeneous networks with imputed data.
+  * `tskrrImputeHeterogeneous` : for heterogeneous networks with imputed data.
 
 Apart from the slots of the respective `tskrr` class, the inheritance
 from `tskrrImpute` adds the following slots:

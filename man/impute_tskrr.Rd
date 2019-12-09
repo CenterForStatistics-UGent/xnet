@@ -64,7 +64,7 @@ of iterations and the final deviation", \code{2} means "show the deviation
 every 10 iterations". A value \code{TRUE} is read as \code{1}.}
 }
 \value{
-A \code{tskrr} model of the class \code{\link{tskrrHeterogeneousImpute}} or \code{\link{tskrrHomogeneousImpute}} depending on whether or
+A \code{tskrr} model of the class \code{\link{tskrrImputeHeterogeneous}} or \code{\link{tskrrImputeHomogeneous}} depending on whether or
 not \code{g} has a value.
 }
 \description{

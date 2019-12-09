@@ -15,7 +15,7 @@
 #' of iterations and the final deviation", \code{2} means "show the deviation
 #' every 10 iterations". A value \code{TRUE} is read as \code{1}.
 #'
-#' @return A \code{tskrr} model of the class \code{\link{tskrrHeterogeneousImpute}} or \code{\link{tskrrHomogeneousImpute}} depending on whether or
+#' @return A \code{tskrr} model of the class \code{\link{tskrrImputeHeterogeneous}} or \code{\link{tskrrImputeHomogeneous}} depending on whether or
 #' not \code{g} has a value.
 #'
 #' @examples
@@ -110,7 +110,7 @@ impute_tskrr <- function(y,
   # CREATE OUTPUT
   if(homogeneous){
 
-    out <- new("tskrrHomogeneousImpute",
+    out <- new("tskrrImputeHomogeneous",
                y = imp$y,
                k = k.eigen,
                lambda.k = lambda.k,
@@ -124,7 +124,7 @@ impute_tskrr <- function(y,
                tol = tol
                )
   } else {
-    out <- new("tskrrHeterogeneousImpute",
+    out <- new("tskrrImputeHeterogeneous",
                y = imp$y,
                k = k.eigen,
                g = g.eigen,

@@ -1,6 +1,6 @@
-#' Class tskrrHomogeneousImpute
+#' Class tskrrImputeHomogeneous
 #'
-#' The class \code{tskrrHomogeneousImpute} is a subclass of the
+#' The class \code{tskrrImputeHomogeneous} is a subclass of the
 #' class \code{\link[xnet:tskrrHomogeneous-class]{tskrrHomogeneous}} and
 #' \code{\link[xnet:tskrrImpute-class]{tskrrImpute}}
 #' specifically for homogeneous networks with imputed values. It is
@@ -28,9 +28,9 @@
 #' @slot tol a numeric value with the tolerance used
 #'
 #' @include Class_tskrrHomogeneous.R Class_tskrrImpute.R
-#' @rdname tskrrHomogeneousImpute-class
-#' @aliases tskrrHomogeneousImpute
-#' @exportClass tskrrHomogeneousImpute
-setClass("tskrrHomogeneousImpute",
+#' @rdname tskrrImputeHomogeneous-class
+#' @aliases tskrrImputeHomogeneous
+#' @exportClass tskrrImputeHomogeneous
+setClass("tskrrImputeHomogeneous",
          contains = c("tskrrImpute", "tskrrHomogeneous")
          )

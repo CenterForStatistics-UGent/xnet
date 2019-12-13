@@ -1,20 +1,20 @@
 #' Test the correctness of the labels.
 #'
-#' This function checks whether the labels between the Y, K and G
+#' This function checks whether the labels between the Y, K, and G
 #' matrices make sense. This means that all the labels found as
 #' rownames for \code{y} can be found as rownames \emph{and} column
 #' names of \code{k}, and all the colnames for \code{y} can be found
 #' as rownames \emph{and} colnames of \code{g} (if provided).
 #'
-#' Compatible labels means that it is unequivocally clear which
+#' Compatible labels mean that it is unequivocally clear which
 #' rows and columns can be linked throughout the model. In case none
 #' of the matrices have row- or colnames, the labels are considered
 #' compatible. In all other cases, all matrices should have both row
 #' and column names. They should fulfill the following conditions:
 #'
 #' \itemize{
-#'   \item the row and column names of a kernel matrix must contain
-#'   the same values in the same order. Otherwise the matrix can't
+#'   \item the row- and column names of a kernel matrix must contain
+#'   the same values in the same order. Otherwise, the matrix can't
 #'   be symmetric.
 #'   \item the rownames of \code{y} should correspond to the rownames
 #'   of \code{k}
@@ -23,7 +23,7 @@
 #'   case \code{g} is \code{NULL}
 #' }
 #'
-#' @param y the adjacency matrix
+#' @param y the label matrix
 #' @param k the kernel matrix for the rows
 #' @param g the kernel matrix for the columns (optional). If not available,
 #' it takes the value \code{NULL}

@@ -1,10 +1,12 @@
 #' Calculate or extract the loss of a tskrr model
 #'
-#' This function allows to calculate the loss of a tskrr model using
+#' This function allows calculating the loss of a tskrr model using
 #' either one of the functions defined in \code{\link{loss_functions}}
-#' or a custom user function.If the model inherits from class
+#' or a custom user function. If the model inherits from class
 #' \code{\link[xnet:tskrrTune-class]{tskrrTune}} and no additional arguments
 #' are given, the loss is returned for the settings used when tuning.
+#' The function can also be used to extract the original loss from a
+#' \code{\link[xnet:permtest-class]{permtest}} object.
 #'
 #' @param x a model that inherits from class
 #' \code{\link[xnet:tskrr-class]{tskrr}}
@@ -53,7 +55,7 @@ setMethod("loss",
 
             fun <- match.fun(fun)
             exclusion <- match.arg(exclusion)
-                # needed to make this work for homogenous models!
+                # needed to make this work for homogeneous models!
             loo <- if(predictions){
               fitted(x)
             } else {
@@ -85,4 +87,13 @@ setMethod("loss",
                           predictions,
                           ...)
 
+          })
+
+#' @rdname loss
+#' @export
+setMethod("loss",
+          "permtest",
+          function(x,
+                   ...){
+            x@orig_loss
           })

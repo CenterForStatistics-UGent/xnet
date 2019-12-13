@@ -6,11 +6,11 @@
 
 # Returns a list with lambdas that fits the tskrrTune slot
 
-.prepare_lambdas <- function(lim, ngrid, lambda = NULL, homogenous,
+.prepare_lambdas <- function(lim, ngrid, lambda = NULL, homogeneous,
                              onedim = FALSE){
 
-  if(homogenous || onedim){
-    # Processing for homogenous networks
+  if(homogeneous || onedim){
+    # Processing for homogeneous networks
     if(is.null(lambda)){
 
       lim <- .check_for_one(lim, "lim")
@@ -22,7 +22,7 @@
     }
     return(list(k = lambda))
   } else {
-    # Processing for heterogenous networks
+    # Processing for heterogeneous networks
     if(is.null(lambda)){
       lim <- .check_for_two(lim, "lim")
       ngrid <- .check_for_two(ngrid, "ngrid")

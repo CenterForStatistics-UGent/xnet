@@ -26,11 +26,11 @@ are stored in the object.}
 
 \item{\code{labels}}{a list with two character vectors, \code{k} and
 \code{g}, containing the labels for the rows resp. columns. See
-\code{\link{tskrrHomogenous}} and
-\code{\link{tskrrHeterogenous}} for more details.}
+\code{\link{tskrrHomogeneous}} and
+\code{\link{tskrrHeterogeneous}} for more details.}
 }}
 
 \seealso{
-the classes \code{\link{tskrrHomogenous}} and
-\code{\link{tskrrHeterogenous}} for the actual classes
+the classes \code{\link{tskrrHomogeneous}} and
+\code{\link{tskrrHeterogeneous}} for the actual classes.
 }

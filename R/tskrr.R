@@ -1,10 +1,10 @@
 #' Fitting a two step kernel ridge regression
 #'
-#' \code{tskrr} is the main function for fitting a two step kernel
-#' ridge regression. It can be used for both homogenous and heterogenous
+#' \code{tskrr} is the primary function for fitting a two-step kernel
+#' ridge regression model. It can be used for both homogeneous and heterogeneous
 #' networks.
 #'
-#' @param y a response matrix
+#' @param y a label matrix
 #' @param k a kernel matrix for the rows
 #' @param g an optional kernel matrix for the columns
 #' @param lambda a numeric vector with one or two values for the
@@ -19,8 +19,8 @@
 #' \code{TRUE}, but for large matrices putting this to \code{FALSE} will
 #' speed up the function.
 #' @param symmetry a character value with the possibilities
-#' "auto", "symmetric" or "skewed". In case of a homogenous fit, you
-#' can either specify whether the adjacency matrix is symmetric or
+#' "auto", "symmetric" or "skewed". In case of a homogeneous fit, you
+#' can either specify whether the label matrix is symmetric or
 #' skewed, or you can let the function decide (option "auto").
 #' @param keep a logical value indicating whether the kernel hat
 #' matrices should be stored in the model object. Doing so makes the
@@ -33,7 +33,7 @@
 #' \code{\link{get_eigen}}, \code{\link{eigen2hat}}
 #' @examples
 #'
-#' # Heterogenous network
+#' # Heterogeneous network
 #'
 #' data(drugtarget)
 #'
@@ -42,7 +42,7 @@
 #' Y <- response(mod)
 #' pred <- fitted(mod)
 #'
-#' # Homogenous network
+#' # Homogeneous network
 #'
 #' data(proteinInteraction)
 #'
@@ -61,7 +61,7 @@ tskrr <- function(y,k,g = NULL,
                   ){
 
   iptest <- .test_input(y,k,g,lambda,testdim,testlabels)
-  homogenous <- iptest$homogenous
+  homogeneous <- iptest$homogeneous
   lambda.k <- iptest$lambda.k
   lambda.g <- iptest$lambda.g
 
@@ -69,7 +69,7 @@ tskrr <- function(y,k,g = NULL,
   rk <- rownames(k) # not when there's no row/-colnames
 
   if(!is.null(rk)){
-    if(homogenous){
+    if(homogeneous){
       ck <- rownames(k)
       if(any(rownames(y) !=rk))
         y <- match_labels(y,rk,ck)
@@ -81,7 +81,7 @@ tskrr <- function(y,k,g = NULL,
   }
 
   # Test whether Y is symmetric
-  if(homogenous){
+  if(homogeneous){
     # Test symmetry if required.
     symmetry <- match.arg(symmetry)
     if(symmetry == "auto"){
@@ -94,7 +94,7 @@ tskrr <- function(y,k,g = NULL,
 
   # CALCULATE EIGEN DECOMPOSITION
   k.eigen <- eigen(k, symmetric = TRUE)
-  g.eigen <- if(!homogenous) eigen(g, symmetric = TRUE) else NULL
+  g.eigen <- if(!homogeneous) eigen(g, symmetric = TRUE) else NULL
 
   res <- tskrr.fit(y,
                    k.eigen,
@@ -109,9 +109,9 @@ tskrr <- function(y,k,g = NULL,
   if(is.null(cn)) cn <- NA_character_
 
   # CREATE OUTPUT
-  if(homogenous){
+  if(homogeneous){
 
-    out <- new("tskrrHomogenous",
+    out <- new("tskrrHomogeneous",
                y = y,
                k = k.eigen,
                lambda.k = lambda.k,
@@ -121,7 +121,7 @@ tskrr <- function(y,k,g = NULL,
                Hk = if(keep) res$k else matrix(0),
                labels = list(k=rn, g = NA_character_))
   } else {
-    out <- new("tskrrHeterogenous",
+    out <- new("tskrrHeterogeneous",
                y = y,
                k = k.eigen,
                g = g.eigen,
@@ -135,4 +135,3 @@ tskrr <- function(y,k,g = NULL,
   }
   return(out)
 }
-

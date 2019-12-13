@@ -7,7 +7,7 @@
 #'
 #' @param x a tskrr model
 #' @param which a character value with possible values "row" or
-#' "column" to indicate which should be returned. For homogenous
+#' "column" to indicate which should be returned. For homogeneous
 #' models, this parameter is ignored.
 #' @param ... arguments passed to other methods.
 #'
@@ -15,7 +15,7 @@
 #' @rdname hat
 #' @export
 setMethod("hat",
-          "tskrrHeterogenous",
+          "tskrrHeterogeneous",
           function(x, which = c('row','column')){
 
             which <- match.arg(which)
@@ -37,7 +37,7 @@ setMethod("hat",
 #' @rdname hat
 #' @export
 setMethod("hat",
-          "tskrrHomogenous",
+          "tskrrHomogeneous",
           function(x, ...){
 
             if(has_hat(x)){

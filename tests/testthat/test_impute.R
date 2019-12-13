@@ -27,7 +27,7 @@ test_that("loss functions give correct result",{
 
 })
 
-# Heterogenous models ------------------------------------------
+# Heterogeneous models ------------------------------------------
 
 dfile <- system.file("testdata","testdata.rda", package = "xnet")
 
@@ -42,7 +42,7 @@ impY <- impute_tskrr(Yna,K,G,niter = 1000, lambda = lambdas)
 mod <- tskrr(response(impY),K,G,lambda = lambdas)
 
 
-test_that("impute constructs the correct heterogenous objects",{
+test_that("impute constructs the correct heterogeneous objects",{
   expect_equal(mod, as_tskrr(impY))
   expect_equal(fitted(mod), fitted(impY))
   expect_equal(impY@tol,  sqrt(.Machine$double.eps))
@@ -63,7 +63,7 @@ test_that("verbose settings and warnings work",{
 
 })
 
-# Homogenous models --------------------------------------------
+# Homogeneous models --------------------------------------------
 
 dfile <- system.file("testdata","testdataH.rda", package = "xnet")
 
@@ -83,7 +83,7 @@ modh <- tskrr(response(impYh),Kh,lambda = lambdas,
 # exactly symmetric. test_symmetry needs a less stringent tolerance
 # in this particular case, but it's good there's a warning for that.
 
-test_that("impute constructs the correct homogenous objects",{
+test_that("impute constructs the correct homogeneous objects",{
   expect_equal(modh, as_tskrr(impYh))
   expect_equal(fitted(modh), fitted(impYh))
   expect_equal(impYh@tol,  sqrt(.Machine$double.eps))
@@ -93,7 +93,7 @@ test_that("impute constructs the correct homogenous objects",{
   expect_identical(which_imputed(impYh),as.integer(naposh))
 })
 
-# Test labels heterogenous -----------------------------------------------
+# Test labels heterogeneous -----------------------------------------------
 
 rlabels <- letters[1:4]
 clabels <- letters[1:5]
@@ -117,13 +117,13 @@ Gl2 <- Gl[idg,idg]
 mod1 <- impute_tskrr(Yl,Kl,Gl)
 mod2 <- impute_tskrr(Yl2,Kl2,Gl2)
 
-test_that("Labels are correctly processed in heterogenous impute",{
+test_that("Labels are correctly processed in heterogeneous impute",{
   expect_equal(fitted(mod1)[rlabels,clabels],
                fitted(mod2)[rlabels,clabels])
 
 })
 
-# Test labels homogenous -----------------------------------------------
+# Test labels homogeneous -----------------------------------------------
 
 hlabels <- letters[1:5]
 
@@ -139,7 +139,7 @@ idy <- sample(1:5)
 Ylh2 <- Ylh[idy, idk]
 Klh2 <- Klh[idk, idk]
 
-test_that("Labels are correctly processed in homogenous impute",{
+test_that("Labels are correctly processed in homogeneous impute",{
   mod1 <- impute_tskrr(Ylh, Klh)
   mod2 <- impute_tskrr(Ylh2, Klh2)
   expect_equal(fitted(mod1)[hlabels,hlabels],

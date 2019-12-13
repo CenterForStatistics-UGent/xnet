@@ -34,14 +34,14 @@ form the Y dimension (related to the second lambda if applicable)}
 validation replaced the excluded values by zero}
 
 \item{\code{onedim}}{a logical value indicating whether the grid search
-was done in one dimension. For homogenous networks, this is
+was done in one dimension. For homogeneous networks, this is
 true by default.}
 }}
 
 \seealso{
 \itemize{
 \item the function \code{tune} for the tuning itself
-\item the class \code{\link{tskrrTuneHomogenous}} and
-\code{tskrrTuneHeterogenous} for the actual classes.
+\item the class \code{\link{tskrrTuneHomogeneous}} and
+\code{tskrrTuneHeterogeneous} for the actual classes.
 }
 }

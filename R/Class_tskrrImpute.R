@@ -2,8 +2,8 @@
 #'
 #' The class \code{tskrrImpute} is a virtual class that represents a
 #' \code{\link[xnet:tskrr-class]{tskrr}} model with imputed values in
-#' the adjacency matrix Y. Apart from the model, it contains extra
-#' information on the imputed values.
+#' the label matrix Y. Apart from the model, it contains the
+#' following extra information on the imputed values.
 #'
 #' @slot imputeid a vector with integer values indicating which of
 #' the values in \code{y} are imputed
@@ -36,8 +36,8 @@ setMethod("show",
           "tskrrImpute",
           function(object){
 
-            ishomog <- is_homogenous(object)
-            type <- ifelse(ishomog,"Homogenous","Heterogenous")
+            ishomog <- is_homogeneous(object)
+            type <- ifelse(ishomog,"Homogeneous","Heterogeneous")
             tl   <- ifelse(ishomog,"----------","------------")
             cat(paste(type,"two-step kernel ridge regression with imputation"),
                 paste(tl,"------------------------------------------------",sep="-"),

@@ -16,15 +16,15 @@ tunedmodh <- tune(modh)
 
 test_that("is_xxx works correctly",{
 
-  expect_error(is_homogenous(1))
-  expect_true(is_homogenous(modh))
-  expect_true(is_homogenous(mods))
-  expect_false(is_homogenous(mod))
+  expect_error(is_homogeneous(1))
+  expect_true(is_homogeneous(modh))
+  expect_true(is_homogeneous(mods))
+  expect_false(is_homogeneous(mod))
 
-  expect_true(is_heterogenous(mod))
-  expect_false(is_heterogenous(modh))
-  expect_false(is_heterogenous(mods))
-  expect_error(is_heterogenous(1))
+  expect_true(is_heterogeneous(mod))
+  expect_false(is_heterogeneous(modh))
+  expect_false(is_heterogeneous(mods))
+  expect_error(is_heterogeneous(1))
 
   expect_true(is_tskrr(mod))
   expect_true(is_tskrr(modh))
@@ -156,9 +156,9 @@ test_that("labels produces the correct errors", {
   expect_error(labels(mod, prefix = character(0)),
                "prefix should contain 1 or 2 values")
   expect_error(labels(mod, prefix = prefix[1]),
-               "heterogenous .* needs 2 values")
+               "heterogeneous .* needs 2 values")
   expect_warning(labels(modh, prefix = prefix),
-                 "Two prefixes were given for a homogenous model")
+                 "Two prefixes were given for a homogeneous model")
 })
 
 # Test for tskrrTune objects ---------------------------

@@ -19,6 +19,8 @@
 #' @slot pval a p value indicating how likely it is to find a
 #' smaller loss than the one of the model based on a normal
 #' approximation.
+#' @slot exact a logical value indicating whether the P value was
+#' calculated exactly or approximated by the normal distribution.
 #'
 #' @seealso
 #'  * the function \code{\link{permtest}} for the actual test.
@@ -40,7 +42,8 @@ setClass("permtest",
                    exclusion = "character",
                    replaceby0 = "logical",
                    permutation = "character",
-                   pval = "numeric"))
+                   pval = "numeric",
+                   exact = "logical"))
 
 # Validity testing
 validPermtest <- function(object){
@@ -50,13 +53,36 @@ validPermtest <- function(object){
     return("pval should be a single value.")
   if(length(object@perm_losses) != object@n)
     return("perm_losses doesn't have a length of n.")
+  if(length(object@exact)!= 1)
+    return("exact should be a single value.")
 
 }
 
 setValidity("permtest", validPermtest)
 
+# internal
+
+.make_res_table <- function(perm_losses, orig_loss, pval){
+  avg <- mean(perm_losses)
+  sd <- sd(perm_losses)
+  # results
+  res <- matrix(
+    c(orig_loss, avg, sd, pval),
+    nrow = 1,
+    dimnames = list(
+      " ",
+      c("Loss", "Avg. loss", "St.dev", "Pr(X < loss)")
+    )
+  )
+}
+
 # Show method
-print.permtest <- function(x, digits = max(3L, getOption("digits") - 3)){
+#' @param digits the number of digits shown in the output
+#' @rdname permtest
+#' @export
+print.permtest <- function(x,
+                           digits = max(3L, getOption("digits") - 3),
+                           ...){
 
   if(identical(x@loss_function, loss_mse))
     loss_name <- "Mean Squared Error (loss_mse)"
@@ -70,21 +96,11 @@ print.permtest <- function(x, digits = max(3L, getOption("digits") - 3)){
 
   loss_name <- paste("  Loss function:",loss_name,"\n")
   excl <- paste("  Exclusion:", excl, "\n")
-  perm <- paste("  Permutation:", x@permutation,"\n")
+  perm <- paste0("  Permutations: ", x@n," (direction: ",x@permutation,")\n")
 
-  avg <- mean(x@perm_losses)
-  sd <- sd(x@perm_losses)
-  # results
-  res <- matrix(
-    c(x@orig_loss, avg, sd, x@pval),
-    nrow = 1,
-    dimnames = list(
-      " ",
-      c("Loss", "Average loss", "sd", "Pr(X < Loss)")
-    )
-  )
-
-
+  res <- .make_res_table(x@perm_losses,
+                         x@orig_loss,
+                         x@pval)
 
   cat("\n")
   cat(strwrap("Permutation test for a tskrr model", prefix = "\t"))
@@ -96,7 +112,9 @@ print.permtest <- function(x, digits = max(3L, getOption("digits") - 3)){
   cat("\n")
   printCoefmat(res, digits = digits)
   cat("\n")
-  cat("P value is approximated based on a normal distribution.\n")
+  if(!x@exact)
+    cat("P value is approximated based on a normal distribution.\n\n")
+  invisible(res)
 
 }
 

@@ -1,12 +1,12 @@
 #' Functions to check matrices
 #'
-#' This functions allow you to check whether the dimensions of the
-#' response matrix and the kernel matrix (matrices) are compatible.
+#' These functions allow you to check whether the dimensions of the
+#' label matrix and the kernel matrix (matrices) are compatible.
 #' \code{valid_dimensions} checks whether both k and g are square matrices,
 #' whether y has as many rows as k and whether y has as many columns as g.
-#' \code{is_square} just checks whether both dimensions are the same.
+#' \code{is_square} checks whether both dimensions are the same.
 #'
-#' @param y a response matrix
+#' @param y a label matrix
 #' @param k a kernel matrix
 #' @param g an optional second kernel matrix or \code{NULL} otherwise.
 #'
@@ -38,4 +38,3 @@ is_square <- function(x){
   dims <- dim(x)
   dims[2L] == dims[1L]
 }
-

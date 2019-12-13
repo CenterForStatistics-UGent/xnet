@@ -1,19 +1,19 @@
 #' Impute values based on a two-step kernel ridge regression
 #'
 #' This function provides an interface for the imputation of values
-#' based on a \code{\link{tskrr}} model, and is the internal function
+#' based on a \code{\link{tskrr}} model and is the internal function
 #' used by \code{\link{impute_tskrr}}.
 #'
-#' This function is mostly available for internal use. In most cases
+#' This function is mostly available for internal use. In most cases,
 #' it makes much more sense to use \code{\link{impute_tskrr}}, as that
-#' function returns an object one can actually work with. The function
+#' function returns an object one can work with. The function
 #' \code{impute_tskrr.fit} could be useful when doing simulations or
 #' creating fitting algorithms.
 #'
-#' @param y an adjacency matrix
+#' @param y a label matrix
 #' @param Hk a hat matrix for the rows (see also \code{\link{eigen2hat}}
 #' on how to calculate them from an eigen decomposition)
-#' @param Hg a hat matrix for the columns. For homogenous networks, this
+#' @param Hg a hat matrix for the columns. For homogeneous networks, this
 #' should be Hk again.
 #' @param naid an optional index with the values that have to be imputed,
 #' i.e. at which positions you find a \code{NA} value. It can be a vector
@@ -22,10 +22,10 @@
 #'
 #' @return a list with two elements:
 #'  * a matrix \code{y} with the imputed values filled in.
-#'  * a numeric valus \code{niter} with the amount of iterations
+#'  * a numeric value \code{niter} with the amount of iterations
 #'
 #' @seealso
-#'  * \code{\link{impute_tskrr}} for the user-level function
+#'  * \code{\link{impute_tskrr}} for the user-level function, and
 #'  * \code{\link{eigen2hat}} for conversion of a eigen decomposition to
 #'  a hat matrix.
 #' @md
@@ -85,4 +85,3 @@ impute_tskrr.fit <- function(y,Hk,Hg,naid = NULL,
   return(list(y = y,
               niter = iter))
 }
-

@@ -13,14 +13,14 @@
 #' @section Warning: It should be noted that this normal approximation is an ad-hoc approach.
 #' There's no guarantee that the actual distribution of the loss under the
 #' null hypothesis is normal. Depending on the loss function, a significant
-#' deviation from the theoretic distribution can exist. Hence it should only
+#' deviation from the theoretic distribution can exist. Hence this functions should only
 #' be used as a rough guidance in model evaluation.
 #'
 #' @param x either a \code{\link{tskrr-class}} or a
 #' \code{\link{tskrrTune-class}} object
 #' @param permutation a character string that defines whether the row,
 #' column or both kernel matrices should be permuted. Ignored in case of
-#' a homogenous network
+#' a homogeneous network
 #' @param n the number of permutations for every kernel matrix
 #' @param exclusion the exclusion to be used in the \code{\link{loo}} function. See also \code{\link{get_loo_fun}}
 #' @param replaceby0 a logical value indicating whether \code{\link{loo}}
@@ -29,21 +29,34 @@
 #' @param fun a function (or a character string with the name of a
 #' function) that calculates the loss. See also \code{\link{tune}} and
 #' \code{\link{loss_functions}}
+#' @param exact a logical value that indicates whether or not an
+#' exact p-value should be calculated, or be approximated based on
+#' a normal distribution.
 #' @param ... arguments passed to other methods
 #'
 #' @return An object of the class permtest.
+#'
+#' @examples
+#'
+#' # Heterogeneous network
+#'
+#' data(drugtarget)
+#'
+#' mod <- tskrr(drugTargetInteraction, targetSim, drugSim)
+#' permtest(mod, fun = loss_auc)
 #'
 #' @importFrom stats pnorm printCoefmat sd
 #' @rdname permtest
 #' @aliases permtest
 #' @export
-setMethod("permtest","tskrrHeterogenous",
+setMethod("permtest","tskrrHeterogeneous",
           function(x,
                    n = 100,
                    permutation = c("both","row","column"),
                    exclusion = c("interaction","row","column","both"),
                    replaceby0 = FALSE,
-                   fun = loss_mse){
+                   fun = loss_mse,
+                   exact = FALSE){
   # Process arguments
   exclusion <- match.arg(exclusion)
   lossfun <- match.fun(fun)
@@ -52,12 +65,12 @@ setMethod("permtest","tskrrHeterogenous",
     stop("n should be a positive integer value.")
 
   # extract information
-  k <- get_kernel(x, "row")
-  g <- get_kernel(x, "column")
+  k <- get_kernelmatrix(x, "row")
+  g <- get_kernelmatrix(x, "column")
   y <- response(x)
   lambdas <- lambda(x)
 
-  loofun <- get_loo_fun("tskrrHeterogenous",
+  loofun <- get_loo_fun("tskrrHeterogeneous",
                         exclusion = exclusion,
                         replaceby0 = replaceby0)
 
@@ -71,9 +84,13 @@ setMethod("permtest","tskrrHeterogenous",
   perms <- .permtest_hetero(y,k,g,lambdas,
             n, permutation,
             lossfun, loofun)
+  if(exact){
+    pval <- mean(orig_loss > perms)
+  } else {
   pval <- pnorm(orig_loss,
                 mean = mean(perms),
                 sd = sd(perms))
+  }
 
   new("permtest",
       orig_loss = orig_loss,
@@ -83,35 +100,37 @@ setMethod("permtest","tskrrHeterogenous",
       exclusion = exclusion,
       replaceby0 = replaceby0,
       permutation = permutation,
-      pval = pval)
+      pval = pval,
+      exact = exact)
 
-}) # END setMethod tskrrHeterogenous
+}) # END setMethod tskrrHeterogeneous
 
 #' @rdname permtest
 #' @export
-setMethod("permtest","tskrrHomogenous",
+setMethod("permtest","tskrrHomogeneous",
           function(x,
                    n = 100,
                    permutation = c("both"),
                    exclusion = c("interaction","both"),
                    replaceby0 = FALSE,
-                   fun = loss_mse){
+                   fun = loss_mse,
+                   exact = FALSE){
             # Process arguments
             exclusion <- match.arg(exclusion)
             lossfun <- match.fun(fun)
 
             if(permutation != "both")
-              stop("For a homogenous model setting the permutation to anything else but 'both' doesn't make sense.")
+              stop("For a homogeneous model setting the permutation to anything else but 'both' doesn't make sense.")
 
             if(n <= 0 || !is_whole_positive(n))
               stop("n should be a positive integer value.")
 
             # extract information
-            k <- get_kernel(x, "row")
+            k <- get_kernelmatrix(x, "row")
             y <- response(x)
             lambdas <- lambda(x)
 
-            loofun <- get_loo_fun("tskrrHomogenous",
+            loofun <- get_loo_fun("tskrrHomogeneous",
                                   exclusion = exclusion,
                                   replaceby0 = replaceby0)
 
@@ -123,10 +142,13 @@ setMethod("permtest","tskrrHomogenous",
             # Do the permutation test
             perms <- .permtest_homo(y,k,lambdas,
                              n, lossfun, loofun)
-            pval <- pnorm(orig_loss,
-                          mean = mean(perms),
-                          sd = sd(perms))
-
+            if(exact){
+              pval <- mean(orig_loss > perms)
+            } else {
+              pval <- pnorm(orig_loss,
+                            mean = mean(perms),
+                            sd = sd(perms))
+            }
             new("permtest",
                 orig_loss = orig_loss,
                 perm_losses = perms,
@@ -135,9 +157,10 @@ setMethod("permtest","tskrrHomogenous",
                 exclusion = exclusion,
                 replaceby0 = replaceby0,
                 permutation = permutation,
-                pval = pval)
+                pval = pval,
+                exact = exact)
 
-}) # END setMethod tskrrHomogenous
+}) # END setMethod tskrrHomogeneous
 
 
 #' @rdname permtest
@@ -149,7 +172,7 @@ setMethod("permtest",
                    n = 100){
 
             permutation <- match.arg(permutation)
-            hetero <- is_heterogenous(x)
+            hetero <- is_heterogeneous(x)
 
             # Extract info. No getters available!
             exclusion <- slot(x, "exclusion")
@@ -250,7 +273,7 @@ setMethod("permtest",
 
 }
 
-# Internal permtest function for homogenous networks.
+# Internal permtest function for homogeneous networks.
 # y: the response matrix
 # k: the k kernel
 # lambda : the lambda

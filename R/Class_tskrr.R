@@ -13,11 +13,11 @@
 #' @slot Hk the kernel hat matrix for the rows.
 #' @slot labels a list with two character vectors, \code{k} and
 #' \code{g}, containing the labels for the rows resp. columns. See
-#' \code{\link{tskrrHomogenous}} and
-#' \code{\link{tskrrHeterogenous}} for more details.
+#' \code{\link{tskrrHomogeneous}} and
+#' \code{\link{tskrrHeterogeneous}} for more details.
 #'
-#' @seealso the classes \code{\link{tskrrHomogenous}} and
-#' \code{\link{tskrrHeterogenous}} for the actual classes
+#' @seealso the classes \code{\link{tskrrHomogeneous}} and
+#' \code{\link{tskrrHeterogeneous}} for the actual classes.
 #'
 #' @importFrom utils str
 #'
@@ -72,21 +72,21 @@ setValidity("tskrr", validTskrr)
 ################################################
 # SHOW METHOD
 
-.show_tskrr <- function(object, homogenous){
+.show_tskrr <- function(object, homogeneous){
   dims <- paste(dim(object@y), collapse = " x ")
   cat("Dimensions:", dims,"\n")
   cat("Lambda:\n")
   print(lambda(object))
 
   labs <- labels(object)
-  if(homogenous)
+  if(homogeneous)
     cat("\nLabels:")
   else
     cat("\nRow Labels:")
 
   str(labs$k, give.length = FALSE, give.head = FALSE,
       width = getOption("width") - 11)
-  if(!homogenous){
+  if(!homogeneous){
     cat("Col Labels:")
     str(labs$g, give.length = FALSE, give.head = FALSE,
         width = getOption("width") - 11)
@@ -96,8 +96,8 @@ setValidity("tskrr", validTskrr)
 setMethod("show",
           "tskrr",
           function(object){
-            ishomog <- is_homogenous(object)
-            type <- ifelse(ishomog,"Homogenous","Heterogenous")
+            ishomog <- is_homogeneous(object)
+            type <- ifelse(ishomog,"Homogeneous","Heterogeneous")
             tl   <- ifelse(ishomog,"----------","------------")
             cat(paste(type,"two-step kernel ridge regression"),
                 paste(tl,"--------------------------------",sep="-"),

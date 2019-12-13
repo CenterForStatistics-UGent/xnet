@@ -14,7 +14,7 @@
 \alias{loo.v}
 \alias{loo.i.lf}
 \alias{loo.i0.lf}
-\title{Leave-one-out crossvalidation for two-step kernel ridge regression}
+\title{Leave-one-out cross-validation for two-step kernel ridge regression}
 \usage{
 loo.i(Y, Hk, Hg, pred)
 
@@ -60,12 +60,12 @@ a matrix with the leave-one-out predictions
 \description{
 These functions implement different cross-validation scenarios for
 two-step kernel ridge regression. It uses the shortcuts for
-leave-one-out crossvalidation.
+leave-one-out cross-validation.
 }
 \details{
 These functions are primarily for internal use and hence not exported.
 Be careful when using them, as they do not perform any sanity check
-on the input. It's up to the user to make sure the input makes sense.
+on the input. It is up to the user to make sure the input makes sense.
 }
 \seealso{
 \code{\link{loo}} for the user-level function.

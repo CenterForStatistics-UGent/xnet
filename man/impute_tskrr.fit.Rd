@@ -7,12 +7,12 @@
 impute_tskrr.fit(y, Hk, Hg, naid = NULL, niter, tol, start, verbose)
 }
 \arguments{
-\item{y}{an adjacency matrix}
+\item{y}{a label matrix}
 
 \item{Hk}{a hat matrix for the rows (see also \code{\link{eigen2hat}}
 on how to calculate them from an eigen decomposition)}
 
-\item{Hg}{a hat matrix for the columns. For homogenous networks, this
+\item{Hg}{a hat matrix for the columns. For homogeneous networks, this
 should be Hk again.}
 
 \item{naid}{an optional index with the values that have to be imputed,
@@ -36,18 +36,18 @@ every 10 iterations". A value \code{TRUE} is read as \code{1}.}
 a list with two elements:
 \itemize{
 \item a matrix \code{y} with the imputed values filled in.
-\item a numeric valus \code{niter} with the amount of iterations
+\item a numeric value \code{niter} with the amount of iterations
 }
 }
 \description{
 This function provides an interface for the imputation of values
-based on a \code{\link{tskrr}} model, and is the internal function
+based on a \code{\link{tskrr}} model and is the internal function
 used by \code{\link{impute_tskrr}}.
 }
 \details{
-This function is mostly available for internal use. In most cases
+This function is mostly available for internal use. In most cases,
 it makes much more sense to use \code{\link{impute_tskrr}}, as that
-function returns an object one can actually work with. The function
+function returns an object one can work with. The function
 \code{impute_tskrr.fit} could be useful when doing simulations or
 creating fitting algorithms.
 }
@@ -70,7 +70,7 @@ res <- impute_tskrr.fit(drugTargetInteraction, Hk, Hg,
 }
 \seealso{
 \itemize{
-\item \code{\link{impute_tskrr}} for the user-level function
+\item \code{\link{impute_tskrr}} for the user-level function, and
 \item \code{\link{eigen2hat}} for conversion of a eigen decomposition to
 a hat matrix.
 }

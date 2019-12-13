@@ -34,6 +34,9 @@ kernel matrices were permuted.}
 \item{\code{pval}}{a p value indicating how likely it is to find a
 smaller loss than the one of the model based on a normal
 approximation.}
+
+\item{\code{exact}}{a logical value indicating whether the P value was
+calculated exactly or approximated by the normal distribution.}
 }}
 
 \seealso{

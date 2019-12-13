@@ -19,9 +19,10 @@ a numeric vector with values evenly spaced on a
 logarithmic scale.
 }
 \description{
-This function creates an grid of values for
+This function creates a grid of values for
 tuning a \code{\link{tskrr}} model. The grid is equally spaced on
-a logarithmic scale.
+a logarithmic scale. Normally it's not needed to call this method
+directly, it's usually called from \code{\link{tune}}.
 }
 \details{
 The \code{lim} argument sets the boundaries of the domain in which
@@ -29,4 +30,11 @@ the lambdas are sought. The lambda values at which the function is
 evaluated, are calculated as:
 
 \code{exp(seq(log(1e-4), log(1e4), length.out = ngrid))}
+}
+\examples{
+create_grid(lim = c(1e-4, 1), ngrid = 5)
+
+}
+\seealso{
+\code{\link{tune}} for tuning a tskrr model.
 }

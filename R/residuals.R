@@ -1,6 +1,6 @@
 #' calculate residuals from a tskrr model
 #'
-#' This function allows you to calculate the residuals for
+#' This function returns the residuals for
 #' an object inheriting from class \code{\link[xnet:tskrr-class]{tskrr}}
 #'
 #' @param object a tskrr model

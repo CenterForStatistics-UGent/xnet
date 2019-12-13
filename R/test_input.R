@@ -5,7 +5,7 @@
 # It returns a list with the following elements:
 # - lambda.k
 # - lambda.g
-# - homogenous
+# - homogeneous
 .test_input <- function(y,k,g,
                         lambda = 1e-4,
                         testdim = TRUE,
@@ -13,7 +13,7 @@
                         checkna = TRUE){
 
   # SET FLAGS
-  homogenous <- is.null(g)
+  homogeneous <- is.null(g)
 
   # TESTS INPUT
   if( !(is.matrix(y) && is.numeric(y)) )
@@ -25,7 +25,7 @@
   if(!is.numeric(lambda))
     stop("lambda should be numeric.")
 
-  if(!homogenous){
+  if(!homogeneous){
     if( !(is.matrix(g) && is.numeric(g)) )
       stop("g should be a matrix.")
 
@@ -47,7 +47,7 @@
     if(!is_symmetric(k))
       stop("k should be a symmetric matrix.")
 
-    if(!homogenous && !is_symmetric(g))
+    if(!homogeneous && !is_symmetric(g))
       stop("g should be a symmetric matrix.")
 
     if(!valid_dimensions(y,k,g))
@@ -63,13 +63,13 @@
 
   # SET LAMBDAS
   lambda.k <- lambda[1]
-  lambda.g <- if(!homogenous){
+  lambda.g <- if(!homogeneous){
     if(nl == 1) lambda else lambda[2]
   } else NULL
 
   return(list(
     lambda.k = lambda.k,
     lambda.g = lambda.g,
-    homogenous = homogenous
+    homogeneous = homogeneous
   ))
 }

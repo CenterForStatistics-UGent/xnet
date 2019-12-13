@@ -1,13 +1,13 @@
 #' loss functions
 #'
-#' The functions can be used in the \code{tune} as loss functions.
-#' Currently two functions are provided: a function calculating the
+#' These functions can be used as loss functions in \code{\link{tune}}.
+#' Currently, two functions are provided: a function calculating the
 #' classic mean squared error (\code{loss_mse}) and a function
 #' calculating 1 - AUC (\code{loss_auc}).
 #'
 #' The AUC is calculated by sorting the \code{Y} matrix based on
 #' the order of the values in the \code{LOO} matrix. The false and true
-#' positive rate are calculated solely based on that ordering, which
+#' positive rates are calculated solely based on that ordering, which
 #' allows for values in \code{LOO} outside the range [0,1]. It's
 #' a naive implementation which is good enough for tuning, but
 #' shouldn't be used as a correct value for 1 - auc in case the
@@ -17,7 +17,7 @@
 #' The function \code{loss_auc} should only be used for a \code{Y}
 #' matrix that contains solely the values 0 and 1.
 #'
-#' @param Y the adjacency matrix with observed responses
+#' @param Y the label matrix with observed responses
 #' @param LOO the leave-one-out crossvalidation (or predictions if you
 #' must). This one can be calculated by the function \code{loo}.
 #' @param na.rm a logical value

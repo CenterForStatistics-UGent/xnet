@@ -1,4 +1,21 @@
-## xnet devel (to become 0.2.0 CRAN release)
+## xnet 0.1.10
+
+### Breaking changes
+
+* `get_kernel` is renamed `get_kernelmatrix`. the function `get_kernel` is deprecated.
+* `tskrrHomogenous` and dependent classes are now called `tskrrHomogeneous`. The same correction is done for `tskrrHeterogenous` to `tskrrHeterogeneous`. This might affect code that uses `get_loo_fun` based on the class name.
+* `tskrrHomogeneousImpute` and `tskrrHeterogeneousImpute` were renamed to `tskrrImputeHomogeneous` and `tskrrImputeHeterogeneous` to follow the naming convention for the classes.
+
+### New features
+
+* the `permtest` class now has getters that allow to extract the information from the test.
+* For LOO-CV, you can use the alternatives `"edges"` and `"vertices"` for the settings `"interaction"` and `"both"` respectively. These give the same results, and make it more clear what actually happens. This is adapted in functions `loo()`, `get_loo_fun()`, `tune()` and those dependent on it.
+
+### Bug fixes and minor improvements
+
+* All help pages are checked and corrected where necessary.
+
+## xnet 0.1.9
 
 ### Breaking changes
 
@@ -6,6 +23,8 @@
 nodes to be on the rows.
 
 ### New features
+
+* the `permtest` function is added.
 
 ### Bug fixes and minor improvements
 

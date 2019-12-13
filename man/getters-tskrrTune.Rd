@@ -30,8 +30,8 @@ possibly \code{g}, each containing the different lambdas tried in
 the tuning for the row and column kernel matrices respectively.
 
 For \code{get_loss_values} a matrix with the calculated
-loss values. Note that the each row represents the result for one
-lambda value related to the row kernel matrix K. For heterogenous
+loss values. Note that each row represents the result for one
+lambda value related to the row kernel matrix K. For heterogeneous
 models, every column represents the result for one lambda related
 to the column kernel matrix G.
 

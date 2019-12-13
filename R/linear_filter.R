@@ -1,17 +1,17 @@
-#' Fit a linear filter over an adjacency matrix
+#' Fit a linear filter over a label matrix
 #'
-#' This function fits a linear filter over an adjacency matrix. It calculates
+#' This function fits a linear filter over a label matrix. It calculates
 #' the row, column and total means, and uses those to construct the linear
 #' filter.
 #'
 #' If there are missing values and they are removed before calculating the
 #' means, a warning is issued. If \code{na.rm = FALSE} and there are
-#' missing values present, the outcome is by definition a matrix filled
+#' missing values present, the outcome is, by definition, a matrix filled
 #' with NA values.
 #'
 #'
 #'
-#' @param y an adjacency matrix
+#' @param y a label matrix
 #' @param alpha a vector with 4 alpha values, or a single alpha value
 #' which then is used for all 4 alphas.
 #' @param na.rm a logical value indicating whether missing values should

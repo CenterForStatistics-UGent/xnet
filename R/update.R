@@ -1,8 +1,8 @@
 #' Update a tskrr object with a new lambda
 #'
 #' This function allows you to refit a \code{\link{tskrr}} with a
-#' new lambda. It can be used to do manual tuning/crossvalidation.
-#' If the object has the hat matrices stored, these will be updated
+#' new lambda. It can be used to do manual tuning/cross-validation.
+#' If the object has the hat matrices stored, these are updated
 #' as well.
 #'
 #' @param object a \code{\link[xnet:tskrr-class]{tskrr}} object
@@ -40,12 +40,12 @@
 #' @rdname update
 #' @export
 setMethod("update",
-          "tskrrHomogenous",
+          "tskrrHomogeneous",
           function(object, lambda){
 
             if(missing(lambda) || !is.numeric(lambda) || length(lambda) != 1){
               stop(paste("lambda should be a single numeric value",
-                         "for homogenous networks."))
+                         "for homogeneous networks."))
             }
 
             decomp <- get_eigen(object)
@@ -66,7 +66,7 @@ setMethod("update",
 #' @rdname update
 #' @export
 setMethod("update",
-          "tskrrHeterogenous",
+          "tskrrHeterogeneous",
           function(object, lambda){
 
             if(missing(lambda) ||

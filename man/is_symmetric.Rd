@@ -16,10 +16,10 @@ a logical value indicating whether or not the matrix is
 symmetric
 }
 \description{
-The function \code{\link[base]{isSymmetric}} tests symmetry but also
-takes row and column names into account. This function is a toned
-down (and slightly faster) version that ignores row and column names.
-Currently the function only works for real matrices, not complex ones.
+The function \code{\link[base]{isSymmetric}} tests for symmetry of a matrix but also
+takes row and column names into account. This function is a toned-down
+(and slightly faster) version that ignores row and column names.
+Currently, the function only works for real matrices, not complex ones.
 }
 \examples{
 x <- matrix(1:16,ncol = 4)

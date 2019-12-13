@@ -1,8 +1,8 @@
-#' Class tskrrHomogenous
+#' Class tskrrHomogeneous
 #'
-#' The class tskrrHomogenous is a subclass of the superclass
-#' \code{\link[xnet:tskrr-class]{tskrr}} class specifically for
-#' homogenous networks.
+#' The class tskrrHomogeneous is a subclass of the superclass
+#' \code{\link[xnet:tskrr-class]{tskrr}} specifically for
+#' homogeneous networks.
 #'
 #' @slot y the matrix with responses
 #' @slot k the eigen decomposition of the kernel matrix for the rows
@@ -16,22 +16,22 @@
 #' are stored in the object.
 #' @slot Hk the kernel hat matrix for the rows.
 #' @slot labels a list with elements \code{k} and \code{g} (see
-#' \code{\link{tskrr-class}}). For homogenous networks, \code{g}
+#' \code{\link{tskrr-class}}). For homogeneous networks, \code{g}
 #' is always \code{NA}. If \code{k} is \code{NA}, the labels used
 #' are integers indicating the row resp column number.
 #'
 #' @include Class_tskrr.R
-#' @rdname tskrrHomogenous-class
-#' @name tskrrHomogenous-class
-#' @aliases tskrrHomogenous
-#' @exportClass tskrrHomogenous
-setClass("tskrrHomogenous",
+#' @rdname tskrrHomogeneous-class
+#' @name tskrrHomogeneous-class
+#' @aliases tskrrHomogeneous
+#' @exportClass tskrrHomogeneous
+setClass("tskrrHomogeneous",
          contains = "tskrr",
          slots = c(symmetry = "character"),
          prototype = list(symmetry = "not")
          )
 
-validTskrrHomogenous <- function(object){
+validTskrrHomogeneous <- function(object){
 
   if(!object@symmetry %in% c("symmetric","skewed", "not"))
     return("symmetry should be one of: symmetric, skewed or not.")
@@ -52,5 +52,5 @@ validTskrrHomogenous <- function(object){
     return(TRUE)
 }
 
-setValidity("tskrrHomogenous",
-            validTskrrHomogenous)
+setValidity("tskrrHomogeneous",
+            validTskrrHomogeneous)

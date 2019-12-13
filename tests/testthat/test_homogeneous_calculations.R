@@ -1,4 +1,4 @@
-context("homogenous tskrr calculations")
+context("homogeneous tskrr calculations")
 
 # Create the structures needed. Was saved in a .rdata file
 
@@ -38,15 +38,15 @@ test_that("Symmetric model object is constructed correctly",{
   expect_equal(symmetry(modh), "symmetric")
   expect_equal(get_eigen(modh, "row"), Keig)
   expect_equal(get_eigen(modh, "column"), Keig)
-  expect_true(is_homogenous(modh))
+  expect_true(is_homogeneous(modh))
   expect_equal(hat(modh, 'row'), Hk)
   expect_equal(hat(modh, 'column'), Hk)
   expect_false(has_hat(modh))
 })
 
 test_that("Kernel matrices are extracted correctly", {
-  expect_equal(Kh, get_kernel(modh, 'row'))
-  expect_equal(Kh, get_kernel(modh, 'column'))
+  expect_equal(Kh, get_kernelmatrix(modh, 'row'))
+  expect_equal(Kh, get_kernelmatrix(modh, 'column'))
 })
 
 # Skewed networks ----------------------------------------------
@@ -69,7 +69,7 @@ test_that("Skewed model object is constructed correctly",{
   expect_equal(symmetry(mods), "skewed")
   expect_equal(get_eigen(mods, "row"), Keig)
   expect_equal(get_eigen(mods, "column"), Keig)
-  expect_true(is_homogenous(mods))
+  expect_true(is_homogeneous(mods))
   expect_equal(hat(mods, 'row'), Hk)
   expect_equal(hat(mods, 'column'), Hk)
   expect_false(has_hat(mods))
@@ -129,7 +129,7 @@ modsnew <- tskrr(Ys, Kh, lambda = lambdanew)
 mod3 <- tskrr(Yh,Kh, lambda = lambdak, keep = TRUE)
 modnew3 <- mod3 <- tskrr(Yh,Kh, lambda = lambdanew, keep = TRUE)
 
-test_that("Homogenous model gets updated correctly",{
+test_that("Homogeneous model gets updated correctly",{
   expect_error(update(modh, lambda = numeric(0)))
   expect_error(update(mods, lambda = c(1,2,3)))
   expect_error(update(mods, lambda = c(0.01,0.01)))

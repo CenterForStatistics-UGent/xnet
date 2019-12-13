@@ -1,7 +1,7 @@
 #' Getters for linearFilter objects
 #'
 #' These functions allow you to extract slots from objects of the
-#' class \code{\link{linearFilter}}
+#' class \code{\link{linearFilter}}.
 #'
 #' @param x a \code{linearFilter} object
 #' @param ... arguments passed to or from other methods.

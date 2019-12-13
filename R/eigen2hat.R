@@ -1,8 +1,8 @@
 #' Calculate the hat matrix from an eigen decomposition
 #'
-#' This functions calculate either the hat matrix, the mapping matrix or
+#' These functions calculate either the hat matrix, the mapping matrix or
 #' the original (kernel) matrix for a two-step kernel ridge regression,
-#' based on the eigen decomposition of the kernel matrix.
+#' based on the eigendecomposition of the kernel matrix.
 #'
 #' For the hat matrix, this boils down to:
 #'
@@ -13,14 +13,14 @@
 #' \deqn{U(\Sigma + \lambda I)^{-1} U^{T}}
 #'
 #' with \eqn{U} the matrix with eigenvectors, \eqn{\Sigma} a diagonal matrix
-#' with the eigen values on the diagonal, \eqn{I} the identity matrix and
+#' with the eigenvalues on the diagonal, \eqn{I} the identity matrix and
 #' \eqn{\lambda} the hyperparameter linked to this kernel.
 #' The internal calculation is optimized to avoid having to invert
 #' a matrix. This is done using the fact that \eqn{\Sigma} is a
 #' diagonal matrix.
 #'
 #' @param eigen a matrix with the eigenvectors.
-#' @param val an numeric vector with the eigen values.
+#' @param val an numeric vector with the eigenvalues.
 #' @param lambda a single numeric value for the hyperparameter lambda
 #'
 #' @return a numeric matrix representing either the hat matrix

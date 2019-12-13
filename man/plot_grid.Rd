@@ -4,8 +4,14 @@
 \alias{plot_grid}
 \title{Plot the grid of a tuned tskrr model}
 \usage{
-plot_grid(x, addlambda = TRUE, lambdapars = list(col = "red"),
-  log = TRUE, opts.contour = list(nlevels = 10), ...)
+plot_grid(
+  x,
+  addlambda = TRUE,
+  lambdapars = list(col = "red"),
+  log = TRUE,
+  opts.contour = list(nlevels = 10),
+  ...
+)
 }
 \arguments{
 \item{x}{an object that inherits from
@@ -36,11 +42,11 @@ dimensional plot, this will be the function \code{\link{plot}}}
 \code{NULL} invisibly
 }
 \description{
-With this function you can visualize the grid search for optimal
+With this function, you can visualize the grid search for optimal
 lambdas from a \code{\link[xnet:tskrrTune-class]{tskrrTune}} object.
-In the case of two dimensional grid search, this function will plot a
+In the case of two-dimensional grid search, this function plots a
 contour plot on a grid, based on the functions \code{\link{image}}
-and \code{\link{contour}}. For one dimensional grid search the function
+and \code{\link{contour}}. For one-dimensional grid search, the function
 creates a single line plot.
 }
 \examples{

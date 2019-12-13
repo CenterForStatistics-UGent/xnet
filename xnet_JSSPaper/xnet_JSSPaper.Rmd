@@ -180,9 +180,9 @@ In this section, we briefly describe the reasoning behind the design and illustr
 
 Even though the package \pkg{xnet} was developed with performance in mind, all functions were written entirely in R. We traced and where possible remedied all bottlenecks to obtain acceptable performance for larger networks without adding extra complexity to the code base. Adding compiled code to an R package also comes with extra dependencies, and possibly makes maintenance of the package more complex than necessary [@Claes2014]. As an extra benefit, the decision also gives the user the possibility to optimize performance of the core matrix calculations by combining R with a BLAS library optimal for their own system [@RInstallAdmin]. 
 
-The package uses the S4 system of class inheritance. We provided three virtual classes named `tskrr` for general models, `tskrrTune` for models that were tuned automatically and `tskrrImpute` for models with imputed data. Real classes for homogeneous and heterogeneous networks inherit from these three virtual classes. This setup allows to mimimize the amount of specific methods for accessing, summarizing and plotting the different flavors of models. The class structure is explained in more detail in the vignette "Class structure" contained within the package. 
+The package uses the S4 system of class inheritance. We provided three virtual classes named `tskrr` for general models, `tskrrTune` for models that were tuned automatically and `tskrrImpute` for models with imputed data. Two real classes `tskrrHeterogeneous` and `tskrrHomogeneous` inherit from `tskrr` and provide the object structure for heterogeneous and homogeneous models respectively. Also for tuned models and for models with imputed data real classes with suffix `Heterogeneous` and `Homogenous` can be found in the package. These inherit from the respective virtual class and the real classes for heterogeneous and homogeneous network models. 
 
-Care has been taken to embed the user interface in the standard workflows of R. We provide methods for the generics `dim`, `fitted`, `predict`, `update`, `plot`, `labels`, `dimnames`, `colnames` and `rownames`. The provided methods for 
+Care has been taken to embed the user interface in the standard workflows of R. We provide methods for the generics `dim`, `fitted`, `predict`, `update`, `plot`, `labels`, `dimnames`, `colnames` and `rownames`. Thanks to the adapted inheritance scheme, the amount of specific methods for these and other generics in the package can be limited.
 
 ## Data overview
 
@@ -194,7 +194,7 @@ The processed dataset consists of three matrices:
  * the kernel matrix for the targets `targetSim`;
  * the kernel matrix for the drugs `drugSim`.
 
-The example dataset `proteinInteraction` originates from a paper by @Yamanishi2004. The data describes the interactions between a subset of 150 proteins and consists of two matrices:
+The example dataset `proteinInteraction` originates from a paper by @Yamanishi2004. The data describes the interactions between a subset of 150 proteins taken from the datasets provided by  and consists of two matrices:
 
  * the adjacency matrix `proteinInteraction` where 1 indicates an interaction between proteins;
  * the kernel matrix `Kmat_y2h_sc` describing the similarity between the proteins, based on the two-hybrid method. 

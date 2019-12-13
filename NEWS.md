@@ -1,4 +1,4 @@
-## xnet devel (to become 0.2.0 CRAN release)
+## xnet 0.1.10
 
 ### Breaking changes
 

@@ -18,10 +18,10 @@ knitr::opts_chunk$set(
 
 The example data used in this package was originally published by
 [Yamanishi et al, 2008](https://doi.org/10.1093/bioinformatics/btn162). They 
-used [the KEGG data base](www.kegg.jp/) to get information drug-target
+used [the KEGG data base](https://www.kegg.jp/) to get information drug-target
 interaction for different groups of enzymes. We used their supplementary
 material as a basis for the example data provided to the package. Their
-supplementary datasets can be downloaded from [here](web.kuicr.kyoto-u.ac.jp/supp/yoshi/drugtarget/).
+supplementary datasets can be downloaded from [here](http://web.kuicr.kyoto-u.ac.jp/supp/yoshi/drugtarget/).
 
 ## Obtaining the original data
 

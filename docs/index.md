@@ -1,7 +1,8 @@
 ---
 ---
-
-![center-aligned-image](static/images/xnet_logo.png){:.align-center}
+<p align="center">
+  <img src="static/images/xnet_logo.png" alt="the xnet logo"/>
+</p>
 
 The package `xnet` is a package in development for cross-network analysis
 like protein-ligand or plant-pollinator interactions. Currently the

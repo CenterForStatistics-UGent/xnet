@@ -35,8 +35,12 @@ linear_filter <- function(y, alpha=0.25, na.rm = FALSE){
     alpha <- rep(alpha,4)
   else if(length(alpha) !=4)
     stop("alpha should be a numeric vector with either 1 or 4 values.")
-  if(sum(alpha) != 1 )
-    stop("alpha values should add up to 1.")
+
+  # Needed to avoid floating point errors when long double disabled
+  # Per check by BDR using R configured with --disable-long-double
+  if(abs(sum(alpha) - 1) > .Machine$double.eps^0.5 ||
+     any(alpha > 1) || any(alpha < 0) )
+    stop("alpha values should be numbers between 0 and 1 and add up to 1.")
 
   cm <- colMeans(y, na.rm = na.rm)
   rm <- rowMeans(y, na.rm = na.rm)

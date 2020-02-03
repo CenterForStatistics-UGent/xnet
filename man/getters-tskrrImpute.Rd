@@ -15,8 +15,6 @@ is_imputed(x)
 \arguments{
 \item{x}{a \code{\link[xnet:tskrrImpute-class]{tskrrImpute}} object or
 an object inheriting from \code{tskrrImpute}.}
-
-\item{...}{arguments passed to other methods.}
 }
 \value{
 For \code{has_imputed_values}: a logical value indicating whether

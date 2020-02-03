@@ -61,5 +61,7 @@ test_that("linear_filter returns correct errors",{
   expect_error(linear_filter(X, alpha = c(0.5,0.5)),
                "alpha should .* either 1 or 4 values")
   expect_error(linear_filter(X, alpha = c(0.1,0.1,0.1,0.1)),
-               "alpha values should add up to 1")
+               "alpha values should .* add up to 1")
+  expect_error(linear_filter(X, alpha = c(-0.2, 0.2, 0.5,0.5)),
+               "alpha values should be numbers between 0 and 1")
 })

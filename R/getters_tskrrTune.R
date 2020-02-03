@@ -6,7 +6,6 @@
 #'
 #' @param x a \code{\link[xnet:tskrrTune-class]{tskrrTune}} object or an
 #' object inheriting from \code{tskrrTune}.
-#' @param ... arguments passed to other methods.
 #'
 #' @return For \code{is_tuned}: a logical value indicating whether the
 #' model is tuned.

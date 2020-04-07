@@ -13,8 +13,6 @@
 \arguments{
 \item{object}{a \code{\link{tskrr}} object for which the weights
 have to be calculated.}
-
-\item{...}{other arguments passed to methods.}
 }
 \value{
 a matrix with the weights for the tskrr model.

@@ -1,3 +1,10 @@
+## xnet 0.1.11
+
+### Bug fixes
+
+* unnecessary mentions of dots argument removed from some help pages.
+* `linear_filter()` takes floating point errors into account when checking whether the alpha values sum to 1.
+
 ## xnet 0.1.10
 
 ### Breaking changes

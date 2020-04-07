@@ -6,7 +6,6 @@
 #'
 #' @param x a \code{\link[xnet:tskrrImpute-class]{tskrrImpute}} object or
 #' an object inheriting from \code{tskrrImpute}.
-#' @param ... arguments passed to other methods.
 #'
 #' @return For \code{has_imputed_values}: a logical value indicating whether
 #' the model has imputed values. If \code{x} is not some form of a

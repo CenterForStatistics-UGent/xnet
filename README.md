@@ -1,5 +1,8 @@
 # xnet R package
 
+[![CRAN status](https://www.r-pkg.org/badges/version-last-release/xnet)](https://cran.r-project.org/package=xnet) 
+[![CRAN downloads](https://cranlogs.r-pkg.org/badges/grand-total/xnet)](https://cran.r-project.org/package=xnet)
+
 | Master | Devel |
 | :----: | :---: |
 | [![Travis build status](https://travis-ci.org/CenterForStatistics-UGent/xnet.svg?branch=master)](https://travis-ci.org/CenterForStatistics-UGent/xnet) | [![Travis devel-build status](https://travis-ci.org/CenterForStatistics-UGent/xnet.svg?branch=devel)](https://travis-ci.org/CenterForStatistics-UGent/xnet) |

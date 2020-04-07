@@ -18,8 +18,6 @@ has_onedim(x)
 \arguments{
 \item{x}{a \code{\link[xnet:tskrrTune-class]{tskrrTune}} object or an
 object inheriting from \code{tskrrTune}.}
-
-\item{...}{arguments passed to other methods.}
 }
 \value{
 For \code{is_tuned}: a logical value indicating whether the

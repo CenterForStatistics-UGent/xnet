@@ -48,7 +48,7 @@ mathematical properties. The resulting *kernel matrix* has to be positive
 definite for the method to work. In the package, these matrices are noted
 **K** for the rows and - if applicable - **G** for the columns of **Y**.
 
-We refer to the [kernlab](https://cloud.r-project.org/package=kernlab) for a collection
+We refer to the [kernlab](https://cran.r-project.org/package=kernlab) for a collection
 of different kernel functions.
 
 ### Data in the package

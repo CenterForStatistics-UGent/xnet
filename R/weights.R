@@ -12,7 +12,6 @@
 #' @param object a \code{\link{tskrr}} object for which the weights
 #' have to be calculated.
 #'
-#' @param ... other arguments passed to methods.
 #'
 #' @return a matrix with the weights for the tskrr model.
 #'

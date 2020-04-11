@@ -51,6 +51,11 @@ output: rticles::jss_article
 bibliography: refs.bib
 ---
 
+```{r setup, include=FALSE}
+library(xnet)
+data(drugtarget)
+```
+
 # Introduction
 
 Networks or graphs[^graphs] are one of the most powerful tools to represent and analyze complex, structured information. It is no wonder that nearly all sciences ubiquitously use networks; from chemistry (e.g., molecular graphs), to molecular biology (e.g., protein-interaction networks), to ecology (e.g., plant-pollinator networks), to sociology (e.g., social networks). The success of networks and graphs can be explained because they are both models as well as data. On the one hand, graphs can be seen as minimalistic mathematical models, conveying how individual components in a system are connected. On the other hand, graphs are also data structures; they can be constructed by performing experiments or gathering observational data.
@@ -129,7 +134,7 @@ Two-step kernel ridge regression (TSKRR) computes the weights differently:
 $$
 W = (K+\lambda_k I)^{-1}Y(G+\lambda_g I)^{-1}\,.
 $$
-This approach can be motivated as applying KRR twice, once for objects in $\mathcal{U}$ and once for objects in $\mathcal{V}$ [@Pahikkala2014a;@Romera-paredes2015]. Each of these KRR steps has its regularization parameter: $\lambda_k$ and $\lambda_g$. Studies have shown that it behaves similarly as Kronecker KRR [@Stock2017tskrr] and is also very fast to fit for sizable complete pairwise datasets.
+This approach can be motivated as applying KRR twice, once for objects in $\mathcal{U}$ and once for objects in $\mathcal{V}$ [@Pahikkala2013a;@Romera-paredes2015]. Each of these KRR steps has its regularization parameter: $\lambda_k$ and $\lambda_g$. Studies have shown that it behaves similarly as Kronecker KRR [@Stock2017tskrr] and is also very fast to fit for sizable complete pairwise datasets.
 
 Given the respective hat matrices $H_k = K(K+\lambda_k I )^{-1}$ and $H_g = G(G+\lambda_g I )^{-1}$, the matrix containing the predictions are computed as
 $$
@@ -159,11 +164,11 @@ This process is repeated untill the predictions and imputed labels have converge
 ![Illustration of the iterative algorithm for missing value imputation. 1) Initialize the missing values. 2) Use the completed label matrix to fit a TSKRR model and make the prediction matrix. 3) Replace the missing values in the label matrix with the predictions. 4) Repeat until this has converged.](imputation.pdf)
 
 ## Cross-validation for networks
-\label{{sec:cvshortcuts}}
+\label{sec:cvshortcuts}
 
 A vital aspect of building data-driven models is to perform a correct validation and testing of the model. This both ensures that the best model is selected (w.r.t the feature descriptors and hyperparameter values) and the reported performance is representative for new real-world data. It is well established that for supervised network prediction validation is more complicated than in traditional supervised settings [@Park2012;@Schrynemackers2013;@Pahikkala2015]. This is because, in matrix-valued network data, the assumption of independence is violated: the individual objects occur in multiple pairs.
 
-In earlier work, we have defined several specialized leave-one-out cross-validation schemes tailored for the pairwise prediction problem [@Stock2018cvshortcuts]. We distinguish between bipartite networks (where $U\ne V$, e.g., protein-ligand or plant-pollinator networks) and homogenous networks (where $U = V$, e.g., protein-protein networks and food webs). For bipartite networks, we can leave out one element at a time (I), one row (R), one column (C) or both (B). For the homogeneous networks, we can leave out edges (E) or vertices (V). For validation settings I and E, we can set the interaction values to zero, rather than discarding the pairs altogether. We refer to these cases as setting I0 and E0, respectively. These different cross-validation setting are shown in Figure \ref{fig:CV}. `xnet` provides efficient computational shortcuts for performing all network cross-validations. These allow for both selecting the best possible model for each setting, as well as exploring for which prediction settings the model performs well and in which prediction setting it does not.
+In earlier work, we have defined several specialized leave-one-out cross-validation schemes tailored for the pairwise prediction problem [@Stock2018cvshortcuts]. We distinguish between bipartite networks (where $U\ne V$, e.g., protein-ligand or plant-pollinator networks) and homogeneous networks (where $U = V$, e.g., protein-protein networks and food webs). For bipartite networks, we can leave out one element at a time (I), one row (R), one column (C) or both (B). For the homogeneous networks, we can leave out edges (E) or vertices (V). For validation settings I and E, we can set the interaction values to zero, rather than discarding the pairs altogether. We refer to these cases as setting I0 and E0, respectively. These different cross-validation setting are shown in Figure \ref{fig:CV}. `xnet` provides efficient computational shortcuts for performing all network cross-validations. These allow for both selecting the best possible model for each setting, as well as exploring for which prediction settings the model performs well and in which prediction setting it does not.
 
 ![Illustration of the different leave-one-out cross-validation settings provided in `xnet` illustrated on a small hypothetical recommender system bipartite network and a small hypothetical species interaction network. Both examples show label matrices with binary values for simplicity, in practice these values can be real-valued.\label{fig:CV}](CVsettings.pdf)
 
@@ -174,19 +179,34 @@ In addition to the cross-validation schemes, `xnet` also provides permutation-ba
 # The xnet package
 \label{sec:useofpackage}
 
-In this section, we briefly describe the reasoning behind the design and illustrate the main API of \pkg{xnet}. The functions are demonstrated on two datasets relating to molecular biology: a drug-target dataset as an example of a bipartite network and a protein-protein interaction dataset as an example of a homogeneous dataset. Both datasets are included in the \pkg{xnet} package.
+In this section, we briefly describe the reasoning behind the design describe the general user interface of \pkg{xnet}. We also demonstrate the use of the main functions in the package. For this we use two datasets which are also contained within the package : a drug-target dataset as an example of a bipartite network and a protein-protein interaction dataset as an example of a homogeneous dataset. 
 
 ## The package design
 
 Even though the package \pkg{xnet} was developed with performance in mind, all functions were written entirely in R. We traced and where possible remedied all bottlenecks to obtain acceptable performance for larger networks without adding extra complexity to the code base. Adding compiled code to an R package also comes with extra dependencies, and possibly makes maintenance of the package more complex than necessary [@Claes2014]. As an extra benefit, the decision also gives the user the possibility to optimize performance of the core matrix calculations by combining R with a BLAS library optimal for their own system [@RInstallAdmin]. 
 
-The package uses the S4 system of class inheritance. We provided three virtual classes named `tskrr` for general models, `tskrrTune` for models that were tuned automatically and `tskrrImpute` for models with imputed data. Two real classes `tskrrHeterogeneous` and `tskrrHomogeneous` inherit from `tskrr` and provide the object structure for heterogeneous and homogeneous models respectively. Also for tuned models and for models with imputed data real classes with suffix `Heterogeneous` and `Homogenous` can be found in the package. These inherit from the respective virtual class and the real classes for heterogeneous and homogeneous network models. 
+The package uses the S4 system of class inheritance. We provided three virtual classes named `tskrr` for general models, `tskrrTune` for models that were tuned automatically and `tskrrImpute` for models with imputed data. Whereas the class `tskrr` provides the necessary slots to store the model information and outcome, the classes `tskrrTune` and `tskrrImpute` provide additional slots to store information on tuning or imputation of missing values. 
+
+Two real classes `tskrrHeterogeneous` and `tskrrHomogeneous` inherit from `tskrr` and provide the object structure for heterogeneous and homogeneous models respectively. Also for tuned models and for models with imputed data real classes with suffix `Heterogeneous` and `homogeneous` can be found in the package. These inherit from the respective virtual class and the real classes for heterogeneous and homogeneous network models. The scheme ensures the methods for both types of `tskrr` models also work for the tuned and imputation versions of these models. A schematic representation of the class structure can be found in figure \ref{fig:Class}. A detailed description of the provided slots for each class can be found in the vignette "S4 class structure of the xnet package", contained within the package. It can be accessed using:
+
+```
+vignette("xnet_ClassStructure", package = "xnet")
+```
+
+![Schematic representation of the class inheritance structure for the package xnet. The virtual classes are mentioned in the green box, the real classes in the orange one. Arrows indicate inheritance.\label{fig:Class}](ClassInheritance.pdf)
 
 Care has been taken to embed the user interface in the standard workflows of R. We provide methods for the generics `dim`, `fitted`, `predict`, `update`, `plot`, `labels`, `dimnames`, `colnames` and `rownames`. Thanks to the adapted inheritance scheme, the amount of specific methods for these and other generics in the package can be limited.
 
-## Data overview
+In the following sections we briefly describe and demonstrate the overall use of the main functions in the package. More elaborate examples are included in the vignette "A short introduction to cross-network analysis with xnet", accessible via:
 
-The dataset `drugtarget`, first presented by @Yamanishi2008, serves as an example of a bipartite network. It is a small dataset containing all binary interactions between 26 nuclear receptor protein targets and 54 drug-like compounds. The adjacency matrix as well as the similarity matrix for the targets were taken from the supplementary materials of the paper. The similarities between the chemical compounds were calculated based on the SIMCOMP algorithm by @Yamanishi2008. As this algorithm doesn't necessarily return a symmetric matrix, we recalculated these similarities. The chemical compound structure was first downloaded from the KEGG database [@KEGG2019] using the \pkg{ChemmineR} package [@Cao2008]. The similarities between the chemical compounds were then recalculated based on the Tanimoto coefficient, using the \pkg{fmcsR} package [@Wang_2013]. More details, including the code used, can be found in the vignette "Preparation of the example data" contained within the package.
+```
+vignette("xnet_ShortIntroduction", package = "xnet")
+```
+
+## Overview of the data available in the package
+\label{sec:data}
+
+The package \pkg{xnet} comes with two example datasets that can be used to illustrate the functionality of the package. The dataset `drugtarget`, first presented by @Yamanishi2008, serves as an example of a bipartite network. It is a small dataset containing all binary interactions between 26 nuclear receptor protein targets and 54 drug-like compounds. The adjacency matrix as well as the similarity matrix for the targets were taken from the supplementary materials of the paper. The similarities between the chemical compounds were calculated based on the SIMCOMP algorithm by @Yamanishi2008. As this algorithm doesn't necessarily return a symmetric matrix, we recalculated these similarities. The chemical compound structure was first downloaded from the KEGG database [@KEGG2019] using the \pkg{ChemmineR} package [@Cao2008]. The similarities between the chemical compounds were then recalculated based on the Tanimoto coefficient, using the \pkg{fmcsR} package [@Wang_2013]. 
 
 The processed dataset consists of three matrices:
 
@@ -194,314 +214,215 @@ The processed dataset consists of three matrices:
  * the kernel matrix for the targets `targetSim`;
  * the kernel matrix for the drugs `drugSim`.
 
-The example dataset `proteinInteraction` originates from a paper by @Yamanishi2004. The data describes the interactions between a subset of 150 proteins taken from the datasets provided by  and consists of two matrices:
+The example dataset `proteinInteraction` originates from a paper by @Yamanishi2004. The data describes the interactions between a subset of 150 proteins taken from the datasets provided by the KEGG pathway database [@KEGG2019]. It consists of two matrices:
 
  * the adjacency matrix `proteinInteraction` where 1 indicates an interaction between proteins;
  * the kernel matrix `Kmat_y2h_sc` describing the similarity between the proteins, based on the two-hybrid method. 
  
-For details on how the matrices were obtained, we refer to @Yamanishi2004.
+For details on how the matrices were obtained, we refer to @Yamanishi2004. A more elaborate description of the example data, including the procedure used to prepare them for analysis, can be found in the vignette "Preparation of the example data" contained within the package. It can be accessed using:
 
-## Fitting a two-step kernel ridge regression
+```
+vignette("Preparation_example_data", package = "xnet")
+```
 
-### Bipartite networks
 
-One can fit a two-step kernel ridge regression using the function `tskrr()`. In addition to the interaction matrix and the kernel matrices, this function accepts the tuning parameters `lambda`.  The user can choose to set one lambda for tuning $K$ and $G$ using the same lambda value, or they can specify a different lambda for $K$ and $G$. If none are provided, the function uses default values of $10^{-4}$ for $\lambda_k$ and $\lambda_g$[^defaulthp]. The function returns in this case an object of the class `tskrrHeterogeneous`.
+## General use of the main model functions
+
+In this section we explain the general use of the three main modeling functions, being `tskrr` for fitting a two-step kernel ridge regression, `tune` for performing a grid search to find optimal $\lambda$ values, and `impute_tskrr` for imputing missing values as explained in section \ref{sec:imputation}. We illustrate how the user interface is kept consistent throughout the package, and explain the controls specific to each function.
+
+### Building a model 
+
+One can fit a two-step kernel ridge regression using the function `tskrr()` with the following possible arguments:
+
+```
+tskrr(y, k, g = NULL, lambda = 1e-04, 
+      testdim = TRUE, testlabels = TRUE, keep = FALSE,
+      symmetry = c("auto", "symmetric", "skewed"))
+```
+
+This function takes as input the interaction matrix `y` and either one kernel matrix `k` in the case of a homogeneous network, or two kernel matrices `k` and `g` in the case of a heterogeneous network. It also allows for setting the the tuning parameters $\lambda_k$ and, if applicable, $\lambda_g$ using the argument `lambda`. By default, the function uses $10^{-4}$ for both[^defaulthp]. If one fits a heterogeneous network but only specifies a single value for the argument `lambda`, this value will be used for both $\lambda_k$ and $\lambda_g$ as well.
 
 [^defaulthp]: These default values ensure nearly unbiased estimation of the regression parameters. They are strictly greater than zero to ensure numerical stability.
 
-```{r call xnet}
-library(xnet)
+Apart from fitting the model as described in section \ref{sec:pwl}, it also carries out some sanity checks. Checking whether dimensions of the different matrices are compatible can be turned off with `testdim = FALSE`. The mechanism to check whether row and column labels of the matrices match can be turned off with `testlabels = FALSE`. To speed up predictions from the model, users can also opt to store the hat matrices in the resulting model object by setting `keep = TRUE`.
+
+In the case of a homogeneous network, one expects the interaction matrix `y` to be either symmetric or skewed symmetric. The function `tskrr` checks by default whether this condition is fulfilled, but this check can be rather time consuming on larger matrices. Hence the user can set the symmetry themselves if known, using the argument `symmetry`.
+
+### Tuning a model
+
+The function `tune` implements a grid search to find the most optimal values for `lambda`. It has the following possible arguments:
+
 ```
+tune(x, k, g = NULL, lambda = NULL,
+     testdim = TRUE, testlabels = TRUE, keep = FALSE,
+     symmetry = c("auto", "symmetric", "skewed"),
+     lim = c(1e-04, 1), ngrid = 10,
+     fun = loss_mse, exclusion = "edges", replaceby0 = FALSE,
+     onedim = TRUE)
+```
+
+It calculates the value of a given loss function for a range of $\lambda$ values on a one-dimensional or two-dimensional grid, and can be used in a similar way as the function `tskrr`. Alternatively, one can first build a model using `tskrr` and then perform a grid search using the created model object as the input for the `tune` function.
+
+To control which lambda values are used for the grid search, `tune` an take a vector or a list with 2 elements specifying the $\lambda$ values used for constructing the grid. Alternatively, one can pass boundaries for the $\lambda$ values with the argument `lim` and the number of $\lambda$ values in each dimension with the argument `ngrid`. The package function `create_grid` will use that input to construct a search grid that's evenly spaced on a logarithmic scale.
+
+Performance of the model is evaluated using a loss functions provided by the argument `fun`. This can either be one of the built-in loss functions `loss_mse` or `loss_auc`, or a function provided by the user. The loss is calculated based on observed interactions versus leave-one-out predictions. The exact nature of the leave-one-out procedure can be set using the arguments `exclusion` and `replaceby0` (see also section \ref{sec:performloo}).
+
+### Imputation of missing values 
+
+For imputation of missing values as explained in Section \ref{sec:imputation}, the package \pkg{xnet} offers a function `impute_tskrr` with the following usage.
+
+```
+impute_tskrr(y, k, g = NULL, lambda = 0.01,
+             testdim = TRUE, testlabels = TRUE, keep = FALSE,
+             symmetry = c("auto", "symmetric", "skewed"),
+             niter = 10000, tol = sqrt(.Machine$double.eps),
+             start = mean(y, na.rm = TRUE), verbose = FALSE)
+```
+
+Again this function provides the same arguments and checks as the function `tskrr`. Additionally, the function `impute_tskrr` allows you to set the maximum number of iterations, the tolerance for convergence and the starting values for the algorithm. If not provided, the mean over the interaction matrix is chosen as starting value for imputation. To determine when the algorithm converged, the deviation between two subsequent iterations is defined as the sum of the squared differences between the predicted values in each iteration. The function also gives the possibility to track the changes in deviation during the algorithm by setting the argument `verbose` to a value larger than 1. 
+
+### Controlling settings for leave-one-out cross-validation
+\label{sec:performloo}
+
+The various shortcuts for leave-one-out cross-validation (LOO-CV), as described by @Stock2018cvshortcuts, form the most significant contribution of **xnet**. In our package, the function `loo()` can perform LOO-CV using any of the settings mentioned in Section \ref{sec:cvshortcuts}. Moreover, multiple other functions make use of LOO-CV in their calculations. The previously discussed function `tune` is just one example. In every function that can make use of LOO-CV, the exact settings for performing LOO-CV are controlled by the same two arguments `exclusion` and `replaceby0`. The translation of different settings to values for the argument `exclusion` is shown in table \ref{tab:shortcutsettings}.
+
+\begin{table}
+
+\begin{tabular}{l|ll}
+\textbf{LOO-CV setting} & \textbf{heterogeneous network} & \textbf{homogeneous network} \\ \hline
+one element (I) & \verb|"interaction"| & \verb|"edges"| \\ 
+a row (R) & \verb|"row"| & not applicable \\
+a column (C) & \verb|"column"| & not applicable \\
+both row and column (B) & \verb|"both"| & \verb|"vertices"| \\
+\end{tabular}
+\caption{This table shows how the different options for the argument \texttt{exclusion} translate to specific crossvalidation settings explained in Section  \ref{sec:cvshortcuts} }
+\label{tab:shortcutsettings}
+\end{table}
+
+In the case of observational data, not observing an interaction (a zero in the adjacency matrix) is no proof of the absence of the interaction in practice. In those cases, it is more sensible to compute the LOO-CV values by replacing the interaction by 0 instead of removing it. By setting `replaceby0 = TRUE` functions use the I0 and E0 cross-validation settings for bipartite and homogeneous networks, respectively.
+
+
+## Example: predicting new drug-target interactions in a bipartite network.
+\label{sec:casestudy}
+
+In the following section we illustrate the use of the different functions on the drug-target dataset described in section \ref{sec:data}. 
+
+To illustrate how the model can be used for predictions, we treat the first three drugs in the data as new drugs for which any interaction with neural receptors is unknown. The interactions between these drugs and neural receptors are removed from both the interaction matrix and the kernel matrix with drug similarities. In order to be able to make predictions later on, we also create a kernel matrix `testdrugSim` that contains the kernel values for every combination of the training set of drugs and the drugs in the test set.
+
+```{r split data}
+data(drugtarget)
+interaction <- drugTargetInteraction[, -c(1:3)]
+traindrugSim <- drugSim[-c(1:3), -c(1:3)]
+testdrugSim <- drugSim[1:3, -c(1:3)]
+```
+
+### Tuning the model
+
+In order to minimize the loss, we first use the `tune` function to look for optimal values for the $\lambda$ parameters. For illustrative purposes, we use a 2D grid search, setting different parameters for the grid in each dimension. As the interaction matrix is a binary indicator of presence/absence, we use the area under the curve as loss function. As this is an observational dataset, we choose to calculate the leave-one-out values by replacing interactions by 0. The function `lambda()` will return the the values at which the lowest loss value occured.
 
 ```{r fit a heterogeneous model}
-data(drugtarget)
-
-drugmodel <- tskrr(y = drugTargetInteraction,
-                   k = targetSim,
-                   g = drugSim,
-                   lambda = c(0.01,0.1))
+trained <- tune(interaction, targetSim, traindrugSim,
+                lim = list(k = c(1e-4,10), g = c(1e-3,10)),
+                ngrid = list(k = 20, g = 10),
+                fun = loss_auc,
+                exclusion = "interaction", replaceby0 = TRUE)
+lambda(trained)
 ```
 
-### Homogenous network
-
-For homogenous networks, one can use the same function as for bipartite networks. When no matrix $G$ is provided, and the matrix $Y$ is square, TSKRR for homogeneous networks will be fitted automatically. In this case, the user only needs to provide a single regularization parameter.
-
-```{r fit a homogenous model}
-data(proteinInteraction)
-
-proteinmodel <- tskrr(proteinInteraction,
-                      k = Kmat_y2h_sc,
-                      lambda = 0.01)
-
-proteinmodel
-```
-
-### Extracting information from a model.
-
-Various specific functions allow to extract the relevant information of a TSKRR model: 
-
- * `lambda` returns a vector with the lambda values used;
- * `dim` returns the dimensions of the interaction matrix;
- * `labels` returns a list with two elements, `k` and `g`, containing the labels for the rows resp. the columns;
- * the functions `rownames()` and `colnames()` extract the labels.
-
-```{r extract info from a model}
-lambda(drugmodel)  # extract lambda values
-lambda(proteinmodel)
-dim(drugmodel) # extract the dimensions
-
-protlabels <- labels(proteinmodel)
-str(protlabels)
-```
-
-The functions `fitted()` and `predict()` extract the fitted values. The latter also allows specifying new kernel matrices to predict for new objects in the network. To get the residuals, one can use the function `residuals()`.
-
-## Performing leave-one-out cross-validation
-
-### Settings for leave-one-out cross-validation
-
-The various shortcuts for leave-one-out cross-validation (LOO-CV), as described by @Stock2018cvshortcuts, form the most significant contribution of **xnet**. These where described in Section~\ref{section:cv}. In our package, the function `loo()` allows to perform all available LOO-CV schemes. The user can specify the desired scheme using the argument `exclusion`:
-
- * *interaction*: **xnet** removes only the interaction between two objects, and repeats this for every interaction;
- * *row*: **xnet** removes entire rows from the interaction matrix, one at a time;
- * *column*: **xnet** removes entire columns from the interaction matrix, one at a time;
- * *both*: **xnet** removes *both* rows and columns and repeats this for every interaction.
-
-In the case of observational data, not observing an interaction (a zero in the adjacency matrix) is no proof of the absence of the interaction in practice. In those cases, it is more sensible to compute the LOO-CV values by replacing the interaction by 0 instead of removing it. This is done by setting `replaceby0 = TRUE` and it will use the I0 and E0 cross-validation schemes for bipartite and homogeneous networks, respectively.
-
-```{r calculate loo values}
-loo_drugs_interaction <- loo(drugmodel, exclusion = "interaction",
-                       replaceby0 = TRUE)
-loo_protein_both <- loo(proteinmodel, exclusion = "both")
-```
-
-In both cases, the result is a matrix with the LOO-CV values.
-
-### Use of leave-one-out cross-validation in other functions
-
-Several functions use the predictions obtained by cross-validation. For example, the function `residuals()` directly computes the residuals based on LOO-CV values.
-
-```{r calculate loo residuals}
-loo_resid <- residuals(drugmodel, method = "loo",
-                       exclusion = "interaction",
-                       replaceby0 = TRUE)
-all.equal(loo_resid,
-          response(drugmodel) - loo_drugs_interaction )
-```
-
-Every other function that can use LOO values instead of predictions has the same two arguments `exclusion` and `replaceby0`.
-
-## A look at the model output
-
-The function provides a `plot()` function for looking at the model output. This function plots the fitted values, the LOO values, or the residuals. It also the user to construct dendrograms based on the $K$ and $G$ Gram matrices, aggregating both the predictions and the similarity information on the objects in a single plot.
-
-```{r plot-model, fig.show = 'hold'}
-plot(drugmodel, main = "Drug Target interaction")
-```
-
-To plot LOO values, the user sets the argument `which`. As fitting a model might be expensive, one can remove the dendrogram and select any number of objects for closer inspection.
-
-```{r plot-loo-values}
-plot(proteinmodel, dendro = "none", main = "Protein interaction - LOO",
-     which = "loo", exclusion = "both",
-     rows = rownames(proteinmodel)[10:20],
-     cols = colnames(proteinmodel)[30:35])
-
-```
-
-It is possible to specify both the breaks used for the color code and the color code itself.
-
-## Tuning a model to find the best hyperparameters
-
-### Bipartite networks
-
-In most cases, the user does not know how to the regularization hyperparameter values for $\lambda_u$ and $\lambda_v$ for optimal predictions. To find the best `lambda` values, the function `tune()` allows one to perform a grid search. This grid search can be specified in several ways:
-
- * by specifying actual values to be tested;
- * by specifying the minimum and maximum lambda together with the number of values needed in every dimension. The function will create a grid evenly spaced on a logarithmic scale.
-
-Tuning minimizes a loss function for which **xnet** provides two standard loss functions: one based on mean squared error (`loss_mse`) and one based on the area under the ROC curve (`loss_auc`). Any arbitrary loss function can be specified, as long as lower values correspond to better models.
-
-For bipartite networks, the function `tune()` performs a two-dimensional grid search. To do a one-dimensional grid search (i.e., use the same value for $\lambda_u$ and $\lambda_v$), one has to set the argument `onedim = TRUE`. We found that this led to only a slight decrease in performance in practice while reducing the time for tuning from quadratic to linear in terms of the grid size.
+Note that you don't need to refit the model with those lambda values. Due to the inheritance structure, the resulting object `trained` can be treated as if it were a standard model fitted with the lambda values that minimize the loss. It also reports this in the console output when inspecting the model object.
 
 ```{r}
-drugtuned1d <- tune(drugmodel,
-                    lim = c(0.001,10),
-                    ngrid = 20,
-                    fun = loss_auc,
-                    onedim = TRUE)
-plot_grid(drugtuned1d, main = "1D search")
+trained
 ```
 
-When performing a two-dimensional grid search, the user can specify different limits and grid values or lambda values for both dimensions by passing a list with two elements for the respective arguments.
+### Presenting the results
 
-```{r tune 2d model}
-drugtuned2d <- tune(drugmodel,
-                     lim = list(k = c(0.001,10), g = c(0.0001,10)),
-                     ngrid = list(k = 20, g = 10),
-                     fun = loss_auc)
+The package \pkg{xnet} offers two different visualizations for the resulting model. First, a `plot.tskrr` method is provided to generate heatmaps for predictions, response, LOO-CV values or residuals. This way the function `plot()` can be used to examine both the original interaction matrix and the standard, tuned or imputed model results. Additionally, the similarity information contained in the `k` and `g` kernel matrices can be represented by an optional dendrogram along the rows and columns respectively. Using the arguments `rows` and `cols`, a subset of the predicted interactions can be plotted. The figure \ref{fig:modelplot} shows a subset of the residuals for the training model created earlier, plotted using the following code:
+
+```{r modelplot, fig.cap="This plot shows the residuals for the training model on interaction between drugs and neural receptors. Negative values indicate possible interactions not present in the original data."}
+plot(trained, dendro = "none",
+     which = "residuals", cols = 10:30, rows = 10:25,
+     main = "Residuals for drug target interaction.")
 ```
 
-The `plot_grid()` function returns a heatmap indicating the optimal values of the hyperparameters.
+The results indicate possible interactions not present in the original data, but a stark warning is warranted here. Due to the linear nature of the two-step kernel ridge regression, predictions on a binary interaction matrix might fall outside the domain [0,1] of possible values. It is tempting to interprete the predicted values as a measure of probability for an interaction, but those values can only be considered a crude approximation of this probability at best. The procedure followed in this example fits well in an exploratory analysis, but any result has to be confirmed through other means.
 
-```{r plot-grid-2d-model}
-plot_grid(drugtuned2d, main = "2D search")
+Specifically for tuned models, a function `plot_grid` gives a graphical representation of the loss values for different (combinations of) $\lambda$ values. With the following code you can inspect the loss surface for the training model. The result is shown in figure \ref{fig:lossplot}.
+
+```{r lossplot, fig.cap = "This plot shows the loss values at different combinations of lambda values for the training model on drug-target interaction. The red cross indicates the lowest loss value."}
+plot_grid(trained, main = "Loss surface for drug target interaction")
 ```
 
-The function `lambda()` returns the best lambda values found by the grid search.
+### Predicting new interactions.
+
+Following the general user interface for models in R, a `predict` method is available in \pkg{xnet} for prediction of new interactions based on the kernel similarities for the nodes in the training dataset. These predictions can be done for new rows, new columns, or both. Predictions are made for the cases presented in the rows of every kernel matrix. In the current example, similarities between the drugs are represented by the `g` matrix. Hence we need the kernel similarities between every new drug and the drugs included in the training data. The new drugs are presented in the rows. The first six columns are shown below. 
 
 ```{r}
-lambda(drugtuned1d)
-lambda(drugtuned2d)
+testdrugSim[, 1:6]
 ```
 
-In this case, a one-dimensional grid search yields relatively different optimal lambda values. To get more information on the loss values, one can use the function `get_loss_values()`. This allows one to examine the actual improvement for every lambda value. The output is always a matrix, and in the case of a one-dimensional search, it is a matrix with a single column. Combining these values with the lambda grid shows that the difference between a lambda value of around 0.20 and around 0.34 is minimal. This is also obvious from the grid plots shown above.
+Using this matrix as the kernel for `g`, you calculate the predictions for the three new drugs using the function `predict`. With the `roc` and `auc` functions of the package \pkg{pROC} [@pROC2011], the result can be compared with the actual documented interactions. Even with the limited information in this small sample, the model achieves a AUC value well enough for exploratory analyses.
+
+```{r, message=FALSE, warning=FALSE}
+library(pROC)
+newpreds <- predict(trained, g = testdrugSim)
+pvec <- as.vector(newpreds)
+rvec <- as.vector(drugTargetInteraction[, 1:3])
+curve <- roc(rvec, pvec)
+auc(curve)
+```
+
+## Example: Impute possible interactions in a protein-protein network
+\label{sec:imputestudy}
+
+Next to two-step kernel ridge regression, the package \pkg{xnet} also implements the iterative algorithm for missing value imputation as explained in Section \ref{sec:imputation}. In this example, we demonstrate how this can be carried out on a homogeneous network describing protein-protein interactions. The origin and structure of the data is described in Section \ref{sec:data}.
+
+To illustrate the algorithm, we first remove a set of values from the original data. The resulting matrix, called `proteiny` in the code below, serves then as an example of a homogeneous network where some vertices aren't documented yet.
 
 ```{r}
-cbind(
-  loss = get_loss_values(drugtuned1d)[,1],
-  lambda = get_grid(drugtuned1d)$k
-)[10:15,]
-
+data("proteinInteraction")
+idrow <- seq(10,150, by = 10)
+idcol <- seq(5, 145, by = 10)
+proteiny <- proteinInteraction
+proteiny[idrow,idcol] <- proteiny[idcol,idrow] <- NA
 ```
 
-### Homogenous networks
+### Performing the imputation
 
-Homogenous networks have a single lambda value, and hence require only searching in a single dimension. The following code tests 20 lambda values, logarithmically spaced between 0.001 and 10.
+Next we use this interaction matrix and the kernel matrix `Kmat_y2h_sc` to impute the missing values. It is tempting to select a very small value for `lambda` based on these results, but a smaller lambda also means a smaller difference between iterations and hence a slower convergence. One can even set the lambda value so small the difference between iterations becomes smaller than the specified tolerance, stopping the algorithm at the second iteration. For this reason the package uses a higher default value for the argument `lambda` compared to the other functions.
 
-```{r tune-homogenous-network}
-proteintuned <- tune(proteinmodel,
-                     lim = c(0.0001,10),
-                     ngrid = 20,
-                     fun = loss_auc)
-proteintuned
-```
-
-The returned object is again a model object with the model fitted using the best lambda value. It also contains extra information on the settings of the tuning. The user can extract the grid values as follows:
-
-```{r get the grid values}
-get_grid(proteintuned)
-```
-
-The function `get_grid` returns a list with one or two elements, each element containing the grid values for the respective kernel matrix.
-
-It is again easy to create a plot to inspect the tuning visually:
-
-```{r plot-grid}
-plot_grid(proteintuned)
-```
-
-This object is also a `tskrr` model, so all the functions used above can be used here as well. For example, we can use the same code as before to inspect the LOO values of this tuned model:
-
-```{r residuals-tuned-model}
-plot(proteintuned, dendro = "none", main = "Protein interaction - LOO",
-     which = "loo", exclusion = "both",
-     rows = rownames(proteinmodel)[10:20],
-     cols = colnames(proteinmodel)[30:35])
-```
-
-## Making predictions
-
-The main reason for building a pairwise model is to make predictions. To make predictions using a `tskrr` model, the values of the two kernel functions between the objects in the training data and the new objects need to be computed. We remove some drugs and targets to from an independent test set.
-
-```{r reorder the data}
-idk_test <- c(5,10,15,20,25)
-idg_test <- c(2,4,6,8,10)
-
-drugInteraction_train <- drugTargetInteraction[-idk_test, -idg_test]
-target_train <- targetSim[-idk_test, -idk_test]
-drug_train <- drugSim[-idg_test, -idg_test]
-
-target_test <- targetSim[idk_test, -idk_test]
-drug_test <- drugSim[idg_test, -idg_test]
-```
-
-The names of the drugs and targets that where removed are given below.
+The choice for the starting value with which the missing values are replaced, has less effect on the algorithm. The function `impute_tskrr` uses the mean over the interaction matrix by default. As the protein-protein interaction matrix only contains 163 interactions between a set of 150 proteins, this mean is very low. In such a setting, one can choose a more neutral starting value, like we do in this example. 
 
 ```{r}
-rownames(target_test)
-colnames(drug_test)
+imputed <- impute_tskrr(y = proteiny, k = Kmat_y2h_sc,
+                        start = 0.5)
 ```
 
-We can now train the TKRR model using `tune()` just like we would use `tskrr()`
+### Examining the result
 
-```{r train the model}
-trained <- tune(drugInteraction_train,
-                k = target_train,
-                g = drug_train,
-                ngrid = 30)
-```
+To examine the imputed missing values more easily, the package \pkg{xnet} provides a number of convenience functions.  The function `is_imputed` returns a matrix where a logical `TRUE` value indicates the position of an imputation. Using the function `fitted`, one can extract all fitted values from the resulting model object. Combining both, it becomes trivial to extract the imputed values. Moreover, one can use this information in combination with the `rows` and `cols` arguments of the `plot.tskrr` method to visualize the predictions for only those proteins for which a missing value is imputed. This is illustrated in the following code block. Note that we plot the response, i.e. the original interaction matrix with the imputed values added. 
 
-### Predicting new rows
-
-To predict the interaction between new targets and the drugs, we need to pass the kernel values for the similarities between the new targets and the ones in the model. The `predict()` function will select the correct gram matrix $G$ matrix for calculating the predictions.
-
-```{r}
-Newtargets <- predict(trained, k = target_test)
-Newtargets[, 1:5]
-```
-
-### Predicting new columns
-
-If one wants to predict for new rows (e.g., drugs), one needs the kernel values for the similarities between new drugs and the drugs trained in the model.
-
-```{r}
-Newdrugs <- predict(trained, g = drug_test)
-Newdrugs[1:5, ]
-```
-
-### Predict for new rows and columns
-
-One can combine both kernel matrices used above to get predictions about the interaction between new drugs and new targets:
-
-```{r}
-Newdrugtarget <- predict(trained, k=target_test, g=drug_test)
-Newdrugtarget
-```
-
-## Impute new values based on a tskrr model
-
-Sometimes the interaction matrix contains missing values. These missing values can be imputed based on the simple iterative algorithm described in Section\ref{sec:imputation}.
-
-Apart from the usual arguments of `tskrr`, one can suggest additional parameters to the function `impute_tskrr`. The most important ones are
-
- * `niter`: the maximum number of iterations;
- * `tol`: the tolerance, i.e., the minimal sum of squared differences
- between iteration determining the convergence;
- * `verbose`: setting this to 1 or 2 gives additional info on the
- algorithm performance.
-
-We illustrate this on a dataset with missing values:
-
-```{r create missing values}
-drugTargetMissing <- drugTargetInteraction
-idmissing <- c(10,20,30,40,50,60)
-drugTargetMissing[idmissing] <- NA
-```
-
-We can now try to impute these values. The outcome is, again a TSKRR model.
-
-```{r}
-imputed <- impute_tskrr(drugTargetMissing,
-                        k = targetSim,
-                        g = drugSim,
-                        verbose = TRUE)
-plot(imputed, dendro = "none")
-```
-Several functions can be used to extract information on the imputation:
-
- * `has_imputed_values()` tells whether the model contains imputed values;
- * `is_imputed()` returns a logical matrix where `TRUE` indicates an imputed value;
- * `which_imputed()` returns an integer vector with the positions of the imputed values. Note that these positions are vector positions, i.e., they give the position in a single dimension (according to how a matrix is stored internally in R).
-
-```{r}
-has_imputed_values(imputed)
-which_imputed(imputed)
-
-# Extract only the imputed values
+```{r, plotimpute, fig.cap="Visualization of the imputed values for the missing values in the protein-protein interaction dataset."}
 id <- is_imputed(imputed)
-predict(imputed)[id]
+rowid <- rowSums(id) > 0
+colid <- colSums(id) > 0
+plot(imputed, rows = rowid, cols = colid, 
+     dendro = "none", which = "response")
 ```
+
+The result, shown in figure \ref{fig:plotimpute}, shows a stark difference in value between the known interactions (dark red) and imputed values. Due to the sparse nature of the interaction matrix, strong predictions for additional interactions are not to be expected. 
+
+To evaluate the imputation, we compare the imputed values again with the original data using the AUC. For this, we can use additional functions to extract information from the imputed model. The function `which_imputed` returns an integer vector with the positions for which the values are imputed. This allows us to extract the original values from the matrix `proteinInteraction`, and the imputations from the response matrix contained in the imputed model object. With these two vectors, calculating the AUC becomes trivial.
+
+```{r, message=FALSE}
+id <- which_imputed(imputed)
+orig <- proteinInteraction[id]
+imp <- response(imputed)[id]
+curve <- roc(orig, imp)
+auc(curve)
+```
+
+Even though the imputed values are all rather small, also in this example we obtain moderate accuracy with limited information.
 
 # Related software
 \label{sec:relatedsoftware}

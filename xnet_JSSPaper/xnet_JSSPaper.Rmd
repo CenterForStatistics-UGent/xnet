@@ -1,5 +1,6 @@
 ---
 documentclass: jss
+classoption: shortnames
 author:
   - name: Michiel Stock
     affiliation: Ghent University
@@ -29,13 +30,13 @@ author:
     email: \email{bernard.debaets@ugent.be}
     url: https://www.ugent.be/bw/damm/en
 title:
-  formatted: "Predicting Networks With Two-Step Kernel Ridge Regression: The R Package \\pkg{xnet}"
+  formatted: "Predicting Networks \\corr{with} Two-Step Kernel Ridge Regression: The R Package \\pkg{xnet}"
   # If you use tex in the formatted title, also supply version without
-  plain:     "Predicting Networks With Two-Step Kernel Ridge Regression: The R Package `xnet`"
+  plain:     "Predicting Networks with Two-Step Kernel Ridge Regression: The R Package `xnet`"
   # For running headers, if needed
   short:     "\\pkg{xnet}: Cross-validating Two-Step Kernel Ridge Regression"
 abstract: >
-  This paper presents the R package \pkg{xnet} for supervised network prediction, using two-step kernel ridge regression. It uses the cross-validation shortcuts proposed by @Stock2018cvshortcuts to allow for computationally efficient validation of the models based on a variety of leave-one-out cross-validation methods. The package provides functions for easy tuning, fitting, and evaluation of two-step kernel ridge regression in the supervised network prediction. We illustrate the use of the \pkg{xnet} package with datasets from different areas of research.
+  This paper presents the R package \pkg{xnet} for supervised network prediction, using two-step kernel ridge regression. It uses the cross-validation shortcuts \corr{developed} by @Stock2018cvshortcuts to allow for computationally efficient validation of the models based on a variety of leave-one-out cross-validation methods. The package provides functions for easy tuning, fitting, and evaluation of two-step kernel ridge regression \corr{for} supervised network prediction. We illustrate the use of the \pkg{xnet} package with datasets from different areas of research.
 keywords:
   # at least one keyword must be supplied
   formatted: [networks, pairwise learning, cross-validation, kernel methods]
@@ -47,6 +48,7 @@ preamble: >
   \usepackage{pgf,tikz,pgfplots}
   \pgfplotsset{compat=1.15}
   \usetikzlibrary{matrix}
+  \newcommand{\corr}[1]{\textcolor{blue}{#1}}
 output: rticles::jss_article
 bibliography: refs.bib
 ---
@@ -58,9 +60,9 @@ data(drugtarget)
 
 # Introduction
 
-Networks or graphs[^graphs] are one of the most powerful tools to represent and analyze complex, structured information. It is no wonder that nearly all sciences ubiquitously use networks; from chemistry (e.g., molecular graphs), to molecular biology (e.g., protein-interaction networks), to ecology (e.g., plant-pollinator networks), to sociology (e.g., social networks). The success of networks and graphs can be explained because they are both models as well as data. On the one hand, graphs can be seen as minimalistic mathematical models, conveying how individual components in a system are connected. On the other hand, graphs are also data structures; they can be constructed by performing experiments or gathering observational data.
+Networks or graphs[^graphs] are one of the most powerful tools to represent and analyze complex, structured information. It is no \corr{surprise then} that nearly all sciences ubiquitously use networks, \corr{e.g. in} chemistry (e.g., molecular graphs),  molecular biology (e.g., protein-interaction networks), ecology (e.g., plant-pollinator networks), sociology (e.g., social networks). The success of networks and graphs can be explained because they are both models \corr{and} data. On the one hand, graphs can be seen as minimalistic mathematical models, conveying how individual components in a system are connected. On the other hand, graphs are also data structures; they can be constructed by performing experiments or gathering observational data.
 
-[^graphs]: The term 'network' is prevalent in sciences, whereas 'graph' is a term predominantly used in mathematics and formal computer science. In this work, we will use both interchangeably.
+[^graphs]: The term 'network' is prevalent in sciences, whereas 'graph' is a term predominantly used in mathematics and computer science. In this work, we will use both interchangeably.
 
 Given the general importance of graphs, a plethora of machine learning methods have been developed to predict networks based on data. We can divide network prediction methods into two groups: unsupervised and supervised. Unsupervised network inference, also called *de novo* inference [@Vert2008], do not use a dataset of known interactions to predict the network. These methods are often based on the guilt-by-association principle: components that occur together in space or time are assumed to interact. Such approaches are commonly used in computational biology, in particular for inferring gene regulatory networks (e.g., @Huynh-Thu2010; @Marbach2012; @Maetschke2014) or to infer species interaction networks from co-occurrence data (e.g., @Basnou2015; @Cazelles2016). Recently, however, studies found that correlation-based methods perform poorly to uncover the underlying network, at least for microbial networks [@Weiss2016;@Coenen2018]. Furthermore, a significant limitation of the unsupervised methods is that they are unable to generalize beyond the original data: they are not capable of prediction interactions for previously unobserved nodes.
 

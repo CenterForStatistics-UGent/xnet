@@ -24,36 +24,24 @@
 #'
 #' @include all_generics.R
 #'
-#'
-#' @rdname fitted
-#' @method fitted tskrr
-#' @export
-fitted.tskrr <- function(object, labels = TRUE, ...){
-  out <- object@pred
-  if(labels){
-    l <- labels(object)
-    rownames(out) <- l$k
-    colnames(out) <- l$g
-  }
-  out
-}
-
-#' @rdname fitted
-#' @method fitted linearFilter
-#' @export
-fitted.linearFilter <- function(object, ...){
-  object@pred
-}
-
-
 #' @rdname fitted
 #' @export
 setMethod("fitted",
           "tskrr",
-          fitted.tskrr)
+          function(object, labels = TRUE, ...){
+            out <- object@pred
+            if(labels){
+              l <- labels(object)
+              rownames(out) <- l$k
+              colnames(out) <- l$g
+            }
+            out
+          })
 
 #' @rdname fitted
 #' @export
 setMethod("fitted",
           "linearFilter",
-          fitted.linearFilter)
+          function(object, ...){
+            object@pred
+          })

@@ -5,10 +5,12 @@
 \alias{proteinInteraction}
 \alias{Kmat_y2h_sc}
 \title{Protein interaction for yeast}
-\format{\itemize{
+\format{
+\itemize{
   \item proteinInteraction: a numeric square matrix with 150 rows/columns
   \item Kmat_y2h_sc: a numeric square matrix with 150 rows/columns
-}}
+}
+}
 \source{
 \url{https://doi.org/10.1093/bioinformatics/bth910}
 }

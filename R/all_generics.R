@@ -34,9 +34,7 @@ setGeneric("update")
 #' @rdname hat
 setGeneric("hat",
            function(x, ...) standardGeneric("hat"))
-setMethod("hat",
-          "ANY",
-          stats::hat)
+setGenericImplicit("hat")
 
 # For the labels
 setGeneric("labels")

@@ -7,12 +7,14 @@
 \alias{drugSim}
 \alias{targetSim}
 \title{drug target interactions for neural receptors}
-\format{\itemize{
+\format{
+\itemize{
   \item for drugTargetInteraction: a numeric matrix of 26 rows by
 54 columns.
   \item For drugSim: a numeric square matrix with 54 rows/columns.
   \item For targetSim: a numeric square matrix with 26 rows/columns.
-}}
+}
+}
 \source{
 \url{https://doi.org/10.1093/bioinformatics/btn162}
 }

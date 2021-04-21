@@ -1,3 +1,9 @@
+## xnet 0.1.13
+
+### Bug fixes and improvements
+
+* the default `heat.colors` in `plot_grid` is changed to `hcl.colors`.
+
 ## xnet 0.1.11
 
 ### Bug fixes

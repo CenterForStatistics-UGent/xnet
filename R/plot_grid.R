@@ -51,7 +51,7 @@
 #'
 #' @importFrom graphics plot abline axis contour par box
 #' @importFrom graphics image points
-#' @importFrom grDevices heat.colors
+#' @importFrom grDevices hcl.colors
 #' @include Class_tskrrTune.R
 #' @rdname plot_grid
 #' @export
@@ -126,7 +126,7 @@ plot_grid <- function(x,
                           lambdapars,
                           log,
                           opts.contour,
-                          col = rev(hcl.colors(20, palette = "YlOrRd")),
+                          col = hcl.colors(20, palette = "YlOrRd", rev = TRUE),
                           xlab = "lambda k",
                           ylab = "lambda g",
                           las = par("las"),

@@ -13,7 +13,7 @@ bibentry("Article",
            person("Willem", "Waegeman"),
            person("Bernard", "de Baets")
          ),
-         journal = "Briefings in Bioinformatic",
+         journal = "Briefings in Bioinformatics",
          year = "2018",
          pages = "bby095",
          doi = "10.1093/bib/bby095",

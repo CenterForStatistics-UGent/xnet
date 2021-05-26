@@ -13,7 +13,7 @@
   nbest = 0,
   rows,
   cols,
-  col = rev(heat.colors(20)),
+  col = hcl.colors(20, palette = "YlOrRd", rev = TRUE),
   breaks = NULL,
   legend = TRUE,
   main = NULL,

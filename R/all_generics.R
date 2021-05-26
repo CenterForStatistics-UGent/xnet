@@ -52,7 +52,7 @@ setGeneric("rowMeans")
 
 #' @rdname getters_linearFilter
 #' @export
-setGeneric("alpha", function(x) standardGeneric("alpha"))
+setGeneric("get_alpha", function(x) standardGeneric("get_alpha"))
 
 #' @rdname getters_linearFilter
 #' @export

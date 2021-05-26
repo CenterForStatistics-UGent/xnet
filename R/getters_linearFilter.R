@@ -42,10 +42,10 @@ setMethod("rowMeans", "linearFilter",
           function(x) x@rowmeans)
 
 #' @rdname getters_linearFilter
-#' @return for \code{alpha}: a numeric vector of length 4 with the alpha
+#' @return for \code{get_alpha}: a numeric vector of length 4 with the alpha
 #' values.
 #' @export
-setMethod("alpha", "linearFilter",
+setMethod("get_alpha", "linearFilter",
           function(x) x@alpha)
 
 #' @rdname getters_linearFilter

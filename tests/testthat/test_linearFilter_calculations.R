@@ -19,7 +19,7 @@ test_that("Linear filter is constructed correctly",{
   expect_identical(colMeans(linF), cm)
   expect_identical(rowMeans(linF), rm)
   expect_identical(mean(linF), m)
-  expect_identical(alpha(linF), alphas)
+  expect_identical(get_alpha(linF), alphas)
   expect_false(na_removed(linF))
   expect_equal(fitted(linF),preds)
 })
@@ -27,8 +27,8 @@ test_that("Linear filter is constructed correctly",{
 
 test_that("alphas are processed correctly",{
   expect_error(linear_filter(Y, alpha = c(1,2)))
-  expect_equal(alpha(linF),alphas)
-  expect_equal(alpha(linF2), rep(0.25,4))
+  expect_equal(get_alpha(linF),alphas)
+  expect_equal(get_alpha(linF2), rep(0.25,4))
 })
 
 Yna <- X
@@ -53,7 +53,7 @@ test_that("NAs are dealt with properly", {
   expect_identical(colMeans(linFNONA), cmna)
   expect_identical(rowMeans(linFNONA), rmna)
   expect_identical(mean(linFNONA), mna)
-  expect_identical(alpha(linFNONA), alphas)
+  expect_identical(get_alpha(linFNONA), alphas)
   expect_equal(fitted(linFNONA),preds)
 })
 

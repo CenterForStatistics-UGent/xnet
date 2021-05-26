@@ -169,7 +169,8 @@ setMethod("permtest",
           "tskrrTune",
           function(x,
                    permutation = c("both","row","column"),
-                   n = 100){
+                   n = 100,
+                   ...){
 
             permutation <- match.arg(permutation)
             hetero <- is_heterogeneous(x)
@@ -186,7 +187,8 @@ setMethod("permtest",
                         n = n,
                         exclusion = exclusion,
                         replaceby0 = replaceby0,
-                        fun = lossfun)
+                        fun = lossfun,
+                        ...)
           })
 
 # Internal permtest function.

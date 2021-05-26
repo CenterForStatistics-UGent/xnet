@@ -33,7 +33,7 @@ permtest(x, ...)
   exact = FALSE
 )
 
-\S4method{permtest}{tskrrTune}(x, permutation = c("both", "row", "column"), n = 100)
+\S4method{permtest}{tskrrTune}(x, permutation = c("both", "row", "column"), n = 100, ...)
 }
 \arguments{
 \item{x}{either a \code{\link{tskrr-class}} or a

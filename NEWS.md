@@ -1,8 +1,20 @@
-## xnet 0.1.13
+## xnet 0.2
+
+Currently in development as 0.1.12
+
+### Breaking changes
+
+* `alpha()` is now called `get_alpha()` to avoid conflicts with other packages. The old function is still exported, but now gives a warning. It will be removed in a next version.
+
+### New features
+
+coming...
 
 ### Bug fixes and improvements
 
 * the default `heat.colors` in `plot_grid` is changed to `hcl.colors`.
+* the mechanism to define colors and breaks is changed. The default values for both arguments are now `NULL`, but the output is the same.
+* the argument `exact` is now passed correctly in `permtest` for tuned models.
 
 ## xnet 0.1.11
 

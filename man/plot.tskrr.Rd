@@ -13,7 +13,7 @@
   nbest = 0,
   rows,
   cols,
-  col = hcl.colors(20, palette = "YlOrRd", rev = TRUE),
+  col = NULL,
   breaks = NULL,
   legend = TRUE,
   main = NULL,
@@ -50,12 +50,12 @@ selected from the model.}
 \item{cols}{a numeric or character vector indicating which columns should be
 selected from the model.}
 
-\item{col}{a vector with colors to be used for plotting}
+\item{col}{a vector with colors to be used for plotting. If \code{NULL}, the function uses the pallette \code{"YlOrRd"} from \code{\link{hcl.colors}}.}
 
 \item{breaks}{a single value specifying the number of
 breaks (must be 1 more than number of colors), or a numeric
-vector with the breaks used for the color code. If \code{NULL},
-the function tries to find evenly spaced breaks.}
+vector with the breaks used for the color code. If \code{NULL}
+and no colors are given, it is set to 21 to give 20 colors.}
 
 \item{legend}{a logical value indicating whether or not the legend should
 be added to the plot.}

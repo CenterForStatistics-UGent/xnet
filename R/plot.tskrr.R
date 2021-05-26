@@ -37,11 +37,11 @@
 #' selected from the model.
 #' @param cols a numeric or character vector indicating which columns should be
 #' selected from the model.
-#' @param col a vector with colors to be used for plotting
+#' @param col a vector with colors to be used for plotting. If \code{NULL}, the function uses the pallette \code{"YlOrRd"} from \code{\link{hcl.colors}}.
 #' @param breaks a single value specifying the number of
 #' breaks (must be 1 more than number of colors), or a numeric
-#' vector with the breaks used for the color code. If \code{NULL},
-#' the function tries to find evenly spaced breaks.
+#' vector with the breaks used for the color code. If \code{NULL}
+#' and no colors are given, it is set to 21 to give 20 colors.
 #' @param legend a logical value indicating whether or not the legend should
 #' be added to the plot.
 #' @param main a character value with a title for the plot
@@ -89,7 +89,7 @@ plot.tskrr <- function(x, dendro = c("both","row","col","none"),
                        exclusion = c("interaction", "row", "column", "both"),
                        replaceby0 = FALSE,
                        nbest = 0, rows, cols,
-                       col = hcl.colors(20, palette = "YlOrRd", rev = TRUE),
+                       col = NULL,
                        breaks = NULL,
                        legend = TRUE,
                        main = NULL,
@@ -201,37 +201,32 @@ plot.tskrr <- function(x, dendro = c("both","row","col","none"),
 
 
   ## PROCESS THE COLORS
-  nocol <- missing(col)
-  ncolor <- length(col)
-  if(is.null(breaks)){
-    minmax <- range(pretty(val, ncolor))
-    breaks <- seq(minmax[1], minmax[2], length.out = ncolor + 1)
-  } else if(length(breaks) == 1 && is.numeric(breaks)){
-    if(breaks < 2)
-      stop("You need at least 2 breaks.")
-    if(nocol){
-      ncolor <- breaks - 1
-      col <- rev(heat.colors(ncolor))
-    }
-    minmax <- range(pretty(val, ncolor))
-    if(ncolor < (breaks - 1)){
-      stop(paste("Not enough colors for",breaks,"breaks."))
-    } else if(ncolor > (breaks - 1)){
-      warning(paste("Too many colors for the number of breaks.",
-                    "The last",ncolor - breaks + 1,"colors",
-                    "are ignored."))
-      col <- col[seq_len(breaks - 1)]
-    }
-    breaks <- seq(minmax[1], minmax[2], length.out = breaks)
-  } else if(is.numeric(breaks)){
-    if(nocol){
-      ncolor <- length(breaks) - 1
-      col <- rev(heat.colors(ncolor))
-    }
-    if(length(breaks) != ncolor + 1)
-      stop("breaks should be 1 value longer than colors.")
-  } else {
+  # create a break vector
+  if(is.null(breaks) && !is.null(col)){
+    breaks <- length(col) + 1
+  } else if(is.null(breaks)){
+    breaks <- 21
+  }
+
+  if(length(breaks) == 1 && is.numeric(breaks)){
+    minmax <- range(pretty(val,breaks))
+    breaks <- seq(minmax[1],minmax[2],
+                  length.out = breaks)
+  } else if(!is.numeric(breaks)){
     stop("breaks should be numeric.")
+  }
+  nbreaks <- length(breaks)
+  if(nbreaks < 2){
+    stop("You need at least 2 breaks.")
+  }
+
+  if(is.null(col)){
+    col <- hcl.colors(nbreaks-1, palette = "YlOrRd", rev = TRUE)
+  }
+  ncolor <- length(col)
+
+  if(nbreaks != (ncolor + 1) ){
+    stop("You need 1 break more than the number of colors.")
   }
 
 

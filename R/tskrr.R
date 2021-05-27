@@ -28,10 +28,11 @@
 #' some cases. Defaults to \code{FALSE}.
 #' @param ... arguments passed to other methods.
 #'
-#' @return a \code{\link[xnet:tskrr-class]{tskrr}} object
+#' @return a \code{\link[xnet:tskrr-class]{tskrr}} object.
 #'
 #' @seealso \code{\link{response}}, \code{\link{fitted}},
 #' \code{\link{get_eigen}}, \code{\link{eigen2hat}}
+#'
 #' @examples
 #'
 #' # Heterogeneous network
@@ -54,16 +55,20 @@
 #'
 #' @rdname tskrr
 #' @name tskrr
-.tskrr <- function(y,k,g = NULL,
-                  lambda = 1e-4,
-                  testdim = TRUE,
-                  testlabels = TRUE,
-                  symmetry = c("auto","symmetric","skewed"),
-                  keep = FALSE
-                  ){
+NULL # leave here to avoid adding internal funs to usage
+     # by roxygen2.
 
+#-------------------------------
+# internal functions
+.tskrr_hetero <- function(y,k,g,
+                          lambda = 1e-4,
+                          testdim = TRUE,
+                          testlabels = TRUE,
+                          keep = FALSE,
+                          ...
+){
+  # TEST INPUT
   iptest <- .test_input(y,k,g,lambda,testdim,testlabels)
-  homogeneous <- iptest$homogeneous
   lambda.k <- iptest$lambda.k
   lambda.g <- iptest$lambda.g
 
@@ -71,32 +76,14 @@
   rk <- rownames(k) # not when there's no row/-colnames
 
   if(!is.null(rk)){
-    if(homogeneous){
-      ck <- rownames(k)
-      if(any(rownames(y) !=rk))
-        y <- match_labels(y,rk,ck)
-    } else {
-      cg <- colnames(g)
-      if(any(rownames(y) != rk) || any(colnames(y) !=cg) )
-        y <- match_labels(y,rk,cg)
-    }
-  }
-
-  # Test whether Y is symmetric
-  if(homogeneous){
-    # Test symmetry if required.
-    symmetry <- match.arg(symmetry)
-    if(symmetry == "auto"){
-      symmetry <- test_symmetry(y)
-      if(symmetry == "none")
-        stop(paste("The Y matrix is not symmetric or skewed symmetric.",
-                   "You need a kernel matrix for rows and columns."))
-    }
+    cg <- colnames(g)
+    if(any(rownames(y) != rk) || any(colnames(y) !=cg) )
+      y <- match_labels(y,rk,cg)
   }
 
   # CALCULATE EIGEN DECOMPOSITION
   k.eigen <- eigen(k, symmetric = TRUE)
-  g.eigen <- if(!homogeneous) eigen(g, symmetric = TRUE) else NULL
+  g.eigen <- eigen(g, symmetric = TRUE)
 
   res <- tskrr.fit(y,
                    k.eigen,
@@ -111,38 +98,79 @@
   if(is.null(cn)) cn <- NA_character_
 
   # CREATE OUTPUT
-  if(homogeneous){
-
-    out <- new("tskrrHomogeneous",
-               y = y,
-               k = k.eigen,
-               lambda.k = lambda.k,
-               pred = res$pred,
-               symmetry = symmetry,
-               has.hat = keep,
-               Hk = if(keep) res$k else matrix(0),
-               labels = list(k=rn, g = NA_character_))
-  } else {
-    out <- new("tskrrHeterogeneous",
-               y = y,
-               k = k.eigen,
-               g = g.eigen,
-               lambda.k = lambda.k,
-               lambda.g = lambda.g,
-               pred = res$pred,
-               has.hat = keep,
-               Hk = if(keep) res$k else matrix(0),
-               Hg = if(keep) res$g else matrix(0),
-               labels = list(k=rn, g=cn))
-  }
+  out <- new("tskrrHeterogeneous",
+             y = y,
+             k = k.eigen,
+             g = g.eigen,
+             lambda.k = lambda.k,
+             lambda.g = lambda.g,
+             pred = res$pred,
+             has.hat = keep,
+             Hk = if(keep) res$k else matrix(0),
+             Hg = if(keep) res$g else matrix(0),
+             labels = list(k=rn, g=cn))
   return(out)
 }
 
-#' @rdname tskrr
-#' @export
-setMethod(tskrr,
-          signature = c("matrix","matrix","matrix"),
-          .tskrr)
+
+.tskrr_homo <- function(y,k,
+                        lambda = 1e-4,
+                        testdim = TRUE,
+                        testlabels = TRUE,
+                        symmetry = c("auto","symmetric","skewed"),
+                        keep = FALSE,
+                        ...
+){
+
+  iptest <- .test_input(y,k,g = NULL,lambda,testdim,testlabels)
+  lambda.k <- iptest$lambda.k
+  lambda.g <- iptest$lambda.g
+
+  # Rearrange matrices if necessary
+  rk <- rownames(k) # not when there's no row/-colnames
+
+  if(!is.null(rk)){
+    ck <- rownames(k)
+    if(any(rownames(y) !=rk))
+      y <- match_labels(y,rk,ck)
+  }
+
+  # Test whether Y is symmetric
+  symmetry <- match.arg(symmetry)
+  if(symmetry == "auto"){
+    symmetry <- test_symmetry(y)
+    if(symmetry == "none")
+      stop(paste("The Y matrix is not symmetric or skewed symmetric.",
+                 "You need a kernel matrix for rows and columns."))
+  }
+
+  # CALCULATE EIGEN DECOMPOSITION
+  k.eigen <- eigen(k, symmetric = TRUE)
+
+  res <- tskrr.fit(y,
+                   k.eigen,
+                   NULL,
+                   lambda.k,
+                   lambda.g)
+
+  # Create labels
+  rn <- rownames(y)
+  cn <- colnames(y)
+  if(is.null(rn)) rn <- NA_character_
+  if(is.null(cn)) cn <- NA_character_
+
+  # CREATE OUTPUT
+  out <- new("tskrrHomogeneous",
+             y = y,
+             k = k.eigen,
+             lambda.k = lambda.k,
+             pred = res$pred,
+             symmetry = symmetry,
+             has.hat = keep,
+             Hk = if(keep) res$k else matrix(0),
+             labels = list(k=rn, g = NA_character_))
+  return(out)
+}
 
 #------------------------------------------
 # METHODS
@@ -150,11 +178,20 @@ setMethod(tskrr,
 #' @rdname tskrr
 #' @export
 setMethod(tskrr,
-          signature = c("matrix","matrix","NULL"),
-          .tskrr)
+          signature = c("matrix","matrix","matrix"),
+          .tskrr_hetero)
+
 
 #' @rdname tskrr
 #' @export
 setMethod(tskrr,
           signature = c("matrix","matrix","missing"),
-          .tskrr)
+          .tskrr_homo)
+
+#' @rdname tskrr
+#' @export
+setMethod(tskrr,
+          signature = c("matrix","matrix","NULL"),
+          function(y,k,g, ...){
+            .tskrr_homo(y,k, ...)
+            })

@@ -7,7 +7,7 @@ setOldClass("igraph") # To allow for igraphs to be read as
 #' @rdname tskrr
 #' @export
 setGeneric("tskrr",
-           function(y, k, g = NULL, ...) standardGeneric("tskrr"))
+           function(y, k, g, ...) standardGeneric("tskrr"))
 
 # All Generics
 

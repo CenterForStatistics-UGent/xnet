@@ -3,6 +3,8 @@
 [![CRAN status](https://www.r-pkg.org/badges/version-last-release/xnet)](https://cran.r-project.org/package=xnet) 
 [![CRAN downloads](https://cranlogs.r-pkg.org/badges/grand-total/xnet)](https://cran.r-project.org/package=xnet)
 
+[![R-CMD-check](https://github.com/CenterForStatistics-UGent/xnet/workflows/R-CMD-check/badge.svg)](https://github.com/CenterForStatistics-UGent/xnet/actions)
+
 | Main   | Devel |
 | :----: | :---: |
 | [![Travis build status](https://travis-ci.com/CenterForStatistics-UGent/xnet.svg?branch=main)](https://travis-ci.com/CenterForStatistics-UGent/xnet) | [![Travis devel-build status](https://travis-ci.com/CenterForStatistics-UGent/xnet.svg?branch=devel)](https://travis-ci.com/CenterForStatistics-UGent/xnet) |

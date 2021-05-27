@@ -26,6 +26,7 @@
 #' matrices should be stored in the model object. Doing so makes the
 #' model object quite larger, but can speed up predictions in
 #' some cases. Defaults to \code{FALSE}.
+#' @param ... arguments passed to other methods.
 #'
 #' @return a \code{\link[xnet:tskrr-class]{tskrr}} object
 #'
@@ -51,8 +52,9 @@
 #' Yh <- response(modh)
 #' pred <- fitted(modh)
 #'
-#' @export
-tskrr <- function(y,k,g = NULL,
+#' @rdname tskrr
+#' @name tskrr
+.tskrr <- function(y,k,g = NULL,
                   lambda = 1e-4,
                   testdim = TRUE,
                   testlabels = TRUE,
@@ -135,3 +137,24 @@ tskrr <- function(y,k,g = NULL,
   }
   return(out)
 }
+
+#' @rdname tskrr
+#' @export
+setMethod(tskrr,
+          signature = c("matrix","matrix","matrix"),
+          .tskrr)
+
+#------------------------------------------
+# METHODS
+
+#' @rdname tskrr
+#' @export
+setMethod(tskrr,
+          signature = c("matrix","matrix","NULL"),
+          .tskrr)
+
+#' @rdname tskrr
+#' @export
+setMethod(tskrr,
+          signature = c("matrix","matrix","missing"),
+          .tskrr)

@@ -1,5 +1,13 @@
 # Classes needed for generics
 setOldClass("htest")
+setOldClass("igraph") # To allow for igraphs to be read as
+                      # adjacency matrices
+
+# Generics for tskrr methods
+#' @rdname tskrr
+#' @export
+setGeneric("tskrr",
+           function(y, k, g = NULL, ...) standardGeneric("tskrr"))
 
 # All Generics
 

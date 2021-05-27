@@ -3,8 +3,6 @@
 #' The functions described here are convenience functions to get
 #' information out of a \code{\link[xnet:tskrr-class]{tskrr}} object.
 #'
-#' @section Warning: The function \code{get_kernel} is deprecated.
-#' Use \code{get_kernelmatrix} instead.
 #'
 #' @param x a \code{\link[xnet:tskrr-class]{tskrr}} object or an
 #' object inheriting from \code{tskrr}.
@@ -22,7 +20,8 @@
 #'
 #' @include all_generics.R
 #' @rdname getters-tskrr
-#' @aliases response
+#' @name getters-tskrr
+#' @aliases response response,tskrr-method
 #' @export
 #' @return For \code{response}: the original label matrix
 setMethod("response",
@@ -138,12 +137,4 @@ has_hat <- function(x){
     stop("x needs to be a tskrr model.")
 
   x@has.hat
-}
-
-#' @rdname getters-tskrr
-#' @export
-get_kernel <- function(x, which = c('row','column')){
-  which <- match.arg(which)
-  warning("This function is deprecated. Use get_kernelmatrix instead.")
-  get_kernelmatrix(x, which)
 }

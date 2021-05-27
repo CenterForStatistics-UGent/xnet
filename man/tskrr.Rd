@@ -67,7 +67,7 @@ can either specify whether the label matrix is symmetric or
 skewed, or you can let the function decide (option "auto").}
 }
 \value{
-a \code{\link[xnet:tskrr-class]{tskrr}} object
+a \code{\link[xnet:tskrr-class]{tskrr}} object.
 }
 \description{
 \code{tskrr} is the primary function for fitting a two-step kernel

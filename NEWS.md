@@ -5,10 +5,11 @@ Currently in development as 0.1.12
 ### Breaking changes
 
 * `alpha()` is now called `get_alpha()` to avoid conflicts with other packages. The old function is still exported, but now gives a warning. It will be removed in a next version.
+* The function `get_kernel` (deprecated in 0.1.10) is now completely removed from the package.
 
 ### New features
 
-coming...
+* `tskrr` is now a S4 generic to allow for other input types.
 
 ### Bug fixes and improvements
 

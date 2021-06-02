@@ -21,10 +21,12 @@
 #'
 #' @importFrom utils str
 #'
+#' @include Class_dataClasses.R
+#'
 #' @rdname tskrr-class
 #' @name tskrr-class
 #' @exportClass tskrr
-setOldClass("eigen")
+
 
 setClass("tskrr",
          slots = c(y = "matrix",

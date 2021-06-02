@@ -9,6 +9,17 @@ setOldClass("igraph") # To allow for igraphs to be read as
 setGeneric("tskrr",
            function(y, k, g, ...) standardGeneric("tskrr"))
 
+# Generics for data constructors
+#' @rdname adjacencyData
+#' @export
+setGeneric("adjacencyData",
+           function(x, ...) standardGeneric("adjacencyData"))
+
+#' @rdname gramData
+#' @export
+setGeneric("gramData",
+           function(x, conversion, ...) standardGeneric("gramData"))
+
 # All Generics
 
 #' @rdname get_loo_fun

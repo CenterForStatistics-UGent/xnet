@@ -8,7 +8,7 @@
 #'
 #' @rdname as_matrix
 #' @name as.matrix
-#' @aliases as.matrix, adjacencyData-method
+#' @aliases as.matrix,adjacencyData-method
 #' @export
 setMethod("as.matrix",
           "adjacencyData",

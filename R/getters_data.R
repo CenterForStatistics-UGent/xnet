@@ -1,6 +1,6 @@
 #' Getters for the classes adjacencyData and gramData
 #'
-#' These functions allow you to get slots from the classes \code{\link[xnet:dataClasses]{adjacencyData}} and \code{\link[xnet:dataclasses]{gramData}}.
+#' These functions allow you to get slots from the classes \code{\link[xnet:dataClasses]{adjacencyData}} and \code{\link[xnet:dataClasses]{gramData}}.
 #'
 #' @param x an object of any of those classes or classes that inherit from those classes.
 #' @param ... arguments passed to other methods

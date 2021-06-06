@@ -2,8 +2,7 @@
 % Please edit documentation in R/as_matrix.R
 \name{as.matrix}
 \alias{as.matrix}
-\alias{as.matrix,}
-\alias{adjacencyData-method}
+\alias{as.matrix,adjacencyData-method}
 \title{Convert data objects to matrix}
 \usage{
 \S4method{as.matrix}{adjacencyData}(x, ...)

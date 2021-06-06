@@ -28,5 +28,5 @@ get_orig(x, ...)
 \item{...}{arguments passed to other methods}
 }
 \description{
-These functions allow you to get slots from the classes \code{\link[xnet:dataClasses]{adjacencyData}} and \code{\link[xnet:dataclasses]{gramData}}.
+These functions allow you to get slots from the classes \code{\link[xnet:dataClasses]{adjacencyData}} and \code{\link[xnet:dataClasses]{gramData}}.
 }

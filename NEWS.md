@@ -10,6 +10,8 @@ Currently in development as 0.1.12
 ### New features
 
 * `tskrr` is now a S4 generic to allow for other input types.
+* constructors `adjacencyData` and `gramData` are added to allow for use of data frames, igraphs, ... as input.
+* `convert` lets you use the conversion of data objects on other objects.
 
 ### Bug fixes and improvements
 

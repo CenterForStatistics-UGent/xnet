@@ -3,6 +3,31 @@ setOldClass("htest")
 setOldClass("igraph") # To allow for igraphs to be read as
                       # adjacency matrices
 
+# Generics from S3 methods
+
+setGeneric("update", useAsDefault = stats::update)
+setGeneric("as.matrix")
+
+# For the labels
+setGeneric("labels")
+setGeneric("rownames")
+setGeneric("colnames")
+setGeneric("dimnames")
+
+# For the dimensions
+setGeneric("dim")
+
+# For the linearFilter
+setGeneric("mean")
+setGeneric("colMeans")
+setGeneric("rowMeans")
+
+# Generics for data classes
+#' @rdname convert
+#' @export
+setGeneric("convert",
+           function(x, using, ...) standardGeneric("convert"))
+
 # Generics for tskrr methods
 #' @rdname tskrr
 #' @export
@@ -13,7 +38,7 @@ setGeneric("tskrr",
 #' @rdname adjacencyData
 #' @export
 setGeneric("adjacencyData",
-           function(x, ...) standardGeneric("adjacencyData"))
+           function(x, conversion, ...) standardGeneric("adjacencyData"))
 
 #' @rdname gramData
 #' @export
@@ -32,6 +57,18 @@ setGeneric("get_loo_fun",
 setGeneric("loo",
            function(x, ...) standardGeneric("loo"))
 
+## For the data classes
+
+#' @rdname getters-data
+#' @export
+setGeneric("has_orig",
+           function(x, ...) standardGeneric("has_orig"))
+
+#' @rdname getters-data
+#' @export
+setGeneric("get_orig",
+           function(x, ...) standardGeneric("get_orig"))
+
 ## For tskrr
 setGeneric("response",
            function(x, ...) standardGeneric("response"))
@@ -45,29 +82,16 @@ setGeneric("tune",
 setGeneric("permtest",
            function(x, ...) standardGeneric("permtest"))
 
-#' @rdname update
-#' @export
-setGeneric("update")
+
+
 
 # For the hat matrices
+# Needed to do it this way, as the original has
+# other arguments that cannot be used to dispatch on.
 #' @rdname hat
 setGeneric("hat",
            function(x, ...) standardGeneric("hat"))
 setGenericImplicit("hat")
-
-# For the labels
-setGeneric("labels")
-setGeneric("rownames")
-setGeneric("colnames")
-setGeneric("dimnames")
-
-# For the dimensions
-setGeneric("dim")
-
-# For the linearFilter
-setGeneric("mean")
-setGeneric("colMeans")
-setGeneric("rowMeans")
 
 #' @rdname getters_linearFilter
 #' @export

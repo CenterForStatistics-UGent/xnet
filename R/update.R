@@ -7,7 +7,6 @@
 #'
 #' @param object a \code{\link[xnet:tskrr-class]{tskrr}} object
 #' @inheritParams tskrr
-#' @param ... arguments passed to methods
 #'
 #' @return an updated \code{\link[xnet:tskrr-class]{tskrr}} object
 #' fitted with the new lambdas.
@@ -38,6 +37,8 @@
 #' identical(Hk_2, Hk_byhand)
 #'
 #' @rdname update
+#' @name update
+#' @aliases update,tskrrHomogeneous-method
 #' @export
 setMethod("update",
           "tskrrHomogeneous",

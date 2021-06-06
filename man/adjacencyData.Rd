@@ -2,13 +2,39 @@
 % Please edit documentation in R/all_generics.R, R/adjacencyData.R
 \name{adjacencyData}
 \alias{adjacencyData}
-\alias{adjacencyData,matrix-method}
+\alias{adjacencyData,matrix,function-method}
+\alias{adjacencyData,matrix,missing-method}
+\alias{adjacencyData,igraph,function-method}
+\alias{adjacencyData,igraph,missing-method}
+\alias{adjacencyData,ANY,function-method}
 \title{Constructors for adjacencyData objects}
 \usage{
-adjacencyData(x, ...)
+adjacencyData(x, conversion, ...)
 
-\S4method{adjacencyData}{matrix}(x)
+\S4method{adjacencyData}{matrix,`function`}(x, conversion, conv.args = list(), symmetric = NULL)
+
+\S4method{adjacencyData}{matrix,missing}(x, conversion, symmetric = NULL)
+
+\S4method{adjacencyData}{igraph,`function`}(x, conversion, conv.args = list(), symmetric = NULL)
+
+\S4method{adjacencyData}{igraph,missing}(x, conversion)
+
+\S4method{adjacencyData}{ANY,`function`}(x, conversion, symmetric = NULL)
+}
+\arguments{
+\item{x}{an object to be converted to an \code{adjacencyData} class.}
+
+\item{conversion}{an optional function used to convert the input to an adjacency matrix.}
+
+\item{...}{arguments passed to other methods.}
+
+\item{conv.args}{a named list with extra arguments passed to the conversion function.}
+
+\item{symmetric}{a logical value indicating whether or not the resulting adjacency matrix is symmetric. If \code{NULL} this is checked by \code{\link[base]{isSymmetric}}. Specifying a value overrides this check. Do this at your own risk.}
 }
 \description{
-These functions can be used to manually construct objects from the \code{\link[=dataClasses]{gramData classes}} for use in \code{\link{tskrr}} objects.
+These functions can be used to manually construct objects from the \code{\link[xnet:dataClasses]{adjacencyData classes}} for use in \code{\link{tskrr}} objects.
+}
+\details{
+For a \code{\link[igraph:igraph-package]{igraph}} object, the original data is stored as this is needed for further analysis.
 }

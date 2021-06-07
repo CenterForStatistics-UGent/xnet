@@ -4,9 +4,9 @@
 #' ridge regression model. It can be used for both homogeneous and heterogeneous
 #' networks.
 #'
-#' @param y a label matrix
-#' @param k a kernel matrix for the rows
-#' @param g an optional kernel matrix for the columns
+#' @param y an object that can be converted to an adjacency matrix. See details.
+#' @param k an object that can be converted to \code{\link{gramData}}. See details.
+#' @param g an optional object that can be converted to \code{\link{gramData}}. See details.
 #' @param lambda a numeric vector with one or two values for the
 #' hyperparameter lambda. If two values are given, the first one is
 #' used for the k matrix and the second for the g matrix.
@@ -107,8 +107,7 @@ NULL # leave here to avoid adding internal funs to usage
              pred = res$pred,
              has.hat = keep,
              Hk = if(keep) res$k else matrix(0),
-             Hg = if(keep) res$g else matrix(0),
-             labels = list(k=rn, g=cn))
+             Hg = if(keep) res$g else matrix(0))
   return(out)
 }
 
@@ -167,8 +166,7 @@ NULL # leave here to avoid adding internal funs to usage
              pred = res$pred,
              symmetry = symmetry,
              has.hat = keep,
-             Hk = if(keep) res$k else matrix(0),
-             labels = list(k=rn, g = NA_character_))
+             Hk = if(keep) res$k else matrix(0))
   return(out)
 }
 
@@ -179,7 +177,11 @@ NULL # leave here to avoid adding internal funs to usage
 #' @export
 setMethod(tskrr,
           signature = c("matrix","matrix","matrix"),
-          .tskrr_hetero)
+          function(y, k, g, ...){
+            k <- gramData(k)
+            g <- gramData(g)
+            .tskrr_hetero(y, k, g, ...)
+          })
 
 
 #' @rdname tskrr

@@ -34,12 +34,6 @@ setGeneric("convert",
 setGeneric("tskrr",
            function(y, k, g, ...) standardGeneric("tskrr"))
 
-# Generics for data constructors
-#' @rdname adjacencyData
-#' @export
-setGeneric("adjacencyData",
-           function(x, conversion, ...) standardGeneric("adjacencyData"))
-
 #' @rdname gramData
 #' @export
 setGeneric("gramData",

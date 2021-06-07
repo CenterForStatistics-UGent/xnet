@@ -13,15 +13,15 @@ heterogeneous networks.
 \section{Slots}{
 
 \describe{
-\item{\code{y}}{the matrix with responses}
+\item{\code{y}}{an adjacency matrix.}
 
-\item{\code{k}}{the eigen decomposition of the kernel matrix for the rows}
+\item{\code{k}}{an object of class \code{\link[=dataClasses]{gramData}}}
 
 \item{\code{lambda.k}}{the lambda value used for k}
 
 \item{\code{pred}}{the matrix with the predictions}
 
-\item{\code{g}}{the eigen decomposition of the kernel matrix for the columns}
+\item{\code{g}}{an object of class \code{\link[=dataClasses]{gramData}}}
 
 \item{\code{lambda.g}}{the lambda value used for g}
 
@@ -31,10 +31,5 @@ are stored in the object.}
 \item{\code{Hk}}{the kernel hat matrix for the rows.}
 
 \item{\code{Hg}}{the kernel hat matrix for the columns.}
-
-\item{\code{labels}}{a list with elements \code{k} and \code{g} (see
-\code{\link{tskrr-class}}).
- If any element is \code{NA}, the labels used
-are integers indicating the row resp column number.}
 }}
 

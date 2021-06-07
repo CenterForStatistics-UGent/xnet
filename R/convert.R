@@ -4,7 +4,7 @@
 #' the \code{\link[=dataClasses]{data classes}}.
 #'
 #' @param x the object to be converted
-#' @param using the \code{\link{gramData}} or \code{\link{adjacencyData}} object to be used.
+#' @param using the \code{\link{gramData}} object to be used.
 #' @param args a named list with extra arguments to be passed to the conversion function.
 #' @param ... extra parameters passed to other methods.
 #'
@@ -36,19 +36,6 @@ NULL
 
   do.call(conv, arglist)
 }
-
-#' @rdname convert
-#' @aliases convert,matrix,adjacencyDataMatrix-method
-#' @export
-setMethod("convert",
-          c("matrix","adjacencyDataMatrix"),
-          .convert)
-
-#' @rdname convert
-#' @export
-setMethod("convert",
-          c("igraph","adjacencyDataIgraph"),
-          .convert)
 
 #' @rdname convert
 #' @export

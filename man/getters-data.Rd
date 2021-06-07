@@ -4,21 +4,15 @@
 \alias{has_orig}
 \alias{get_orig}
 \alias{getters-data}
-\alias{has_orig,adjacencyData-method}
 \alias{has_orig,gramData-method}
-\alias{get_orig,adjacencyData-method}
 \alias{get_orig,gramData-method}
-\title{Getters for the classes adjacencyData and gramData}
+\title{Getters for the gramData classes}
 \usage{
 has_orig(x, ...)
 
 get_orig(x, ...)
 
-\S4method{has_orig}{adjacencyData}(x)
-
 \S4method{has_orig}{gramData}(x)
-
-\S4method{get_orig}{adjacencyData}(x)
 
 \S4method{get_orig}{gramData}(x)
 }
@@ -28,5 +22,5 @@ get_orig(x, ...)
 \item{...}{arguments passed to other methods}
 }
 \description{
-These functions allow you to get slots from the classes \code{\link[xnet:dataClasses]{adjacencyData}} and \code{\link[xnet:dataClasses]{gramData}}.
+These functions allow you to get slots from the \code{\link[xnet:dataClasses]{gramData}} classes.
 }

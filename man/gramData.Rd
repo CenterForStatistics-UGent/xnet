@@ -10,19 +10,32 @@
 \usage{
 gramData(x, conversion, ...)
 
-\S4method{gramData}{data.frame,`function`}(x, conversion, conv.args = list(), keep.gram = FALSE)
+\S4method{gramData}{data.frame,`function`}(
+  x,
+  conversion,
+  conv.args = list(),
+  keep.gram = FALSE,
+  labels = character(0)
+)
 
 \S4method{gramData}{data.frame,ANY}(
   x,
   conversion,
   kernel = rbfdot,
   kernel.args = list(),
-  keep.gram = FALSE
+  keep.gram = FALSE,
+  labels = character(0)
 )
 
-\S4method{gramData}{matrix,`function`}(x, conversion, conv.args = list(), keep.gram = FALSE)
+\S4method{gramData}{matrix,`function`}(
+  x,
+  conversion,
+  conv.args = list(),
+  keep.gram = FALSE,
+  labels = character(0)
+)
 
-\S4method{gramData}{matrix,missing}(x, conversion, keep.gram = FALSE)
+\S4method{gramData}{matrix,missing}(x, conversion, keep.gram = FALSE, labels = character(0))
 }
 \arguments{
 \item{x}{an object to be converted to a \code{gramData} object}
@@ -34,6 +47,8 @@ gramData(x, conversion, ...)
 \item{conv.args}{a named list with extra arguments passed to the conversion function.}
 
 \item{keep.gram}{a logical value indicating whether the gram matrix should be kept or not.}
+
+\item{labels}{an optional character vector with the labels for the observations. If \code{x} is a matrix with row- and/or columnames and no labels are given, the function will check whether row- and columnames are the same, and if so, use those as labels.}
 
 \item{kernel}{a kernel generating function from the package \code{\link[kernlab:dots]{kernlab}}. See details.}
 

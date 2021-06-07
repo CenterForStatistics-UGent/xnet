@@ -2,17 +2,11 @@
 % Please edit documentation in R/all_generics.R, R/convert.R
 \name{convert}
 \alias{convert}
-\alias{convert,matrix,adjacencyDataMatrix-method}
-\alias{convert,igraph,adjacencyDataIgraph-method}
 \alias{convert,matrix,gramDataMatrix-method}
 \alias{convert,data.frame,gramDataFrame-method}
 \title{Carry out conversions}
 \usage{
 convert(x, using, ...)
-
-\S4method{convert}{matrix,adjacencyDataMatrix}(x, using, args = NULL)
-
-\S4method{convert}{igraph,adjacencyDataIgraph}(x, using, args = NULL)
 
 \S4method{convert}{matrix,gramDataMatrix}(x, using, args = NULL)
 
@@ -21,7 +15,7 @@ convert(x, using, ...)
 \arguments{
 \item{x}{the object to be converted}
 
-\item{using}{the \code{\link{gramData}} or \code{\link{adjacencyData}} object to be used.}
+\item{using}{the \code{\link{gramData}} object to be used.}
 
 \item{...}{extra parameters passed to other methods.}
 

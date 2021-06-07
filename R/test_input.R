@@ -15,20 +15,10 @@
   # SET FLAGS
   homogeneous <- is.null(g)
 
-  # TESTS INPUT
-  if( !(is.matrix(y) && is.numeric(y)) )
-    stop("y should be a matrix.")
-
-  if( !(is.matrix(k) && is.numeric(k)) )
-    stop("k should be a matrix.")
-
   if(!is.numeric(lambda))
     stop("lambda should be numeric.")
 
   if(!homogeneous){
-    if( !(is.matrix(g) && is.numeric(g)) )
-      stop("g should be a matrix.")
-
     nl <- length(lambda)
     if(nl < 1 || nl > 2)
       stop("lambda should contain one or two values. See ?tskrr")
@@ -39,16 +29,11 @@
   }
 
   if(checkna && any(is.na(y)))
-    stop(paste("Missing values in the y matrix are not allowed. You can",
+    stop(paste("Missing values in the adjacency matrix are not allowed. You can",
                "use the function impute_tskrr for imputations."))
 
   # TEST KERNELS
   if(testdim){
-    if(!is_symmetric(k))
-      stop("k should be a symmetric matrix.")
-
-    if(!homogeneous && !is_symmetric(g))
-      stop("g should be a symmetric matrix.")
 
     if(!valid_dimensions(y,k,g))
       stop(paste("The dimensions of the matrices don't match.",

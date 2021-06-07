@@ -7,19 +7,18 @@
 valid_labels(y, k, g = NULL)
 }
 \arguments{
-\item{y}{the label matrix}
+\item{y}{an adjacency matrix.}
 
-\item{k}{the kernel matrix for the rows}
+\item{k}{an object of class \code{\link{gramData}} for the rows.}
 
-\item{g}{the kernel matrix for the columns (optional). If not available,
+\item{g}{an optional object of class \code{\link{gramData}}. If not available,
 it takes the value \code{NULL}}
 }
 \value{
 \code{TRUE} if all labels are compatible, an error otherwise.
 }
 \description{
-This function checks whether the labels between the Y, K, and G
-matrices make sense. This means that all the labels found as
+This function checks whether the labels of the adjacency matrix and the gramData objects are compatible. This means that all the labels found as
 rownames for \code{y} can be found as rownames \emph{and} column
 names of \code{k}, and all the colnames for \code{y} can be found
 as rownames \emph{and} colnames of \code{g} (if provided).

@@ -57,32 +57,28 @@ test_that("gramData works correctly on a matrix", {
   expect_equal(gramamat2@gram, conv(amat))
 })
 
-# Preparation adjacencyData ----------------------------
+#testlabs
+gramadflabs <- gramData(adf, conv,
+                        labels = letters[1:5])
+amatlabs <- tcrossprod(amat)
+rownames(amatlabs) <- colnames(amatlabs) <-  letters[1:5]
+gramamatlabs <- gramData(amatlabs)
+amatlabs2 <- amatlabs
+rownames(amatlabs2) <- letters[6:10]
 
-# Homogeneous networks
-data("proteinInteraction")
+test_that("labels are constructed correctly for gramDataFrame",{
+  expect_equal(labels(gramadf),
+               as.character(1:5))
+  expect_null(labels(gramadf, do.NULL = TRUE))
+  expect_equal(labels(gramadf, prefix = "row"),
+                paste0("row",1:5))
+  expect_equal(labels(gramadflabs),
+               letters[1:5])
+  expect_equal(labels(gramamatlabs),
+               letters[1:5])
+  expect_error(gramData(amatlabs2),
+               "names differ")
+  expect_equal(gramData(amatlabs2, labels = letters[1:5]),
+               gramamatlabs)
 
-protgraph <- graph_from_adjacency_matrix(proteinInteraction)
-
-adjM <- adjacencyData(proteinInteraction, identity)
-adjM2 <- adjacencyData(proteinInteraction)
-
-test_that("Homogeneous matrices give correct adjacency.",{
-  expect_equal(adjM@conversion, identity)
-  expect_true(has_orig(adjM))
-  expect_false(has_orig(adjM2))
-  expect_equal(get_orig(adjM), proteinInteraction)
-  expect_warning(get_orig(adjM2),
-                 "No original data")
-})
-
-adjigraph <- adjacencyData(protgraph)
-test_that("igraphs give correct adjacency",{
-  expect_true(has_orig(adjigraph))
-  expect_equal(get_orig(adjigraph),protgraph)
-  expect_equal(as.matrix(adjigraph), proteinInteraction)
-  expect_equal(igraph::as_adjacency_matrix,
-               adjigraph@conversion)
-  expect_equal(proteinInteraction,
-               convert(protgraph, adjigraph))
 })

@@ -1,29 +1,36 @@
-#' Functions to check matrices
+#' Functions to check dimension
 #'
 #' These functions allow you to check whether the dimensions of the
-#' label matrix and the kernel matrix (matrices) are compatible.
-#' \code{valid_dimensions} checks whether both k and g are square matrices,
-#' whether y has as many rows as k and whether y has as many columns as g.
+#' adjacency matrix and the \code{\link{gramData}} objects are compatible.
+#' \code{valid_dimensions} checks whether y has as many rows as k and whether y has as many columns as g.
 #' \code{is_square} checks whether both dimensions are the same.
 #'
-#' @param y a label matrix
-#' @param k a kernel matrix
-#' @param g an optional second kernel matrix or \code{NULL} otherwise.
+#' @param y a matrix
+#' @param k a gramData object
+#' @param g an optional second gramData object or \code{NULL} otherwise.
 #'
 #' @return a logical value indicating whether the dimensions of the
-#' matrices are compatible for a two step kernel ridge regression.
+#' objects are compatible for a two step kernel ridge regression.
 #'
 #' @note The function \code{is_square} is not exported
+#'
+#' @seealso \code{\link{gramData}} for conversions.
 #'
 #' @rdname valid_dimensions
 #' @export
 valid_dimensions <- function(y, k, g = NULL){
+  if(!inherits(y, "matrix"))
+    stop("y needs to be a matrix.")
 
+  if(!inherits(k, "gramData"))
+    stop("k needs to be a gramData object.")
   ydim <- dim(y)
-  out <- is_square(k) && ydim[1L] == dim(k)[2L]
+  out <-  ydim[1L] == dim(k)
 
   if(!is.null(g)){
-    out <- out && is_square(g) && ydim[2L] == dim(g)[1L]
+    if(!inherits(g, "gramData"))
+      stop("g needs to be a gramData object.")
+    out <- out && ydim[2L] == dim(g)
   } else {
     out <- out && is_square(y)
   }

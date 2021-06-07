@@ -20,11 +20,11 @@ impute_tskrr(
 )
 }
 \arguments{
-\item{y}{a label matrix}
+\item{y}{an object that can be converted to an adjacency matrix. See details.}
 
-\item{k}{a kernel matrix for the rows}
+\item{k}{an object that can be converted to \code{\link{gramData}}. See details.}
 
-\item{g}{an optional kernel matrix for the columns}
+\item{g}{an optional object that can be converted to \code{\link{gramData}}. See details.}
 
 \item{lambda}{a numeric vector with one or two values for the
 hyperparameter lambda. If two values are given, the first one is

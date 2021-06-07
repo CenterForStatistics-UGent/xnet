@@ -12,9 +12,9 @@ This is a superclass so it should not be instantiated directly.
 \section{Slots}{
 
 \describe{
-\item{\code{y}}{the matrix with responses}
+\item{\code{y}}{an adjacency matrix}
 
-\item{\code{k}}{the eigen decomposition of the kernel matrix for the rows}
+\item{\code{k}}{an object of class \code{\link[=dataClasses]{gramData}}}
 
 \item{\code{lambda.k}}{the lambda value used for k}
 
@@ -24,11 +24,6 @@ This is a superclass so it should not be instantiated directly.
 are stored in the object.}
 
 \item{\code{Hk}}{the kernel hat matrix for the rows.}
-
-\item{\code{labels}}{a list with two character vectors, \code{k} and
-\code{g}, containing the labels for the rows resp. columns. See
-\code{\link{tskrrHomogeneous}} and
-\code{\link{tskrrHeterogeneous}} for more details.}
 }}
 
 \seealso{

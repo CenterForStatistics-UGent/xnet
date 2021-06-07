@@ -3,19 +3,26 @@
 \docType{class}
 \name{dataClasses}
 \alias{dataClasses}
-\alias{adjacencyData-class}
-\alias{adjacencyDataIgraph-class}
-\alias{adjacencyDataMatrix-class}
 \alias{gramData-class}
 \alias{gramDataMatrix-class}
 \alias{gramDataFrame-class}
-\title{Classes containing the original data}
+\title{gramData classes}
 \description{
 The classes defined here serve as objects to store and
 manipulate the original data used for creating a
 \code{\link{tskrr}} model. They can contain the original
 data structure and the functions to transform the
-original data to an adjacency matrix or a gram matrix.
+original data to an a gram matrix.
+}
+\details{
+The class \code{gramData} contains the eigendecomposition of the gram matrix. If requested, the gram matrix itself is stored in the object as well, and the slot \code{hasgram} is set to TRUE.
+
+The classes inheriting from \code{gramData} can store the original data used to create a gram matrix, as well as the conversion function used for this. This is especially useful when a kernel function is applied to either a matrix or a data frame. The following classes inherit from \code{gramData}:
+
+\describe{
+  \item{gramDataMatrix}{This contains an original matrix and a conversion function to convert it to a gram matrix. Standard it would be some kind of kernel function.}
+  \item{gramDataFrame}{This contains a data frame and a conversion function to convert it to a gram matrix. The function \code{\link{gramData}} can do this conversion based on a kernel function and a formula that indicates which variables should be used to calculate the gram matrix. }
+}
 }
 \section{Slots}{
 
@@ -31,38 +38,16 @@ original data to an adjacency matrix or a gram matrix.
 \item{\code{symmetric}}{a logical value, indicating whether the adjacency matrix is a symmetric one (homogeneous networks) or not (heterogeneous networks).}
 
 \item{\code{eigen}}{The eigen-decomposition of the calculated
-gram matrix (only for classes inheriting from \code{gramData})}
+gram matrix.}
 
-\item{\code{gram}}{The calculated gram matrix if \code{hasgram} is \code{TRUE} (only for classes inheriting from \code{gramData}).}
+\item{\code{gram}}{The calculated gram matrix if \code{hasgram} is \code{TRUE}.}
 
 \item{\code{hasgram}}{a logical value indicating whether the gram matrix
-is contained in the object or not.  (only for classes inheriting from \code{gramData}).}
+is contained in the object or not.}
+
+\item{\code{labels}}{a character vector with the labels for the gram matrix.}
 }}
 
-\section{adjacencyData}{
-
-The class \code{adjacencyData} inherits from \code{matrix} and contains the adjacency matrix. It is extended by the subclasses mentioned below. These subclasses also store the original data and the conversion that gave rise to the adjacency matrix in the respective slots.
-
-The following classes inherit from \code{adjacencyData}:
-
-\describe{
-  \item{adjacencyDataMatrix}{This object contains a matrix and a conversion function to turn it into a proper adjacency matrix.}
-  \item{adjacencyDataIgraph}{the slot \code{orig} contains an \code{\link[igraph:igraph-package]{igraph}} object. The \code{conversion} function is typically \code{\link[igraph]{as_adjacency_matrix}} or \code{\link[igraph]{as_incidence_matrix}}, depending on whether it's a homogeneous or heterogeneous network.}
-}
-}
-
-\section{gramData}{
-
-The class \code{gramData} contains the eigendecomposition of the gram matrix. If requested, the gram matrix itself is stored in the object as well, and the slot \code{hasgram} is set to TRUE.
-
-The classes inheriting from \code{gramData} can store the original data used to create a gram matrix, as well as the conversion function used for this. This is especially useful when a kernel function is applied to either a matrix or a data frame. The following classes inherit from \code{gramData}:
-
-\describe{
-  \item{gramDataMatrix}{This contains an original matrix and a conversion function to convert it to a gram matrix. Standard it would be some kind of kernel function.}
-  \item{gramDataFrame}{This contains a data frame and a conversion function to convert it to a gram matrix. The function \code{\link{gramData}} can do this conversion based on a kernel function and a formula that indicates which variables should be used to calculate the gram matrix. }
-}
-}
-
 \seealso{
-\code{\link{gramData}} for constructing \code{gramData} objects, and \code{\link{adjacencyData}} for constructing \code{adjacencyData} objects.
+\code{\link{gramData}} for constructing \code{gramData} objects.
 }

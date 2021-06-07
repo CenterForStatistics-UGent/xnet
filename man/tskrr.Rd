@@ -9,16 +9,7 @@
 \usage{
 tskrr(y, k, g, ...)
 
-\S4method{tskrr}{matrix,matrix,matrix}(
-  y,
-  k,
-  g,
-  lambda = 1e-04,
-  testdim = TRUE,
-  testlabels = TRUE,
-  keep = FALSE,
-  ...
-)
+\S4method{tskrr}{matrix,matrix,matrix}(y, k, g, ...)
 
 \S4method{tskrr}{matrix,matrix,missing}(
   y,
@@ -34,11 +25,11 @@ tskrr(y, k, g, ...)
 \S4method{tskrr}{matrix,matrix,`NULL`}(y, k, g, ...)
 }
 \arguments{
-\item{y}{a label matrix}
+\item{y}{an object that can be converted to an adjacency matrix. See details.}
 
-\item{k}{a kernel matrix for the rows}
+\item{k}{an object that can be converted to \code{\link{gramData}}. See details.}
 
-\item{g}{an optional kernel matrix for the columns}
+\item{g}{an optional object that can be converted to \code{\link{gramData}}. See details.}
 
 \item{...}{arguments passed to other methods.}
 
@@ -56,15 +47,15 @@ names of the matrices have to be checked for consistency. Defaults to
 \code{TRUE}, but for large matrices putting this to \code{FALSE} will
 speed up the function.}
 
-\item{keep}{a logical value indicating whether the kernel hat
-matrices should be stored in the model object. Doing so makes the
-model object quite larger, but can speed up predictions in
-some cases. Defaults to \code{FALSE}.}
-
 \item{symmetry}{a character value with the possibilities
 "auto", "symmetric" or "skewed". In case of a homogeneous fit, you
 can either specify whether the label matrix is symmetric or
 skewed, or you can let the function decide (option "auto").}
+
+\item{keep}{a logical value indicating whether the kernel hat
+matrices should be stored in the model object. Doing so makes the
+model object quite larger, but can speed up predictions in
+some cases. Defaults to \code{FALSE}.}
 }
 \value{
 a \code{\link[xnet:tskrr-class]{tskrr}} object.

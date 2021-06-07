@@ -1,5 +1,7 @@
 #' Extract labels from a tskrr object
 #'
+#' NEEDS SERIOUS FIXING!!!!
+#'
 #' These functions allow you to extract the labels from a
 #' \code{\link{tskrr}} object. The function \code{labels} and the
 #' function \code{dimnames} are aliases and do the exact same
@@ -15,7 +17,7 @@
 #' labels, so don't count on \code{rownames} and \code{colnames} if you
 #' want to predict output from other functions!
 #'
-#' @param x a \code{\link{tskrr}} object
+#' @param x a \code{\link{tskrr}} object, \code{\link{gramData}} object or a matrix.
 #' @param object a \code{\link{tskrr}} object
 #' @param do.NULL logical. If \code{FALSE} and labels are \code{NULL},
 #' labels are created. If \code{TRUE}, the function returns \code{NULL} in
@@ -33,40 +35,57 @@
 #' \code{g}
 #'
 #' @rdname labels
-#' @method labels tskrr
-#' @export
-labels.tskrr <- function(object,
-                         prefix = if(is_homogeneous(object)) "row" else c("row","col"), ...){
+#' @name labels
+NULL
 
-  labs <- object@labels
+# internal functions
+.makelabels <- function(n, prefix=NULL){
+
+  paste0(prefix, seq_len(n))
+}
+
+labels.tskrr <- function(object,
+                         prefix = if(is_homogeneous(object)) rep("row",2) else c("row","col"), ...){
 
   homogeneous <- is_homogeneous(object)
-
-
-  # Process the prefixes
-  if(!is.character(prefix) || !is.vector(prefix))
-    stop("prefix should be a character vector with maximum 2 values.")
-  nref <- length(prefix)
-  if(nref == 1 && !homogeneous)
-    stop("A heterogeneous network needs 2 values for prefix.")
-  else if(nref > 2 || nref < 1)
-    stop("prefix should contain 1 or 2 values. See also ?labels.")
-  else if(nref == 2 && homogeneous)
-    warning(paste("Two prefixes were given for a homogeneous model.",
-                  "The second value", prefix[2],"is ignored."))
-
-  # Generate the labels if no are available
-  if(length(labs$k) == 1 && is.na(labs$k)){
-    labs$k <- paste0(prefix[1], seq_len(nrow(object@y)))
-  }
-
-  if(homogeneous)
-    labs$g <- labs$k
-  else if(length(labs$g) == 1 && is.na(labs$g))
-    labs$g <- paste0(prefix[2], seq_len(ncol(object@y)))
+  if(homogeneous && length(prefix) == 1 && is.vector(prefix))
+    prefix <- rep(prefix,2)
+  labs <- labels(response(object), prefix, ...)
 
   return(labs)
 }
+
+#' @rdname labels
+#' @export
+setMethod("labels",
+          "gramData",
+          function(object, prefix = NULL, do.NULL = FALSE){
+            lb <- object@labels
+            if(length(lb) == 0 ){
+              lb <- if(do.NULL) NULL else .makelabels(dim(object), prefix)
+            }
+            return(lb)
+          })
+
+#' @rdname labels
+#' @export
+setMethod("labels",
+          "matrix",
+          function(object, prefix = NULL, do.NULL = FALSE){
+            lb <- dimnames(object)
+            if(is.null(lb) && !do.NULL){
+              if(is.null(prefix)) prefix <- rep("",2)
+              if(!is.vector(prefix) && length(prefix) != 2)
+                stop("prefix should be a character vector with 2 values: one for the rows and one for the columns")
+              lb <- list(
+                k = .makelabels(nrow(object),prefix[1]),
+                g = .makelabels(ncol(object), prefix[2])
+              )
+            } else if(!is.null(lb)){
+              names(lb) <- c("k","g")
+            }
+            return(lb)
+          })
 
 #' @rdname labels
 #' @export
@@ -120,4 +139,22 @@ setMethod("colnames",
             }
 
             return(rn)
+          })
+
+#' @rdname labels
+#' @export
+setMethod("rownames",
+          "gramData",
+          function(x,do.NULL = TRUE, prefix = NULL){
+            labels(x, do.NULL = do.NULL,
+                   prefix = prefix)
+          })
+
+#' @rdname labels
+#' @export
+setMethod("colnames",
+          "gramData",
+          function(x,do.NULL = TRUE, prefix = NULL){
+            labels(x, do.NULL = do.NULL,
+                   prefix = prefix)
           })

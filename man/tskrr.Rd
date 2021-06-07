@@ -11,16 +11,7 @@ tskrr(y, k, g, ...)
 
 \S4method{tskrr}{matrix,matrix,matrix}(y, k, g, ...)
 
-\S4method{tskrr}{matrix,matrix,missing}(
-  y,
-  k,
-  lambda = 1e-04,
-  testdim = TRUE,
-  testlabels = TRUE,
-  symmetry = c("auto", "symmetric", "skewed"),
-  keep = FALSE,
-  ...
-)
+\S4method{tskrr}{matrix,matrix,missing}(y, k, g, ...)
 
 \S4method{tskrr}{matrix,matrix,`NULL`}(y, k, g, ...)
 }

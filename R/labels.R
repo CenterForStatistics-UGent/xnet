@@ -40,7 +40,8 @@ NULL
 
 # internal functions
 .makelabels <- function(n, prefix=NULL){
-
+  if(!is.character(prefix) || length(prefix) !=1)
+    stop("Prefix should be a single character value.")
   paste0(prefix, seq_len(n))
 }
 
@@ -48,7 +49,19 @@ labels.tskrr <- function(object,
                          prefix = if(is_homogeneous(object)) rep("row",2) else c("row","col"), ...){
 
   homogeneous <- is_homogeneous(object)
-  if(homogeneous && length(prefix) == 1 && is.vector(prefix))
+
+  # Check labels
+  if(!is.character(prefix))
+    stop("Prefix should be a character vector.")
+  if(homogeneous){
+    if(length(prefix) != 1)
+      stop("Prefix should be a single character value for a homogeneous network.")
+  } else {
+    if(length(prefix) != 2 )
+      stop("Prefix should contain 2 character values for a heterogeneous network.")
+  }
+
+  if(homogeneous)
     prefix <- rep(prefix,2)
   labs <- labels(response(object), prefix, ...)
 
@@ -106,19 +119,8 @@ setMethod("dimnames",
 setMethod("rownames",
           "tskrr",
           function(x, do.NULL = TRUE, prefix = "row"){
-            rn <- x@labels$k
-
-            nolabels <- length(rn) == 1 && is.na(rn)
-
-            if(do.NULL && nolabels)
-              return(NULL)
-            else if(nolabels){
-              if(length(prefix) > 1 || !is.character(prefix))
-                stop("prefix should be a single character value.")
-              rn <- paste0(prefix, seq_len(nrow(x@y)))
-            }
-
-            return(rn)
+            labels(x@k, do.NULL = do.NULL,
+                         prefix = prefix)
           })
 
 #' @rdname labels
@@ -126,19 +128,8 @@ setMethod("rownames",
 setMethod("colnames",
           "tskrr",
           function(x, do.NULL = TRUE, prefix = "col"){
-            rn <- if(is_homogeneous(x)) x@labels$k else  x@labels$g
-
-            nolabels <- length(rn) == 1 && is.na(rn)
-
-            if(do.NULL && nolabels)
-              return(NULL)
-            else if(nolabels){
-              if(length(prefix) > 1 || !is.character(prefix))
-                stop("prefix should be a single character value.")
-              rn <- paste0(prefix, seq_len(ncol(x@y)))
-            }
-
-            return(rn)
+            labels(x@g, do.NULL = do.NULL,
+                   prefix = prefix)
           })
 
 #' @rdname labels

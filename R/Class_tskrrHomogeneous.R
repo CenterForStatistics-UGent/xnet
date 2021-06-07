@@ -35,16 +35,7 @@ validTskrrHomogeneous <- function(object){
   else if(object@has.hat && !valid_dimensions(object@y, object@Hk))
     return("The dimensions of the original kernel matrices and the observations don't match.")
 
-  else if(!length(object@labels$g) == 1 || !is.na(object@labels$g))
-    return("The element g of labels should be NA")
-
-  else if(
-    (length(object@labels$k) == 1 && !is.na(object@labels$k)) &&
-    (length(object@labels$k) != nrow(object@y))
-     )
-    return("The element k should either be NA or a character vector with the same number of values as there are rows in the Y matrix.")
-
-  else
+   else
     return(TRUE)
 }
 

@@ -99,13 +99,13 @@ test_that("Row and colnames are returned correctly",{
 
 test_that("row- and colnames return correct errors",{
   expect_error(rownames(mod, do.NULL = FALSE, prefix = prefix),
-               "prefix should be a single character value")
+               "Prefix should be a single character value")
   expect_error(colnames(mod, do.NULL = FALSE, prefix = prefix),
-               "prefix should be a single character value")
+               "Prefix should be a single character value")
   expect_error(rownames(mod, do.NULL = FALSE, prefix = 1),
-               "prefix should be a single character value")
+               "Prefix should be a single character value")
   expect_error(colnames(mod, do.NULL = FALSE, prefix = 1),
-               "prefix should be a single character value")
+               "Prefix should be a single character value")
 
 })
 
@@ -149,16 +149,14 @@ test_that("labels gives the correct result", {
 test_that("labels produces the correct errors", {
   expect_error(labels(mod, prefix = c(1,2)),
                "should be a character vector")
-  expect_error(labels(mod, prefix = matrix(prefix)),
-               "should be a character vector")
   expect_error(labels(mod, prefix = letters[1:3]),
-               "prefix should contain 1 or 2 values")
+               "should contain 2 character values")
   expect_error(labels(mod, prefix = character(0)),
-               "prefix should contain 1 or 2 values")
+               "should contain 2 character values")
   expect_error(labels(mod, prefix = prefix[1]),
-               "heterogeneous .* needs 2 values")
-  expect_warning(labels(modh, prefix = prefix),
-                 "Two prefixes were given for a homogeneous model")
+               "should contain 2 character values")
+  expect_error(labels(modh, prefix = prefix),
+                 "Prefix should be a single character value ")
 })
 
 # Test for tskrrTune objects ---------------------------

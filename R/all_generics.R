@@ -63,6 +63,21 @@ setGeneric("has_orig",
 setGeneric("get_orig",
            function(x, ...) standardGeneric("get_orig"))
 
+#' @rdname getters-data
+#' @export
+setGeneric("has_gram",
+           function(x, ...) standardGeneric("has_gram"))
+
+#' @rdname getters-data
+#' @export
+setGeneric("get_gram",
+          function(x, ...) standardGeneric("get_gram"))
+
+#' @rdname getters-tskrr
+#' @export
+setGeneric("get_eigen",
+           function(x, ...) standardGeneric("get_eigen"))
+
 ## For tskrr
 setGeneric("response",
            function(x, ...) standardGeneric("response"))
@@ -70,6 +85,8 @@ setGeneric("lambda",
            function(x, ...) standardGeneric("lambda"))
 setGeneric("tune",
            function(x, ...) standardGeneric("tune"))
+setGeneric("get_kernelmatrix",
+           function(x, ...) standardGeneric("get_kernelmatrix"))
 
 #' @rdname permtest
 #' @export
@@ -98,9 +115,11 @@ setGeneric("na_removed", function(x) standardGeneric("na_removed"))
 # For the tune
 
 #' @rdname as_tuned
+#' @export
 setGeneric("as_tuned", function(x, ...) standardGeneric("as_tuned"))
 
 #' @rdname as_tuned
+#' @export
 setGeneric("as_tskrr", function(x, ...) standardGeneric("as_tskrr"))
 
 #' @rdname loss

@@ -3,23 +3,51 @@
 \name{has_orig}
 \alias{has_orig}
 \alias{get_orig}
+\alias{has_gram}
+\alias{get_gram}
 \alias{getters-data}
+\alias{has_orig,}
 \alias{has_orig,gramData-method}
 \alias{get_orig,gramData-method}
+\alias{get_orig,}
+\alias{get_eigen,gramData-method}
+\alias{has_gram,gramData-method}
+\alias{get_gram,gramData-method}
 \title{Getters for the gramData classes}
 \usage{
 has_orig(x, ...)
 
 get_orig(x, ...)
 
+has_gram(x, ...)
+
+get_gram(x, ...)
+
 \S4method{has_orig}{gramData}(x)
 
 \S4method{get_orig}{gramData}(x)
+
+\S4method{get_eigen}{gramData}(x)
+
+\S4method{has_gram}{gramData}(x)
+
+\S4method{get_gram}{gramData}(x)
 }
 \arguments{
 \item{x}{an object of any of those classes or classes that inherit from those classes.}
 
 \item{...}{arguments passed to other methods}
+}
+\value{
+for \code{has_orig}: a logical value indicating whether the original data can be found in the object
+
+for \code{get_orig}: the original data structure if present, \code{NULL} otherwise.
+
+for \code{get_eigen}: the object of class \code{\link[base]{eigen}} with the eigendecomposition.
+
+for \code{has_gram}: a logical value indicating whether the original gram matrix / kernel matrix is stored in the object.
+
+for \code{get_gram}: the original gram matrix / kernel matrix if present, otherwise \code{NULL}.
 }
 \description{
 These functions allow you to get slots from the \code{\link[xnet:dataClasses]{gramData}} classes.

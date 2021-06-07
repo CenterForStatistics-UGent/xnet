@@ -12,9 +12,9 @@ is_square(x)
 \arguments{
 \item{y}{a matrix}
 
-\item{k}{a gramData object}
+\item{k}{a gramData object or matrix}
 
-\item{g}{an optional second gramData object or \code{NULL} otherwise.}
+\item{g}{an optional second gramData object or matrix, or \code{NULL} otherwise.}
 
 \item{x}{any matrix}
 }

@@ -82,8 +82,8 @@ NULL # leave here to avoid adding internal funs to usage
   }
 
   # CALCULATE EIGEN DECOMPOSITION
-  k.eigen <- eigen(k, symmetric = TRUE)
-  g.eigen <- eigen(g, symmetric = TRUE)
+  k.eigen <- get_eigen(k)
+  g.eigen <- get_eigen(g)
 
   res <- tskrr.fit(y,
                    k.eigen,
@@ -100,8 +100,8 @@ NULL # leave here to avoid adding internal funs to usage
   # CREATE OUTPUT
   out <- new("tskrrHeterogeneous",
              y = y,
-             k = k.eigen,
-             g = g.eigen,
+             k = k,
+             g = g,
              lambda.k = lambda.k,
              lambda.g = lambda.g,
              pred = res$pred,
@@ -144,7 +144,7 @@ NULL # leave here to avoid adding internal funs to usage
   }
 
   # CALCULATE EIGEN DECOMPOSITION
-  k.eigen <- eigen(k, symmetric = TRUE)
+  k.eigen <- get_eigen(k)
 
   res <- tskrr.fit(y,
                    k.eigen,
@@ -161,7 +161,7 @@ NULL # leave here to avoid adding internal funs to usage
   # CREATE OUTPUT
   out <- new("tskrrHomogeneous",
              y = y,
-             k = k.eigen,
+             k = k,
              lambda.k = lambda.k,
              pred = res$pred,
              symmetry = symmetry,
@@ -188,12 +188,16 @@ setMethod(tskrr,
 #' @export
 setMethod(tskrr,
           signature = c("matrix","matrix","missing"),
-          .tskrr_homo)
+          function(y,k,g, ...){
+            k <- gramData(k)
+            .tskrr_homo(y,k, ...)
+          })
 
 #' @rdname tskrr
 #' @export
 setMethod(tskrr,
           signature = c("matrix","matrix","NULL"),
           function(y,k,g, ...){
+            k <- gramData(k)
             .tskrr_homo(y,k, ...)
             })

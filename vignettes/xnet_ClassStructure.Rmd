@@ -4,7 +4,7 @@ author: "Meys Joris"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{xnet Class structure}
+  %\VignetteIndexEntry{S4 class structure of the xnet package}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

@@ -83,9 +83,9 @@ done in a single dimension. See details.}
 
 \item{...}{arguments to be passed to the loss function}
 
-\item{k}{a kernel matrix for the rows}
+\item{k}{an object that can be converted to \code{\link{gramData}}. See details.}
 
-\item{g}{an optional kernel matrix for the columns}
+\item{g}{an optional object that can be converted to \code{\link{gramData}}. See details.}
 
 \item{testdim}{a logical value indicating whether symmetry
 and the dimensions of the kernel(s) should be tested.

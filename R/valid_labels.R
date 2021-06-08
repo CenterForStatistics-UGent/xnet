@@ -1,7 +1,6 @@
 #' Test the correctness of the labels.
 #'
-#' This function checks whether the labels between the Y, K, and G
-#' matrices make sense. This means that all the labels found as
+#' This function checks whether the labels of the adjacency matrix and the gramData objects are compatible. This means that all the labels found as
 #' rownames for \code{y} can be found as rownames \emph{and} column
 #' names of \code{k}, and all the colnames for \code{y} can be found
 #' as rownames \emph{and} colnames of \code{g} (if provided).
@@ -23,12 +22,12 @@
 #'   case \code{g} is \code{NULL}
 #' }
 #'
-#' @param y the label matrix
-#' @param k the kernel matrix for the rows
-#' @param g the kernel matrix for the columns (optional). If not available,
+#' @param y an adjacency matrix.
+#' @param k an object of class \code{\link{gramData}} for the rows.
+#' @param g an optional object of class \code{\link{gramData}}. If not available,
 #' it takes the value \code{NULL}
 #'
-#' @note This is a non-exported convenience function.
+#' @note This is a non-exported convenience function. Note that it assumes the \code{\link{gramData}} objects are formed properly and hence have the same row- and columnames.
 #'
 #' @return \code{TRUE} if all labels are compatible, an error otherwise.
 #'
@@ -41,7 +40,6 @@ valid_labels <- function(y, k, g = NULL){
   rny <- rownames(y)
   cny <- colnames(y)
   rnk <- rownames(k)
-  cnk <- colnames(k)
 
   checkg <- !is.null(g)
 
@@ -49,31 +47,25 @@ valid_labels <- function(y, k, g = NULL){
   rynull <- is.null(rny)
   rknull <- is.null(rnk)
   cynull <- is.null(cny)
-  cknull <- is.null(cnk)
 
   if(checkg){
-    rng <- rownames(g)
     cng <- colnames(g)
-    rgnull <- is.null(rng)
     cgnull <- is.null(cng)
 
-    if(all(rynull,rknull,rgnull,cynull,cknull,cgnull))
+    if(all(rynull,rknull,cynull,cgnull))
       return(TRUE)
-    else if(any(rynull,rknull,rgnull,cynull,cknull,cgnull))
+    else if(any(rynull,rknull,cynull,cgnull))
       stop(paste("Not all row labels and col labels could be found.",
                  "You need to have compatible row and column labels",
                  "for all matrices. See also ?valid_labels."))
   } else {
-    if(all(rynull,rknull,cynull,cknull))
+    if(all(rynull,rknull,cynull))
       return(TRUE)
-    else if(any(rynull,rknull,cynull,cknull))
+    else if(any(rynull,rknull,cynull))
       stop(paste("Not all row labels and col labels could be found.",
                  "You need to have compatible row and column labels",
                  "for all matrices. See also ?valid_labels."))
   }
-
-  if(!all(rnk == cnk))
-    stop("Different row- and colnames found for k.")
 
   out <- all(match(rny,rnk,0L) > 0L)
 
@@ -83,12 +75,7 @@ valid_labels <- function(y, k, g = NULL){
 
   if(checkg){
     # When there is g, check against g
-    cng <- colnames(g)
-    rng <- rownames(g)
-
-    if(!all(rng == cng))
-      stop("Different row- and colnames found for g.")
-    out <- all(match(cny,cng,0L) > 0L)
+   out <- out && all(match(cny,cng,0L) > 0L)
 
     if(!out)
       stop(paste("colnames of y and g are not matching.",
@@ -96,7 +83,7 @@ valid_labels <- function(y, k, g = NULL){
 
   } else {
     # No g, so check against k again
-    out <- all(match(cny, cnk,0L) > 0L)
+    out <- all(match(cny, rnk,0L) > 0L)
 
     if(!out)
       stop(paste("colnames of y and k are not matching.",

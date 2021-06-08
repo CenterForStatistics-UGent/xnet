@@ -32,7 +32,7 @@
 match_labels <- function(y,rows,cols = NULL){
 
   if(!is.matrix(y))
-    stop("y has to be a matrix")
+    stop("y has to be a matrix.")
 
   if(is.matrix(rows)){
     rows <- rownames(rows)

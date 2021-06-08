@@ -5,10 +5,14 @@ Currently in development as 0.1.12
 ### Breaking changes
 
 * `alpha()` is now called `get_alpha()` to avoid conflicts with other packages. The old function is still exported, but now gives a warning. It will be removed in a next version.
+* The function `get_kernel` (deprecated in 0.1.10) is now completely removed from the package.
+* The `tskrr` classes have been rewritten to contain the `gramData` classes. This also removed the slot `labels` from the classes. Care is taken to keep old code compatible, but any code that relied directly on the structure of these classes will break.
 
 ### New features
 
-coming...
+* `tskrr` is now a S4 generic to allow for other input types.
+* constructors `adjacencyData` and `gramData` are added to allow for use of data frames, igraphs, ... as input.
+* `convert` lets you use the conversion of data objects on other objects.
 
 ### Bug fixes and improvements
 

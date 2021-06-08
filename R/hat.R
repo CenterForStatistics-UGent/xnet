@@ -29,6 +29,7 @@ setMethod("hat",
 
 
             eig <- if(which == 'row') x@k else x@g
+            eig <- get_eigen(eig)
             l <- if(which == 'row') x@lambda.k else x@lambda.g
 
             eigen2hat(eig$vectors, eig$values, l)
@@ -44,7 +45,7 @@ setMethod("hat",
                 return(x@Hk)
             }
 
-            eig <- x@k
+            eig <- get_eigen(x@k)
             l <- x@lambda.k
 
             eigen2hat(eig$vectors, eig$values, l)

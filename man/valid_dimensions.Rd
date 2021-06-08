@@ -3,32 +3,34 @@
 \name{valid_dimensions}
 \alias{valid_dimensions}
 \alias{is_square}
-\title{Functions to check matrices}
+\title{Functions to check dimension}
 \usage{
 valid_dimensions(y, k, g = NULL)
 
 is_square(x)
 }
 \arguments{
-\item{y}{a label matrix}
+\item{y}{a matrix}
 
-\item{k}{a kernel matrix}
+\item{k}{a gramData object or matrix}
 
-\item{g}{an optional second kernel matrix or \code{NULL} otherwise.}
+\item{g}{an optional second gramData object or matrix, or \code{NULL} otherwise.}
 
 \item{x}{any matrix}
 }
 \value{
 a logical value indicating whether the dimensions of the
-matrices are compatible for a two step kernel ridge regression.
+objects are compatible for a two step kernel ridge regression.
 }
 \description{
 These functions allow you to check whether the dimensions of the
-label matrix and the kernel matrix (matrices) are compatible.
-\code{valid_dimensions} checks whether both k and g are square matrices,
-whether y has as many rows as k and whether y has as many columns as g.
+adjacency matrix and the \code{\link{gramData}} objects are compatible.
+\code{valid_dimensions} checks whether y has as many rows as k and whether y has as many columns as g.
 \code{is_square} checks whether both dimensions are the same.
 }
 \note{
 The function \code{is_square} is not exported
+}
+\seealso{
+\code{\link{gramData}} for conversions.
 }

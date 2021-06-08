@@ -31,7 +31,7 @@ test_that("valid_labels returns errors when needed",{
 
   rownames(Kw) <- rownames(Kw)[c(2,1,3,4)]
   expect_error(valid_labels(Yw, Kw),
-               "Different row- and colnames found for k")
+               "rownames of y and k are not matching")
 
   # Create G and set everything back to OK for Y and K
   Gw <- matrix(0,nrow = 4, ncol = 4)
@@ -43,9 +43,6 @@ test_that("valid_labels returns errors when needed",{
   expect_error(valid_labels(Yw, Kw, Gw),
                "colnames of y and g are not matching")
   colnames(Yw) <- colnames(Gw)
-  rownames(Gw) <- rownames(Gw)[c(2,1,3,4)]
-  expect_error(valid_labels(Yw, Kw, Gw),
-               "Different row- and colnames found for g")
   colnames(Gw) <- NULL
   expect_error(valid_labels(Yw, Kw, Gw),
                "Not all row labels and col labels could be found")
@@ -62,9 +59,9 @@ test_that("Input is checked correctly", {
                     lambda.g = 1e-4,
                     homogeneous = FALSE)
   )
-  expect_error(.test_input(1:10,K,G), "y should be a matrix")
-  expect_error(.test_input(Y,1:10,G), "k should be a matrix")
-  expect_error(.test_input(Y,K,1:10), "g should be a matrix")
+  expect_error(.test_input(1:10,K,G), "y needs to be a matrix")
+  expect_error(.test_input(Y,1:10,G), "k needs to be a square matrix or gramData")
+  expect_error(.test_input(Y,K,1:10), "g needs to be a square matrix or gramData")
   expect_error(.test_input(Y,K,G, lambda = 1:10),
                "lambda should contain one or two values")
   expect_error(.test_input(Y,K,g = NULL, lambda = c(1,2)),
@@ -85,10 +82,10 @@ test_that("Input is checked correctly", {
                "dimensions of the matrices don't match.")
   Kwrong <- matrix(1:12,nrow=4)
   expect_error(.test_input(Y,Kwrong,G),
-               "k should be a symmetric matrix")
+               "k needs to be a square matrix or gramData")
   Gwrong <- matrix(1:15, ncol = 5)
   expect_error(.test_input(Y,K,Gwrong),
-               "g should be a symmetric matrix")
+               "g needs to be a square matrix or gramData")
   YL <- Y
   KL <- K
   GL <- G

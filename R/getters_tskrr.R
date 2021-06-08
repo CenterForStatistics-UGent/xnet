@@ -3,8 +3,6 @@
 #' The functions described here are convenience functions to get
 #' information out of a \code{\link[xnet:tskrr-class]{tskrr}} object.
 #'
-#' @section Warning: The function \code{get_kernel} is deprecated.
-#' Use \code{get_kernelmatrix} instead.
 #'
 #' @param x a \code{\link[xnet:tskrr-class]{tskrr}} object or an
 #' object inheriting from \code{tskrr}.
@@ -22,7 +20,8 @@
 #'
 #' @include all_generics.R
 #' @rdname getters-tskrr
-#' @aliases response
+#' @name getters-tskrr
+#' @aliases response response,tskrr-method
 #' @export
 #' @return For \code{response}: the original label matrix
 setMethod("response",
@@ -54,6 +53,7 @@ setMethod("lambda",
 #' @aliases is_tskrr
 #' @return For \code{is_tskrr} a logical value indicating whether the
 #' object is a \code{tskrr} object
+#' @export
 is_tskrr <- function(x){
   inherits(x, "tskrr")
 }
@@ -91,59 +91,57 @@ symmetry <- function(x){
 }
 
 #' @rdname getters-tskrr
-#' @aliases get_eigen
 #' @param which a character value indicating whether the eigen decomposition
 #' for the row kernel matrix or the column kernel matrix should be returned.
 #' @return For \code{get_eigen} the eigen decomposition of the requested
 #' kernel matrix.
 #' @export
-get_eigen <- function(x, which = c('row', 'column')){
+setMethod("get_eigen",
+          "tskrr",
+          function(x, which = c('row', 'column')){
   if(is_homogeneous(x)){
-    x@k
+    get_eigen(x@k)
   } else {
     which <- match.arg(which)
     if(which == 'row')
-      x@k
+      get_eigen(x@k)
     else
-      x@g
+      get_eigen(x@g)
   }
-}
+})
 
 #' @rdname getters-tskrr
 #' @aliases get_kernelmatrix
 #' @return For \code{get_kernelmatrix} the original kernel matrix
 #' for the rows or columns.
 #' @export
-get_kernelmatrix <- function(x, which = c('row','column')){
+setMethod("get_kernelmatrix",
+          "tskrr",
+          function(x, which = c('row','column')){
 
   which <- match.arg(which)
 
-  if(is_homogeneous(x) || which == 'row'){
-
-    eigen2matrix(x@k$vectors, x@k$values)
-
-  } else{
-
-    eigen2matrix(x@g$vectors, x@g$values)
-
+  tmp <- if(is_homogeneous(x) || which == 'row'){
+    x@k
+  } else {
+    x@g
   }
-}
+  if(has_gram(tmp)){
+    get_gram(tmp)
+  } else {
+    tmp <- get_eigen(tmp)
+    eigen2matrix(tmp$vectors, tmp$values)
+  }
+})
 
 #' @rdname getters-tskrr
 #' @aliases has_hat
 #' @return For \code{has_hat} a logical value indicating whether
 #' the tskrr model contains the kernel hat matrices.
+#' @export
 has_hat <- function(x){
   if(!inherits(x, 'tskrr'))
     stop("x needs to be a tskrr model.")
 
   x@has.hat
-}
-
-#' @rdname getters-tskrr
-#' @export
-get_kernel <- function(x, which = c('row','column')){
-  which <- match.arg(which)
-  warning("This function is deprecated. Use get_kernelmatrix instead.")
-  get_kernelmatrix(x, which)
 }

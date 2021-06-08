@@ -19,7 +19,7 @@
 
 \S4method{labels}{tskrr}(
   object,
-  prefix = if (is_homogeneous(object)) rep("row", 2) else c("row", "col"),
+  prefix = if (is_homogeneous(object)) "row" else c("row", "col"),
   ...
 )
 
@@ -57,9 +57,6 @@ for \code{labels} and \code{dimnames}: a list with two elements \code{k} and
 \code{g}
 }
 \description{
-NEEDS SERIOUS FIXING!!!!
-}
-\details{
 These functions allow you to extract the labels from a
 \code{\link{tskrr}} object. The function \code{labels} and the
 function \code{dimnames} are aliases and do the exact same
@@ -77,3 +74,16 @@ labels, so don't count on \code{rownames} and \code{colnames} if you
 want to predict output from other functions!
 }
 
+\examples{
+amat <- matrix(1:10, ncol = 2)
+labels(amat)
+labels(amat, do.NULL = TRUE)
+labels(amat, prefix = c("Sp.","Drug"))
+
+data(drugtarget)
+mod <- tskrr(drugTargetInteraction,
+             targetSim, drugSim)
+labels(mod)
+colnames(mod)
+
+}

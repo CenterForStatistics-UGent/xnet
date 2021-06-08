@@ -34,6 +34,11 @@ setGeneric("convert",
 setGeneric("tskrr",
            function(y, k, g, ...) standardGeneric("tskrr"))
 
+#' @rdname impute_tskrr
+#' @export
+setGeneric("impute_tskrr",
+           function(y, k, g, ...) standardGeneric("impute_tskrr"))
+
 #' @rdname gramData
 #' @export
 setGeneric("gramData",

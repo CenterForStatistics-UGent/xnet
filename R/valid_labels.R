@@ -27,7 +27,7 @@
 #' @param g an optional object of class \code{\link{gramData}}. If not available,
 #' it takes the value \code{NULL}
 #'
-#' @note This is a non-exported convenience function.
+#' @note This is a non-exported convenience function. Note that it assumes the \code{\link{gramData}} objects are formed properly and hence have the same row- and columnames.
 #'
 #' @return \code{TRUE} if all labels are compatible, an error otherwise.
 #'
@@ -75,7 +75,7 @@ valid_labels <- function(y, k, g = NULL){
 
   if(checkg){
     # When there is g, check against g
-   out <- all(match(cny,cng,0L) > 0L)
+   out <- out && all(match(cny,cng,0L) > 0L)
 
     if(!out)
       stop(paste("colnames of y and g are not matching.",

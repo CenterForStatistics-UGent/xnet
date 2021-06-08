@@ -1,7 +1,5 @@
 #' Extract labels from a tskrr object
 #'
-#' NEEDS SERIOUS FIXING!!!!
-#'
 #' These functions allow you to extract the labels from a
 #' \code{\link{tskrr}} object. The function \code{labels} and the
 #' function \code{dimnames} are aliases and do the exact same
@@ -34,19 +32,32 @@
 #' @return for \code{labels} and \code{dimnames}: a list with two elements \code{k} and
 #' \code{g}
 #'
+#' @examples
+#' amat <- matrix(1:10, ncol = 2)
+#' labels(amat)
+#' labels(amat, do.NULL = TRUE)
+#' labels(amat, prefix = c("Sp.","Drug"))
+#'
+#' data(drugtarget)
+#' mod <- tskrr(drugTargetInteraction,
+#'              targetSim, drugSim)
+#' labels(mod)
+#' colnames(mod)
+#'
 #' @rdname labels
 #' @name labels
 NULL
 
 # internal functions
 .makelabels <- function(n, prefix=NULL){
-  if(!is.character(prefix) || length(prefix) !=1)
+  if(!is.null(prefix) &&
+     (!is.character(prefix) || length(prefix) !=1) )
     stop("Prefix should be a single character value.")
   paste0(prefix, seq_len(n))
 }
 
 labels.tskrr <- function(object,
-                         prefix = if(is_homogeneous(object)) rep("row",2) else c("row","col"), ...){
+                         prefix = if(is_homogeneous(object)) "row" else c("row","col"), ...){
 
   homogeneous <- is_homogeneous(object)
 

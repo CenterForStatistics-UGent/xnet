@@ -42,5 +42,5 @@ and column names. They should fulfill the following conditions:
 }
 }
 \note{
-This is a non-exported convenience function.
+This is a non-exported convenience function. Note that it assumes the \code{\link{gramData}} objects are formed properly and hence have the same row- and columnames.
 }

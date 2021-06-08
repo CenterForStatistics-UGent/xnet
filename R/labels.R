@@ -139,7 +139,11 @@ setMethod("rownames",
 setMethod("colnames",
           "tskrr",
           function(x, do.NULL = TRUE, prefix = "col"){
-            labels(x@g, do.NULL = do.NULL,
+            obj <- if(is_homogeneous(x))
+              x@k
+            else
+              x@g
+            labels(obj, do.NULL = do.NULL,
                    prefix = prefix)
           })
 

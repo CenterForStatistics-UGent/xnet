@@ -34,11 +34,6 @@ are stored in the object.}
 
 \item{\code{Hg}}{the kernel hat matrix for the columns.}
 
-\item{\code{labels}}{a list with elements \code{k} and \code{g} (see
-\code{\link{tskrr-class}}).
- If any element is \code{NA}, the labels used
-are integers indicating the row resp column number.}
-
 \item{\code{imputeid}}{a vector with integer values indicating which of
 the values in \code{y} are imputed}
 

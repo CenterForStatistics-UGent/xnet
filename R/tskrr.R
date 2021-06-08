@@ -116,9 +116,8 @@ NULL # leave here to avoid adding internal funs to usage
                         lambda = 1e-4,
                         testdim = TRUE,
                         testlabels = TRUE,
-                        symmetry = c("auto","symmetric","skewed"),
                         keep = FALSE,
-                        ...
+                        symmetry = c("auto","symmetric","skewed")
 ){
 
   iptest <- .test_input(y,k,g = NULL,lambda,testdim,testlabels)
@@ -188,16 +187,44 @@ setMethod(tskrr,
 #' @export
 setMethod(tskrr,
           signature = c("matrix","matrix","missing"),
-          function(y,k,g, ...){
+          function(y,k,g, ...,
+                   symmetry = c("auto","symmetric","skewed")){
             k <- gramData(k)
-            .tskrr_homo(y,k, ...)
+            .tskrr_homo(y,k, ..., symmetry = symmetry)
           })
 
 #' @rdname tskrr
 #' @export
 setMethod(tskrr,
           signature = c("matrix","matrix","NULL"),
-          function(y,k,g, ...){
+          function(y,k,g, ...,
+                   symmetry = c("auto","symmetric","skewed")){
             k <- gramData(k)
-            .tskrr_homo(y,k, ...)
+            .tskrr_homo(y,k, ... , symmetry = symmetry)
             })
+
+#' @rdname tskrr
+#' @export
+setMethod(tskrr,
+          signature = c("matrix","gramData","gramData"),
+          .tskrr_hetero)
+
+#' @rdname tskrr
+#' @export
+setMethod(tskrr,
+          signature = c("matrix","gramData","NULL"),
+          function(y, k, g,
+                   ...,
+                   symmetry = c("auto","symmetric","skewed")){
+            .tskrr_homo(y, k, ..., symmetry = symmetry)
+          })
+
+#' @rdname tskrr
+#' @export
+setMethod(tskrr,
+          signature = c("matrix","gramData","missing"),
+          function(y, k, g,
+                   ... ,
+                   symmetry = c("auto","symmetric","skewed")){
+            .tskrr_homo(y, k, ..., symmetry = symmetry)
+          })

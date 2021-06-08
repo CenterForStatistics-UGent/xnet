@@ -16,10 +16,6 @@
 #' are stored in the object.
 #' @slot Hk the kernel hat matrix for the rows.
 #' @slot Hg the kernel hat matrix for the columns.
-#' @slot labels a list with elements \code{k} and \code{g} (see
-#' \code{\link{tskrr-class}}).
-#'  If any element is \code{NA}, the labels used
-#' are integers indicating the row resp column number.
 #' @slot imputeid a vector with integer values indicating which of
 #' the values in \code{y} are imputed
 #' @slot niter an integer value gving the number of iterations used

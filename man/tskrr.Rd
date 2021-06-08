@@ -5,15 +5,33 @@
 \alias{tskrr,matrix,matrix,matrix-method}
 \alias{tskrr,matrix,matrix,missing-method}
 \alias{tskrr,matrix,matrix,NULL-method}
+\alias{tskrr,matrix,gramData,gramData-method}
+\alias{tskrr,matrix,gramData,NULL-method}
+\alias{tskrr,matrix,gramData,missing-method}
 \title{Fitting a two step kernel ridge regression}
 \usage{
 tskrr(y, k, g, ...)
 
 \S4method{tskrr}{matrix,matrix,matrix}(y, k, g, ...)
 
-\S4method{tskrr}{matrix,matrix,missing}(y, k, g, ...)
+\S4method{tskrr}{matrix,matrix,missing}(y, k, g, ..., symmetry = c("auto", "symmetric", "skewed"))
 
-\S4method{tskrr}{matrix,matrix,`NULL`}(y, k, g, ...)
+\S4method{tskrr}{matrix,matrix,`NULL`}(y, k, g, ..., symmetry = c("auto", "symmetric", "skewed"))
+
+\S4method{tskrr}{matrix,gramData,gramData}(
+  y,
+  k,
+  g,
+  lambda = 1e-04,
+  testdim = TRUE,
+  testlabels = TRUE,
+  keep = FALSE,
+  ...
+)
+
+\S4method{tskrr}{matrix,gramData,`NULL`}(y, k, g, ..., symmetry = c("auto", "symmetric", "skewed"))
+
+\S4method{tskrr}{matrix,gramData,missing}(y, k, g, ..., symmetry = c("auto", "symmetric", "skewed"))
 }
 \arguments{
 \item{y}{an object that can be converted to an adjacency matrix. See details.}
@@ -23,6 +41,11 @@ tskrr(y, k, g, ...)
 \item{g}{an optional object that can be converted to \code{\link{gramData}}. See details.}
 
 \item{...}{arguments passed to other methods.}
+
+\item{symmetry}{a character value with the possibilities
+"auto", "symmetric" or "skewed". In case of a homogeneous fit, you
+can either specify whether the label matrix is symmetric or
+skewed, or you can let the function decide (option "auto").}
 
 \item{lambda}{a numeric vector with one or two values for the
 hyperparameter lambda. If two values are given, the first one is
@@ -37,11 +60,6 @@ putting this to \code{FALSE} will speed up the function.}
 names of the matrices have to be checked for consistency. Defaults to
 \code{TRUE}, but for large matrices putting this to \code{FALSE} will
 speed up the function.}
-
-\item{symmetry}{a character value with the possibilities
-"auto", "symmetric" or "skewed". In case of a homogeneous fit, you
-can either specify whether the label matrix is symmetric or
-skewed, or you can let the function decide (option "auto").}
 
 \item{keep}{a logical value indicating whether the kernel hat
 matrices should be stored in the model object. Doing so makes the

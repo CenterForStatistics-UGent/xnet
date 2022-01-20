@@ -59,17 +59,14 @@ general the following design principles hold:
 
  * the slot `y` contains the adjacency matrix used to fit the model. This
  goes for all different classes, including the `tskrrTune` and `tskrrImpute` classes. 
- * the object stores the eigendecompositions of the row kernel K and
- -if applicable- the column kernel G. 
+ * the object stores the eigendecompositions of the gram matrices for the row
+ and column. These are stored as `gramData` objects, allowing for conversion
+ of new data if needed. 
  * if `has.hat = TRUE`, the hat matrices Hk and possibly Hg are stored
  in the object as well. This can speed up calculations but comes at
  a memory cost.
  * the slot `pred` holds the predicted values.
  * the slots `lambda.k` and `lambda.g` store the tuning parameters.
- * the slot `labels` store the labels attached to the rows and the 
- columns in a list with elements `k` and `g`. If no labels were present,
- the single element `k` will have one `NA` value. The function `labels()`
- will still construct default labels when required.
 
 ### Slots defined by tskrrHomogeneous
 

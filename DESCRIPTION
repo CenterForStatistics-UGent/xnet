@@ -1,7 +1,7 @@
 Package: xnet
 Type: Package
 Title: Two-Step Kernel Ridge Regression for Network Predictions
-Version: 0.1.12-17
+Version: 0.1.12-18
 Authors@R: c(person("Joris","Meys", email = "Joris.Meys@UGent.be", role
         = c("cre","aut")), person("Michiel", "Stock", email =
         "Michiel.Stock@UGent.be", role = "aut"))
@@ -9,7 +9,7 @@ Description: Fit a two-step kernel ridge regression model for
         predicting edges in networks, and carry out cross-validation
         using shortcuts for swift and accurate performance assessment
         (Stock et al, 2018 <doi:10.1093/bib/bby095> ).
-Date: 2021-06-08
+Date: 2022-01-20
 BugReports: https://github.com/CenterForStatistics-UGent/xnet/issues
 URL: https://github.com/CenterForStatistics-UGent/xnet
 Depends: R(>= 4.0.0)

@@ -1,4 +1,4 @@
-#' #' Constructors for gramData objects
+#' Constructors for gramData objects
 #'
 #' These functions can be used to manually construct objects from the \code{\link[xnet:dataClasses]{gramData classes}} for use in \code{\link{tskrr}} objects.
 #'
@@ -39,6 +39,10 @@
 #' gm3 <- gramData(adm, conv,
 #'                 keep.gram = TRUE)
 #'
+#' # Construct from a formula
+#' # Take all variables and remove the intercept
+#' gm4 <- gramData(adf, ~ a + b)
+#'
 #' @include all_generics.R
 #'
 #' @importFrom stats model.matrix as.formula
@@ -67,7 +71,7 @@ setMethod("gramData",
 #' @rdname gramData
 #' @export
 setMethod("gramData",
-          c("data.frame", "ANY"),
+          c("data.frame", "formula"),
           function(x, conversion, kernel = rbfdot,
                    kernel.args = list(),
                    keep.gram = FALSE,

@@ -8,3 +8,4 @@ logo/*
 docs/*
 .covrignore
 xnet_JSSPaper/*
+^\.github$

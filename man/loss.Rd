@@ -12,7 +12,7 @@ loss(x, ...)
 \S4method{loss}{tskrr}(
   x,
   fun = loss_mse,
-  exclusion = c("interaction", "row", "column", "both"),
+  exclusion = "interaction",
   replaceby0 = FALSE,
   predictions = FALSE,
   ...
@@ -21,7 +21,7 @@ loss(x, ...)
 \S4method{loss}{tskrrTune}(
   x,
   fun = loss_mse,
-  exclusion = c("interaction", "row", "column", "both"),
+  exclusion = "interaction",
   replaceby0 = FALSE,
   predictions = FALSE,
   ...
@@ -40,8 +40,9 @@ can also be a character value giving the name of one of the loss
 functions provided in the package}
 
 \item{exclusion}{a character value with possible values "interaction",
-"row", "column" or "both".
-See also \code{\link{loo}} for more information.}
+"row", "column", "both" for heterogeneous models, and "edges", "vertices",
+"interaction" or "both" for homogeneous models.
+Defaults to "interaction". See details.}
 
 \item{replaceby0}{a logical value indicating whether the interaction
 should be simply removed (\code{FALSE}) or replaced by 0 (\code{TRUE}).}
@@ -62,6 +63,9 @@ are given, the loss is returned for the settings used when tuning.
 The function can also be used to extract the original loss from a
 \code{\link[xnet:permtest-class]{permtest}} object.
 }
+\details{
+The settings for arguments \code{exclusion} and \code{replaceby0} are passed on to the function \code{\link{loo}}. Exclusion defaults to \code{"interaction"}, but this isn't necessarily the most useful setting. Much depends on the context of the analysis.
+}
 \examples{
 data(drugtarget)
 
@@ -79,5 +83,6 @@ loss(tuned, fun = loss_mse)
 \itemize{
 \item \code{\link{loss_functions}} for possible loss functions
 \item \code{\link{tune}} for tuning a model based on loss functions
+\item \code{\link{loo}} for extra information on the Leave-One-Out options
 }
 }

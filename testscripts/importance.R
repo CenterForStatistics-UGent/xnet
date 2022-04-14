@@ -2,7 +2,9 @@
 #---------------------------------
 library(dplyr)
 library(kernlab)
-datadir <- "D:/STACK/Stack_files/Work/Packages/2018_xnet/data/Pollinatie"
+# Uncomment what you need
+# datadir <- "C:/users/jfmeys/STACK/Work/Packages/2018_xnet/data/Pollinatie"
+# datadir <- "D:/STACK/Stack_files/Work/Packages/2018_xnet/data/Pollinatie"
 
 # Collect data. We need to take care about not introducing mismatches
 # between the traits and adjacency matrix
@@ -27,25 +29,31 @@ Y <- Y[pollinators, plants]
 
 traits_plants <- dplyr::filter(traits_plants,
                                Plant %in% plants)
+sel_plants <- select(traits_plants,
+                     -c(Species, Plant, Number, Genus))
+
 traits_poll <- dplyr::filter(traits_poll,
                              Pollinator %in% pollinators)
+sel_poll <- select(traits_poll,
+                   -c(Species, Nummer, Pollinator, Nov, Dec, Jan))
 
 # Create the gram data
 # It needs a formula, and also a set of labels
 # If not, tskrr() will get cranky.
 # Also remove columns with identical values, as SD = 0 for those.
-g_plants <- gramData(traits_plants,
-                     ~ . -1 - Species - Plant - Number - Genus,
+g_plants <- gramData(sel_plants,
                     labels = traits_plants$Plant,
                     kernel = polydot,
                     keep.gram = TRUE,
                     scale = TRUE)
 
-g_poll <- gramData(traits_poll,
-                   ~ . -1 - Species - Nummer - Pollinator - Nov - Dec - Jan,
+g_poll <- gramData(sel_poll,
                    keep.gram = TRUE,
                    kernel = polydot,
                    labels = traits_poll$Pollinator)
 
 mod <- tskrr(Y, g_poll, g_plants)
-plot(mod)
+
+imp <- feature_importance(mod)
+
+imp

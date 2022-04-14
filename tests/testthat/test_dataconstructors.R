@@ -2,6 +2,7 @@ context("Construction of data classes")
 library(kernlab)
 library(igraph)
 # Preparation gramDataFrame ----------------------------
+
 adf <- data.frame(
   a = c(4,1,2,4,5),
   b = c(5,4,3,2,1),
@@ -10,8 +11,8 @@ adf <- data.frame(
 # Empty numeric matrix
 mnought <- matrix(numeric(0), nrow = 0, ncol = 0)
 # kernelmatrix
-gm <- kernelMatrix(rbfdot(),
-                   model.matrix(~ .-1, adf))
+mm <- scale(model.matrix(~ .-1, adf))
+gm <- kernelMatrix(vanilladot(),mm)
 # Convert to matrix, as that happens inside
 # the code as well
 eig <- eigen(gm)

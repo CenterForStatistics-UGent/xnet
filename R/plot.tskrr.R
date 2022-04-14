@@ -81,6 +81,7 @@
 #' @importFrom graphics par layout plot image axis mtext
 #' @importFrom grDevices dev.hold dev.flush
 #' @importFrom graphics frame title plot.new plot.window rect
+#'
 #' @rdname plot.tskrr
 #' @method plot tskrr
 #' @export

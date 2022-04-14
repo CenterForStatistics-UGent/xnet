@@ -2,6 +2,7 @@
 setOldClass("htest")
 setOldClass("igraph") # To allow for igraphs to be read as
                       # adjacency matrices
+setOldClass("glm") # Needed for platt scaling
 
 # Generics from S3 methods
 
@@ -134,3 +135,10 @@ setGeneric("loss", function(x, ...) standardGeneric("loss"))
 #' @rdname residuals.tskrr
 #' @export
 setGeneric("residuals")
+
+## For feature importance
+
+#' @rdname feature_importance
+#' @export
+setGeneric("feature_importance",
+           function(x, ...) standardGeneric("feature_importance"))

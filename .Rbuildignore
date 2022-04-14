@@ -9,3 +9,4 @@ docs/*
 .covrignore
 xnet_JSSPaper/*
 ^\.github$
+testscripts/*

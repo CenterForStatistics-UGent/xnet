@@ -6,7 +6,8 @@
 \alias{gramData,data.frame,ANY-method}
 \alias{gramData,matrix,function-method}
 \alias{gramData,matrix,missing-method}
-\title{#' Constructors for gramData objects}
+\alias{gramData,tskrr,ANY-method}
+\title{Constructors for gramData objects}
 \usage{
 gramData(x, conversion, ...)
 
@@ -21,10 +22,12 @@ gramData(x, conversion, ...)
 \S4method{gramData}{data.frame,ANY}(
   x,
   conversion,
-  kernel = rbfdot,
+  kernel = vanilladot,
   kernel.args = list(),
   keep.gram = FALSE,
-  labels = character(0)
+  labels = character(0),
+  scale = TRUE,
+  na.action = "na.fail"
 )
 
 \S4method{gramData}{matrix,`function`}(
@@ -36,6 +39,8 @@ gramData(x, conversion, ...)
 )
 
 \S4method{gramData}{matrix,missing}(x, conversion, keep.gram = FALSE, labels = character(0))
+
+\S4method{gramData}{tskrr,ANY}(x, which = c("row", "column"))
 }
 \arguments{
 \item{x}{an object to be converted to a \code{gramData} object}
@@ -53,12 +58,18 @@ gramData(x, conversion, ...)
 \item{kernel}{a kernel generating function from the package \code{\link[kernlab:dots]{kernlab}}. See details.}
 
 \item{kernel.args}{a list with further arguments to be passed to \code{kernel}.}
+
+\item{scale}{a logical value indicating whether the model matrix needs to be scaled before applying the kernel. It defaults to \code{TRUE}. This will store the centers and standard deviations for use in predictions later on.}
+
+\item{na.action}{how \code{NA}s are treated. Defaults to \code{\link[stats:na.fail]{na.fail}}. Takes either a character value or a function.}
+
+\item{which}{a character value indicating whether the \code{gramData} oject for the rows or the columns should be extracted from the \code{\link{tskrr}} object.}
 }
 \description{
 These functions can be used to manually construct objects from the \code{\link[xnet:dataClasses]{gramData classes}} for use in \code{\link{tskrr}} objects.
 }
 \details{
-When constructing a \code{gramData} object from a \code{data.frame}, you can either specify a conversion function yourself, or use a kernel from the package \code{kernlab}. If you select one of these kernels, the data frame is first converted to a model matrix according to the specified formula (see \code{\link[stats]{model.matrix}}). On this matrix, the chosen kernel is then applied. By default, a Gaussian RBF kernel with \code{sigma = 1} is used on a model matrix formed by all variables and without an intercept.
+When constructing a \code{gramData} object from a \code{data.frame}, you can either specify a conversion function yourself, or use a kernel from the package \code{kernlab}. If you select one of these kernels, the data frame is first converted to a model matrix according to the specified formula (see \code{\link[stats]{model.matrix}}). On this matrix, the chosen kernel is then applied. By default, a linear kernel is used on a model with all variables as main effect and without intercept.
 }
 \examples{
 
@@ -82,6 +93,11 @@ m <- conv(adf)
 gm2 <- gramData(m)
 gm3 <- gramData(adm, conv,
                 keep.gram = TRUE)
+
+# Construct from a formula
+# Don't forget to remove the intercept, otherwise
+# you can't perform the eigen decomposition.
+gm4 <- gramData(adf, ~ a + b - 1)
 
 }
 \seealso{

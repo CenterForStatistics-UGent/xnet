@@ -22,9 +22,14 @@ convert(x, using, ...)
 \item{args}{a named list with extra arguments to be passed to the conversion function.}
 }
 \value{
-the result of the conversion.
+an object inheriting from \code{matrix} with the gram matrix where the rows present the data in \code{x} and the columns the data in the original object.
 }
 \description{
 Convert an object using the conversion stored in one of
-the \code{\link[=dataClasses]{data classes}}.
+the \code{\link[=dataClasses]{data classes}}. With this function you can
+calculate the gram matrix after applying the same kernel as used by the
+\code{\link{gramData}} object passed to the \code{using} argument.
+This function is useful for predictions, as the returned objects are used
+by the function \code{\link[=predict.tskrr]{predict}}
+to calculate the predictions.
 }

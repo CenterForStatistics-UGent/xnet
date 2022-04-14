@@ -52,6 +52,7 @@
 #' @importFrom graphics plot abline axis contour par box
 #' @importFrom graphics image points
 #' @importFrom grDevices hcl.colors
+#'
 #' @include Class_tskrrTune.R
 #' @rdname plot_grid
 #' @export

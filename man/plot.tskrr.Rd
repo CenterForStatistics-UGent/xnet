@@ -22,6 +22,7 @@
   labRow = NULL,
   labCol = NULL,
   margins = c(5, 5),
+  platt = NULL,
   ...
 )
 }
@@ -75,6 +76,8 @@ the dendrogram). They can replace the labels from the model. Set to
 
 \item{margins}{a numeric vector with 2 values indicating the margins to
 be used for the row and column labels (cfr \code{par("mar")})}
+
+\item{platt}{a logical value indicating whether the values should be converted to Platt scores before plotting or not. If \code{NULL}, the function will convert whenever it finds information on platt scores in the object.}
 
 \item{...}{currently ignored}
 }

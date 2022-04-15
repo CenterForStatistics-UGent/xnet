@@ -11,6 +11,7 @@
 #' @slot has.hat a logical value indicating whether the kernel hat matrices
 #' are stored in the object.
 #' @slot Hk the kernel hat matrix for the rows.
+#' @slot platt a numeric vector with 2 values containing the coefficients for Platt scaling (if applicable). If Platt scaling isn't applicable, it contains an empty vector.
 #'
 #' @seealso the classes \code{\link{tskrrHomogeneous}} and
 #' \code{\link{tskrrHeterogeneous}} for the actual classes.
@@ -30,11 +31,13 @@ setClass("tskrr",
                    lambda.k = "numeric",
                    pred = "matrix",
                    has.hat = "logical",
-                   Hk = "matrix"),
+                   Hk = "matrix",
+                   platt = "numeric"),
          prototype = list(lambda.k = 1e-4,
                           pred = matrix(0),
                           has.hat = FALSE,
-                          Hk = matrix(0)))
+                          Hk = matrix(0),
+                          platt = integer(0)))
 
 validTskrr <- function(object){
 
@@ -43,6 +46,9 @@ validTskrr <- function(object){
 
   else if(length(object@lambda.k) != 1)
     return("lambda.k should be a single value.")
+
+  else if(!length(object@platt) %in% c(0,2))
+    return("platt should contain 2 coefficients")
 
   else
     return(TRUE)

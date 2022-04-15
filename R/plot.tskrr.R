@@ -54,6 +54,7 @@
 #' @param labCol the same as \code{labRow} but then for the columns.
 #' @param margins a numeric vector with 2 values indicating the margins to
 #' be used for the row and column labels (cfr \code{par("mar")})
+#' @param platt a logical value indicating whether the values should be converted to Platt scores before plotting or not. If \code{NULL}, the function will convert whenever it finds information on platt scores in the object.
 #' @param ... currently ignored
 #'
 #' @return an invisible list with the following elements:
@@ -99,6 +100,7 @@ plot.tskrr <- function(x, dendro = c("both","row","col","none"),
                        labRow = NULL,
                        labCol = NULL,
                        margins = c(5,5),
+                       platt = NULL,
                        ...){
 
   ## PROCESS INPUT AND PREPARE
@@ -121,6 +123,16 @@ plot.tskrr <- function(x, dendro = c("both","row","col","none"),
     exclusion <- match.arg(exclusion)
     val <- loo(x, exclusion, replaceby0)
   }
+
+  # Process platts
+  if(which %in% c("fitted","loo") ){
+    if(has_platt(x) && (is.null(platt) || platt) ){
+      val <- .plattscore(val, get_plattcoef(x))
+    } else if(!is.null(platt) && platt) {
+      val <- .plattscore(val, get_plattcoef(add_platt(x)))
+    }
+  }
+
 
   labs <- labels(x)
   rownames(val) <- labs$k
@@ -179,6 +191,9 @@ plot.tskrr <- function(x, dendro = c("both","row","col","none"),
 
   nr <- nrow(val)
   nc <- ncol(val)
+
+
+
 
   ## CONSTRUCT THE DENDROGRAMS IF NEEDED
   if(dendroK){

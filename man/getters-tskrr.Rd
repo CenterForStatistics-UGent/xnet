@@ -3,6 +3,7 @@
 %   R/getters_tskrr.R
 \name{get_eigen}
 \alias{get_eigen}
+\alias{has_platt}
 \alias{get_kernelmatrix,gramData-method}
 \alias{getters-tskrr}
 \alias{response}
@@ -18,9 +19,12 @@
 \alias{get_kernelmatrix,tskrr-method}
 \alias{get_kernelmatrix}
 \alias{has_hat}
+\alias{has_platt,tskrr-method}
 \title{Getters for tskrr objects}
 \usage{
 get_eigen(x, ...)
+
+has_platt(x, ...)
 
 \S4method{get_kernelmatrix}{gramData}(x)
 
@@ -43,6 +47,8 @@ symmetry(x)
 \S4method{get_kernelmatrix}{tskrr}(x, which = c("row", "column"))
 
 has_hat(x)
+
+\S4method{has_platt}{tskrr}(x)
 }
 \arguments{
 \item{x}{a \code{\link[xnet:tskrr-class]{tskrr}} object or an
@@ -80,6 +86,8 @@ for the rows or columns.
 
 For \code{has_hat} a logical value indicating whether
 the tskrr model contains the kernel hat matrices.
+
+for \code{has_platt} a logical value indicating whether or not the object has coefficients for Platt scores
 }
 \description{
 The functions described here are convenience functions to get

@@ -4,7 +4,7 @@ library(dplyr)
 library(kernlab)
 # Uncomment what you need
 # datadir <- "C:/users/jfmeys/STACK/Work/Packages/2018_xnet/data/Pollinatie"
-# datadir <- "D:/STACK/Stack_files/Work/Packages/2018_xnet/data/Pollinatie"
+ datadir <- "D:/STACK/Stack_files/Work/Packages/2018_xnet/data/Pollinatie"
 
 # Collect data. We need to take care about not introducing mismatches
 # between the traits and adjacency matrix

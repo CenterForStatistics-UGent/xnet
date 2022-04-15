@@ -44,6 +44,7 @@
 #' @param testdim a logical value indicating whether the dimensions should
 #' be checked prior to the calculation. You can set this to \code{FALSE} but
 #' you might get more obscure errors if dimensions don't match.
+#' @param platt return Platt scores(probabilities) instead of raw predictions (see \code{\link{platt_scores}}). If NULL, the function will check whether the object contains information to calculate these and will use them if so.
 #' @param ... arguments passed to or from other methods
 #'
 #' @return a matrix with predicted values.
@@ -102,10 +103,20 @@ predict.tskrr <- function(object,
                           k = NULL,
                           g = NULL,
                           testdim = TRUE,
+                          platt = NULL,
                           ...){
 
   gnull <- is.null(g)
   knull <- is.null(k)
+
+  if(is.null(platt)){
+    coefs <- object@platt
+    platt <- length(coefs) > 0
+  } else if(platt){
+    coefs <- object@platt
+    if(!length(coefs))
+      coefs <- add_platt(object)@platt
+  }
 
   if(testdim){
     dims <- dim(object)
@@ -164,6 +175,9 @@ predict.tskrr <- function(object,
   if(gnull){
     colnames(out) <- labels(object)$g
   }
+
+  if(platt) out <- .plattscore(out,coefs)
+
   return(out)
 }
 

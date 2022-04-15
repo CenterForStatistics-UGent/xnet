@@ -13,15 +13,15 @@
 #' @seealso
 #'  * the function \code{\link{feature_importance}} for the actual test
 #'  * the function \code{\link{loo}} for the leave one out procedures
-#'  @md
+#' @md
 #'
-#'  @include all_generics.R
+#' @include all_generics.R
 #'
-#'  @importFrom stats fivenum
+#' @importFrom stats fivenum
 #'
-#'  @rdname feature_importance-class
-#'  @name feature_importance-class
-#'  @exportClass feature_importance
+#' @rdname feature_importance-class
+#' @name feature_importance-class
+#' @exportClass feature_importance
 setClass("feature_importance",
          slots = c(orig_loss = "numeric",
                    simloss = "matrix",
@@ -40,6 +40,8 @@ validFeatureImportance <- function(object){
     return("Number of columns in simloss doesn't match the length of features.")
   if(nrow(object@simloss) != object@n)
     return("Number of rows in simloss doesn't match n.")
+
+  return(TRUE)
 }
 
 setValidity("feature_importance",

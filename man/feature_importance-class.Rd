@@ -26,15 +26,8 @@ This class represents the feature importance outcomes. See also the function \co
 }}
 
 \seealso{
-* the function \code{\link{feature_importance}} for the actual test
- * the function \code{\link{loo}} for the leave one out procedures
- @md
-
- @include all_generics.R
-
- @importFrom stats fivenum
-
- @rdname feature_importance-class
- @name feature_importance-class
- @exportClass feature_importance
+\itemize{
+\item the function \code{\link{feature_importance}} for the actual test
+\item the function \code{\link{loo}} for the leave one out procedures
+}
 }

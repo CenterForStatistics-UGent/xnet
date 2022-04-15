@@ -24,6 +24,8 @@ This is a superclass so it should not be instantiated directly.
 are stored in the object.}
 
 \item{\code{Hk}}{the kernel hat matrix for the rows.}
+
+\item{\code{platt}}{a numeric vector with 2 values containing the coefficients for Platt scaling (if applicable). If Platt scaling isn't applicable, it contains an empty vector.}
 }}
 
 \seealso{

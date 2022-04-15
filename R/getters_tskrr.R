@@ -145,3 +145,12 @@ has_hat <- function(x){
 
   x@has.hat
 }
+
+#' @rdname getters-tskrr
+#' @return for \code{has_platt} a logical value indicating whether or not the object has coefficients for Platt scores
+#' @export
+setMethod("has_platt",
+          "tskrr",
+          function(x){
+            length(x@platt) > 0
+          })

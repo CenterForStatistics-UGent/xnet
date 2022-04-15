@@ -5,9 +5,9 @@
 \alias{predict,tskrr-method}
 \title{predict method for tskrr fits}
 \usage{
-\method{predict}{tskrr}(object, k = NULL, g = NULL, testdim = TRUE, ...)
+\method{predict}{tskrr}(object, k = NULL, g = NULL, testdim = TRUE, platt = NULL, ...)
 
-\S4method{predict}{tskrr}(object, k = NULL, g = NULL, testdim = TRUE, ...)
+\S4method{predict}{tskrr}(object, k = NULL, g = NULL, testdim = TRUE, platt = NULL, ...)
 }
 \arguments{
 \item{object}{an object of class \code{\link[xnet:tskrr-class]{tskrr}}.}
@@ -21,6 +21,8 @@ for both.}
 \item{testdim}{a logical value indicating whether the dimensions should
 be checked prior to the calculation. You can set this to \code{FALSE} but
 you might get more obscure errors if dimensions don't match.}
+
+\item{platt}{return Platt scores(probabilities) instead of raw predictions (see \code{\link{platt_scores}}). If NULL, the function will check whether the object contains information to calculate these and will use them if so.}
 
 \item{...}{arguments passed to or from other methods}
 }

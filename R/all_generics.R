@@ -84,6 +84,11 @@ setGeneric("get_gram",
 setGeneric("get_eigen",
            function(x, ...) standardGeneric("get_eigen"))
 
+#' @rdname getters-tskrr
+#' @aliases has_platt
+setGeneric("has_platt",
+           function(x, ...) standardGeneric("has_platt"))
+
 ## For tskrr
 setGeneric("response",
            function(x, ...) standardGeneric("response"))
@@ -142,3 +147,16 @@ setGeneric("residuals")
 #' @export
 setGeneric("feature_importance",
            function(x, ...) standardGeneric("feature_importance"))
+
+## For platt scores
+
+#' @rdname add_platt
+#' @export
+setGeneric("add_platt",
+           function(x) standardGeneric("add_platt"))
+
+#' @rdname add_platt
+#' @aliases get_plattcoef
+#' @export
+setGeneric("get_plattcoef",
+           function(x) standardGeneric("get_plattcoef"))
